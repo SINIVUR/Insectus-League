@@ -1,5 +1,5 @@
 // 인섹터스 리그 서비스 워커 — 버전을 올리면 새 캐시로 교체돼요.
-const VERSION = '0.0.1';
+const VERSION = '0.0.2';
 const CACHE = `insectus-league-${VERSION}`;
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png'];
 
