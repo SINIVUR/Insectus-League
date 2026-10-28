@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.3.0">
+<meta name="version" content="0.3.1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -478,7 +478,16 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .ver { position: absolute; right: 20px; bottom: 14px; z-index: 5; font-size: 16px; font-weight: 700; color: rgba(255,255,255,.55); font-variant-numeric: tabular-nums; pointer-events: none; }
 
 .opp .line { margin: 0; font-size: 14px; font-weight: 700; color: #E8E0D0; text-align: center; min-height: 40px; }
-.opps.four { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.opps.four { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.school-body { overflow-y: auto; padding-top: 12px; padding-bottom: 12px; }
+.school-body .opps { align-content: start; }
+.school-body .opp { padding: 10px 12px; gap: 4px; }
+.school-body .opp .face { width: 96px; height: 96px; } .school-body .opp .face svg { width: 184px; height: 240px; margin: -36px 0 0 -48px; }
+.school-body .opp b { font-size: 24px; } .school-body .opp small { font-size: 16px; } .school-body .opp p { font-size: 16px; }
+.school-body .opp .mini svg { width: 70px; height: 42px; } .school-body .opp .line { min-height: 0; }
+.scr.school .scr-tip, .scr.school .story-card { margin-bottom: 8px; }
+.scr.school .scr-tip { padding: 7px 14px; font-size: 17px; }
+.scr.school .story-card { padding: 8px 16px; }
 .opp-tag { align-self: flex-start; padding: 2px 10px; background: #3A4458; color: #fff; font-size: 15px; font-weight: 900; }
 .opp-tag.free { background: var(--red); } .opp.free { border-color: var(--red); }
 
@@ -733,7 +742,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.3.0';
+const VERSION = '0.3.1';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -4066,10 +4075,9 @@ function openSchool() {
 <p class="line">“${r.line}”</p><div class="mini">${r.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${r.lv}</small><p>이기면 ${r.prize.toLocaleString()}원 · 경험치 45</p>
 <div style="display:flex;gap:8px"><button type="button" class="btn pri" id="rbGo">배틀 신청</button><button type="button" class="btn" id="rbNew">다른 상대</button></div></div>`;
   const root = openScr('school', `${scrHead('학교 · 곤충 배틀부 동아리실')}
-<div class="scr-body"><div class="opps four">${['dh', 'sr', 'sw'].map(card).join('')}${free}</div></div>
+<div class="scr-body school-body"><div class="opps four">${['dh', 'sr', 'sw'].map(card).join('')}${free}</div></div>
 ${tired ? '<div class="scr-tip" style="border-color:#FF5A4A"><b style="color:#FF8A7A">주의</b> · 기력이 적은 곤충이 팀에 있어요. 배틀에서 기술을 많이 쓰지 못해요. 먹이를 주거나 집에서 쉬게 해 주세요.</div>' : ''}
-${tutTip('battle', '부원이나 자유 배틀 상대 누구와 붙어도 괜찮아요. 져도 경험치와 상금 200원을 받아요.')}
-<div class="scr-tip"><b>자유 배틀</b> · 학교 근처에서 만난 다른 배틀러와 겨뤄요. 상대와 곤충은 매번 달라지고, 처음 보는 곤충은 도감에 기록돼요.</div>
+${tutTip('battle', '부원이나 자유 배틀 상대 누구와 붙어도 괜찮아요. 져도 경험치와 상금 200원을 받아요.') || (tired ? '' : '<div class="scr-tip"><b>자유 배틀</b> · 상대와 곤충이 매번 달라지고, 처음 보는 곤충은 도감에 기록돼요.</div>')}
 ${(() => { const sr = storyReady(); return sr ? `<div class="story-card${sr.ok ? ' ok' : ''}"><div><small>다음 이야기</small><b>${sr.label}</b><span>${sr.d}</span></div>${sr.ok ? '<button type="button" class="btn pri" id="storyGo">이야기 보기</button>' : ''}</div>` : ''; })()}`, () => openHub());
   const sg = $('#storyGo'); if (sg) sg.addEventListener('click', goStory);
   const go = (opp) => { S.modal = false; L.ov.innerHTML = ''; hideHub(); startBattle(() => { if (opp.rand) S.rb = null; openHub(); }, opp); };
