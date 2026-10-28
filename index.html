@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.1">
+<meta name="version" content="0.0.2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -743,7 +743,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.1';
+const VERSION = '0.0.2';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -1046,9 +1046,7 @@ const INSECT = {
 <path d="M132 98 C160 110 200 138 222 152 L216 168 C194 154 156 128 126 112 Z" fill="url(#mt-body)" stroke="#1C2410" stroke-width="2"/>
 <g class="lg" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M232 166 L210 224 M210 224 L176 262 M176 262 L162 268" stroke="#1C2410" stroke-width="6"/><path d="M256 170 L318 214 M318 214 L354 264 M354 264 L372 270" stroke="#1C2410" stroke-width="6"/><path d="M232 166 L210 224 L176 262 L162 268" stroke="#86AA48" stroke-width="3"/><path d="M256 170 L318 214 L354 264 L372 270" stroke="#86AA48" stroke-width="3"/></g>
 <g class="arm" style="transform-origin:142px 110px"><path d="M136 104 L148 112 L130 172 L118 168 Z" fill="url(#mt-body)" stroke="#1C2410" stroke-width="2"/>
-<path d="M118 160 L128 174 L66 140 L62 127 Z" fill="#8DB04C" stroke="#1C2410" stroke-width="2"/>
-<path d="M112 166 L108 176 L104 164 M100 160 L95 170 L92 157 M88 153 L82 162 L80 150" fill="#E8E2C8" stroke="#1C2410" stroke-width="1.2"/>
-<path d="M62 127 L70 135 L101 161 L95 166 Z" fill="#9CBF5C" stroke="#1C2410" stroke-width="1.8"/></g>
+<path d="M126 164 C110 148 84 126 56 110 L48 120 C76 140 104 164 118 178 Z" fill="#8DB04C" stroke="#1C2410" stroke-width="2"/><path d="M120 166 C100 148 80 132 58 118" stroke="#C2D98A" stroke-width="2.5" fill="none" opacity=".7" stroke-linecap="round"/><path d="M110 172 L114 184 L116 170 M98 162 L101 174 L104 160 M86 152 L88 164 L92 150 M74 142 L75 153 L80 140 M62 132 L62 142 L67 130" fill="#C8C49A" stroke="#1C2410" stroke-width="1.2" stroke-linejoin="round"/><path d="M50 112 C36 126 42 152 66 166 C80 174 96 178 108 172 L108 170 C96 166 84 158 74 150 C64 142 56 132 54 118 Z" fill="#9CBF5C" stroke="#1C2410" stroke-width="1.8"/><path d="M104 170 L118 156 L108 162 Z" fill="#6A8A33" stroke="#1C2410" stroke-width="1.5" stroke-linejoin="round"/><path d="M64 146 l5 -4 M73 154 l5 -4 M83 161 l5 -4 M94 167 l5 -4" stroke="#3E5420" stroke-width="2.2" stroke-linecap="round"/><path d="M106 168 L118 186 L122 198" stroke="#4A6424" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
 <g class="hd" style="transform-origin:116px 94px"><path d="M66 70 C70 52 100 46 116 58 C124 66 122 80 114 92 L98 104 C88 100 72 90 66 70 Z" fill="#9CBF5C" stroke="#1C2410" stroke-width="2"/>
 <ellipse cx="84" cy="66" rx="11" ry="14" fill="#C2D98A" stroke="#1C2410" stroke-width="2"/><circle cx="80" cy="68" r="2.6" fill="#2A3A14"/>
 <path d="M96 52 C112 20 150 6 202 4 M102 54 C132 26 172 18 232 20" stroke="#3E5420" stroke-width="1.3" fill="none"/></g>`,
@@ -1783,6 +1781,7 @@ const SCRIPT = [
   narr('곤충을 잡아 집으로 돌아온 강찬.'),
   say('kc', 'happy', '헤헤… 내 첫 곤충들! 내일 선배들한테 보여 줘야지.'),
   narr('들뜬 마음에 도무지 잠이 오지 않는다.\n내일은 어떤 일이 펼쳐질까?'),
+  { t: 'daypass' },
   { t: 'scene', id: 'club' },
   narr('다음 날, 수업이 끝나고 동아리 시간!\n강찬과 은하는 동아리실로 달려간다!'),
   say('sw', 'grin', '왔구나! 그래서, 곤충은 잡아 왔냐?'),
@@ -2026,9 +2025,23 @@ function run() {
       case 'leaguerules': hideDlg(); return showCards('김새롬의 리그 설명', LEAGUE_RULES, run, '특훈 시작!');
       case 'match': hideDlg(); return startMatch(c.key, run);
       case 'trophy': return showTrophy(run);
+      case 'daypass': hideDlg(); return showDayPass(run);
       case 'end': hideDlg(); return showEnd();
     }
   }
+}
+/* 이야기 속에서 하루가 지날 때 (밤 → 아침) */
+function showDayPass(done) {
+  let ev = [];
+  if ((S.day || 1) === 1) { S.day = 2; ev = dayPass(); S.money = (S.money || 0) + 300; save(); }
+  AU.sfx('chapter');
+  S.modal = true;
+  L.ov.innerHTML = `<div class="ov"><div class="dayfade"><b>하루가 흘렀습니다</b><p>${S.day || 2}일째 아침 · 엄마가 용돈 <span style="color:var(--gold)">300원</span>을 주셨어요.</p>${ev.length ? `<ul class="dayev">${ev.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}<small style="color:#9AA3B5">화면을 누르면 계속돼요</small></div></div>`;
+  const root = L.ov.firstElementChild;
+  let gone = false;
+  const go = () => { if (gone) return; gone = true; L.ov.innerHTML = ''; S.modal = false; done(); };
+  root.addEventListener('pointerdown', (e) => { e.stopPropagation(); go(); });
+  setTimeout(go, ev.length ? 6000 : 3200);
 }
 function showChapter(c, done) {
   AU.stop(); AU.sfx('chapter');
