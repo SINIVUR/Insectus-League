@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.3.1">
+<meta name="version" content="0.0.1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -36,6 +36,7 @@ body {
   overflow: hidden; box-sizing: border-box; padding: 0;
 }
 #app { position: relative; width: 100%; height: 100%; overflow: hidden; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+#bg, #bugs, #actors, #front { touch-action: none; }
 #stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; overflow: hidden; background: #000; }
 .layer { position: absolute; inset: 0; }
 #world { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; }
@@ -742,7 +743,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.3.1';
+const VERSION = '0.0.1';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -2224,7 +2225,7 @@ function renderFieldHud() {
   const got = F.free ? F.got : S.caught;
   const slots = [0, 1, 2, 3].slice(0, F.free ? 4 : 3).map((i) => `<span class="f-slot">${got[i] ? bugSvg(got[i]) : ''}</span>`).join('');
   const hint = F.moved ? '반짝이는 곳에 다가가서 <b>조사</b>를 눌러 주세요'
-    : COARSE ? '왼쪽 조이스틱으로 움직이고, 반짝이는 곳에서 <b>조사</b>를 눌러 주세요' : '화면을 누른 곳으로 이동해요 · 방향키/WASD도 쓸 수 있어요';
+    : COARSE ? '가고 싶은 곳을 터치하면 걸어가요 · 누른 채로 끌면 손가락을 따라가요' : '화면을 누른 곳으로 이동해요 · 방향키/WASD도 쓸 수 있어요';
   L.hud.innerHTML = `<div class="place-chip"><small>${AREAS[F.area].chip[0]}</small><b>${AREAS[F.area].chip[1]}</b></div>
 <div class="f-count">${F.free ? `오늘 채집 ${got.length}` : `채집 ${Math.min(got.length, 3)}/3`} ${slots}</div>
 ${F.free ? '<button type="button" class="btn field-exit" id="exitBtn">← 메인 화면</button>' : ''}
@@ -3378,7 +3379,7 @@ ${ADV[t] ? `<div><span class="up">▲ ${ADV[t]}에 강해요</span> · ${TYPE_IN
 /* ---------- 조이스틱 (터치 기기) ---------- */
 const COARSE = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
 const JOY = { cx: 135, cy: 585, r: 70 };
-const joyHtml = () => (COARSE ? '<div class="joy" id="joy" aria-hidden="true"><div class="joy-k" id="joyK"></div></div>' : '');
+const joyHtml = () => ''; // 폰에서도 조이스틱 없이 터치한 곳으로 이동해요
 function bindJoy() {
   const j = $('#joy'); if (!j) return;
   let pid = null;
@@ -4445,11 +4446,21 @@ stage.addEventListener('pointerdown', (e) => {
   if (E) { if (E.active && E.g && E.g.tap) E.g.tap(); return; }
   if (S.mode === 'battle') return;
   if (S.onAdvance) { S.onAdvance(); return; }
-  if (S.mode === 'field' && !S.talking && !S.modal) {
-    const p = toWorld(toStage(e));
-    F.tx = Math.max(40, Math.min(1240, p.x)); F.ty = Math.max(400, Math.min(630, p.y));
-  }
+  if (S.mode === 'field' && !S.talking && !S.modal) { fieldDrag = e.pointerId; setFieldTarget(e); }
 });
+/* 필드: 터치한 곳으로 이동하고, 누른 채로 끌면 손가락을 따라가요 */
+let fieldDrag = null;
+function setFieldTarget(e) {
+  const p = toWorld(toStage(e));
+  F.tx = Math.max(40, Math.min(1240, p.x)); F.ty = Math.max(400, Math.min(630, p.y));
+}
+stage.addEventListener('pointermove', (e) => {
+  if (fieldDrag !== e.pointerId) return;
+  if (S.mode !== 'field' || S.talking || S.modal || S.paused || E || !F) { fieldDrag = null; return; }
+  setFieldTarget(e);
+});
+const endDrag = (e) => { if (fieldDrag === e.pointerId) fieldDrag = null; };
+stage.addEventListener('pointerup', endDrag); stage.addEventListener('pointercancel', endDrag);
 stage.addEventListener('click', (e) => {
   const b = e.target.closest('button');
   if (b && !b.hasAttribute('data-quiet')) AU.sfx('click');
