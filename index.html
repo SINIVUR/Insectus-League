@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.2">
+<meta name="version" content="0.0.3">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -478,6 +478,61 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .opp-tag { align-self: flex-start; padding: 2px 10px; background: #3A4458; color: #fff; font-size: 12px; font-weight: 900; }
 .opp-tag.free { background: var(--red); } .opp.free { border-color: var(--red); }
 
+/* 배틀 하단 패널 (다시 만든 판) */
+.battle .b-panel { height: 214px; padding: 10px 20px 12px; gap: 18px; background: #0C0F18; }
+.bp-h { display: flex; align-items: center; gap: 12px; height: 26px; font-size: 14px; font-weight: 900; color: #F4F7FB; white-space: nowrap; }
+.bp-h small { font-size: 12px; font-weight: 700; color: #8A94A8; }
+.bp-team { display: flex; flex-direction: column; gap: 6px; flex: none; }
+.battle .b-cards { gap: 8px; }
+.battle .b-card { width: 148px; padding: 6px 8px; gap: 3px; border-width: 3px; border-color: #2A3244; background: #141926; }
+.battle .b-card.on { border-color: var(--lime); background: #1A2232; }
+.battle .b-card.can { border-color: #4FD1FF; } .battle .b-card.out { opacity: .4; }
+.battle .b-card .top { align-items: center; gap: 4px; font-size: 11px; }
+.b-card .slot { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; background: #F4F7FB; color: var(--ink); font-size: 12px; font-weight: 900; }
+.b-card .bcs { flex: 1; } .b-card .mt { font-weight: 900; }
+.battle .b-card .art { width: 100px; height: 52px; } .battle .b-card .art svg { width: 100px; height: 62px; }
+.b-card .bn { font-size: 13px; } .b-card .bn small { color: #9AA3B5; }
+.b-card .hpn { font-size: 11px; font-weight: 900; color: #C9D3E2; font-variant-numeric: tabular-nums; text-align: right; margin-top: -2px; }
+.battle .b-card button { height: 30px; font-size: 13px; }
+.bp-cmd { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.bp-cmd .bp-h { justify-content: space-between; } #bAsk { font-size: 15px; overflow: hidden; text-overflow: ellipsis; }
+.en { display: flex; align-items: center; gap: 8px; flex: none; }
+.en-l { font-size: 13px; color: var(--sky); }
+.en-bar { position: relative; width: 300px; height: 14px; background: #05070C; border: 2px solid var(--sky); }
+.en-bar > i { display: block; height: 100%; background: linear-gradient(90deg, #2E9AD0, #4FD1FF); transition: width .25s; }
+.en-mk span { position: absolute; top: -16px; transform: translateX(-50%); font-size: 11px; font-weight: 900; color: #5A6478; white-space: nowrap; }
+.en-mk span i { position: absolute; left: 50%; top: 14px; width: 2px; height: 16px; margin-left: -1px; background: #5A6478; }
+.en-mk span.ok { color: var(--sky); } .en-mk span.ok i { background: #fff; }
+.en-mk span.r { color: #8A6A2A; } .en-mk span.r.ok { color: var(--gold); }
+.en-n { font-size: 16px; color: var(--sky); font-variant-numeric: tabular-nums; min-width: 66px; } .en small { font-size: 11px; color: #8A94A8; }
+.battle .b-btns { display: grid; grid-template-columns: repeat(4, 1fr) 1.35fr; gap: 8px; flex: 1; }
+.battle .sk { position: relative; width: auto; padding: 6px 8px; border: 3px solid var(--sky); background: #17233A; color: #fff; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 3px; text-align: left; overflow: visible; cursor: pointer; opacity: 1; filter: none; transition: transform .1s; }
+.battle .sk:hover { transform: translateY(-3px); }
+.sk-top { display: flex; align-items: center; justify-content: space-between; }
+.sk .key { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; background: var(--sky); color: var(--ink); font-family: var(--display); font-size: 16px; }
+.sk .role { font-size: 11px; font-weight: 900; color: var(--sky); }
+.battle .sk .nm { font-size: 16px; font-weight: 900; color: #fff; line-height: 1.2; }
+.sk .ds { font-size: 11.5px; line-height: 1.3; color: #C8D6E8; min-height: 30px; }
+.sk .stc { margin-top: auto; align-self: flex-start; padding: 3px 8px; font-size: 12px; font-weight: 900; white-space: nowrap; }
+.sk.ok .stc { background: #2E9A4A; color: #fff; }
+.sk.cd .stc { background: #C8721A; color: #fff; }
+.sk.en .stc { background: #C8232C; color: #fff; }
+.sk.lock .stc { background: #7A4AC8; color: #fff; }
+.sk.ko .stc { background: #5A6478; color: #fff; }
+.sk .cdv { position: absolute; top: -12px; right: -10px; z-index: 2; display: flex; align-items: baseline; gap: 2px; padding: 3px 9px; background: #FFD23F; color: var(--ink); border: 3px solid var(--ink); font-size: 12px; font-weight: 900; box-shadow: 2px 2px 0 #000; }
+.sk .cdv[hidden] { display: none; }
+.sk .cdv b { font-family: var(--display); font-weight: 400; font-size: 22px; line-height: 1; }
+.battle .sk.ult { background: #4A1A1E; border-color: var(--gold); }
+.battle .sk.ult .nm { font-family: var(--display); font-weight: 400; font-size: 21px; }
+.sk.ult .key { background: var(--gold); } .sk.ult .role { color: var(--gold); }
+.battle .sk.ult.ready { background: #7A1A22; animation: ultglow 1.1s ease-in-out infinite; }
+@keyframes ultglow { 50% { box-shadow: 0 0 0 4px rgba(255,210,63,.45), 0 0 22px rgba(255,210,63,.6); } }
+.battle .sk.nope { animation: nope .3s linear; }
+@keyframes nope { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.plate .hp { position: relative; height: 18px; }
+.hpv { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 900; color: #fff; text-shadow: 0 1px 2px #000, 0 0 3px #000; font-variant-numeric: tabular-nums; }
+.plate .sts span { line-height: 20px; }
+
 /* 조이스틱 */
 .joy { position: absolute; left: 40px; bottom: 40px; width: 190px; height: 190px; box-sizing: border-box; border-radius: 50%; background: rgba(17,17,20,.45); border: 4px solid rgba(239,232,216,.8); pointer-events: auto; touch-action: none; }
 .joy::before { content: ''; position: absolute; inset: 46px; border-radius: 50%; border: 2px dashed rgba(239,232,216,.4); }
@@ -507,7 +562,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.2';
+const VERSION = '0.0.3';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -1834,7 +1889,7 @@ const RULES = [
   { t: '기본 공격과 기술', d: '기본 공격(A)은 기력이 들지 않아요. 기술(Q·W·E)은 기력을 쓰고, 쓴 뒤에는 몇 턴 기다려야 다시 쓸 수 있어요. 기력은 매 턴 25씩 차요. 방어·회피·회복 기술은 공격보다 먼저 발동해요.', art: () => kb('A', '기본') + kb('Q', '공격') + kb('W', '보조') + kb('E', '강공격') },
   { t: '공격과 특수 공격', d: '몸으로 부딪치는 물리 기술은 \'공격\' 능력치로, 독침·기절·필살기 같은 특수 기술은 \'특수 공격\' 능력치로 위력이 정해져요. 기술 버튼 아래에 물리인지 특수인지 적혀 있어요.', art: () => STAT_NAMES.map(([k, n]) => `<span class="schip" style="border-color:${STAT_COL[k]}">${n}</span>`).join('') },
   { t: '교체', d: '대기 중인 곤충과 교체하는 것도 한 턴의 행동이에요(아래 카드 또는 숫자 1·2·3). 교체는 다른 어떤 행동보다 먼저 일어나요. 카드에 ▲유리 표시가 있으면 지금 상대에게 강한 곤충이에요.', art: () => kb('1', '교체') + kb('2', '교체') + kb('3', '교체') },
-  { t: '필살기', d: '필살기(R)는 아주 강력하지만 기력을 90이나 써요. 한 번 쓰면 4턴 동안 다시 쓸 수 없으니, 결정적인 순간을 노려서 쓰세요.', art: () => kb('R', '기력 90') },
+  { t: '필살기', d: '필살기(R)는 아주 강력하지만 기력을 90이나 써요. 곤충이 경기장에 나온 턴에는 쓸 수 없고, 한 번 쓰면 4턴 동안 다시 쓸 수 없으니 결정적인 순간을 노려서 쓰세요.', art: () => kb('R', '기력 90') },
   { t: '계통 상성', d: '장갑은 참격에, 참격은 독침에, 독침은 장갑에 강해요. 유리한 상대에게는 피해가 1.5배, 불리한 상대에게는 0.7배가 돼요. 소리·타격 계통은 상성이 없어서 누구와 싸워도 1배예요. 배틀 화면 위쪽에 지금 상성이 항상 표시돼요.', art: () => `<div class="tri"><span style="background:${TYPE_COL.장갑}">장갑</span>›<span style="background:${TYPE_COL.참격}">참격</span>›<span style="background:${TYPE_COL.독침}">독침</span>›<span style="background:${TYPE_COL.장갑}">장갑</span></div><button type="button" class="mini-btn" id="rMore">상성표 자세히 보기</button>` },
   { t: '곤충의 종류', d: '곤충은 사는 곳에 따라 육상·수상·공중으로 나뉘어요. 육상은 받는 피해가 10% 줄고, 수상은 턴마다 체력을 6% 회복하고, 공중은 15% 확률로 공격을 피해요.', art: () => Object.keys(KIND_COL).map((k) => `<span class="schip" style="border-color:${KIND_COL[k]}">${k}</span>`).join('') },
   { t: '승리 조건', d: '상대 곤충 3마리를 모두 기절시키면 이겨요. 기절한 곤충 대신 다음 곤충이 턴이 끝날 때 자동으로 나가요. 곤충은 기절할 뿐, 다치지 않도록 보호돼요.', art: () => `<div class="tri"><span style="background:#3A4458">기절</span><span style="background:#3A4458">기절</span><span style="background:#3A4458">기절</span> = 승리!</div>` }
@@ -1959,7 +2014,7 @@ function playerTeam() {
 }
 function mkUnit(inst) {
   const s = SP[inst.id], stat = calcStats(inst);
-  return { id: inst.id, inst, s, lv: inst.lv || 1, stat, hp: stat.hp, max: stat.hp, alive: true, cd: { q: 0, w: 0, e: 0, r: 0 }, st: { stun: 0, guard: 0, dodge: 0, poison: 0, pd: 0 } };
+  return { id: inst.id, inst, s, lv: inst.lv || 1, stat, hp: stat.hp, max: stat.hp, alive: true, cd: { q: 0, w: 0, e: 0, r: 0 }, st: { stun: 0, guard: 0, dodge: 0, poison: 0, pd: 0 }, ultFrom: 0 };
 }
 function startBattle(done, oppKey) {
   const opp = typeof oppKey === 'object' ? oppKey : OPP[oppKey || 'dh'];
@@ -1973,6 +2028,7 @@ function startBattle(done, oppKey) {
       { name: '최강찬', sub: '세온중 1학년', team: playerTeam().map(mkUnit), active: 0, energy: 40, look: CH.kc.look },
       { name: opp.name, sub: opp.sub, team: opp.team.map((id) => mkUnit({ id, lv: oppLv, bonus: {}, cond: 80 })), active: 0, energy: 40, look: opp.look || CH[opp.who].look }
     ] };
+  B.sides.forEach((sd) => { sd.team[0].ultFrom = 2; });
   L.ov.innerHTML = battleHtml();
   bindBattle(); drawUnit(0); drawUnit(1);
   let last = performance.now();
@@ -2006,7 +2062,7 @@ function battleHtml() {
   const P = B.sides[0], O = B.sides[1];
   const face = (look, f) => `<div class="b-face">${chibi(look, f)}</div>`;
   const pips = (i) => `<div class="pips" id="pips${i}">${[0, 1, 2].map(() => `<span class="pip${i ? ' r' : ''}"></span>`).join('')}</div>`;
-  const plates = [0, 1].map((i) => `<div class="plate" id="pl${i}" style="left:${POS[i].plate[0]}px;top:${POS[i].plate[1]}px"><div class="nm"><span id="pn${i}"></span><span><span class="tchip" id="pk${i}"></span> <span class="tchip" id="pt${i}"></span></span></div><div class="hp"><i id="ph${i}"></i></div><div class="sts" id="ps${i}"></div></div>`).join('');
+  const plates = [0, 1].map((i) => `<div class="plate" id="pl${i}" style="left:${POS[i].plate[0]}px;top:${POS[i].plate[1]}px"><div class="nm"><span id="pn${i}"></span><span><span class="tchip" id="pk${i}"></span> <span class="tchip" id="pt${i}"></span></span></div><div class="hp"><i id="ph${i}"></i><span class="hpv" id="phn${i}"></span></div><div class="sts" id="ps${i}"></div></div>`).join('');
   const units = [0, 1].map((i) => `<div class="b-unit" id="u${i}"><div class="b-move"><div class="b-img"></div></div></div>`).join('');
   const sk = ['a', 'q', 'w', 'e'].map((k) => `<button type="button" class="sk" id="sk-${k}" data-quiet><span class="k">${k.toUpperCase()}</span><span class="n" id="skn-${k}"></span><span class="c" id="skc-${k}"></span><span class="d" id="skx-${k}"></span><span class="cd" id="skd-${k}" hidden></span></button>`).join('');
   return `<div class="ov battle" id="battle"><div class="b-world" id="bWorld"><div class="b-arena">${bgSvg('arena')}</div>${units}${plates}<div id="bFxW"></div></div>
@@ -2015,16 +2071,24 @@ function battleHtml() {
 <div class="b-side r">${pips(1)}<div class="b-who" style="text-align:right"><b>${O.name}</b><small>${O.sub}</small></div>${face(O.look, 'cool')}<button type="button" class="b-pause" id="bChart">상성표</button><button type="button" class="b-pause" id="bPause">일시정지</button></div></div>
 <div class="b-match" id="bMatch"></div>
 <div id="bFx"></div>
-<div class="b-panel"><div class="b-cards" id="bCards"></div>
-<div class="b-skills"><div class="b-energy">기력 <span class="bar"><i id="bEn"></i></span><span id="bEnN">40</span><span class="b-ask" id="bAsk"></span></div>
-<div class="b-btns">${sk}<button type="button" class="sk ult" id="sk-r" data-quiet><span class="k" style="color:#FFD23F">필살기 · R</span><span class="n" id="skn-r" style="font-family:var(--display);font-weight:400;font-size:20px"></span><span class="c" id="skc-r" style="color:#fff"></span><span class="d" id="skx-r" style="color:#FFE3A0"></span><span class="cd" id="skd-r" hidden></span></button></div></div></div></div>`;
+<div class="b-panel"><div class="bp-team"><div class="bp-h">내 팀 <small>교체도 한 턴의 행동이에요 · 숫자 1·2·3</small></div><div class="b-cards" id="bCards"></div></div>
+<div class="bp-cmd"><div class="bp-h"><b id="bAsk"></b><div class="en"><span class="en-l">기력</span><div class="en-bar"><i id="bEn"></i><div class="en-mk" id="bEnMk"></div></div><b class="en-n" id="bEnN"></b><small>매 턴 +25</small></div></div>
+<div class="b-btns" id="bBtns"></div></div></div></div>`;
+}
+const WHY = { cd: (n) => `아직 쓸 수 없어요. ${n}턴 뒤에 다시 쓸 수 있어요.`, lock: () => '방금 나온 곤충은 이번 턴에 필살기를 쓸 수 없어요. 다음 턴부터 쓸 수 있어요.', en: (n) => `기력이 ${n} 부족해요. 기력은 매 턴 25씩 차요.`, ko: () => '기절한 곤충은 행동할 수 없어요.' };
+function trySkill(k) {
+  if (!B || B.over || S.paused) return;
+  if (B.phase !== 'choose') { toast('지금은 행동이 진행 중이에요. 잠깐만 기다려 주세요.'); return; }
+  const ss = skState(0, k);
+  if (ss.s !== 'ok') { AU.sfx('fail'); toast(WHY[ss.s](ss.n)); const b = $('#sk-' + k); b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); return; }
+  command(k === 'a' ? { kind: 'basic' } : { kind: 'skill', k });
 }
 function bindBattle() {
-  $('#sk-a').addEventListener('pointerdown', (e) => { e.stopPropagation(); AU.init(); command({ kind: 'basic' }); });
-  ['q', 'w', 'e', 'r'].forEach((k) => $('#sk-' + k).addEventListener('pointerdown', (e) => { e.stopPropagation(); AU.init(); command({ kind: 'skill', k }); }));
+  $('#bBtns').innerHTML = ['a', 'q', 'w', 'e', 'r'].map((k) => `<button type="button" class="sk${k === 'r' ? ' ult' : ''}" id="sk-${k}" data-quiet><span class="sk-top"><span class="key">${k.toUpperCase()}</span><span class="role" id="skr-${k}"></span></span><b class="nm" id="skn-${k}"></b><span class="ds" id="skx-${k}"></span><span class="stc" id="sks-${k}"></span><span class="cdv" id="skd-${k}" hidden><b></b>턴 후</span></button>`).join('');
+  ['a', 'q', 'w', 'e', 'r'].forEach((k) => $('#sk-' + k).addEventListener('pointerdown', (e) => { e.stopPropagation(); AU.init(); trySkill(k); }));
   $('#bPause').addEventListener('click', (e) => { e.stopPropagation(); openMenu(); });
   $('#bChart').addEventListener('click', (e) => { e.stopPropagation(); showTypeChart(); });
-  $('#bCards').innerHTML = B.sides[0].team.map((u, i) => `<div class="b-card" id="bc${i}"><div class="top"><span id="bcs${i}">대기</span><span class="mt" id="bcm${i}"></span></div><div class="art">${bugSvg(u.id)}</div><b>${u.s.name} <small>Lv.${u.lv}</small></b><div class="hp"><i id="bch${i}"></i></div><button type="button" id="bcb${i}" data-quiet>교체 · ${i + 1}</button></div>`).join('');
+  $('#bCards').innerHTML = B.sides[0].team.map((u, i) => `<div class="b-card" id="bc${i}"><div class="top"><span class="slot">${i + 1}</span><span class="bcs" id="bcs${i}">대기</span><span class="mt" id="bcm${i}"></span></div><div class="art">${bugSvg(u.id)}</div><b class="bn">${u.s.name} <small>Lv.${u.lv}</small></b><div class="hp"><i id="bch${i}"></i></div><span class="hpn" id="bchn${i}"></span><button type="button" id="bcb${i}" data-quiet>교체</button></div>`).join('');
   B.sides[0].team.forEach((u, i) => $('#bcb' + i).addEventListener('pointerdown', (e) => { e.stopPropagation(); AU.init(); command({ kind: 'swap', idx: i }); }));
 }
 function drawUnit(i) {
@@ -2037,10 +2101,17 @@ function drawUnit(i) {
 }
 
 /* 턴 진행 */
-const canUse = (i, k) => {
-  const sd = B.sides[i], u = sd.team[sd.active]; if (!u.alive) return false;
-  return u.cd[k] <= 0 && sd.energy >= u.s[k].cost;
-};
+// 기술 상태: ok / cd(재사용 대기) / lock(나온 턴 필살기 금지) / en(기력 부족) / ko
+function skState(i, k) {
+  const sd = B.sides[i], u = sd.team[sd.active];
+  if (!u.alive) return { s: 'ko' };
+  if (k === 'a') return { s: 'ok' };
+  if (u.cd[k] > 0) return { s: 'cd', n: u.cd[k] };
+  if (k === 'r' && B.turn < (u.ultFrom || 0)) return { s: 'lock' };
+  if (sd.energy < u.s[k].cost) return { s: 'en', n: u.s[k].cost - Math.floor(sd.energy) };
+  return { s: 'ok' };
+}
+const canUse = (i, k) => skState(i, k).s === 'ok';
 const canSwap = (i, idx) => { const sd = B.sides[i]; return idx !== sd.active && !!sd.team[idx] && sd.team[idx].alive && sd.team[sd.active].alive; };
 function command(cmd) {
   if (!B || B.phase !== 'choose' || S.paused || B.over) return;
@@ -2120,7 +2191,7 @@ async function endOfTurn() {
     const sd = B.sides[i];
     if (sd.team[sd.active].alive) continue;
     const nx = sd.team.findIndex((x) => x.alive); if (nx < 0) continue;
-    sd.active = nx; drawUnit(i); AU.sfx('swap');
+    sd.active = nx; sd.team[nx].ultFrom = B.turn + 2; drawUnit(i); AU.sfx('swap');
     banner(i, i === 0 ? `${sd.team[nx].s.name}, 나가!` : `${sd.name} · ${sd.team[nx].s.name} 출전`);
     await wait(950); if (!B) return;
   }
@@ -2196,7 +2267,7 @@ function useSkill(i, k) {
 function doSwap(i, idx) {
   const sd = B.sides[i], nx = sd.team[idx];
   if (!nx || !nx.alive) return;
-  sd.active = idx; AU.sfx('swap'); drawUnit(i);
+  sd.active = idx; nx.ultFrom = B.turn + 2; AU.sfx('swap'); drawUnit(i);
   banner(i, i === 0 ? `돌아와! ${nx.s.name}, 나가!` : `${sd.name} · ${nx.s.name}(으)로 교체`);
 }
 function hints() {
@@ -2359,49 +2430,66 @@ function toast(text) {
   fx.appendChild(el); setTimeout(() => el.remove(), 5200);
 }
 const multLabel = (m) => (m > 1 ? ['효과 좋음 ×1.5', '#7CFC6A'] : m < 1 ? ['효과 별로 ×0.7', '#FF6B5A'] : ['보통 ×1.0', '#9AA3B5']);
+const setH = (el, html) => { if (el && el._h !== html) { el.innerHTML = html; el._h = html; } };
+const setT = (el, t) => { if (el && el.textContent !== t) el.textContent = t; };
+const roleOf = (k, sk) => (k === 'r' ? '필살기' : k === 'a' ? '기본 공격' : sk.pow ? '공격' : sk.heal ? '회복' : '보조');
 function bUI() {
   if (!B || !$('#battle')) return;
   const P = B.sides[0], O = B.sides[1], choosing = B.phase === 'choose' && !B.over;
-  $('#bTurn').textContent = `턴 ${B.turn}`;
-  $('#bPhase').textContent = B.over ? '경기 종료' : choosing ? '행동을 골라 주세요' : '진행 중…';
-  $('#bAsk').textContent = choosing ? '무엇을 할까요?' : '';
+  setT($('#bTurn'), `턴 ${B.turn}`);
+  setT($('#bPhase'), B.over ? '경기 종료' : choosing ? '행동을 골라 주세요' : '진행 중…');
   for (let i = 0; i < 2; i++) {
     const sd = B.sides[i], u = sd.team[sd.active];
     $('#pips' + i).querySelectorAll('.pip').forEach((p, j) => p.classList.toggle('out', !sd.team[j].alive));
-    $('#pn' + i).textContent = `${u.s.name} Lv.${u.lv}`;
-    const tc = $('#pt' + i); tc.textContent = u.s.type; tc.style.background = TYPE_COL[u.s.type]; tc.style.color = '#fff';
-    const kc = $('#pk' + i); kc.textContent = u.s.hab; kc.style.background = KIND_COL[u.s.hab]; kc.style.color = '#fff';
-    const h = $('#ph' + i), r = u.hp / u.max;
-    h.style.width = (r * 100) + '%'; h.style.background = r < .3 ? '#FF5A4A' : i ? '#FF8A2B' : '#B8F24A';
+    setT($('#pn' + i), `${u.s.name} Lv.${u.lv}`);
+    const tc = $('#pt' + i); setT(tc, u.s.type); tc.style.background = TYPE_COL[u.s.type]; tc.style.color = '#fff';
+    const kc = $('#pk' + i); setT(kc, u.s.hab); kc.style.background = KIND_COL[u.s.hab]; kc.style.color = '#fff';
+    const hb = $('#ph' + i), r = u.hp / u.max;
+    hb.style.width = (r * 100) + '%'; hb.style.background = r < .3 ? '#FF5A4A' : i ? '#FF8A2B' : '#B8F24A';
+    setT($('#phn' + i), `${Math.ceil(u.hp)} / ${u.max}`);
     const st = [];
-    if (u.st.stun > 0) st.push(['#C8232C', '기절']); if (u.st.poison > 0) st.push(['#8A4FD8', `독 ${u.st.poison}턴`]);
-    if (u.st.guard > 0) st.push(['#4A6FA5', '방어']); if (u.st.dodge > 0) st.push(['#2E7D4F', '회피']);
-    $('#ps' + i).innerHTML = st.map(([c, n]) => `<span style="background:${c}">${n}</span>`).join('');
+    if (u.st.stun > 0) st.push(['#C8232C', '기절 · 다음 행동 쉼']); if (u.st.poison > 0) st.push(['#8A4FD8', `독 ${u.st.poison}턴`]);
+    if (u.st.guard > 0) st.push(['#4A6FA5', `방어 ${u.st.guard}턴`]); if (u.st.dodge > 0) st.push(['#2E7D4F', '회피 태세']);
+    if (i === 1 && u.alive) { st.push(['#3A4458', `기력 ${Math.floor(sd.energy)}`]); if (canUse(1, 'r')) st.push(['#C8232C', '필살기 가능!']); }
+    setH($('#ps' + i), st.map(([c, n]) => `<span style="background:${c}">${n}</span>`).join(''));
     $('#u' + i).classList.toggle('stun', u.st.stun > 0 && u.alive);
   }
   const u = P.team[P.active], o = O.team[O.active];
   const [l1, c1] = multLabel(mult(u.s.type, o.s.type)), [l2, c2] = multLabel(mult(o.s.type, u.s.type));
-  const mh = `<span class="mrow" style="border-color:${c1}"><b style="background:${TYPE_COL[u.s.type]}">${u.s.type}</b> → <b style="background:${TYPE_COL[o.s.type]}">${o.s.type}</b> 내 공격 <em style="color:${c1}">${l1}</em></span><span class="mrow" style="border-color:${c2}">상대 공격 <em style="color:${c2}">${l2}</em></span>`;
-  const mEl = $('#bMatch'); if (mEl.dataset.k !== mh) { mEl.innerHTML = mh; mEl.dataset.k = mh; }
-  $('#bEn').style.width = P.energy + '%'; $('#bEnN').textContent = Math.floor(P.energy);
-  $('#skn-a').textContent = u.s.a.n; $('#skc-a').textContent = '기력 0'; $('#skx-a').textContent = skDesc(u.s.a);
-  $('#sk-a').disabled = !choosing || !u.alive; $('#skd-a').hidden = true;
-  for (const k of ['q', 'w', 'e', 'r']) {
-    const sk = u.s[k];
-    $('#skn-' + k).textContent = sk.n; $('#skc-' + k).textContent = `기력 ${sk.cost}`; $('#skx-' + k).textContent = skDesc(sk);
-    $('#sk-' + k).disabled = !choosing || !canUse(0, k);
-    const cd = $('#skd-' + k); cd.hidden = !(u.cd[k] > 0); if (u.cd[k] > 0) cd.textContent = `${u.cd[k]}턴`;
+  setH($('#bMatch'), `<span class="mrow" style="border-color:${c1}"><b style="background:${TYPE_COL[u.s.type]}">${u.s.type}</b> → <b style="background:${TYPE_COL[o.s.type]}">${o.s.type}</b> 내 공격 <em style="color:${c1}">${l1}</em></span><span class="mrow" style="border-color:${c2}">상대 공격 <em style="color:${c2}">${l2}</em></span>`);
+  // 기력
+  const en = Math.floor(P.energy);
+  $('#bEn').style.width = en + '%'; setT($('#bEnN'), `${en} / 100`);
+  setH($('#bEnMk'), ['q', 'w', 'e', 'r'].map((k) => `<span class="${en >= u.s[k].cost ? 'ok' : ''}${k === 'r' ? ' r' : ''}" style="left:${u.s[k].cost}%"><i></i>${k.toUpperCase()}</span>`).join(''));
+  const stunned = u.alive && u.st.stun > 0;
+  setH($('#bAsk'), B.over ? '경기 종료' : !choosing ? `<span style="color:#FFD23F">⏳ 턴 ${B.turn} · 서로 행동하는 중이에요…</span>` : stunned ? `<span style="color:#FF8A7A">${u.s.name}${josaIGa(u.s.name)} 기절해서 이번 턴은 쉬어요 · 교체는 할 수 있어요</span>` : `턴 ${B.turn} · ${u.s.name}에게 무엇을 시킬까요?`);
+  // 기술 버튼
+  for (const k of ['a', 'q', 'w', 'e', 'r']) {
+    const sk = u.s[k], ss = skState(0, k), btn = $('#sk-' + k);
+    setT($('#skn-' + k), sk.n); setT($('#skr-' + k), roleOf(k, sk)); setT($('#skx-' + k), skDesc(sk));
+    const chip = $('#sks-' + k), cdv = $('#skd-' + k);
+    let cls = 'sk' + (k === 'r' ? ' ult' : '');
+    if (ss.s === 'ok') { cls += ' ok'; setT(chip, k === 'a' ? '기력 0 · 언제나 사용 가능' : `사용 가능 · 기력 ${sk.cost}`); }
+    else if (ss.s === 'cd') { cls += ' cd'; setT(chip, `재사용 대기 · 기력 ${sk.cost}`); }
+    else if (ss.s === 'lock') { cls += ' lock'; setT(chip, '나온 턴이라 다음 턴부터'); }
+    else if (ss.s === 'en') { cls += ' en'; setT(chip, `기력 ${ss.n} 부족 (필요 ${sk.cost})`); }
+    else { cls += ' ko'; setT(chip, '사용할 수 없어요'); }
+    if (choosing && ss.s === 'ok' && k === 'r') cls += ' ready';
+    if (btn.className !== cls) btn.className = cls;
+    cdv.hidden = ss.s !== 'cd'; if (ss.s === 'cd') setT(cdv.firstChild, String(ss.n));
   }
-  $('#sk-r').classList.toggle('ready', choosing && canUse(0, 'r'));
+  // 팀 카드
   P.team.forEach((x, j) => {
-    $('#bc' + j).className = 'b-card' + (j === P.active ? ' on' : '') + (x.alive ? '' : ' out');
-    $('#bcs' + j).textContent = !x.alive ? '기절' : j === P.active ? '출전 중' : '대기';
+    const cls = 'b-card' + (j === P.active ? ' on' : '') + (x.alive ? '' : ' out') + (choosing && canSwap(0, j) ? ' can' : '');
+    const card = $('#bc' + j); if (card.className !== cls) card.className = cls;
+    setT($('#bcs' + j), !x.alive ? '기절' : j === P.active ? '출전 중' : '대기');
     const mm = mult(x.s.type, o.s.type), mt = $('#bcm' + j);
-    mt.textContent = `${x.s.type} ${mm > 1 ? '▲유리' : mm < 1 ? '▼불리' : ''}`; mt.style.color = mm > 1 ? '#7CFC6A' : mm < 1 ? '#FF6B5A' : '#C9D3E2';
-    const bh = $('#bch' + j); bh.style.width = (x.hp / x.max * 100) + '%'; bh.style.background = '#B8F24A';
+    setT(mt, `${x.s.type}${mm > 1 ? ' ▲유리' : mm < 1 ? ' ▼불리' : ''}`); mt.style.color = mm > 1 ? '#7CFC6A' : mm < 1 ? '#FF6B5A' : '#C9D3E2';
+    const bh = $('#bch' + j), rr = x.hp / x.max; bh.style.width = (rr * 100) + '%'; bh.style.background = rr < .3 ? '#FF5A4A' : '#B8F24A';
+    setT($('#bchn' + j), `${Math.ceil(x.hp)} / ${x.max}`);
     const btn = $('#bcb' + j);
     btn.disabled = !choosing || !canSwap(0, j);
-    btn.textContent = j === P.active ? '출전 중' : !x.alive ? '기절' : `교체 · ${j + 1}`;
+    setT(btn, j === P.active ? '출전 중' : !x.alive ? '기절' : `${j + 1} · 교체하기`);
   });
 }
 function finish(w, why) {
@@ -3075,9 +3163,8 @@ window.addEventListener('keydown', (e) => {
   keys[e.code] = true;
   if (S.paused) return;
   if (S.mode === 'battle' && B && !B.over) {
-    if (e.code === 'KeyA') { e.preventDefault(); if (!e.repeat) command({ kind: 'basic' }); return; }
-    const k = { KeyQ: 'q', KeyW: 'w', KeyE: 'e', KeyR: 'r' }[e.code];
-    if (k) { e.preventDefault(); if (!e.repeat) command({ kind: 'skill', k }); return; }
+    const k = { KeyA: 'a', KeyQ: 'q', KeyW: 'w', KeyE: 'e', KeyR: 'r' }[e.code];
+    if (k) { e.preventDefault(); if (!e.repeat) trySkill(k); return; }
     const d = { Digit1: 0, Digit2: 1, Digit3: 2 }[e.code];
     if (d != null) { if (!e.repeat) command({ kind: 'swap', idx: d }); return; }
   }

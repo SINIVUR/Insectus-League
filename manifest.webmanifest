@@ -2,7 +2,7 @@
   "name": "인섹터스 리그",
   "short_name": "인섹터스 리그",
   "description": "곤충을 잡고, 기르고, 배틀하는 곤충 육성 배틀 RPG",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "id": "insectus-league-game",
   "start_url": "./",
   "scope": "./",
