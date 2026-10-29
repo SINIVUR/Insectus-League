@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.21">
+<meta name="version" content="0.0.22">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -125,6 +125,60 @@ b.aw { color: #FFD23F; }
 #bTip { display: none; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 17px; font-weight: 900; color: #FFD23F; }
 .bp-h.tipping #bAsk { display: none; } .bp-h.tipping #bTip { display: block; animation: fade .25s ease-out; }
 #bTip.ban { color: #7CFC6A; font-size: 19px; } #bTip.ban.foe { color: #FF9A4A; }
+
+/* ---------- 추가 시스템 ---------- */
+.wx-ov { position: absolute; inset: 0; pointer-events: none; }
+.wx-ov.night { background: radial-gradient(ellipse at 50% 55%, rgba(10,14,46,.18) 0%, rgba(6,8,30,.55) 75%); }
+.wx-ov.rain { background-image: repeating-linear-gradient(105deg, rgba(210,225,255,.28) 0 2px, transparent 2px 22px); background-size: 100% 80px; animation: rainMv .45s linear infinite; }
+@keyframes rainMv { to { background-position: -14px 80px; } }
+.wx-ov.snow { background-image: radial-gradient(circle, rgba(255,255,255,.9) 0 2.5px, transparent 3px), radial-gradient(circle, rgba(255,255,255,.7) 0 2px, transparent 2.5px); background-size: 90px 90px, 130px 130px; animation: snowMv 6s linear infinite; }
+@keyframes snowMv { to { background-position: 30px 90px, -20px 130px; } }
+.fs-time { display: flex; align-items: center; gap: 10px; justify-content: center; padding: 8px 14px 0; font-weight: 900; color: #F4F7FB; flex-wrap: wrap; }
+.fs-time .seg2 button { height: 44px; padding: 0 18px; border: 3px solid #111114; background: #2A3244; color: #fff; font-weight: 900; font-size: 17px; }
+.fs-time .seg2 button.on { background: #FFD23F; color: #111114; }
+.fs-time small { color: #C9BFA8; font-weight: 700; }
+.trtag, .hdtag { display: inline-block; margin-left: 6px; padding: 1px 9px; border-radius: 999px; font-size: .72em; font-weight: 900; vertical-align: middle; }
+.trtag { background: #3A5A8A; color: #E8F0FF; } .hdtag { background: #6A4A2A; color: #FFF0D0; }
+.mode-bar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 10px 24px 0; }
+.mode-btn { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 10px; align-items: center; text-align: left; padding: 8px 14px; min-height: 60px; border: 3px solid #111114; background: #FFF6DE; box-shadow: 4px 4px 0 #111114; cursor: pointer; }
+.mode-btn i { grid-row: 1 / 3; font-style: normal; font-size: 30px; } .mode-btn b { font-size: 18px; } .mode-btn small { font-size: 13px; color: #6A5A40; font-weight: 700; }
+.rank-box { display: flex; gap: 18px; align-items: center; padding: 14px 18px; margin-bottom: 12px; background: #161A24; border: 4px solid var(--rc); color: #fff; }
+.rank-emb { font-size: 64px; } .rank-box small { color: #9AA3B5; font-weight: 700; } .rank-box > div > b { display: block; font-family: var(--display); font-size: 40px; color: var(--rc); font-weight: 400; }
+.rank-box p { margin: 4px 0 0; font-size: 15px; color: #C9D3E2; } .stars .star { font-style: normal; font-size: 28px; color: #3A4458; margin-right: 4px; } .stars .star.on { color: #FFD23F; }
+.rk-rw { display: flex; flex-wrap: wrap; gap: 6px; } .rk-rw span { border: 2px solid; padding: 2px 8px; font-size: 13px; font-weight: 800; border-radius: 6px; }
+.pt-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 8px 0 12px; }
+.pt { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; border: 3px solid #111114; background: #FFF6DE; cursor: pointer; }
+.pt.on { background: #FFD23F; box-shadow: 0 0 0 4px #C8232C inset; } .pt .face { width: 74px; height: 74px; } .pt .mini svg { width: 80px; height: 50px; }
+.tag-p { margin: 0 0 8px; font-size: 16px; font-weight: 700; color: #F4F7FB; background: rgba(0,0,0,.35); padding: 8px 12px; }
+.tag-vs { display: flex; align-items: center; justify-content: center; gap: 22px; margin-bottom: 12px; padding: 10px; background: #161A24; border: 3px solid #3A4458; color: #fff; text-align: center; }
+.tag-vs > span { font-family: var(--display); font-size: 40px; color: #FFD23F; } .tag-vs small { color: #9AA3B5; font-weight: 700; } .tag-vs .mini svg { width: 72px; height: 45px; }
+.ct-head { background: #FFF6DE; border: 3px solid #111114; padding: 10px 14px; margin-bottom: 10px; } .ct-head p { margin: 4px 0; font-size: 15px; } .ct-head small { font-weight: 800; color: #6A4A2A; }
+.ct-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.ct-row { display: flex; align-items: center; gap: 10px; padding: 6px 10px; background: #161A24; border: 3px solid #3A4458; color: #fff; }
+.ct-row .idl svg { width: 96px; height: 60px; } .ct-row > div { flex: 1; display: flex; flex-direction: column; } .ct-row small { color: #9AA3B5; font-weight: 700; }
+.ct-sc { font-family: var(--display); font-size: 24px; color: #FFD23F; }
+.ct-res { background: #FFF6DE; border: 4px solid #111114; padding: 14px 18px; text-align: center; } .ct-res h2 { margin: 0; font-family: var(--display); font-size: 44px; font-weight: 400; color: #C8232C; }
+.ct-res ol { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; text-align: left; }
+.ct-res li { display: flex; align-items: center; gap: 10px; padding: 3px 10px; background: #fff; border: 2px solid #D8CCB0; } .ct-res li.me { background: #FFE070; border-color: #C8232C; }
+.ct-res li > span:first-child { width: 28px; font-weight: 900; font-size: 20px; } .ct-res li .face { width: 40px; height: 40px; } .ct-res li b { flex: 1; } .ct-res li .mini svg { width: 64px; height: 40px; } .ct-res li em { font-style: normal; font-weight: 900; width: 70px; text-align: right; }
+.tr-x { display: flex; align-items: center; gap: 6px; justify-content: center; } .tr-x > div { display: flex; flex-direction: column; align-items: center; } .tr-x svg { width: 90px; height: 56px; } .tr-x > span { font-size: 28px; font-weight: 900; }
+.tr-sel { width: 100%; height: 42px; font-size: 15px; font-weight: 700; border: 3px solid #111114; }
+.opp.done { opacity: .6; }
+.msn-list { display: flex; flex-direction: column; gap: 8px; }
+.msn { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #161A24; border: 3px solid #3A4458; color: #fff; }
+.msn > div { flex: 1; display: flex; flex-direction: column; gap: 4px; } .msn b { font-size: 18px; } .msn small { color: #9AA3B5; font-weight: 700; }
+.msn.ready { border-color: #FFD23F; box-shadow: 0 0 14px rgba(255,210,63,.35); } .msn.got { opacity: .55; } .msn.bonus { border-style: dashed; }
+.msn .btn { min-width: 120px; } .msn-note { margin: 0 0 4px; color: #C9D3E2; font-weight: 700; }
+.msn-bugs { display: flex; flex-wrap: wrap; gap: 2px; } .msn-bugs span svg { width: 44px; height: 28px; } .msn-bugs span:not(.got) svg { filter: brightness(0); opacity: .35; }
+.chipbox.msnbtn { cursor: pointer; position: relative; } .chipbox.msnbtn .dot { position: absolute; top: -8px; right: -8px; min-width: 24px; height: 24px; border-radius: 12px; background: #C8232C; color: #fff; font-size: 15px; font-weight: 900; display: grid; place-items: center; border: 2px solid #fff; }
+.battle .b-cards.tag4 .b-card { width: 112px; } .b-card .ally { display: block; font-style: normal; font-size: 12px; color: #FFD23F; font-weight: 900; }
+.big-ui .mode-bar, .big-ui .rank-box { zoom: 1; }
+.scr-body.feat { flex-direction: column; gap: 10px; }
+.msn-list { width: 100%; max-width: 980px; margin: 0 auto; }
+.mode-btn { color: #111114; } .mode-btn small { color: #6A5A40; }
+.pt b { color: #111114; } .pt b { color: #111114; } .pt .face { overflow: hidden; } .pt .face svg { width: 142px; height: 185px; margin: -28px 0 0 -37px; }
+.ct-res li .face { overflow: hidden; flex: none; } .ct-res li .face svg { width: 77px; height: 100px; margin: -15px 0 0 -19px; }
+.ct-head, .ct-res { color: #111114; } .ct-row { min-width: 0; }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -892,7 +946,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.21';
+const VERSION = '0.0.22';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -3136,13 +3190,13 @@ const SCRIPT = [
 ];
 
 /* ---------- 상태 ---------- */
-const freshProgress = () => ({ caught: [], lastWin: false, bugs: [], party: [], money: 0, items: {}, day: 1, tut: null, tutDone: false, gifted: false, dex: {}, cages: [], jars: [], eggs: [], deco: {}, goal: null, hubCmd: null, teamName: '', lastDp: -1 });
+const freshProgress = () => ({ caught: [], lastWin: false, bugs: [], party: [], money: 0, items: {}, day: 1, tut: null, tutDone: false, gifted: false, dex: {}, cages: [], jars: [], eggs: [], deco: {}, goal: null, hubCmd: null, teamName: '', lastDp: -1, wx: 'sun', st: {}, dm: null, ach: [], dexRw: [], rank: null, cw: -1, cbest: null, trades: null, freeDay: undefined, tagOpp: null });
 let S = { ip: 0, queue: [], mode: 'title', scene: null, onAdvance: null, paused: false, talking: false, modal: false, fieldIp: 0, tw: null, ...freshProgress() };
 const actors = {};
 
 function save() {
   const ip = S.mode === 'field' && !(F && F.free) ? S.fieldIp : S.saveIp;
-  store.set(SAVE_KEY, { ip, caught: S.caught, lastWin: !!S.lastWin, bugs: S.bugs, party: S.party, money: S.money | 0, items: S.items, day: S.day, tut: S.tut, tutDone: !!S.tutDone, gifted: !!S.gifted, dex: S.dex, cages: S.cages, jars: S.jars, eggs: S.eggs, deco: S.deco, goal: S.goal || null, teamName: S.teamName || '', lastDp: S.lastDp ?? -1 });
+  store.set(SAVE_KEY, { ip, caught: S.caught, lastWin: !!S.lastWin, bugs: S.bugs, party: S.party, money: S.money | 0, items: S.items, day: S.day, tut: S.tut, tutDone: !!S.tutDone, gifted: !!S.gifted, dex: S.dex, cages: S.cages, jars: S.jars, eggs: S.eggs, deco: S.deco, goal: S.goal || null, teamName: S.teamName || '', lastDp: S.lastDp ?? -1, wx: S.wx || 'sun', st: S.st || {}, dm: S.dm || null, ach: S.ach || [], dexRw: S.dexRw || [], rank: S.rank || null, cw: S.cw ?? -1, cbest: S.cbest || null, trades: S.trades || null, freeDay: typeof S.freeDay === 'number' ? S.freeDay : null });
 }
 
 /* ---------- 배우 ---------- */
@@ -3572,7 +3626,7 @@ const natOpen = () => (S.ip || 0) > SCRIPT.findIndex((c) => c.t === 'chapter' &&
 function makeSpots(area) {
   const used = new Set();
   return AREA_SLOTS[area].map((sl) => {
-    const pool = sl.pool.filter((id) => !used.has(id)), id = pool[Math.floor(Math.random() * pool.length)] || sl.pool[0];
+    const pool = sl.pool.filter((id) => !used.has(id)), id = (pool.length ? pickW(pool, fsNight) : null) || sl.pool[0];
     used.add(id);
     const info = SPOTS.find((s) => s.id === id);
     return { ...info, area, sx: sl.sx, sy: sl.sy, ix: sl.ix, iy: sl.iy, sprite: sl.s };
@@ -3591,7 +3645,7 @@ let F = null, keys = {}, lastT = 0;
 
 function startField(free, area = 'forest') {
   const st = AREAS[area].start;
-  F = { area, spots: free ? makeSpots(area) : null, x: st[0], y: st[1], tx: null, ty: null, dir: 1, ex: 560, ey: 615, near: null, moved: false, jx: 0, jy: 0, free: !!free, got: [] };
+  F = { area, night: !!(free && fsNight), spots: free ? makeSpots(area) : null, x: st[0], y: st[1], tx: null, ty: null, dir: 1, ex: 560, ey: 615, near: null, moved: false, jx: 0, jy: 0, free: !!free, got: [] };
   S.mode = 'field'; S.modal = false; save();
   L.ov.innerHTML = '';
   setScene(area);
@@ -3617,7 +3671,7 @@ function renderFieldHud() {
   const slots = [0, 1, 2, 3].slice(0, F.free ? 4 : 3).map((i) => `<span class="f-slot">${got[i] ? bugSvg(got[i]) : ''}</span>`).join('');
   const hint = F.moved ? '반짝이는 곳에 다가가서 <b>조사</b>를 눌러 주세요'
     : COARSE ? '가고 싶은 곳을 터치하면 걸어가요 · 누른 채로 끌면 손가락을 따라가요' : '화면을 누른 곳으로 이동해요 · 방향키/WASD도 쓸 수 있어요';
-  L.hud.innerHTML = `<div class="place-chip"><small>${AREAS[F.area].chip[0]}</small><b>${AREAS[F.area].chip[1]}</b></div>
+  L.hud.innerHTML = `${F.free ? wxOverlay(F.night) : ''}<div class="place-chip"><small>${F.free ? `${worldLabel()} · ${F.night ? '🌙 밤' : '🌞 낮'}` : AREAS[F.area].chip[0]}</small><b>${AREAS[F.area].chip[1]}</b></div>
 ${F.search ? `<div class="f-count clue-count">🔍 ${F.search.title} · 단서 ${got.length} / ${F.search.need}</div>` : `<div class="f-count">${F.free ? `오늘 채집 ${got.length}` : `채집 ${Math.min(got.length, 3)}/3`} ${slots}</div>
 ${F.free ? '<button type="button" class="btn field-exit" id="exitBtn">← 메인 화면</button>' : ''}`}
 <div class="f-hint" id="fHint">${hint}</div>
@@ -3780,10 +3834,11 @@ function endEncounter(caught) {
   if (caught) {
     ensureCages();
     const before = (S.dex && S.dex[sp.id] && S.dex[sp.id].caught) || 0;
-    const rare = !!RARE[sp.id] && Math.random() < Math.min(.35, .03 + before * .05);
+    const rare = !!RARE[sp.id] && Math.random() < Math.min(.4, .03 + before * .05 + (F.night ? .04 : 0));
     nb = newInsect(sp.id, F.free ? 1 + Math.floor(Math.random() * 3) : 3, { sex, rare });
     addBug(nb); E_first = markCaught(sp.id, nb);
     if (F.free) F.got.push(sp.id); else S.caught.push(sp.id);
+    bump('catch'); if (F.night) bump('night'); if (rare) bump('rare');
     save();
   }
   renderBugs(); renderFieldHud(); placeField();
@@ -3884,7 +3939,7 @@ function showCatchCard(sp, nb, story) {
   AU.sfx('catch');
   L.ov.innerHTML = `<div class="ov catch"><div class="catch-card" role="dialog" aria-label="${sp.name} 채집">
 ${nb.rare ? `<div class="rare-banner">★ 레어 개체 · ${RARE[sp.id].n} ★</div>` : ''}<div class="catch-bug${nb.rare ? ' rare' : ''}">${idleSvg(sp.id, vk(nb), 'width="480" height="300"')}</div>
-<span class="type">${sp.type} 계통 · ${SP[sp.id].hab} · ${nb.sex === 'f' ? '♀ 암컷' : '♂ 수컷'} · Lv.${nb.lv}</span><h2>${sp.obj} 잡았어요!</h2><p class="where" style="color:${gradeWord(nb)[1] === '#C9D3E2' ? '#4A4A52' : '#2E7D4F'}">몸길이 ${nb.mm}mm · ${gradeWord(nb)[0]}</p>
+<span class="type">${sp.type} 계통 · ${SP[sp.id].hab} · ${nb.sex === 'f' ? '♀ 암컷' : '♂ 수컷'} · Lv.${nb.lv}</span><h2>${sp.obj} 잡았어요!</h2><p class="where" style="color:${gradeWord(nb)[1] === '#C9D3E2' ? '#4A4A52' : '#2E7D4F'}">몸길이 ${nb.mm}mm · ${gradeWord(nb)[0]} · 특성 ${(TRAITS[nb.tr] || {}).n || ''}</p>
 <p class="where">${E_first ? '<b style="color:#C8232C">도감에 새로 기록됐어요!</b> · ' : ''}${sp.place}에서 발견했어요 · 사육통에 넣었어요</p><p class="fact">${nb.rare ? RARE[sp.id].d + ' 특별한 기술 <b>' + RARE[sp.id].e.n + '</b>을(를) 쓸 수 있어요!' : sp.fact}</p>
 <button type="button" id="keepBtn">사육통에 넣기</button></div></div>`;
   $('#keepBtn').addEventListener('click', (e) => {
@@ -4302,7 +4357,8 @@ let B = null;
 function calcStats(inst) {
   const s = SP[inst.id], b = inst.bonus || {}, g = inst.g || {}, lv = inst.lv || 1, lvF = 1 + .05 * (lv - 1);
   const fm = inst.sex === 'f' ? { ...FEM_DEF, ...(FEM[inst.id] || {}) } : {};
-  const v = (k) => s[k] * (fm[k] || 1) * gMul(g[k]) * (inst.rare && RARE[inst.id] ? RARE_MUL : 1) * (inst.awake ? AWAKE_MUL : 1);
+  const trm = (TRAITS[inst.tr] || {}).m || {}, hdm = inst.held === 'wing' ? { spd: 1.15 } : {};
+  const v = (k) => s[k] * (fm[k] || 1) * gMul(g[k]) * (inst.rare && RARE[inst.id] ? RARE_MUL : 1) * (inst.awake ? AWAKE_MUL : 1) * (trm[k] || 1) * (hdm[k] || 1);
   const c = inst.uid && S.cages ? cageOf(inst.uid) : null;
   const md = c && subFit(c, inst) && SUBS[c.sub].mod ? SUBS[c.sub].mod : {};
   return {
@@ -4311,7 +4367,7 @@ function calcStats(inst) {
     atk: Math.round(v('atk') * lvF + (b.atk || 0) + (md.atk || 0)), def: Math.round(v('def') * lvF + (b.def || 0) + (md.def || 0)),
     spa: Math.round(v('spa') * lvF + (b.spa || 0) + (md.spa || 0)), sdf: Math.round(v('sdf') * lvF + (b.sdf || 0) + (md.sdf || 0)),
     spd: Math.round(v('spd') * lvF + (b.spd || 0) + (md.spd || 0)),
-    grit: Math.max(0, Math.min(130, Math.round(v('grit') + (lv - 1) * 2 + (b.grit || 0) + (c ? CAGE[c.size].grit : 0) - (inst.gritLoss || 0))))
+    grit: Math.max(0, Math.min(130, Math.round(v('grit') + (lv - 1) * 2 + (b.grit || 0) + ((TRAITS[inst.tr] || {}).grit || 0) + (c ? CAGE[c.size].grit : 0) - (inst.gritLoss || 0))))
   };
 }
 function playerTeam() {
@@ -4334,7 +4390,7 @@ function startBattle(done, oppKey) {
   AU.play('battle');
   B = { done, opp, practice: !!oppKey, turn: 1, over: false, phase: 'intro', hint: {}, used: false, stop: 0, clock: 0, v: [mkV(0), mkV(1)],
     sides: [
-      { name: '최강찬', sub: '세온중 1학년', team: playerTeam().map(mkUnit), active: 0, look: CH.kc.look },
+      { name: opp.tag ? `최강찬 & ${CH[opp.tag.who].name}` : '최강찬', sub: opp.tag ? '태그 팀' : '세온중 1학년', team: opp.tag ? (() => { const mine = playerTeam().slice(0, 2).map(mkUnit), al = opp.tag.team.map((id) => { const u = mkUnit({ id, lv: Math.max(1, avgLv), g: {}, bonus: {} }); u.en = u.enMax; u.ally = opp.tag.who; return u; }); return [mine[0], al[0], mine[1], al[1]].filter(Boolean); })() : playerTeam().map(mkUnit), active: 0, look: CH.kc.look },
       { name: opp.name, sub: opp.sub, team: opp.team.map((id, ti) => mkUnit({ id, rare: !!(opp.rare && opp.rare[ti]), lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: {} })), active: 0, look: opp.look || CH[opp.who].look }
     ] };
   B.sides.forEach((sd) => { sd.team[0].ultFrom = 2; });
@@ -4355,6 +4411,7 @@ function startBattle(done, oppKey) {
     if (!B) return;
     B.phase = 'choose';
     toast(B.opp.line ? `${B.opp.name}: “${B.opp.line}”` : '이번 턴에 할 행동을 골라 주세요. 상성 표시도 함께 확인해 보세요.');
+    allyTurn();
   }, 1000);
 }
 function skDesc(sk) {
@@ -4371,7 +4428,7 @@ function skDesc(sk) {
 function battleHtml() {
   const P = B.sides[0], O = B.sides[1];
   const face = (look, f) => `<div class="b-face">${chibi(look, f)}</div>`;
-  const pips = (i) => `<div class="pips" id="pips${i}">${[0, 1, 2].map(() => `<span class="pip${i ? ' r' : ''}"></span>`).join('')}</div>`;
+  const pips = (i) => `<div class="pips" id="pips${i}">${B.sides[i].team.map(() => `<span class="pip${i ? ' r' : ''}"></span>`).join('')}</div>`;
   const plates = [0, 1].map((i) => `<div class="plate" id="pl${i}" style="left:${POS[i].plate[0]}px;top:${POS[i].plate[1]}px"><div class="nm"><span id="pn${i}"></span><span><span class="tchip" id="pk${i}"></span> <span class="tchip" id="pt${i}"></span></span></div><div class="hp"><i id="ph${i}"></i><span class="hpv" id="phn${i}"></span></div><div class="sts" id="ps${i}"></div></div>`).join('');
   const units = [0, 1].map((i) => `<div class="b-unit" id="u${i}"><div class="b-move"><div class="b-img"></div></div></div>`).join('');
   const sk = ['a', 'q', 'w', 'e'].map((k) => `<button type="button" class="sk" id="sk-${k}" data-quiet><span class="k">${k.toUpperCase()}</span><span class="n" id="skn-${k}"></span><span class="c" id="skc-${k}"></span><span class="d" id="skx-${k}"></span><span class="cd" id="skd-${k}" hidden></span></button>`).join('');
@@ -4398,7 +4455,8 @@ function bindBattle() {
   ['a', 'q', 'w', 'e', 'r'].forEach((k) => $('#sk-' + k).addEventListener('pointerdown', (e) => { e.stopPropagation(); AU.init(); trySkill(k); }));
   $('#bPause').addEventListener('click', (e) => { e.stopPropagation(); openMenu(); });
   $('#bChart').addEventListener('click', (e) => { e.stopPropagation(); showTypeChart(); });
-  $('#bCards').innerHTML = B.sides[0].team.map((u, i) => `<div class="b-card" id="bc${i}"><div class="top"><span class="slot">${i + 1}</span><span class="bcs" id="bcs${i}">대기</span><span class="lvt">Lv.${u.lv}</span></div><div class="art">${bugSvg(u.id, '', vk(u.inst))}<span class="mt" id="bcm${i}"></span></div><b class="bn">${u.s.rare ? '★' : ''}${u.inst && u.inst.awake ? '✦' : ''}${u.s.name}${u.sex === 'f' ? '♀' : '♂'}</b><div class="hp bar2"><i id="bch${i}"></i><span id="bchn${i}"></span></div><div class="en2"><i id="bcen${i}"></i><span id="bcenn${i}"></span></div><button type="button" id="bcb${i}" data-quiet>교체</button></div>`).join('');
+  $('#bCards').classList.toggle('tag4', B.sides[0].team.length > 3);
+  $('#bCards').innerHTML = B.sides[0].team.map((u, i) => `<div class="b-card" id="bc${i}"><div class="top"><span class="slot">${i + 1}</span><span class="bcs" id="bcs${i}">대기</span><span class="lvt">Lv.${u.lv}</span></div><div class="art">${bugSvg(u.id, '', vk(u.inst))}<span class="mt" id="bcm${i}"></span></div><b class="bn">${u.s.rare ? '★' : ''}${u.inst && u.inst.awake ? '✦' : ''}${u.s.name}${u.sex === 'f' ? '♀' : '♂'}${u.ally ? `<i class="ally">${CH[u.ally].name}의 곤충</i>` : ''}</b><div class="hp bar2"><i id="bch${i}"></i><span id="bchn${i}"></span></div><div class="en2"><i id="bcen${i}"></i><span id="bcenn${i}"></span></div><button type="button" id="bcb${i}" data-quiet>교체</button></div>`).join('');
   B.sides[0].team.forEach((u, i) => $('#bcb' + i).addEventListener('pointerdown', (e) => { e.stopPropagation(); AU.init(); command({ kind: 'swap', idx: i }); }));
 }
 function drawUnit(i) {
@@ -4425,6 +4483,7 @@ const canUse = (i, k) => skState(i, k).s === 'ok';
 const canSwap = (i, idx) => { const sd = B.sides[i]; return idx !== sd.active && !!sd.team[idx] && sd.team[idx].alive && sd.team[sd.active].alive; };
 function command(cmd) {
   if (!B || B.phase !== 'choose' || S.paused || B.over) return;
+  if (cmd.kind !== 'swap' && !cmd.auto && B.sides[0].team[B.sides[0].active].ally) return;
   if (cmd.kind === 'skill' && !canUse(0, cmd.k)) return;
   if (cmd.kind === 'swap' && !canSwap(0, cmd.idx)) return;
   if (cmd.kind === 'skill') B.used = true;
@@ -4482,7 +4541,7 @@ async function endOfTurn() {
   for (let i = 0; i < 2; i++) {
     const sd = B.sides[i], u = sd.team[sd.active];
     if (u.alive && u.st.poison > 0) {
-      u.st.poison -= 1; AU.sfx('poison'); hurt(i, Math.round(u.st.pd * DMG), { poison: true });
+      u.st.poison -= 1; AU.sfx('poison'); hurt(i, Math.round(u.st.pd * DMG * (u.inst && u.inst.tr === 'hardy' ? .5 : 1)), { poison: true });
       await wait(550); if (!B || B.over) return;
     }
   }
@@ -4496,7 +4555,7 @@ async function endOfTurn() {
     if (u.alive && !u.gSurge && u.en < 35 && Math.random() < u.stat.grit / 220) { u.gSurge = true; u.en = Math.min(u.enMax, u.en + 45); float(i, '근성! 기력 +45', 'heal', 50); AU.sfx('perfect'); if (i === 0) toast(`${u.s.name}${josaIGa(u.s.name)} 근성으로 기력을 끌어모았어요!`); }
   }
   for (const sd of B.sides) {
-    sd.team.forEach((tu, j) => { if (tu.alive) tu.en = Math.min(tu.enMax, tu.en + (j === sd.active ? 20 : 10)); });
+    sd.team.forEach((tu, j) => { if (tu.alive) tu.en = Math.min(tu.enMax, tu.en + (j === sd.active ? 20 + (tu.inst && tu.inst.held === 'cap' ? 8 : 0) : 10)); });
     for (const tu of sd.team) {
       for (const k of ['q', 'w', 'e', 'r']) tu.cd[k] = Math.max(0, tu.cd[k] - 1);
       tu.st.guard = Math.max(0, tu.st.guard - 1); tu.st.dodge = Math.max(0, tu.st.dodge - 1);
@@ -4512,7 +4571,7 @@ async function endOfTurn() {
   }
   if (!B || B.over) return;
   B.turn += 1; B.phase = 'choose';
-  hints();
+  hints(); allyTurn();
 }
 function aiChoose() {
   const O = B.sides[1], P = B.sides[0], u = O.team[O.active], pu = P.team[P.active];
@@ -4534,14 +4593,16 @@ function deal(i, sk, o = sk) {
   const atk = sk.cat === 'spec' ? a.stat.spa : a.stat.atk, def = sk.cat === 'spec' ? d.stat.sdf : d.stat.def;
   let dmg = sk.pow * DMG * (atk / def) * m * (0.92 + Math.random() * 0.16);
   // 근성: 가끔 치명타
-  const crit = Math.random() < a.stat.grit / 500;
+  const crit = Math.random() < a.stat.grit / 500 + (a.inst && a.inst.tr === 'lucky' ? .08 : 0) + (a.inst && a.inst.held === 'charm' ? .07 : 0);
   if (crit) { dmg *= 1.5; float(1 - i, '급소!', 'crit', 78); }
   if (d.st.guard > 0) dmg *= .5;
+  if (a.inst && ((a.inst.held === 'horn' && sk.cat !== 'spec') || (a.inst.held === 'pollen' && sk.cat === 'spec'))) dmg *= 1.15;
+  if (d.inst && d.inst.held === 'shell') dmg *= .88;
   if (d.s.hab === '육상') dmg *= .9;
   dmg = Math.max(1, Math.round(dmg));
   hurt(1 - i, dmg, { m });
   if (sk.drain && a.alive) { const hp = Math.round(dmg * sk.drain); a.hp = Math.min(a.max, a.hp + hp); float(i, '+' + hp, 'heal', 30); }
-  if (o.stun && d.alive && Math.random() < (o.stunP ?? 1)) { d.st.stun = 1; float(1 - i, '기절!', 'small', 36); }
+  if (o.stun && d.alive && Math.random() < (o.stunP ?? 1) * (d.inst && d.inst.tr === 'hardy' ? .5 : 1)) { d.st.stun = 1; float(1 - i, '기절!', 'small', 36); }
   if (o.poison && d.alive) { d.st.poison = o.poison[1]; d.st.pd = o.poison[0]; AU.sfx('poison'); float(1 - i, '독에 걸렸어요!', 'small', 60); }
   return true;
 }
@@ -4550,7 +4611,9 @@ function hurt(side, dmg, o = {}) {
   if (!u.alive) return;
   // 근성: 쓰러질 공격을 한 번 버텨요
   if (dmg >= u.hp && u.hp > 1 && !u.gHold && Math.random() < u.stat.grit / 150) { u.gHold = true; dmg = u.hp - 1; float(side, '근성으로 버텼다!', 'heal', 70); if (side === 0) toast(`${u.s.name}${josaIGa(u.s.name)} 근성으로 버텼어요!`); }
+  if (dmg >= u.hp && u.hp > 1 && !u.bandUsed && u.inst && u.inst.held === 'band') { u.bandUsed = true; dmg = u.hp - 1; float(side, '근성 머리띠로 버텼다!', 'heal', 70); }
   u.hp = Math.max(0, u.hp - dmg);
+  if (u.hp > 0 && u.hp < u.max / 2 && !u.flaskUsed && u.inst && u.inst.held === 'flask') { u.flaskUsed = true; const hh = Math.round(u.max * .3); u.hp = Math.min(u.max, u.hp + hh); setTimeout(() => { if (B) { float(side, `수액 물병 +${hh}`, 'heal', 90); AU.sfx('heal'); } }, 350); }
   float(side, '-' + dmg, o.poison ? 'poison' : o.m > 1 ? 'crit' : '');
   if (o.m > 1) float(side, '효과가 좋아요!', 'small', 44); else if (o.m < 1) float(side, '효과가 별로예요…', 'small', 44);
   if (!o.poison) { AU.sfx(o.m > 1 ? 'crit' : 'hit'); const im = $('#u' + side + ' .b-img'); im.classList.remove('hit'); void im.offsetWidth; im.classList.add('hit'); }
@@ -4835,7 +4898,7 @@ function bUI() {
   $('#bEn').style.width = (en / em * 100) + '%'; setT($('#bEnN'), `${en} / ${em}`);
   setH($('#bEnMk'), ['q', 'w', 'e', 'r'].map((k) => `<span class="${en >= u.s[k].cost ? 'ok' : ''}${k === 'r' ? ' r' : ''}" style="left:${Math.min(100, u.s[k].cost / em * 100)}%"><i></i>${k.toUpperCase()}</span>`).join(''));
   const stunned = u.alive && u.st.stun > 0;
-  setH($('#bAsk'), B.over ? '경기 종료' : !choosing ? `<span style="color:#FFD23F">⏳ 턴 ${B.turn} · 서로 행동하는 중이에요…</span>` : stunned ? `<span style="color:#FF8A7A">${u.s.name}${josaIGa(u.s.name)} 기절해서 이번 턴은 쉬어요 · 교체는 할 수 있어요</span>` : `턴 ${B.turn} · ${u.s.name}에게 무엇을 시킬까요?`);
+  setH($('#bAsk'), B.over ? '경기 종료' : !choosing ? `<span style="color:#FFD23F">⏳ 턴 ${B.turn} · 서로 행동하는 중이에요…</span>` : u.ally ? `<span style="color:#FFD23F">🤝 ${CH[u.ally].name}${josaIGa(CH[u.ally].name)} 지휘하는 중 · 교체 버튼으로 태그할 수 있어요</span>` : stunned ? `<span style="color:#FF8A7A">${u.s.name}${josaIGa(u.s.name)} 기절해서 이번 턴은 쉬어요 · 교체는 할 수 있어요</span>` : `턴 ${B.turn} · ${u.s.name}에게 무엇을 시킬까요?`);
   // 기술 버튼
   for (const k of ['a', 'q', 'w', 'e', 'r']) {
     const sk = u.s[k], ss = skState(0, k), btn = $('#sk-' + k);
@@ -4871,13 +4934,14 @@ function finish(w, why) {
   B.over = true; B.phase = 'over'; S.lastWin = w === 0;
   AU.stop(); AU.sfx(w === 0 ? 'win' : 'lose');
   B.sides[0].team.forEach((u) => { if (u.inst.uid) u.inst.en = Math.max(0, Math.floor(u.en)); });
+  if (w === 0) bump('win');
   const res = applyBattleResult(w === 0, B.practice, B.opp.prize);
   setTimeout(() => {
     if (!B) return;
     if (w === 0) AU.play('victory');
     const alive = B.sides[0].team.filter((u) => u.alive).length;
     const fx = document.createElement('div'); fx.className = 'ov result';
-    fx.innerHTML = `<div class="panel" role="dialog" aria-label="배틀 결과"><span class="chip" style="align-self:center;padding:4px 12px;background:#111114;color:#fff;font-weight:900">${why}</span><h2>${w === 0 ? '승리!' : '패배…'}</h2><p>남은 곤충 ${alive} / 3 · ${B.turn}턴</p>${res.map((t) => `<p class="res">${t}</p>`).join('')}<button type="button" class="wide primary" id="bDone">계속하기</button></div>`;
+    fx.innerHTML = `<div class="panel" role="dialog" aria-label="배틀 결과"><span class="chip" style="align-self:center;padding:4px 12px;background:#111114;color:#fff;font-weight:900">${why}</span><h2>${w === 0 ? '승리!' : '패배…'}</h2><p>남은 곤충 ${alive} / ${B.sides[0].team.length} · ${B.turn}턴</p>${res.map((t) => `<p class="res">${t}</p>`).join('')}<button type="button" class="wide primary" id="bDone">계속하기</button></div>`;
     $('#battle').appendChild(fx);
     $('#bDone').addEventListener('click', () => {
       const d = B.done; B = null; L.ov.innerHTML = ''; S.mode = 'story'; $('#menuBtn').hidden = false;
@@ -5062,16 +5126,21 @@ const statName = (k) => STAT_NAMES.find((x) => x[0] === k)[1];
 const sexMark = (b) => (b && b.sex === 'f' ? '♀' : '♂');
 const sexCol = (b) => (b && b.sex === 'f' ? '#FF8AB8' : '#6AB8FF');
 const gAvg = (b) => { const v = Object.values(b.g || {}); return v.length ? v.reduce((a, x) => a + x, 0) / v.length : 0; };
-const sizeOf = (b) => Math.round(SP[b.id].mm * (b.sex === 'f' ? ((FEM[b.id] || {}).mm || 1) : 1) * (1 + gAvg(b) * .07) * (b.rare ? 1.06 : 1) * 10) / 10;
+const sizeOf = (b) => Math.round(SP[b.id].mm * (b.sex === 'f' ? ((FEM[b.id] || {}).mm || 1) : 1) * (1 + gAvg(b) * .07) * (b.rare ? 1.06 : 1) * (b.sz || 1) * (b.tr === 'giant' ? 1.05 : 1) * 10) / 10;
 function gradeWord(b) {
   const a = gAvg(b);
   return a >= 1 ? ['최상급 개체', '#4AE0C0'] : a >= .35 ? ['우수한 개체', '#9AE06A'] : a > -.35 ? ['평범한 개체', '#C9D3E2'] : a > -1 ? ['아쉬운 개체', '#FFA060'] : ['허약한 개체', '#FF6B5A'];
 }
 function newInsect(id, lv = 1, o = {}) {
-  const g = {};
-  for (const [k] of STAT_NAMES) g[k] = rollGrade(o.q || 0);
+  const g = {}, par = o.par;
+  for (const [k] of STAT_NAMES) {
+    if (par && par.g[k] && Math.random() < .6) { let v = par.g[k][Math.random() < .5 ? 0 : 1]; if (Math.random() < .25) v += Math.random() < .5 + (o.q || 0) * .12 ? 1 : -1; g[k] = Math.max(-2, Math.min(2, v)); }
+    else g[k] = rollGrade(o.q || 0);
+  }
   const b = { uid: rid(), id, sex: o.sex || (Math.random() < .55 ? 'm' : 'f'), lv, xp: 0, g, bonus: { hp: 0, en: 0, atk: 0, def: 0, spa: 0, sdf: 0, spd: 0, grit: 0 }, born: o.born || 'wild', day: S.day || 1 };
   if (o.rare && RARE[id]) b.rare = true;
+  b.tr = par && par.tr.length && Math.random() < .6 ? par.tr[Math.floor(Math.random() * par.tr.length)] : rollTrait();
+  b.sz = Math.round(Math.max(.85, Math.min(1.35, par ? par.sz * (.97 + Math.random() * .07) + Math.max(0, o.q || 0) * .012 : .95 + Math.random() * .09)) * 1000) / 1000;
   b.mm = sizeOf(b); b.en = calcStats(b).en;
   return b;
 }
@@ -5083,6 +5152,7 @@ function cleanBug(b) {
   for (const k of ['lay', 'rest', 'gritLoss']) if (b[k] > 0) n[k] = b[k] | 0;
   if (b.rare && RARE[n.id]) n.rare = true;
   if (b.awake) n.awake = true;
+  n.tr = TRAITS[b.tr] ? b.tr : rollTrait(); n.sz = typeof b.sz === 'number' ? Math.max(.85, Math.min(1.35, b.sz)) : 1; if (HELD[b.held]) n.held = b.held;
   if (b.boost) n.boost = true; if (typeof b.mateQ === 'number') n.mateQ = b.mateQ;
   n.mm = typeof b.mm === 'number' ? b.mm : sizeOf(n);
   const mx = calcStats(n).en;
@@ -5134,7 +5204,7 @@ function addBug(b) {
 /* 풀어주기 연출: 하늘로 날아가거나, 물속으로 헤엄쳐 가거나, 숲으로 걸어가요 */
 function showAwaken(b, done, story) {
   const s = SP[b.id], nm = b.rare && RARE[b.id] ? RARE[b.id].n : s.name, before = calcStats(b);
-  b.awake = true; const after = calcStats(b);
+  b.awake = true; bump('awake'); const after = calcStats(b);
   b.en = after.en; save();
   const el = document.createElement('div'); el.className = 'awk-ov';
   const rows = [['hp', '체력'], ['en', '기력'], ['atk', '공격'], ['def', '방어'], ['spa', '특수공격'], ['sdf', '특수방어'], ['spd', '스피드'], ['grit', '근성']].map(([k, n]) => `<span>${n} ${before[k]} → <b>${after[k]}</b></span>`).join('');
@@ -5184,12 +5254,14 @@ function applyBattleResult(win, practice, prize) {
 /* 하루가 지날 때: 기력 회복, 교배·산란, 유충병 성장 */
 function layEggs(f, ev) {
   const n = 2 + (Math.random() < .5 ? 1 : 0) + (f.boost ? 1 : 0);
-  for (let i = 0; i < n; i++) S.eggs.push({ id: rid(), sp: f.id, q: f.mateQ || 0, day: S.day });
+  for (let i = 0; i < n; i++) S.eggs.push({ id: rid(), sp: f.id, q: f.mateQ || 0, day: S.day, ...(f.mateP ? { par: f.mateP } : {}) });
   ev.push(`🥚 ${SP[f.id].name}♀이(가) 알을 ${n}개 낳았어요! 사육장의 유충병 탭에서 유충병에 넣어 주세요.`);
-  f.boost = false; f.rest = 2; delete f.mateQ;
+  f.boost = false; f.rest = 2; delete f.mateQ; delete f.mateP;
 }
 function dayPass() {
   const ev = [];
+  S.wx = rollWx(); bump('days');
+  ev.push(`${SEASONS[seasonIdx()][1]} ${curMonth()}월 ${SEASONS[seasonIdx()][0]} · 오늘 날씨는 ${WX[S.wx][1]} ${WX[S.wx][0]}${S.wx === 'rain' ? ' · 물가 곤충과 달팽이가 많이 나와요' : S.wx === 'snow' ? ' · 추위에 강한 곤충만 돌아다녀요' : ''}`);
   for (const c of S.cages) {
     const bs = c.occ.map(bugBy).filter(Boolean);
     c.age = (c.age || 0) + 1;
@@ -5216,7 +5288,7 @@ function dayPass() {
     if (f && f.lay > 0) { f.lay -= 1; if (!f.lay) layEggs(f, ev); continue; }
     if (f && f.rest > 0) { f.rest -= 1; continue; }
     if (f && m && f.id === m.id) {
-      f.lay = f.boost ? 1 : 2; f.mateQ = (gAvg(f) + gAvg(m)) * .5;
+      f.lay = f.boost ? 1 : 2; f.mateQ = (gAvg(f) + gAvg(m)) * .5; f.mateP = mateParent(f, m);
       ev.push(`💕 ${SP[f.id].name} 한 쌍이 교배했어요! ${f.lay}일 뒤에 알을 낳아요.`);
     }
   }
@@ -5236,11 +5308,11 @@ function emerge(j) {
   const e = j.egg;
   if (!freeCage()) return [`✨ ${SP[e.sp].name}이(가) 어른벌레가 됐지만 빈 사육통이 없어요. 사육통을 비우고 유충병 탭에서 꺼내 주세요.`];
   const mb = e.med === 'kinshi' ? 1 : e.med === 'g1' ? .6 : 0;
-  const b = newInsect(e.sp, 1, { q: (e.q || 0) + JAR[j.size].q + mb, born: 'bred' });
+  const b = newInsect(e.sp, 1, { q: (e.q || 0) + JAR[j.size].q + mb, born: 'bred', par: cleanPar(e.par) });
   if (mb) { b.mm = Math.round(b.mm * (e.med === 'kinshi' ? 1.1 : 1.06) * 10) / 10; }
-  addBug(b); markCaught(b.id, b);
+  addBug(b); markCaught(b.id, b); bump('breed');
   j.egg = null;
-  return [`✨ 새 ${SP[b.id].name}${sexMark(b)}이(가) 태어났어요! 몸길이 ${b.mm}mm · ${gradeWord(b)[0]}`];
+  return [`✨ 새 ${SP[b.id].name}${sexMark(b)}이(가) 태어났어요! 몸길이 ${b.mm}mm · ${gradeWord(b)[0]} · 특성 ${TRAITS[b.tr].n}`];
 }
 
 /* 장소 그림 */
@@ -5327,10 +5399,11 @@ function renderHub() {
   const todo = S.tut && !S.tutDone ? `<div class="side-box"><h3>오늘의 할 일 · 새롬 선배</h3>${TODO.map(([k, n]) => `<div class="todo${S.tut[k] ? ' done' : ''}"><i>${S.tut[k] ? '✓' : ''}</i>${n}</div>`).join('')}</div>` : '';
   const party = `<div class="side-box"><h3>내 팀</h3>${partyInsects().map((b) => { const st = calcStats(b); return `<div class="pm">${idleSvg(b.id, vk(b))}<div><span><b style="color:${sexCol(b)}">${sexMark(b)}</b> ${SP[b.id].name}${b.rare ? ' <b class="rs">★</b>' : ''}${b.awake ? ' <b class="aw">✦</b>' : ''} Lv.${b.lv}</span><span style="color:#9AA3B5;font-weight:700">체력 ${st.hp} · 기력 ${b.en}/${st.en}</span><span class="mbar"><i style="width:${b.en / st.en * 100}%;background:#4FD1FF"></i></span></div></div>`; }).join('')}</div>`;
   hubL.innerHTML = `<div class="hub-bg">${hubBg()}</div>${tiles}
-<div class="hub-top"><div class="chipbox"><small>세온중 1학년 · 곤충 배틀부</small><b>${S.day || 1}일째 · 방과 후</b></div>${S.goal ? `<div class="chipbox goal"><small>${S.goal.name}</small><b>${S.goal.day - (S.day || 1) > 0 ? 'D-' + (S.goal.day - (S.day || 1)) : '오늘이에요!'}</b></div>` : ''}<div class="chipbox"><small>가진 돈</small><b style="color:#FFD23F">${(S.money || 0).toLocaleString()}원</b></div><button type="button" class="chipbox dexbtn" id="dexBtn"><small>곤충 도감</small><b>${dexCount().caught} / ${DEX.length}</b></button></div>
+<div class="hub-top"><div class="chipbox"><small>세온중 1학년 · 곤충 배틀부</small><b>${S.day || 1}일째 · ${curMonth()}월 ${SEASONS[seasonIdx()][0]} · ${WX[wxNow()][1]}${WX[wxNow()][0]}</b></div>${S.goal ? `<div class="chipbox goal"><small>${S.goal.name}</small><b>${S.goal.day - (S.day || 1) > 0 ? 'D-' + (S.goal.day - (S.day || 1)) : '오늘이에요!'}</b></div>` : ''}<div class="chipbox"><small>가진 돈</small><b style="color:#FFD23F">${(S.money || 0).toLocaleString()}원</b></div><button type="button" class="chipbox dexbtn" id="dexBtn"><small>곤충 도감</small><b>${dexCount().caught} / ${DEX.length}</b></button></div>
 <div class="hub-side">${todo}${party}</div>
 <div class="hub-tip">${S.tut && !S.tutDone ? '빨간 <b>할 일</b> 표시가 있는 곳부터 차례로 가 보세요' : '가고 싶은 곳을 눌러 주세요'}</div>`;
   $('#dexBtn').addEventListener('click', (e) => { e.stopPropagation(); if (S.talking || S.paused || S.mode !== 'hub') return; openDex(); });
+  if (S.tutDone) { const ht = hubL.querySelector('.hub-top'), cnt = claimables(), mb = document.createElement('button'); mb.type = 'button'; mb.className = 'chipbox msnbtn'; mb.id = 'msnBtn'; mb.innerHTML = `<small>미션 · 업적</small><b>${cnt ? '보상 받기!' : '확인하기'}</b>${cnt ? `<span class="dot">${cnt}</span>` : ''}`; ht.appendChild(mb); mb.addEventListener('click', (e) => { e.stopPropagation(); if (S.talking || S.paused || S.mode !== 'hub') return; openMissions(); }); }
   hubL.querySelectorAll('.loc').forEach((b) => b.addEventListener('click', (e) => {
     e.stopPropagation();
     if (S.talking || S.paused || S.mode !== 'hub') return;
@@ -5384,7 +5457,7 @@ ICON.sub = (c) => `<svg viewBox="0 0 56 56" aria-hidden="true"><path d="M8 18 h4
 ICON.gear = (k) => `<svg viewBox="0 0 56 56" aria-hidden="true">${{ sheet: '<rect x="8" y="10" width="40" height="36" fill="#F4F4F4" stroke="#111114" stroke-width="3"/><path d="M8 18 H48 M8 26 H48 M8 34 H48 M16 10 V46 M24 10 V46 M32 10 V46 M40 10 V46" stroke="#B8C0C8" stroke-width="1.5"/>', feeder: '<path d="M6 40 L50 34 L50 46 L6 50 Z" fill="#8A6A44" stroke="#111114" stroke-width="3"/><ellipse cx="20" cy="40" rx="6" ry="3" fill="#E8A33A"/><ellipse cx="36" cy="38" rx="6" ry="3" fill="#E8A33A"/>', play: '<path d="M10 46 C18 30 30 34 34 20 C38 12 46 12 48 18" stroke="#6A4A2A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M10 46 C18 30 30 34 34 20" stroke="#111114" stroke-width="2" fill="none"/>', weed: '<path d="M18 50 C14 36 22 24 16 10 M28 50 C30 36 24 22 30 8 M38 50 C42 38 34 26 40 14" stroke="#3E8A3A" stroke-width="5" fill="none" stroke-linecap="round"/>', moss: '<ellipse cx="28" cy="38" rx="22" ry="10" fill="#6AB04A" stroke="#111114" stroke-width="3"/><circle cx="18" cy="34" r="5" fill="#8AD06A"/><circle cx="34" cy="32" r="6" fill="#8AD06A"/>', antimold: '<rect x="18" y="16" width="20" height="34" rx="4" fill="#4AB0E0" stroke="#111114" stroke-width="3"/><rect x="22" y="8" width="12" height="9" fill="#111114"/><path d="M34 10 L46 6" stroke="#111114" stroke-width="3"/><path d="M22 28 h12 M22 34 h12" stroke="#fff" stroke-width="2"/>' }[k]}</svg>`;
 const JP_TABS = [['jfood', '와이드 젤리'], ['jmeat', '고급 먹이'], ['jgear', '사육용품·배지'], ['jcage', '고급 방충케이스'], ['jdeco', '일본풍 꾸미기']];
 let shopJP = false;
-const SHOP_TABS = [['food', '먹이'], ['meat', '육식 곤충 먹이'], ['sub', '바닥재'], ['gear', '사육용품'], ['cage', '사육장'], ['jar', '유충병'], ['deco', '테라리움 꾸미기']];
+const SHOP_TABS = [['food', '먹이'], ['meat', '육식 곤충 먹이'], ['sub', '바닥재'], ['gear', '사육용품'], ['cage', '사육장'], ['jar', '유충병'], ['held', '지닌 도구'], ['deco', '테라리움 꾸미기']];
 let shopTab = 'food';
 function shopRows() {
   if (shopTab === 'jfood' || shopTab === 'jmeat') return Object.entries(ITEMS).filter(([, it]) => it.jp && it.cat === (shopTab === 'jfood' ? 'food' : 'meat')).map(([k, it]) => ({ k, kind: 'item', n: it.n, d: it.d, price: it.price, icon: it.cat === 'meat' ? ICON[k === 'gworm' ? 'worm' : 'crick'] : jar(it.c), own: `${S.items[k] || 0}개 있어요` }));
@@ -5397,6 +5470,7 @@ function shopRows() {
   if (shopTab === 'sub') return Object.entries(SUBS).filter(([, x]) => !x.jp).map(([k, x]) => ({ k: 'sub_' + k, kind: 'item', n: x.n, d: x.d, more: (() => { const ids = Object.keys(SP).filter((id) => x.fit(SP[id], id)); return ids.length === Object.keys(SP).length ? '<p class="fit-all">모든 곤충에게 잘 맞아요</p>' : `<details class="fitl"><summary>잘 맞는 곤충 ${ids.length}종 보기</summary><div>${ids.map((id) => SP[id].name).join(', ')}</div></details>`; })(), price: x.price, icon: ICON.sub(x.c), own: `${S.items['sub_' + k] || 0}개 있어요` }));
   if (shopTab === 'gear') return [...Object.entries(GEAR).filter(([, x]) => !x.jp).map(([k, x]) => ({ k: 'gear_' + k, kind: 'item', n: x.n, d: x.d, price: x.price, icon: ICON.gear(k), own: `${S.items['gear_' + k] || 0}개 있어요` })), { k: 'antimold', kind: 'item', n: ANTIMOLD.n, d: ANTIMOLD.d, price: ANTIMOLD.price, icon: ICON.gear('antimold'), own: `${S.items.antimold || 0}개 있어요` }];
   if (shopTab === 'cage') return Object.entries(CAGE).filter(([, c]) => !c.jp).map(([k, c], i) => ({ k, kind: 'cage', n: c.n, d: c.d + (c.cap > 1 ? ' (같은 종 한 쌍을 넣으면 교배해요)' : ''), price: c.price, icon: ICON.cage(i), own: `${S.cages.filter((x) => x.size === k).length}개 있어요` }));
+  if (shopTab === 'held') return Object.entries(HELD).map(([k, x]) => ({ k: 'held_' + k, kind: 'item', n: x.n, d: x.d + ' (사육장에서 곤충에게 지니게 해요)', price: x.price, icon: heldIcon(k), own: `${S.items['held_' + k] || 0}개 있어요` }));
   if (shopTab === 'jar') return Object.entries(JAR).map(([k, j], i) => ({ k, kind: 'jar', n: j.n, d: j.d, price: j.price, icon: ICON.jarb(i), own: `${S.jars.filter((x) => x.size === k).length}개 있어요` }));
   return Object.entries(DECO).filter(([, d]) => !d.jp).map(([k, d]) => ({ k, kind: 'deco', n: d.n, d: d.d, price: d.price, icon: ICON.deco(k), own: S.deco[k] ? '이미 꾸몄어요' : '', done: !!S.deco[k] }));
 }
@@ -5414,7 +5488,7 @@ function openShop(jp = false) {
 <div class="li"><span>사육용품·퇴치제</span><span>${[...Object.keys(GEAR).map((k) => 'gear_' + k), 'antimold'].reduce((a, k) => a + (S.items[k] || 0), 0)}개</span></div>${S.items.med_kinshi ? `<div class="li"><span>균사 배지</span><span>${S.items.med_kinshi}개</span></div>` : ''}
 <div class="li"><span>사육통 (빈 자리)</span><span>${S.cages.length}개 (${S.cages.filter((c) => !c.occ.length).length})</span></div>
 <div class="li"><span>유충병 (빈 병)</span><span>${S.jars.length}개 (${S.jars.filter((j) => !j.egg).length})</span></div>
-<div class="li"><span>알</span><span>${S.eggs.length}개</span></div></div></div>
+<div class="li"><span>알</span><span>${S.eggs.length}개</span></div>${Object.keys(HELD).filter((k) => S.items['held_' + k]).map((k) => `<div class="li"><span>${HELD[k].e} ${HELD[k].n}</span><span>${S.items['held_' + k]}개</span></div>`).join('')}</div></div>
 ${tutTip('buy', '처음이라면 <b>수액 젤리</b>나 <b>흑당 젤리</b>를 사 보세요. 기력을 채우면서 능력치도 1씩 올려 줘요. 사마귀 같은 육식 곤충은 <b>육식 곤충 먹이</b> 탭에서 사야 해요.')}`, () => (shopJP ? openJapan() : openHub()));
     root.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { shopTab = b.dataset.tab; AU.sfx('page'); draw(); }));
     root.querySelectorAll('[data-buy]').forEach((b) => b.addEventListener('click', () => {
@@ -5459,14 +5533,14 @@ function bugDetail(b) {
   const rows = STAT_NAMES.map(([k, n]) => { const gi = gInfo(b.g[k]); const max = STAT_MAX[k];
     return `<div class="st2"><span>${n}</span><b>${st[k]}</b><span class="mbar"><i style="width:${Math.min(100, st[k] / max * 100)}%;background:${STAT_COL[k]}"></i></span><span class="gr" style="color:${gi[1]}">${gi[0]}</span><span class="bn2">+${b.bonus[k] || 0}/${BONUS_MAX}${k === 'grit' && c ? ` · 사육장 ${CAGE[c.size].grit > 0 ? '+' : ''}${CAGE[c.size].grit}` : ''}</span></div>`; }).join('');
   return `<div class="hd-top"><div class="art${b.awake ? ' awk' : ''}">${idleSvg(b.id, vk(b), 'width="480" height="300"')}</div><div class="hd-info">
-<div class="hd-name"><b>${s.name}</b>${rareTag(b)}${awkTag(b)}<span class="sx" style="background:${sexCol(b)}">${b.sex === 'f' ? '♀ 암컷' : '♂ 수컷'}</span><span style="font-weight:900">Lv.${b.lv}</span></div>
+<div class="hd-name"><b>${s.name}</b>${rareTag(b)}${awkTag(b)}${trTag(b)}${heldTag(b)}<span class="sx" style="background:${sexCol(b)}">${b.sex === 'f' ? '♀ 암컷' : '♂ 수컷'}</span><span style="font-weight:900">Lv.${b.lv}</span></div>
 <div class="dx-chips">${typeChip(s.type)} ${kindChip(s.hab)}${s.big ? ' <span class="tchip" style="background:#6A4A2A;color:#fff">대형</span>' : ''}</div>
-<p class="hd-p">몸길이 <b>${b.mm}mm</b> · <b style="color:${gw[1]}">${gw[0]}</b></p>${b.rare && RARE[b.id] ? `<p class="hd-p" style="color:#FFD23F">★ 레어 개체 · 특별한 기술 <b>${RARE[b.id].e.n}</b></p>` : ''}
+<p class="hd-p">몸길이 <b>${b.mm}mm</b> (크기 점수 ${sizeScore(b)}점) · <b style="color:${gw[1]}">${gw[0]}</b> · 특성 <b title="${(TRAITS[b.tr] || {}).d || ''}">${(TRAITS[b.tr] || {}).n || '-'}</b> <small style="color:#9AA3B5">${(TRAITS[b.tr] || {}).d || ''}</small></p>${b.rare && RARE[b.id] ? `<p class="hd-p" style="color:#FFD23F">★ 레어 개체 · 특별한 기술 <b>${RARE[b.id].e.n}</b></p>` : ''}
 ${b.awake ? '<p class="hd-p awk-p">✦ 유대 각성 완료 · 모든 능력치 ×1.2</p>' : `<p class="hd-p" style="color:${canAwake(b) ? '#FFE070' : '#9AA3B5'}">유대 각성 조건 · Lv.20 (지금 ${b.lv}) · 근성 100 (지금 ${st.grit})${canAwake(b) ? ' → <b>각성할 수 있어요!</b>' : ''}</p>`}<p class="hd-p">${b.born === 'bred' ? '브리딩' : '야생'} · ${DIET_NAME[s.diet]}</p>${careNote(c, b).map((t) => `<p class="hd-p" style="color:${/맞지|곰팡이/.test(t) ? '#FF8A7A' : '#9AE06A'}">${t}</p>`).join('')}
 <div class="lbar">경험치<span class="mbar"><i style="width:${b.xp / XP_NEED(b.lv) * 100}%;background:#9AE06A"></i></span>${b.xp}/${XP_NEED(b.lv)}</div>
 <div class="lbar">기력<span class="mbar"><i style="width:${b.en / st.en * 100}%;background:#4FD1FF"></i></span>${b.en}/${st.en}</div></div></div>
 <div class="stats2">${rows}</div>
-<div class="acts"><button type="button" class="btn pri" id="hFeed">먹이 주기</button><button type="button" class="btn pri" id="hTrain">특훈</button>${canAwake(b) ? '<button type="button" class="btn pri awk-btn" id="hAwake">✦ 유대 각성!</button>' : ''}<button type="button" class="btn" id="hParty">${inParty ? '팀에서 빼기' : '팀에 넣기'}</button><button type="button" class="btn" id="hCare">사육통 관리</button><button type="button" class="btn" id="hMove">옮기기</button><button type="button" class="btn warn" id="hFree">풀어주기</button></div>`;
+<div class="acts"><button type="button" class="btn pri" id="hFeed">먹이 주기</button><button type="button" class="btn pri" id="hTrain">특훈</button><button type="button" class="btn" id="hHeld">지닌 도구</button>${canAwake(b) ? '<button type="button" class="btn pri awk-btn" id="hAwake">✦ 유대 각성!</button>' : ''}<button type="button" class="btn" id="hParty">${inParty ? '팀에서 빼기' : '팀에 넣기'}</button><button type="button" class="btn" id="hCare">사육통 관리</button><button type="button" class="btn" id="hMove">옮기기</button><button type="button" class="btn warn" id="hFree">풀어주기</button></div>`;
 }
 function openHab() {
   ensureBugs(); AU.play('home');
@@ -5513,6 +5587,7 @@ function bindCage(root, draw, armFree) {
     save(); draw();
   });
   $('#hMove').addEventListener('click', () => { habMove = b.uid; AU.sfx('page'); draw(); });
+  $('#hHeld').addEventListener('click', () => openHeld(b, draw));
   const hA = $('#hAwake'); if (hA) hA.addEventListener('click', () => showAwaken(b, () => draw()));
   $('#hCare').addEventListener('click', () => openCare(cageOf(b.uid), b, draw));
   $('#hFree').addEventListener('click', () => {
@@ -5570,10 +5645,11 @@ function feed(b, k, draw) {
   const msg = [];
   const cg = (cageOf(b.uid) || {}).gear || {}, fd = it.cat === 'food' ? (cg.wfeeder ? 2 : cg.feeder ? 1.5 : 1) : 1;
   if (fd > 1) msg.push(`${cg.wfeeder ? '와이드 먹이구' : '먹이목'} 효과 ${fd}배`);
-  if (it.en) { const before = b.en; b.en = Math.min(st.en, b.en + Math.round(it.en * fd)); msg.push(b.en > before ? `기력 +${b.en - before}` : '기력은 이미 가득해요'); }
+  if (it.en) { const before = b.en; b.en = Math.min(st.en, b.en + Math.round(it.en * fd * (b.tr === 'glutton' ? 1.5 : 1))); msg.push(b.en > before ? `기력 +${b.en - before}` : '기력은 이미 가득해요'); }
   if (it.up) { const k2 = it.up[Math.floor(Math.random() * it.up.length)], n2 = (it.upN || 1) + (fd > 1 && Math.random() < .5 ? 1 : 0); if (b.bonus[k2] < BONUS_MAX) { const r2 = Math.min(n2, BONUS_MAX - b.bonus[k2]); b.bonus[k2] += r2; msg.push(`${statName(k2)} +${r2}`); } else msg.push(`${statName(k2)}은(는) 이미 최대치예요`); }
   if (it.lay) { if (b.sex === 'f') { b.boost = true; msg.push('다음 산란이 빨라지고 알이 늘어나요'); } else msg.push('수컷이라 산란과는 상관이 없어요'); }
   if (S.tut) S.tut.feed = true;
+  bump('feed');
   save(); note(`${name}이(가) ${it.n}을(를) 먹었어요! ${msg.join(' · ')}`, 'heal'); draw();
 }
 function train(b, k, draw) {
@@ -5587,6 +5663,7 @@ function train(b, k, draw) {
   b.bonus[k] += real;
   const lv = gainXp(b, 15);
   if (S.tut) S.tut.train = true;
+  bump('train');
   save();
   note(up === 4 ? `특훈 대성공! ${statName(k)} +${real}` : `특훈 성공! ${statName(k)} +${real}${lv ? ` · 레벨 업! Lv.${b.lv}` : ''}`, up === 4 ? 'win' : 'perfect');
   draw();
@@ -5625,7 +5702,7 @@ function bindJar(root, draw) {
         if (med === 'kinshi') { if (!S.items.med_kinshi) { note('균사 배지가 없어요.', 'fail'); return; } S.items.med_kinshi -= 1; }
         if (med === 'g1') { if (!S.items.sub_g1) { note('고급 발효톱밥 G1이 없어요.', 'fail'); return; } S.items.sub_g1 -= 1; }
         const ix = S.eggs.findIndex((e) => e.sp === sp), egg = S.eggs.splice(ix, 1)[0];
-        j.egg = { sp, q: egg.q || 0, stage: 'egg', d: 0, ...(med ? { med } : {}) };
+        j.egg = { sp, q: egg.q || 0, stage: 'egg', d: 0, ...(med ? { med } : {}), ...(egg.par ? { par: egg.par } : {}) };
         save(); note(`${SP[sp].name} 알을 ${JAR[j.size].n}에 넣었어요.${med ? ` (${med === 'kinshi' ? '균사 배지' : 'G1 배지'})` : ''} 하루가 지나면 부화해요.`, 'ding'); draw();
       };
       const canK = STAG_IDS.includes(sp) && (S.items.med_kinshi || 0) > 0, canG = (S.items.sub_g1 || 0) > 0;
@@ -5730,10 +5807,11 @@ function openSchool() {
 <p class="line">“${r.line}”</p><div class="mini">${r.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${r.lv}</small><p>이기면 ${r.prize.toLocaleString()}원 · 경험치 45</p>
 <div style="display:flex;gap:8px"><button type="button" class="btn pri" id="rbGo">배틀 신청</button><button type="button" class="btn" id="rbNew">다른 상대</button></div></div>`;
   const root = openScr('school', `${scrHead('학교 · 곤충 배틀부 동아리실')}
-${S.teamName ? '<div class="nat-bar"><span><b>전국 리그</b> · 8도 대표팀 선수들을 미리 살펴보세요.</span><button type="button" class="btn" id="natBtn">전국 대표팀 명단</button></div>' : ''}<div class="scr-body school-body"><div class="opps four">${['dh', 'sr', 'sw'].map(card).join('')}${free}</div></div>
+${S.teamName ? '<div class="nat-bar"><span><b>전국 리그</b> · 8도 대표팀 선수들을 미리 살펴보세요.</span><button type="button" class="btn" id="natBtn">전국 대표팀 명단</button></div>' : ''}${modeBar()}<div class="scr-body school-body"><div class="opps four">${['dh', 'sr', 'sw'].map(card).join('')}${free}</div></div>
 ${tired ? '<div class="scr-tip" style="border-color:#FF5A4A"><b style="color:#FF8A7A">주의</b> · 기력이 적은 곤충이 팀에 있어요. 배틀에서 기술을 많이 쓰지 못해요. 먹이를 주거나 집에서 쉬게 해 주세요.</div>' : ''}
 ${tutTip('battle', '부원이나 자유 배틀 상대 누구와 붙어도 괜찮아요. 져도 경험치와 상금 200원을 받아요.') || (tired ? '' : '<div class="scr-tip"><b>자유 배틀</b> · 상대와 곤충이 매번 달라지고, 처음 보는 곤충은 도감에 기록돼요.</div>')}
 ${(() => { const sr = storyReady(); return sr ? `<div class="story-card${sr.ok ? ' ok' : ''}"><div><small>다음 이야기</small><b>${sr.label}</b><span>${sr.d}</span></div>${sr.ok ? '<button type="button" class="btn pri" id="storyGo">이야기 보기</button>' : ''}</div>` : ''; })()}`, () => openHub());
+  bindModeBar(root);
   const sg = $('#storyGo'); if (sg) sg.addEventListener('click', goStory);
   const nb = $('#natBtn'); if (nb) nb.addEventListener('click', () => { AU.sfx('page'); openNational(); });
   const go = (opp) => { S.modal = false; L.ov.innerHTML = ''; hideHub(); startBattle(() => { if (opp.rand) S.rb = null; openHub(); }, opp); };
@@ -5873,7 +5951,7 @@ function openDex() {
 }
 
 /* ---------- 채집터 고르기 ---------- */
-let fsTab = 'local';
+let fsTab = 'local', fsNight = false;
 function openFieldSelect() {
   ensureDex(); AU.play('forest');
   const card = (a) => {
@@ -5884,9 +5962,11 @@ function openFieldSelect() {
   const nat = natOpen(), reg = nat && fsTab === 'nat';
   const keys = Object.keys(AREAS).filter((a) => !!AREAS[a].region === reg);
   const tabs = nat ? `<div class="nat-tabs"><button type="button" class="nat-tab${reg ? '' : ' on'}" data-fst="local">우리 동네</button><button type="button" class="nat-tab${reg ? ' on' : ''}" data-fst="nat">전국 각지</button></div>` : '';
-  const root = openScr('fsel', `${scrHead('채집터 · 어디로 갈까요?')}${tabs}<div class="scr-body"><div class="opps${reg ? ' regions' : ''}">${keys.map(card).join('')}</div></div>
+  const tsel = `<div class="fs-time"><span>${worldLabel()}</span><span class="seg2"><button type="button" class="${fsNight ? '' : 'on'}" data-night="0">🌞 낮 채집</button><button type="button" class="${fsNight ? 'on' : ''}" data-night="1">🌙 밤 채집</button></span><small>${fsNight ? '밤에는 사슴벌레·장수풍뎅이·나방·귀뚜라미가 많고, 레어 개체가 조금 더 잘 나와요' : '낮에는 나비·잠자리·벌·매미가 많아요'} · 계절과 날씨에 따라서도 달라져요</small></div>`;
+  const root = openScr('fsel', `${scrHead('채집터 · 어디로 갈까요?')}${tabs}${tsel}<div class="scr-body"><div class="opps${reg ? ' regions' : ''}">${keys.map(card).join('')}</div></div>
 <div class="scr-tip"><b>팁</b> · ${reg ? '전국 리그에 나간 덕분에 전국 각지로 채집을 갈 수 있어요! 지역마다 그곳에서만 만날 수 있는 곤충이 있어요.' : `곳마다 사는 곤충이 달라요. 갈 때마다 나타나는 곤충이 바뀌니까 여러 번 가 보세요.${nat ? ' <b>전국 각지</b> 탭에서 다른 지역으로도 갈 수 있어요.' : ''}`}</div>`, () => openHub());
   root.querySelectorAll('[data-fst]').forEach((b) => b.addEventListener('click', () => { fsTab = b.dataset.fst; AU.sfx('page'); openFieldSelect(); }));
+  root.querySelectorAll('[data-night]').forEach((b) => b.addEventListener('click', () => { fsNight = b.dataset.night === '1'; AU.sfx('page'); openFieldSelect(); }));
   root.querySelectorAll('[data-area]').forEach((b) => b.addEventListener('click', () => { S.modal = false; L.ov.innerHTML = ''; hideHub(); startField(true, b.dataset.area); }));
 }
 
@@ -6104,6 +6184,359 @@ function showEnd() {
   $('#toTitleBtn').addEventListener('click', showTitle);
 }
 
+/* =====================================================================
+   추가 시스템: 계절·날씨·밤 채집 / 개체 특성 / 지닌 도구 / 유전 / 크기 대회
+   랭크 아레나 / 태그 배틀 / 곤충 교환 / 일일 미션 · 업적 · 도감 보상
+   ===================================================================== */
+
+/* ---------- 계절 · 날씨 · 시간대 ---------- */
+const SEASONS = [['봄', '🌸'], ['여름', '☀️'], ['가을', '🍁'], ['겨울', '❄️']];
+// 스토리 진행 중에는 챕터에 맞춰 달(월)이 정해지고, 이야기를 다 본 뒤에는 5일마다 한 달씩 흘러요.
+const CH_MONTH = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 4, 6: 6, 7: 6, 8: 6, 9: 7, 10: 7, 11: 8, 12: 8, 13: 9, 14: 9, 15: 9, 16: 10, 17: 10, 18: 10, 19: 10, 20: 10, 21: 10 };
+let monthMemo = { ip: -1, m: 3 };
+const storyOver = () => (S.ip || 0) >= SCRIPT.length - 2;
+function curMonth(d = S.day || 1) {
+  const ip = S.ip || 0;
+  if (!storyOver()) {
+    if (monthMemo.ip === ip) return monthMemo.m;
+    let m = 3;
+    for (let i = 0; i <= ip && i < SCRIPT.length; i++) { const c = SCRIPT[i]; if (c.t === 'chapter') { const n = parseInt(String(c.no).replace(/\D/g, ''), 10); if (CH_MONTH[n]) m = CH_MONTH[n]; } }
+    monthMemo = { ip, m }; return m;
+  }
+  if (typeof S.freeDay !== 'number') S.freeDay = d;
+  return ((10 + Math.floor(Math.max(0, d - S.freeDay) / 5)) % 12) + 1;
+}
+const seasonIdx = (d = S.day || 1) => { const m = curMonth(d); return m >= 3 && m <= 5 ? 0 : m >= 6 && m <= 8 ? 1 : m >= 9 && m <= 11 ? 2 : 3; };
+const WX = { sun: ['맑음', '☀️'], cloud: ['흐림', '☁️'], rain: ['비', '🌧️'], snow: ['눈', '🌨️'] };
+const wxNow = () => (WX[S.wx] ? S.wx : 'sun');
+function rollWx() { const s = seasonIdx(), r = Math.random(); return s === 3 ? (r < .45 ? 'sun' : r < .7 ? 'cloud' : 'snow') : (r < .55 ? 'sun' : r < .78 ? 'cloud' : 'rain'); }
+const worldLabel = () => `${SEASONS[seasonIdx()][1]} ${curMonth()}월 ${SEASONS[seasonIdx()][0]} · ${WX[wxNow()][1]} ${WX[wxNow()][0]}`;
+const NIGHT_SP = new Set(['kabuto', 'stag', 'ostag', 'sawstag', 'lucanus', 'dotstag', 'redleg', 'dauri', 'satmoth', 'lunamoth', 'silk', 'cricket', 'katydid', 'molecr', 'roach', 'centipede', 'scutigera', 'spider', 'mosquito', 'cranefly', 'darkling', 'bombard', 'redcarab', 'jejucarab', 'antlion', 'earwig', 'slug', 'snail', 'longhorn', 'cherrylh', 'hanul', 'jankow', 'tick']);
+const DAY_SP = new Set(['butterfly', 'swallowtail', 'cabbage', 'comma', 'sblue', 'montela', 'dragonfly', 'emperor', 'damsel', 'bee', 'hornet', 'paperw', 'cicada', 'smcicada', 'blkcicada', 'grasshopper', 'locust', 'lady', 'chafer', 'wspot', 'pungi', 'jewel', 'tiger', 'fly', 'fruitfly', 'deerch', 'mayfly', 'aphid', 'chalcid']);
+const RAIN_UP = new Set(['snail', 'slug', 'mosquito', 'cranefly', 'mayfly', 'damsel', 'earwig']);
+const RAIN_DN = new Set(['butterfly', 'swallowtail', 'cabbage', 'comma', 'sblue', 'montela', 'bee', 'hornet', 'paperw', 'cicada', 'smcicada', 'blkcicada', 'dragonfly', 'emperor', 'fly', 'fruitfly']);
+const SEASON_SP = [
+  new Set(['butterfly', 'cabbage', 'swallowtail', 'bee', 'lady', 'aphid', 'chafer', 'wspot', 'click', 'weevil', 'ant', 'tiger', 'sblue', 'montela', 'fruitfly', 'deerch']),
+  new Set(['kabuto', 'stag', 'ostag', 'sawstag', 'lucanus', 'cicada', 'smcicada', 'blkcicada', 'hornet', 'paperw', 'dragonfly', 'emperor', 'mantis', 'diving', 'waterbug', 'ranatra', 'pungi', 'dotstag', 'longhorn', 'cherrylh', 'hanul', 'jewel', 'redleg', 'mosquito']),
+  new Set(['cricket', 'katydid', 'grasshopper', 'locust', 'mantis', 'dragonfly', 'molecr', 'satmoth', 'lunamoth', 'comma', 'acornw', 'stink', 'bigstink', 'jstink', 'damsel', 'antlion']),
+  new Set(['roach', 'spider', 'stick', 'lady', 'darkling', 'earwig', 'tick', 'centipede', 'scutigera', 'snail', 'slug', 'jankow'])
+];
+function spawnW(id, night) {
+  const s = seasonIdx(), wx = wxNow();
+  let w = 1;
+  if (SEASON_SP[s].has(id)) w *= 2.6; else if (s === 3) w *= .25;
+  if (night) w *= NIGHT_SP.has(id) ? 3 : DAY_SP.has(id) ? .2 : 1;
+  else w *= NIGHT_SP.has(id) && !SEASON_SP[1].has(id) ? .55 : 1;
+  if (wx === 'rain' || wx === 'snow') { if (SP[id] && SP[id].hab === '수상') w *= 2.4; if (RAIN_UP.has(id)) w *= 2.5; if (RAIN_DN.has(id)) w *= .35; }
+  return w;
+}
+function pickW(pool, night) {
+  const ws = pool.map((id) => spawnW(id, night)), tot = ws.reduce((a, b) => a + b, 0);
+  let r = Math.random() * tot;
+  for (let i = 0; i < pool.length; i++) { r -= ws[i]; if (r <= 0) return pool[i]; }
+  return pool[pool.length - 1];
+}
+const wxOverlay = (night) => `${night ? '<div class="wx-ov night"></div>' : ''}${wxNow() === 'rain' ? '<div class="wx-ov rain"></div>' : wxNow() === 'snow' ? '<div class="wx-ov snow"></div>' : ''}`;
+
+/* ---------- 개체 특성 ---------- */
+const TRAITS = {
+  brave: { n: '용감함', d: '공격 +10%, 방어 -5%', m: { atk: 1.1, def: .95 } },
+  tough: { n: '단단함', d: '방어 +10%, 스피드 -5%', m: { def: 1.1, spd: .95 } },
+  swift: { n: '날쌘돌이', d: '스피드 +12%', m: { spd: 1.12 } },
+  clever: { n: '영리함', d: '특수공격 +10%', m: { spa: 1.1 } },
+  calm: { n: '침착함', d: '특수방어 +10%', m: { sdf: 1.1 } },
+  gritty: { n: '근성파', d: '근성 +15', m: {}, grit: 15 },
+  glutton: { n: '대식가', d: '먹이로 회복하는 기력 1.5배, 기력통 +8%', m: { en: 1.08 } },
+  giant: { n: '거대함', d: '몸길이 +5%, 체력 +8%', m: { hp: 1.08 } },
+  lucky: { n: '행운아', d: '배틀에서 급소를 더 자주 찔러요', m: {} },
+  hardy: { n: '끈질김', d: '기절에 잘 걸리지 않고, 독 피해가 절반이에요', m: {} }
+};
+const TRAIT_KEYS = Object.keys(TRAITS);
+const rollTrait = () => TRAIT_KEYS[Math.floor(Math.random() * TRAIT_KEYS.length)];
+const trTag = (b) => (b && TRAITS[b.tr] ? `<span class="trtag" title="${TRAITS[b.tr].d}">${TRAITS[b.tr].n}</span>` : '');
+
+/* ---------- 지닌 도구 ---------- */
+const HELD = {
+  band: { n: '근성 머리띠', price: 2500, e: '🎗️', d: '쓰러질 공격을 배틀마다 한 번 체력 1로 버텨요.' },
+  flask: { n: '수액 물병', price: 1800, e: '🧪', d: '체력이 절반 아래로 떨어지면 배틀마다 한 번 체력을 30% 회복해요.' },
+  horn: { n: '뿔 강화 캡', price: 2200, e: '🦏', d: '물리 기술의 피해가 15% 올라가요.' },
+  pollen: { n: '마법 꽃가루', price: 2200, e: '🌼', d: '특수 기술의 피해가 15% 올라가요.' },
+  shell: { n: '강화 껍질 코팅', price: 2400, e: '🛡️', d: '받는 피해가 12% 줄어요.' },
+  wing: { n: '가벼운 날개 필름', price: 2000, e: '🪶', d: '스피드가 15% 올라가요.' },
+  cap: { n: '기력 캡슐', price: 1600, e: '💊', d: '출전 중이면 턴마다 기력이 8 더 회복돼요.' },
+  charm: { n: '행운의 부적', price: 1500, e: '🍀', d: '급소를 더 자주 찔러요.' }
+};
+const heldIcon = (k) => `<svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="24" fill="#F4E8C8" stroke="#111114" stroke-width="3"/><text x="28" y="37" text-anchor="middle" font-size="26">${HELD[k].e}</text></svg>`;
+const heldTag = (b) => (b && HELD[b.held] ? `<span class="hdtag" title="${HELD[b.held].d}">${HELD[b.held].e} ${HELD[b.held].n}</span>` : '');
+function openHeld(b, draw) {
+  const own = Object.keys(HELD).filter((k) => S.items['held_' + k]);
+  const opts = (b.held ? `<button type="button" class="opt" data-hd="-"><span>지금 지닌 ${HELD[b.held].n} 빼기 <small>가방으로 돌아가요</small></span><span>빼기</span></button>` : '') +
+    (own.length ? own.map((k) => `<button type="button" class="opt" data-hd="${k}"><span>${HELD[k].e} ${HELD[k].n} <small>${HELD[k].d}</small></span><span>${S.items['held_' + k]}개</span></button>`).join('') : '<p class="pop-p">가방에 지닌 도구가 없어요. 곤충마트의 <b>지닌 도구</b> 탭에서 살 수 있어요.</p>');
+  draw(`<div class="pop"><div class="pop-box"><h3>${SP[b.id].name}에게 무엇을 지니게 할까요?</h3><p class="pop-p">곤충 한 마리는 도구를 하나만 지닐 수 있어요. 배틀에서 자동으로 효과가 나타나요.</p>${opts}<button type="button" class="close" id="popX">닫기</button></div></div>`);
+  $('#popX').addEventListener('click', () => draw());
+  L.ov.querySelectorAll('[data-hd]').forEach((x) => x.addEventListener('click', () => {
+    const k = x.dataset.hd;
+    if (b.held) S.items['held_' + b.held] = (S.items['held_' + b.held] || 0) + 1;
+    if (k === '-') { note(`${HELD[b.held].n}${josaEulReul(HELD[b.held].n)} 가방에 넣었어요.`, 'page'); b.held = null; }
+    else { S.items['held_' + k] -= 1; b.held = k; note(`${SP[b.id].name}${josaIGa(SP[b.id].name)} ${HELD[k].n}${josaEulReul(HELD[k].n)} 지녔어요!`, 'ding'); }
+    save(); draw();
+  }));
+}
+
+/* ---------- 유전 ---------- */
+const cleanPar = (p) => {
+  if (!p || typeof p !== 'object') return null;
+  const g = {}; for (const [k] of STAT_NAMES) { const v = p.g && p.g[k]; g[k] = Array.isArray(v) ? [Math.max(-2, Math.min(2, v[0] | 0)), Math.max(-2, Math.min(2, v[1] | 0))] : [0, 0]; }
+  return { g, sz: Math.max(.85, Math.min(1.35, +p.sz || 1)), tr: (Array.isArray(p.tr) ? p.tr : []).filter((t) => TRAITS[t]).slice(0, 2) };
+};
+const mateParent = (f, m) => ({ g: Object.fromEntries(STAT_NAMES.map(([k]) => [k, [f.g[k] | 0, m.g[k] | 0]])), sz: ((f.sz || 1) + (m.sz || 1)) / 2, tr: [f.tr, m.tr].filter((t) => TRAITS[t]) });
+
+/* ---------- 미션 · 업적 통계 ---------- */
+const STAT_KEYS = ['catch', 'night', 'win', 'tag', 'arena', 'train', 'feed', 'breed', 'contest', 'cwin', 'trade', 'awake', 'rare', 'days'];
+function ensureSt() { if (!S.st || typeof S.st !== 'object') S.st = {}; for (const k of STAT_KEYS) S.st[k] = Math.max(0, S.st[k] | 0); }
+function bump(k, n = 1) { ensureSt(); S.st[k] += n; ensureDm(); const done = dmList().filter((m) => m.k === k && dmProg(m) >= m.n && dmProg(m) - n < m.n); done.forEach((m) => setTimeout(() => note(`✅ 일일 미션 완료! "${m.t}" · 미션 화면에서 보상을 받으세요`, 'perfect'), 600)); }
+const DM_POOL = [
+  { k: 'catch', n: 2, t: '곤충 2마리 채집하기', r: 400 }, { k: 'win', n: 2, t: '배틀에서 2번 이기기', r: 500 }, { k: 'train', n: 3, t: '특훈 3번 하기', r: 300 },
+  { k: 'feed', n: 3, t: '먹이 3번 주기', r: 300 }, { k: 'night', n: 1, t: '밤 채집에서 1마리 잡기', r: 500 }, { k: 'arena', n: 1, t: '랭크 아레나에서 1번 이기기', r: 700 },
+  { k: 'tag', n: 1, t: '태그 배틀에서 1번 이기기', r: 600 }, { k: 'trade', n: 1, t: '곤충 교환 1번 하기', r: 500 }, { k: 'catch', n: 4, t: '곤충 4마리 채집하기', r: 700 }, { k: 'win', n: 4, t: '배틀에서 4번 이기기', r: 900 }
+];
+function ensureDm() {
+  ensureSt();
+  if (!S.dm || S.dm.day !== (S.day || 1)) {
+    let seed = (S.day || 1) * 9301 + 49297; const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const idx = []; while (idx.length < 3) { const i = Math.floor(rnd() * DM_POOL.length); if (!idx.includes(i) && !idx.some((j) => DM_POOL[j].k === DM_POOL[i].k)) idx.push(i); }
+    S.dm = { day: S.day || 1, idx, base: { ...S.st }, got: [], all: false };
+  }
+}
+const dmList = () => (S.dm ? S.dm.idx.map((i) => DM_POOL[i]) : []);
+const dmProg = (m) => Math.max(0, (S.st[m.k] | 0) - ((S.dm.base || {})[m.k] | 0));
+const bestRank = () => (S.rank ? S.rank.best | 0 : 0);
+const ACH = [
+  { id: 'c1', n: '첫 채집', d: '곤충을 처음 채집해요', ok: () => S.st.catch >= 1, r: 300 },
+  { id: 'c20', n: '채집 고수', d: '곤충을 20마리 채집해요', ok: () => S.st.catch >= 20, r: 1500 },
+  { id: 'c100', n: '채집의 달인', d: '곤충을 100마리 채집해요', ok: () => S.st.catch >= 100, r: 6000 },
+  { id: 'n10', n: '밤의 채집꾼', d: '밤 채집에서 10마리 잡아요', ok: () => S.st.night >= 10, r: 2000 },
+  { id: 'r1', n: '반짝이는 별', d: '레어 개체를 잡아요', ok: () => S.st.rare >= 1, r: 2000 },
+  { id: 'd20', n: '도감 20종', d: '도감에 20종을 채집 기록해요', ok: () => dexCount().caught >= 20, r: 2000 },
+  { id: 'd50', n: '도감 50종', d: '도감에 50종을 채집 기록해요', ok: () => dexCount().caught >= 50, r: 6000 },
+  { id: 'dall', n: '곤충 박사', d: '잡을 수 있는 곤충을 전부 채집해요', ok: () => DEX.filter((id) => !(SPOTS.find((s) => s.id === id) || {}).protect).every((id) => S.dex[id] && S.dex[id].caught), r: 30000 },
+  { id: 'w10', n: '배틀 입문', d: '배틀에서 10번 이겨요', ok: () => S.st.win >= 10, r: 1000 },
+  { id: 'w50', n: '배틀 베테랑', d: '배틀에서 50번 이겨요', ok: () => S.st.win >= 50, r: 4000 },
+  { id: 'w200', n: '배틀 마스터', d: '배틀에서 200번 이겨요', ok: () => S.st.win >= 200, r: 12000 },
+  { id: 'lv', n: '만렙 달성', d: '곤충 한 마리를 Lv.20까지 키워요', ok: () => (S.bugs || []).some((b) => b.lv >= MAX_LV), r: 2000 },
+  { id: 'aw', n: '유대 각성', d: '곤충을 유대 각성시켜요', ok: () => S.st.awake >= 1 || (S.bugs || []).some((b) => b.awake), r: 3000 },
+  { id: 'b1', n: '첫 브리딩', d: '유충병에서 어른벌레를 키워 내요', ok: () => S.st.breed >= 1, r: 1000 },
+  { id: 'b10', n: '브리더', d: '어른벌레를 10마리 키워 내요', ok: () => S.st.breed >= 10, r: 5000 },
+  { id: 'ct1', n: '크기 대회 우승', d: '곤충 크기 대회에서 1등을 해요', ok: () => S.st.cwin >= 1, r: 3000 },
+  { id: 'ag', n: '골드 랭커', d: '랭크 아레나 골드에 올라요', ok: () => bestRank() >= 2, r: 3000 },
+  { id: 'ad', n: '다이아 랭커', d: '랭크 아레나 다이아에 올라요', ok: () => bestRank() >= 4, r: 8000 },
+  { id: 'ac', n: '아레나 챔피언', d: '랭크 아레나 챔피언에 올라요', ok: () => bestRank() >= 5, r: 20000 },
+  { id: 't5', n: '최고의 파트너', d: '태그 배틀에서 5번 이겨요', ok: () => S.st.tag >= 5, r: 2000 },
+  { id: 'tr5', n: '교환의 달인', d: '곤충 교환을 5번 해요', ok: () => S.st.trade >= 5, r: 2000 },
+  { id: 'dy30', n: '꾸준한 사육사', d: '30일 동안 곤충을 돌봐요', ok: () => (S.day || 1) >= 30, r: 2000 }
+];
+const DEX_GROUPS = [
+  { id: '장갑', n: '장갑 계통', ok: (id) => SP[id].type === '장갑', rw: ['held_shell', 3000] },
+  { id: '참격', n: '참격 계통', ok: (id) => SP[id].type === '참격', rw: ['held_horn', 3000] },
+  { id: '독침', n: '독침 계통', ok: (id) => SP[id].type === '독침', rw: ['held_band', 3000] },
+  { id: '소리', n: '소리 계통', ok: (id) => SP[id].type === '소리', rw: ['held_pollen', 3000] },
+  { id: '타격', n: '타격 계통', ok: (id) => SP[id].type === '타격', rw: ['held_wing', 3000] },
+  { id: '수상', n: '물에 사는 곤충', ok: (id) => SP[id].hab === '수상', rw: ['held_flask', 3000] },
+  { id: '공중', n: '하늘을 나는 곤충', ok: (id) => SP[id].hab === '공중', rw: ['held_charm', 3000] }
+].map((g) => ({ ...g, ids: () => DEX.filter((id) => SP[id] && g.ok(id) && !(SPOTS.find((s) => s.id === id) || {}).protect) }));
+const giveRw = (k, n = 1) => { S.items[k] = (S.items[k] || 0) + n; };
+const rwName = (k) => (k.startsWith('held_') ? HELD[k.slice(5)].n : ITEMS[k] ? ITEMS[k].n : k);
+function claimables() {
+  ensureDm(); ensureDex();
+  const a = dmList().filter((m, i) => dmProg(m) >= m.n && !S.dm.got.includes(i)).length + (dmList().every((m, i) => S.dm.got.includes(i)) && !S.dm.all ? 1 : 0);
+  const b = ACH.filter((x) => x.ok() && !(S.ach || []).includes(x.id)).length;
+  const c = DEX_GROUPS.filter((g) => g.ids().length && g.ids().every((id) => S.dex[id] && S.dex[id].caught) && !(S.dexRw || []).includes(g.id)).length;
+  return a + b + c;
+}
+let msnTab = 'daily';
+function openMissions() {
+  ensureDm(); ensureDex(); if (!Array.isArray(S.ach)) S.ach = []; if (!Array.isArray(S.dexRw)) S.dexRw = [];
+  AU.play('home');
+  const tabs = [['daily', '일일 미션'], ['ach', '업적'], ['dex', '도감 보상']].map(([k, n]) => `<button type="button" class="tab${k === msnTab ? ' on' : ''}" data-mt="${k}">${n}</button>`).join('');
+  let body = '';
+  if (msnTab === 'daily') {
+    body = dmList().map((m, i) => { const p = Math.min(m.n, dmProg(m)), got = S.dm.got.includes(i); return `<div class="msn${got ? ' got' : p >= m.n ? ' ready' : ''}"><div><b>${m.t}</b><span class="mbar"><i style="width:${p / m.n * 100}%;background:#FFD23F"></i></span><small>${p} / ${m.n} · 보상 ${m.r.toLocaleString()}원</small></div><button type="button" class="btn${p >= m.n && !got ? ' pri' : ''}" data-dm="${i}" ${got || p < m.n ? 'disabled' : ''}>${got ? '받음' : p >= m.n ? '보상 받기' : '진행 중'}</button></div>`; }).join('') +
+      (() => { const all = dmList().every((m, i) => S.dm.got.includes(i)); return `<div class="msn bonus${S.dm.all ? ' got' : all ? ' ready' : ''}"><div><b>🎁 오늘의 미션 3개 모두 완료</b><small>보너스 1,000원 + 바이오 젤리 2개</small></div><button type="button" class="btn${all && !S.dm.all ? ' pri' : ''}" id="dmAll" ${S.dm.all || !all ? 'disabled' : ''}>${S.dm.all ? '받음' : all ? '보너스 받기' : '진행 중'}</button></div>`; })() +
+      '<p class="msn-note">일일 미션은 집에서 쉬고 다음 날이 되면 새로 바뀌어요.</p>';
+  } else if (msnTab === 'ach') {
+    body = ACH.map((x) => { const ok = x.ok(), got = S.ach.includes(x.id); return `<div class="msn${got ? ' got' : ok ? ' ready' : ''}"><div><b>${got ? '🏅' : ok ? '🎖️' : '🔒'} ${x.n}</b><small>${x.d} · 보상 ${x.r.toLocaleString()}원</small></div><button type="button" class="btn${ok && !got ? ' pri' : ''}" data-ach="${x.id}" ${got || !ok ? 'disabled' : ''}>${got ? '달성' : ok ? '보상 받기' : '미달성'}</button></div>`; }).join('');
+    body = `<p class="msn-note">업적 ${S.ach.length} / ${ACH.length} 달성</p>` + body;
+  } else {
+    body = DEX_GROUPS.map((g) => { const ids = g.ids(), have = ids.filter((id) => S.dex[id] && S.dex[id].caught).length, ok = ids.length && have >= ids.length, got = S.dexRw.includes(g.id); return `<div class="msn${got ? ' got' : ok ? ' ready' : ''}"><div><b>📘 ${g.n} 모두 채집</b><span class="mbar"><i style="width:${have / Math.max(1, ids.length) * 100}%;background:#7CFC6A"></i></span><small>${have} / ${ids.length}종 · 보상 ${g.rw[1].toLocaleString()}원 + ${rwName(g.rw[0])}</small><div class="msn-bugs">${ids.map((id) => `<span class="${S.dex[id] && S.dex[id].caught ? 'got' : ''}" title="${S.dex[id] && S.dex[id].caught ? SP[id].name : '???'}">${bugSvg(id)}</span>`).join('')}</div></div><button type="button" class="btn${ok && !got ? ' pri' : ''}" data-dg="${g.id}" ${got || !ok ? 'disabled' : ''}>${got ? '받음' : ok ? '보상 받기' : '모으는 중'}</button></div>`; }).join('');
+  }
+  const root = openScr('shop msns', `${scrHead('미션 · 업적 · 도감 보상')}<div class="tabs">${tabs}</div><div class="scr-body feat"><div class="msn-list">${body}</div></div>`, () => openHub());
+  root.querySelectorAll('[data-mt]').forEach((b) => b.addEventListener('click', () => { msnTab = b.dataset.mt; AU.sfx('page'); openMissions(); }));
+  root.querySelectorAll('[data-dm]').forEach((b) => b.addEventListener('click', () => { const i = +b.dataset.dm, m = dmList()[i]; if (S.dm.got.includes(i) || dmProg(m) < m.n) return; S.dm.got.push(i); S.money += m.r; save(); note(`미션 보상 ${m.r.toLocaleString()}원을 받았어요!`, 'coin'); openMissions(); }));
+  const al = $('#dmAll'); if (al) al.addEventListener('click', () => { if (S.dm.all) return; S.dm.all = true; S.money += 1000; giveRw('bio', 2); save(); note('보너스 1,000원과 바이오 젤리 2개를 받았어요!', 'coin'); openMissions(); });
+  root.querySelectorAll('[data-ach]').forEach((b) => b.addEventListener('click', () => { const x = ACH.find((a) => a.id === b.dataset.ach); if (!x || S.ach.includes(x.id) || !x.ok()) return; S.ach.push(x.id); S.money += x.r; save(); note(`🏅 업적 "${x.n}" 달성! ${x.r.toLocaleString()}원을 받았어요!`, 'win'); openMissions(); }));
+  root.querySelectorAll('[data-dg]').forEach((b) => b.addEventListener('click', () => { const g = DEX_GROUPS.find((x) => x.id === b.dataset.dg); if (!g || S.dexRw.includes(g.id)) return; S.dexRw.push(g.id); S.money += g.rw[1]; giveRw(g.rw[0]); save(); note(`📘 ${g.n} 완성! ${g.rw[1].toLocaleString()}원과 ${rwName(g.rw[0])}을(를) 받았어요!`, 'win'); openMissions(); }));
+}
+
+/* ---------- 학교 메뉴: 아레나 · 태그 · 대회 · 교환 ---------- */
+const avgPartyLv = () => Math.round(partyInsects().reduce((a, x) => a + x.lv, 0) / Math.max(1, partyInsects().length)) || 3;
+const modeBar = () => (S.tutDone ? `<div class="mode-bar">${[['arena', '🏆', '랭크 아레나', RANKS[(S.rank || {}).t | 0][0]], ['tag', '🤝', '태그 배틀', '동료와 2:2'], ['contest', '📏', '크기 대회', contestDone() ? '이번 주 출전 완료' : '이번 주 출전 가능!'], ['trade', '🔄', '곤충 교환', '오늘의 교환 3건']].map(([k, e, n, s]) => `<button type="button" class="mode-btn" data-mode="${k}"><i>${e}</i><b>${n}</b><small>${s}</small></button>`).join('')}</div>` : '');
+function bindModeBar(root) {
+  root.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => { AU.sfx('page'); ({ arena: openArena, tag: openTag, contest: openContest, trade: openTrade })[b.dataset.mode](); }));
+}
+const goBattle = (opp, after) => { S.modal = false; L.ov.innerHTML = ''; hideHub(); startBattle(after, opp); };
+const randSpecies = (n, bigBias) => {
+  const ids = DEX.filter((id) => SP[id] && id !== 'callipogon'), out = [];
+  while (out.length < n) { const id = ids[Math.floor(Math.random() * ids.length)]; if (out.includes(id)) continue; if (bigBias && !SP[id].big && Math.random() < bigBias) continue; out.push(id); }
+  return out;
+};
+
+/* 랭크 아레나 */
+const RANKS = [['브론즈', '#C0803A'], ['실버', '#A8B4C4'], ['골드', '#E8B830'], ['플래티넘', '#4AC8C0'], ['다이아', '#7AB0FF'], ['챔피언', '#FF5A8A']];
+const RANK_RW = [null, [3000, 'held_charm'], [5000, 'held_band'], [8000, 'held_shell'], [12000, 'held_horn'], [30000, 'held_pollen']];
+function ensureRank() { if (!S.rank || typeof S.rank !== 'object') S.rank = {}; const r = S.rank; r.t = Math.max(0, Math.min(5, r.t | 0)); r.s = Math.max(0, r.s | 0); r.w = r.w | 0; r.best = Math.max(r.t, r.best | 0); r.streak = r.streak | 0; r.top = r.top | 0; if (!r.opp) r.opp = null; }
+function arenaOpp() {
+  ensureRank(); const r = S.rank, t = r.t;
+  const p = BATTLERS[Math.floor(Math.random() * BATTLERS.length)];
+  const team = randSpecies(3, t >= 2 ? .6 : 0), lv = Math.min(MAX_LV + 6, Math.max(4 + t * 3 + r.s, avgPartyLv() - 3 + t));
+  return { rand: true, name: p.name, sub: `랭크 아레나 · ${RANKS[t][0]}`, line: p.line, team, rare: team.map((id) => !!RARE[id] && t >= 3 && Math.random() < .25), lv, look: p.look, q: -.4 + t * .3, prize: 400 + t * 350 + r.streak * 50 };
+}
+function openArena() {
+  ensureRank(); AU.play('classroom');
+  const r = S.rank; if (!r.opp) r.opp = arenaOpp();
+  const o = r.opp, [rn, rc] = RANKS[r.t];
+  const stars = r.t >= 5 ? `연승 ${r.streak} · 최고 ${r.top}연승` : [0, 1, 2].map((i) => `<i class="star${i < r.s ? ' on' : ''}">★</i>`).join('');
+  const root = openScr('school arena', `${scrHead('랭크 아레나')}<div class="scr-body school-body feat">
+<div class="rank-box" style="--rc:${rc}"><div class="rank-emb">${['🥉', '🥈', '🥇', '💠', '💎', '👑'][r.t]}</div><div><small>지금 랭크</small><b>${rn}</b><div class="stars">${stars}</div><p>${r.t >= 5 ? '챔피언! 연승을 이어 가 보세요. 이길수록 상대가 강해져요.' : `별 3개를 모으면 <b>${RANKS[r.t + 1][0]}</b>(으)로 승급해요. 지면 별이 1개 줄어요.`}</p>
+<p class="rk-rw">${RANKS.slice(1).map(([n, c], i) => `<span style="border-color:${c}${r.best >= i + 1 ? `;background:${c};color:#111` : ''}">${n} 보상 ${RANK_RW[i + 1][0].toLocaleString()}원 + ${rwName(RANK_RW[i + 1][1])}</span>`).join('')}</p></div></div>
+<div class="opps" style="grid-template-columns:minmax(0,1fr)"><div class="opp free"><span class="opp-tag free" style="background:${rc}">${rn} 상대</span><div class="face">${chibi(o.look, 'grin')}</div><b>${o.name}</b><small>${o.sub}</small><p class="line">“${o.line}”</p>
+<div class="mini">${o.team.map((id, i) => bugSvg(id, '', o.rare[i] ? 'mr' : 'm')).join('')}</div><small>상대 곤충 Lv.${o.lv}</small><p>이기면 ${o.prize.toLocaleString()}원 · 경험치 45</p>
+<div style="display:flex;gap:8px"><button type="button" class="btn pri" id="arGo">랭크전 시작!</button><button type="button" class="btn" id="arNew">다른 상대 (100원)</button></div></div></div></div>`, () => openSchool());
+  $('#arNew').addEventListener('click', () => { if (S.money < 100) { note('돈이 부족해요.', 'fail'); return; } S.money -= 100; r.opp = arenaOpp(); save(); openArena(); });
+  $('#arGo').addEventListener('click', () => goBattle(o, () => {
+    r.opp = null;
+    const msgs = [];
+    if (S.lastWin) {
+      bump('arena'); r.w += 1;
+      if (r.t >= 5) { r.streak += 1; r.top = Math.max(r.top, r.streak); msgs.push(`챔피언 ${r.streak}연승!`); }
+      else { r.s += 1; r.streak += 1; if (r.s >= 3) { r.t += 1; r.s = 0; const rw = RANK_RW[r.t]; if (r.t > r.best) { r.best = r.t; S.money += rw[0]; giveRw(rw[1]); msgs.push(`🎉 ${RANKS[r.t][0]} 승급! 첫 승급 보상 ${rw[0].toLocaleString()}원 + ${rwName(rw[1])}`); } else msgs.push(`🎉 ${RANKS[r.t][0]} 승급!`); } else msgs.push(`별 +1 (${r.s}/3)`); }
+    } else { r.streak = 0; if (r.t < 5) { r.s = Math.max(0, r.s - 1); msgs.push('별 -1'); } }
+    save(); openHub(); openArena(); if (msgs.length) note(msgs.join(' · '), S.lastWin ? 'win' : 'fail');
+  }));
+}
+
+/* 태그 배틀 */
+const PARTNERS = { eh: ['lady', 'cricket'], dh: OPP.dh.team.slice(0, 2), sw: OPP.sw.team.slice(0, 2), sr: OPP.sr.team.slice(0, 2) };
+let tagPartner = 'eh';
+function tagOpp() {
+  const pool = BATTLERS.slice(); const a = pool.splice(Math.floor(Math.random() * pool.length), 1)[0], b = pool[Math.floor(Math.random() * pool.length)];
+  const lv = Math.min(MAX_LV + 6, avgPartyLv() + 1);
+  return { rand: true, tagO: [a.name, b.name], name: `${a.name} & ${b.name}`, sub: `${a.school} · ${b.school} 태그 팀`, line: '우리 둘의 호흡, 깰 수 있겠어?', team: [a.team[0], b.team[0], a.team[1], b.team[1]], lv, look: a.look, look2: b.look, q: .2, prize: 1500 };
+}
+function openTag() {
+  AU.play('classroom');
+  if (!S.tagOpp) S.tagOpp = tagOpp();
+  const o = S.tagOpp, mine = partyInsects().slice(0, 2);
+  const pcard = (k) => `<button type="button" class="pt${k === tagPartner ? ' on' : ''}" data-pt="${k}"><div class="face">${chibi(CH[k].look, 'grin')}</div><b>${CH[k].name}</b><div class="mini">${PARTNERS[k].map((id) => bugSvg(id)).join('')}</div></button>`;
+  const root = openScr('school tagb', `${scrHead('태그 배틀 · 동료와 2:2')}<div class="scr-body school-body feat">
+<p class="tag-p">내 팀의 <b>앞 두 마리</b>와 파트너의 곤충 두 마리가 번갈아 나가요. 파트너 곤충이 나와 있을 땐 파트너가 알아서 싸우고, 교체 버튼으로 언제든 태그할 수 있어요.</p>
+<div class="pt-row">${['eh', 'dh', 'sw', 'sr'].map(pcard).join('')}</div>
+<div class="tag-vs"><div><small>우리 팀</small><div class="mini">${mine.map((b) => bugSvg(b.id, '', vk(b))).join('')}${PARTNERS[tagPartner].map((id) => bugSvg(id)).join('')}</div><b>강찬 & ${CH[tagPartner].name}</b></div><span>VS</span>
+<div><small>상대 팀 · Lv.${o.lv}</small><div class="mini">${o.team.map((id) => bugSvg(id)).join('')}</div><b>${o.name}</b></div></div>
+<div style="display:flex;gap:10px;justify-content:center"><button type="button" class="btn pri" id="tgGo">태그 배틀 시작! (이기면 ${o.prize.toLocaleString()}원)</button><button type="button" class="btn" id="tgNew">다른 상대</button></div></div>`, () => openSchool());
+  root.querySelectorAll('[data-pt]').forEach((b) => b.addEventListener('click', () => { tagPartner = b.dataset.pt; AU.sfx('page'); openTag(); }));
+  $('#tgNew').addEventListener('click', () => { S.tagOpp = tagOpp(); AU.sfx('page'); openTag(); });
+  $('#tgGo').addEventListener('click', () => {
+    if (mine.length < 2) { note('태그 배틀은 팀에 곤충이 2마리 이상 있어야 해요.', 'fail'); return; }
+    const opp = { ...o, tag: { who: tagPartner, team: PARTNERS[tagPartner] } };
+    goBattle(opp, () => { S.tagOpp = null; if (S.lastWin) bump('tag'); save(); openHub(); });
+  });
+}
+function aiFor(i) {
+  const sd = B.sides[i], u = sd.team[sd.active];
+  if (canUse(i, 'r') && Math.random() < .7) return { kind: 'skill', k: 'r' };
+  if (u.hp / u.max < .5 && canUse(i, 'w') && Math.random() < .4) return { kind: 'skill', k: 'w' };
+  if (canUse(i, 'e') && u.en >= 60 && Math.random() < .6) return { kind: 'skill', k: 'e' };
+  if (canUse(i, 'q') && Math.random() < .7) return { kind: 'skill', k: 'q' };
+  return { kind: 'basic' };
+}
+function allyTurn() {
+  if (!B || B.over || B.phase !== 'choose') return;
+  const P = B.sides[0], u = P.team[P.active];
+  if (!u.ally) return;
+  const turn = B.turn;
+  setTimeout(() => {
+    if (!B || B.over || B.phase !== 'choose' || B.turn !== turn || S.paused) { if (B && !B.over && B.phase === 'choose' && S.paused) setTimeout(allyTurn, 400); return; }
+    const cur = B.sides[0].team[B.sides[0].active]; if (!cur.ally) return;
+    command({ ...aiFor(0), auto: true });
+  }, 1300);
+}
+
+/* 크기 대회 */
+const contestWeek = () => Math.floor(((S.day || 1) - 1) / 7);
+const contestDone = () => S.cw === contestWeek();
+const sizeScore = (b) => Math.round(b.mm / (SP[b.id].mm * (b.sex === 'f' ? ((FEM[b.id] || {}).mm || 1) : 1)) * 1000) / 10;
+function openContest() {
+  ensureBugs(); AU.play('opening');
+  const wk = contestWeek(), done = contestDone();
+  const list = S.bugs.slice().sort((a, b) => sizeScore(b) - sizeScore(a));
+  const rec = S.cbest ? `최고 기록 ${S.cbest.score}점 (${SP[S.cbest.id] ? SP[S.cbest.id].name : ''} ${S.cbest.mm}mm)` : '아직 기록이 없어요';
+  const root = openScr('school contest', `${scrHead(`곤충 크기 대회 · 제${wk + 1}회`)}<div class="scr-body school-body feat">
+<div class="ct-head"><b>📏 일주일에 한 번 열리는 곤충 크기 대회!</b><p>종마다 표준 몸길이(수컷·암컷 따로)와 비교해서 <b>얼마나 크게 자랐는지</b>로 점수를 매겨요. 100점이 표준이에요. 균사·G1·큰 유충병, "거대함" 특성, 크게 자란 부모의 유전이 점수를 올려요.</p>
+<small>${done ? '이번 주에는 이미 출전했어요. 다음 주(7일마다)에 다시 열려요.' : '이번 주 대회에 한 마리 출전할 수 있어요.'} · ${rec} · 우승 ${(S.st || {}).cwin || 0}회</small></div>
+<div class="ct-list">${list.map((b) => `<div class="ct-row">${idleSvg(b.id, vk(b))}<div><b>${SP[b.id].name}${sexMark(b)}${b.rare ? ' ★' : ''}</b><small>${b.mm}mm · ${trTag(b) || ''}</small></div><span class="ct-sc">${sizeScore(b)}점</span><button type="button" class="btn${done ? '' : ' pri'}" data-ct="${b.uid}" ${done ? 'disabled' : ''}>출전</button></div>`).join('')}</div></div>`, () => openSchool());
+  root.querySelectorAll('[data-ct]').forEach((x) => x.addEventListener('click', () => runContest(bugBy(x.dataset.ct))));
+}
+function runContest(b) {
+  if (!b || contestDone()) return;
+  const wk = contestWeek(), mine = sizeScore(b);
+  const names = BATTLERS.slice().sort(() => Math.random() - .5).slice(0, 7);
+  const rivals = names.map((p) => { const id = randSpecies(1)[0]; return { name: p.name, look: p.look, id, score: Math.round((97 + Math.random() * 9 + Math.min(10, wk * .8) + (Math.random() < .25 ? 4 : 0)) * 10) / 10 }; });
+  const all = [...rivals, { me: true, name: '최강찬', look: CH.kc.look, id: b.id, score: mine }].sort((x, y) => y.score - x.score);
+  const place = all.findIndex((x) => x.me) + 1, prize = [0, 5000, 2500, 1200][place] || 300;
+  S.cw = wk; S.money += prize; bump('contest'); if (place === 1) bump('cwin');
+  if (!S.cbest || mine > S.cbest.score) S.cbest = { score: mine, id: b.id, mm: b.mm };
+  save();
+  AU.sfx(place === 1 ? 'win' : place <= 3 ? 'perfect' : 'page');
+  openScr('school contest', `${scrHead(`곤충 크기 대회 · 제${wk + 1}회 결과`)}<div class="scr-body school-body feat"><div class="ct-res">
+<h2>${place === 1 ? '🏆 우승!' : place <= 3 ? `🥈 ${place}등!` : `${place}등`}</h2><p>${SP[b.id].name} ${b.mm}mm · ${mine}점 · 상금 ${prize.toLocaleString()}원</p>
+<ol>${all.map((x, i) => `<li class="${x.me ? 'me' : ''}"><span>${i + 1}</span><div class="face">${chibi(x.look, x.me ? 'happy' : 'smile')}</div><b>${x.name}</b><span class="mini">${bugSvg(x.id)}</span><em>${x.score}점</em></li>`).join('')}</ol></div></div>`, () => openSchool());
+}
+
+/* 곤충 교환 */
+function ensureTrades() {
+  if (S.trades && S.trades.day === (S.day || 1)) return;
+  ensureDex();
+  const caughtIds = DEX.filter((id) => S.dex[id] && S.dex[id].caught && SP[id]);
+  const giveable = DEX.filter((id) => SP[id] && id !== 'callipogon');
+  const list = [];
+  const ppl = BATTLERS.slice().sort(() => Math.random() - .5);
+  for (let i = 0; i < 3; i++) {
+    const want = caughtIds.length ? caughtIds[Math.floor(Math.random() * caughtIds.length)] : 'kabuto';
+    const notMine = giveable.filter((id) => !(S.dex[id] && S.dex[id].caught) && id !== want);
+    const pool = notMine.length && Math.random() < .7 ? notMine : giveable.filter((id) => id !== want);
+    const give = pool[Math.floor(Math.random() * pool.length)];
+    list.push({ who: ppl[i].name, sub: ppl[i].school, look: ppl[i].look, want, give, rare: !!RARE[give] && Math.random() < .12, lv: 3 + Math.floor(Math.random() * 5), done: false });
+  }
+  S.trades = { day: S.day || 1, list };
+}
+function openTrade() {
+  ensureTrades(); ensureBugs(); AU.play('classroom');
+  const root = openScr('school trade', `${scrHead('곤충 교환 게시판')}<div class="scr-body school-body feat"><p class="tag-p">다른 학교 친구들이 곤충을 바꾸자고 해요. 교환 목록은 매일 바뀌어요. 지역 한정 곤충을 얻을 기회!</p>
+<div class="opps four" style="grid-template-columns:repeat(3,minmax(0,1fr))">${S.trades.list.map((t, i) => { const have = S.bugs.filter((b) => b.id === t.want); return `<div class="opp${t.done ? ' done' : ''}"><span class="opp-tag">교환 ${i + 1}</span><div class="face">${chibi(t.look, 'grin')}</div><b>${t.who}</b><small>${t.sub}</small>
+<div class="tr-x"><div><small>원하는 곤충</small>${bugSvg(t.want)}<b>${SP[t.want].name}</b></div><span>⇄</span><div><small>주는 곤충</small>${bugSvg(t.give, '', t.rare ? 'mr' : 'm')}<b>${t.rare && RARE[t.give] ? '★' + RARE[t.give].n : SP[t.give].name}</b><small>Lv.${t.lv}</small></div></div>
+${t.done ? '<p>교환 완료!</p>' : have.length ? `<select class="tr-sel" data-ts="${i}">${have.map((b) => `<option value="${b.uid}">${SP[b.id].name}${sexMark(b)} Lv.${b.lv} · ${b.mm}mm${S.party.includes(b.uid) ? ' (팀)' : ''}</option>`).join('')}</select><button type="button" class="btn pri" data-tr="${i}">교환하기</button>` : `<p style="color:#FF8A7A">${SP[t.want].name}이(가) 없어요</p>`}</div>`; }).join('')}</div></div>`, () => openSchool());
+  root.querySelectorAll('[data-tr]').forEach((x) => x.addEventListener('click', () => {
+    const i = +x.dataset.tr, t = S.trades.list[i], sel = root.querySelector(`[data-ts="${i}"]`), b = sel && bugBy(sel.value);
+    if (!b || t.done) return;
+    if (S.bugs.length <= 1) { note('마지막 곤충은 교환할 수 없어요.', 'fail'); return; }
+    if (b.held) { S.items['held_' + b.held] = (S.items['held_' + b.held] || 0) + 1; }
+    releaseBug(b);
+    const nb = newInsect(t.give, t.lv, { q: .3, rare: t.rare });
+    addBug(nb); ensureBugs(); markCaught(nb.id, nb); t.done = true; bump('trade');
+    save(); AU.sfx('catch'); note(`교환 성공! ${t.who}에게서 ${t.rare && RARE[t.give] ? RARE[t.give].n : SP[t.give].name}을(를) 받았어요!`, 'win'); openTrade();
+  }));
+}
+
 /* ---------- 메뉴 ---------- */
 function onoffRow(key, label) {
   return `<div class="row"><span>${label}</span><div class="seg" role="group" aria-label="${label}"><button type="button" data-${key}="1" aria-pressed="${prefs[key]}">켜기</button><button type="button" data-${key}="0" aria-pressed="${!prefs[key]}">끄기</button></div></div>`;
@@ -6241,7 +6674,7 @@ function resume(sv) {
   S.bugs = Array.isArray(sv.bugs) ? sv.bugs.map(cleanBug).filter(Boolean) : [];
   S.party = Array.isArray(sv.party) ? sv.party.map(String) : [];
   S.money = Math.max(0, sv.money | 0);
-  S.items = {}; for (const k of [...Object.keys(ITEMS), ...Object.keys(SUBS).map((x) => 'sub_' + x), ...Object.keys(GEAR).map((x) => 'gear_' + x), 'antimold']) S.items[k] = Math.max(0, (sv.items && sv.items[k]) | 0);
+  S.items = {}; for (const k of [...Object.keys(ITEMS), ...Object.keys(SUBS).map((x) => 'sub_' + x), ...Object.keys(GEAR).map((x) => 'gear_' + x), 'antimold', 'med_kinshi', ...Object.keys(HELD).map((x) => 'held_' + x)]) S.items[k] = Math.max(0, (sv.items && sv.items[k]) | 0);
   S.day = Math.max(1, sv.day | 0 || 1);
   S.tut = sv.tut && typeof sv.tut === 'object' ? Object.fromEntries(TODO.map(([k]) => [k, !!sv.tut[k]])) : null;
   S.tutDone = !!sv.tutDone; S.gifted = !!sv.gifted;
@@ -6249,12 +6682,19 @@ function resume(sv) {
   ensureDex();
   const okS = (x, T) => (T[x] ? x : 's');
   S.cages = Array.isArray(sv.cages) ? sv.cages.map((c) => ({ id: String(c.id || rid()), size: okS(c.size, CAGE), occ: Array.isArray(c.occ) ? c.occ.map(String) : [], sub: SUBS[c.sub] ? c.sub : 'saw', gear: Object.fromEntries(Object.keys(GEAR).filter((k) => c.gear && c.gear[k]).map((k) => [k, true])), age: c.age | 0, mold: !!c.mold })) : [];
-  S.jars = Array.isArray(sv.jars) ? sv.jars.map((j) => ({ id: String(j.id || rid()), size: okS(j.size, JAR), egg: j.egg && SP[j.egg.sp] ? { ...(j.egg.med ? { med: j.egg.med === 'kinshi' ? 'kinshi' : 'g1' } : {}), sp: j.egg.sp, q: +j.egg.q || 0, stage: ['egg', 'larva', 'pupa', 'adult'].includes(j.egg.stage) ? j.egg.stage : 'egg', d: j.egg.d | 0 } : null })) : [];
-  S.eggs = Array.isArray(sv.eggs) ? sv.eggs.filter((e) => e && SP[e.sp]).map((e) => ({ id: String(e.id || rid()), sp: e.sp, q: +e.q || 0, day: e.day | 0 })) : [];
+  S.jars = Array.isArray(sv.jars) ? sv.jars.map((j) => ({ id: String(j.id || rid()), size: okS(j.size, JAR), egg: j.egg && SP[j.egg.sp] ? { ...(j.egg.med ? { med: j.egg.med === 'kinshi' ? 'kinshi' : 'g1' } : {}), sp: j.egg.sp, q: +j.egg.q || 0, stage: ['egg', 'larva', 'pupa', 'adult'].includes(j.egg.stage) ? j.egg.stage : 'egg', d: j.egg.d | 0, ...(cleanPar(j.egg.par) ? { par: cleanPar(j.egg.par) } : {}) } : null })) : [];
+  S.eggs = Array.isArray(sv.eggs) ? sv.eggs.filter((e) => e && SP[e.sp]).map((e) => ({ id: String(e.id || rid()), sp: e.sp, q: +e.q || 0, day: e.day | 0, ...(cleanPar(e.par) ? { par: cleanPar(e.par) } : {}) })) : [];
   S.goal = sv.goal && sv.goal.day ? { name: String(sv.goal.name || '리그'), day: sv.goal.day | 0 } : null;
   S.teamName = typeof sv.teamName === 'string' ? sv.teamName.slice(0, 12) : '';
   S.lastDp = typeof sv.lastDp === 'number' ? sv.lastDp : (sv.day > 1 ? SCRIPT.findIndex((c) => c.t === 'daypass') : -1);
   S.deco = {}; if (sv.deco) for (const k in DECO) if (sv.deco[k]) S.deco[k] = true;
+  S.wx = WX[sv.wx] ? sv.wx : 'sun'; S.st = sv.st && typeof sv.st === 'object' ? sv.st : {}; ensureSt();
+  S.dm = sv.dm && sv.dm.day && Array.isArray(sv.dm.idx) && sv.dm.idx.every((i) => DM_POOL[i]) ? { day: sv.dm.day | 0, idx: sv.dm.idx, base: sv.dm.base || {}, got: Array.isArray(sv.dm.got) ? sv.dm.got : [], all: !!sv.dm.all } : null;
+  S.ach = Array.isArray(sv.ach) ? sv.ach.filter((x) => ACH.some((a) => a.id === x)) : []; S.dexRw = Array.isArray(sv.dexRw) ? sv.dexRw.map(String) : [];
+  S.rank = sv.rank && typeof sv.rank === 'object' ? { t: sv.rank.t | 0, s: sv.rank.s | 0, w: sv.rank.w | 0, best: sv.rank.best | 0, streak: sv.rank.streak | 0, top: sv.rank.top | 0, opp: null } : null; ensureRank();
+  S.freeDay = typeof sv.freeDay === 'number' ? sv.freeDay : undefined; monthMemo = { ip: -1, m: 3 };
+  S.cw = typeof sv.cw === 'number' ? sv.cw : -1; S.cbest = sv.cbest && SP[sv.cbest.id] ? { score: +sv.cbest.score || 0, id: sv.cbest.id, mm: +sv.cbest.mm || 0 } : null;
+  S.trades = sv.trades && Array.isArray(sv.trades.list) && sv.trades.list.every((t) => SP[t.want] && SP[t.give]) ? sv.trades : null;
   if (S.bugs.length) ensureBugs();
   let scene = null; const after = [];
   for (let i = 0; i < S.ip; i++) {
@@ -6311,7 +6751,7 @@ window.addEventListener('keydown', (e) => {
   if (S.mode === 'battle' && B && !B.over) {
     const k = { KeyA: 'a', KeyQ: 'q', KeyW: 'w', KeyE: 'e', KeyR: 'r' }[e.code];
     if (k) { e.preventDefault(); if (!e.repeat) trySkill(k); return; }
-    const d = { Digit1: 0, Digit2: 1, Digit3: 2 }[e.code];
+    const d = { Digit1: 0, Digit2: 1, Digit3: 2, Digit4: 3 }[e.code];
     if (d != null) { if (!e.repeat) command({ kind: 'swap', idx: d }); return; }
   }
   if (E) {
