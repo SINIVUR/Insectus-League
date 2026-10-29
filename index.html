@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.16">
+<meta name="version" content="0.0.17">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -879,7 +879,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.16';
+const VERSION = '0.0.17';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -1122,6 +1122,8 @@ const CH = {
   hc: { name: '신현철', color: '#2A3A5A', fg: '#FFFFFF', look: { hair: 'cool', outfit: 'boy', acc: 'none', hc: '#1E1A20', hl: '#4A4458', ec: '#3A2A1A', tie: '#2A3A5A', jk: '#3A3E4A' } },
   oy: { name: '오연서', color: '#4AB0A0', fg: '#111114', look: { hair: 'long', outfit: 'girl', acc: 'none', hc: '#2A1A14', hl: '#5A3A2A', ec: '#2A6A5A', tie: '#1F4AA0', jk: '#E8EAF2' } },
   tj: { name: '정태준', color: '#6A4A2A', fg: '#FFFFFF', look: { hair: 'buzz', outfit: 'boy', acc: 'none', hc: '#1A1418', hl: '#3A3438', ec: '#3A2418', tie: '#1F4AA0', jk: '#E8EAF2' } },
+  dy: { name: '이도윤', color: '#1A3A2A', fg: '#FFFFFF', look: { hair: 'wave', outfit: 'boy', acc: 'none', hc: '#3A2A1A', hl: '#6A5A3A', ec: '#2E6A4A', tie: '#E0E0E0', jk: '#1A3A2A' } },
+  mh: { name: '서민혁', color: '#1A3A2A', fg: '#FFFFFF', look: { hair: 'spiky', outfit: 'boy', acc: 'glasses', hc: '#1A1A22', hl: '#44445A', ec: '#2A3A4A', tie: '#E0E0E0', jk: '#1A3A2A' } },
   hj: { name: '박현준', color: '#C8232C', fg: '#FFFFFF', look: { hair: 'side', outfit: 'boy', acc: 'none', hc: '#1A1A2A', hl: '#4A5A8A', ec: '#2A3A7A', tie: '#1F4AA0', jk: '#E8EAF2' } },
   gy: { name: '하도겸', color: '#2A4A2A', fg: '#FFFFFF', look: { hair: 'cool', outfit: 'boy', acc: 'none', hc: '#8A2A2A', hl: '#C04A4A', ec: '#2E6A4A', tie: '#F08A3A', jk: '#2A4A2A' } }
 };
@@ -2040,6 +2042,9 @@ const regionBg = (base, tint, op, label) => () => BG[base]().replace(/<\/svg>\s*
 BG.jeju = regionBg('forest', '#FF8A3A', .12, '제주도'); BG.gangwon = regionBg('forest', '#2A6A8A', .14, '강원도'); BG.gyeonggi = regionBg('forest', '#FFE0A0', .08, '경기도');
 BG.chungcheong = regionBg('meadow', '#3AA0C0', .1, '충청도'); BG.jeolla = regionBg('meadow', '#FFC040', .12, '전라도'); BG.gyeongsang = regionBg('meadow', '#C86A3A', .1, '경상도');
 BG.club2 = () => BG.club();
+BG.sel = () => BG.league().replace('서울시 중등부 곤충 배틀 리그', '한국 대표 선발전 · 리그전').replace('SEOUL MIDDLE SCHOOL LEAGUE', 'KOREA NATIONAL SELECTION');
+BG.selfinal = () => BG.league().replace('서울시 중등부 곤충 배틀 리그', '한국 대표 선발전 · 결승전').replace('SEOUL MIDDLE SCHOOL LEAGUE', 'KOREA NATIONAL SELECTION · FINAL');
+BG.dawn = () => BG.lodge().replace(/<\/svg>$/, '<defs><linearGradient id="dw-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9A4A" stop-opacity=".05"/><stop offset=".55" stop-color="#FF8A3A" stop-opacity=".42"/><stop offset="1" stop-color="#FFD08A" stop-opacity=".25"/></linearGradient></defs><rect width="1280" height="720" fill="url(#dw-g)"/><circle cx="640" cy="470" r="70" fill="#FFD27A" opacity=".55"/></svg>');
 BG.clubnight = () => BG.club().replace(/<\/svg>$/, '<rect width="1280" height="720" fill="#0A1030" opacity=".42"/><rect x="560" y="0" width="160" height="720" fill="#FFE8A0" opacity=".06"/></svg>');
 BG.gym = () => `<svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true"><defs><linearGradient id="gy-w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#141A2A"/><stop offset="1" stop-color="#28304A"/></linearGradient><radialGradient id="gy-l" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#BFE4FF" stop-opacity=".4"/><stop offset="1" stop-color="#BFE4FF" stop-opacity="0"/></radialGradient><linearGradient id="gy-f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A5470"/><stop offset="1" stop-color="#2A3048"/></linearGradient></defs>
 <rect width="1280" height="470" fill="url(#gy-w)"/>
@@ -2084,6 +2089,9 @@ const SCENES = {
   jejuroad: { place: ['챕터 11', '제주도 · 숙소로 가는 길'], actors: { dh: { x: 500, y: 330, s: .8, face: 'smile', casual: true }, sr: { x: 380, y: 320, s: .8, face: 'smile', casual: true }, sw: { x: 250, y: 310, s: .85, face: 'grin', casual: true }, eh: { x: 125, y: 330, s: .82, face: 'happy', casual: true }, kc: { x: 0, y: 320, s: .88, face: 'grin', casual: true }, bs: { x: 690, y: 300, s: .86, face: 'grin', hidden: true }, gw: { x: 850, y: 300, s: .86, face: 'grin', hidden: true }, cc: { x: 1010, y: 300, s: .86, face: 'smile', hidden: true }, neo: { x: 820, y: 270, s: 1, face: 'cool', hidden: true }, neo2: { x: 1010, y: 270, s: 1, face: 'cool', hidden: true } } },
   seogwipo: { place: ['챕터 12', '제주도 · 서귀포 해안'], actors: { dh: { x: 500, y: 330, s: .8, face: 'cool', casual: true }, sr: { x: 380, y: 320, s: .8, face: 'shock', casual: true }, sw: { x: 250, y: 310, s: .85, face: 'shock', casual: true }, eh: { x: 125, y: 330, s: .82, face: 'shock', casual: true }, kc: { x: 0, y: 320, s: .88, face: 'shock', casual: true }, bs: { x: 690, y: 300, s: .86, face: 'shock' }, gw: { x: 850, y: 300, s: .86, face: 'shock' }, cc: { x: 1010, y: 300, s: .86, face: 'shock' }, ln: { x: 960, y: 250, s: 1.12, face: 'cool', hidden: true } } },
   tokyo: { place: ['챕터 15', '일본 · 도쿄 곤충 거리'], actors: { dh: { x: 500, y: 330, s: .8, face: 'smile', casual: true }, sr: { x: 380, y: 320, s: .8, face: 'happy', casual: true }, sw: { x: 250, y: 310, s: .85, face: 'grin', casual: true }, eh: { x: 125, y: 330, s: .82, face: 'happy', casual: true }, kc: { x: 0, y: 320, s: .88, face: 'happy', casual: true }, kt: { x: 960, y: 280, s: .95, face: 'grin', hidden: true } } },
+  sel: { place: ['10월', '한국 대표 선발전 · 경기장'], actors: { dh: { x: 500, y: 330, s: .8, face: 'cool' }, sr: { x: 380, y: 320, s: .8, face: 'smile' }, sw: { x: 250, y: 310, s: .85, face: 'grin' }, eh: { x: 125, y: 330, s: .82, face: 'smile' }, kc: { x: 0, y: 320, s: .88, face: 'grin' }, jh: { x: 960, y: 300, s: 0.86, face: 'grin', hidden: true }, ks: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true }, hj: { x: 990, y: 250, s: 1.1, face: 'cool', hidden: true }, ln: { x: 930, y: 260, s: 1.08, face: 'grin', hidden: true }, neo: { x: 760, y: 290, s: 0.95, face: 'cool', hidden: true }, neo2: { x: 1060, y: 300, s: 0.92, face: 'cool', hidden: true }, ry: { x: 760, y: 250, s: 1.12, face: 'smile', hidden: true } } },
+  selfinal: { place: ['결승전', '한국 대표 선발전 · 결승'], actors: { dh: { x: 500, y: 330, s: .8, face: 'cool' }, sr: { x: 380, y: 320, s: .8, face: 'smile' }, sw: { x: 250, y: 310, s: .85, face: 'grin' }, eh: { x: 125, y: 330, s: .82, face: 'smile' }, kc: { x: 0, y: 320, s: .88, face: 'grin' }, hj: { x: 980, y: 250, s: 1.12, face: 'cool', hidden: true }, ry: { x: 760, y: 250, s: 1.12, face: 'smile', hidden: true } } },
+  dawn: { place: ['결승 전날 새벽', '선수 숙소 뒤편'], actors: { kc: { x: 0, y: 320, s: .88, face: 'cool', casual: true }, eh: { x: 160, y: 330, s: .82, face: 'smile', casual: true }, sr: { x: 330, y: 320, s: .8, face: 'smile', casual: true }, dh: { x: 760, y: 320, s: .82, face: 'cool', casual: true }, sw: { x: 940, y: 300, s: .88, face: 'grin', casual: true } } },
   home: { place: ['그날 밤', '강찬의 방'], actors: { kc: { x: 470, y: 250, s: 1.2, face: 'happy', casual: true } } },
   clubnight: { place: ['늦은 밤', '세온중 동아리실'], actors: { dh: { x: 500, y: 330, s: .8, face: 'cool', casual: true }, sr: { x: 380, y: 320, s: .8, face: 'shock', casual: true }, sw: { x: 250, y: 310, s: .85, face: 'cool', casual: true }, eh: { x: 125, y: 330, s: .82, face: 'shock', casual: true }, kc: { x: 0, y: 320, s: .88, face: 'shock', casual: true }, hc: { x: 920, y: 260, s: 1.05, face: 'cool', hidden: true } } },
   gym: { place: ['챕터 17', '분당 · 제로원 트레이닝룸'], actors: { kc: { x: 0, y: 340, s: .78, face: 'grin', casual: true }, eh: { x: 105, y: 350, s: .72, face: 'shock', casual: true }, sr: { x: 205, y: 345, s: .72, face: 'shock', casual: true }, sw: { x: 305, y: 330, s: .76, face: 'cool', casual: true }, dh: { x: 410, y: 345, s: .72, face: 'cool', casual: true }, hc: { x: 520, y: 300, s: .86, face: 'cool' }, ks: { x: 700, y: 300, s: .86, face: 'cool' }, oy: { x: 820, y: 320, s: .82, face: 'smile' }, tj: { x: 935, y: 270, s: .95, face: 'grin' }, hj: { x: 1070, y: 290, s: .9, face: 'cool' } } },
@@ -2097,7 +2105,7 @@ const SCENES = {
   jeju: { place: null, actors: {}, field: true }, gangwon: { place: null, actors: {}, field: true }, gyeonggi: { place: null, actors: {}, field: true },
   chungcheong: { place: null, actors: {}, field: true }, jeolla: { place: null, actors: {}, field: true }, gyeongsang: { place: null, actors: {}, field: true }
 };
-const MUSIC = { clubnight: 'home', gym: 'club', jeju: 'forest', gangwon: 'forest', gyeonggi: 'forest', chungcheong: 'forest', jeolla: 'forest', gyeongsang: 'forest', opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', jejuroad: 'opening', tokyo: 'opening', seogwipo: 'home', club2: 'club', nat: 'opening', lodge: 'home' };
+const MUSIC = { sel: 'opening', selfinal: 'opening', dawn: 'home', clubnight: 'home', gym: 'club', jeju: 'forest', gangwon: 'forest', gyeonggi: 'forest', chungcheong: 'forest', jeolla: 'forest', gyeongsang: 'forest', opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', jejuroad: 'opening', tokyo: 'opening', seogwipo: 'home', club2: 'club', nat: 'opening', lodge: 'home' };
 const PITCH = { kc: 520, eh: 780, dh: 330, sw: 420, sr: 640, mt: 300, gr: 700 };
 
 /* ---------- 스크립트 ---------- */
@@ -2968,7 +2976,148 @@ const SCRIPT = [
   say('kc', 'grin', '…그렇구나. 너도 같이 분했던 거지? 같이 강해지고 싶었던 거지?'),
   say('kc', 'grin', '그래. 나도 더 열심히 노력하면 강해질 수 있어!\n포기하지 말자. 지금보다 훨씬 더 강해지는 거야!'),
   say('kc', 'grin', '기다려라, 권성준! 박현준! 한국 대표는… 우리가 될 거야!'),
-  { t: 'trophy', chip: '챕터 18 완료', title: '유대 각성!', text: '강찬의 에이스 곤충이 유대 각성했어요! 이제 다른 곤충도 <b>Lv.20(만렙)</b>에 <b>근성 100</b>을 채우면 사육장에서 유대 각성할 수 있어요. 근성은 레벨업, 새로운 근성 특훈, 큰 사육장으로 올릴 수 있어요. 다음 이야기는 준비 중이에요.' },
+  { t: 'trophy', chip: '챕터 18 완료', title: '유대 각성!', text: '강찬의 에이스 곤충이 유대 각성했어요! 이제 다른 곤충도 <b>Lv.20(만렙)</b>에 <b>근성 100</b>을 채우면 사육장에서 유대 각성할 수 있어요. 근성은 레벨업, 새로운 근성 특훈, 큰 사육장으로 올릴 수 있어요. 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 19 · 한국 대표 선발전', d: '드디어 10월! 한국 대표 선발전이 시작돼요. (여기서부터 지면 그 배틀은 다시!)' } },
+  { t: 'chapter', no: '챕터 19', title: '한국 대표 선발전' },
+  { t: 'scene', id: 'sel' },
+  narr('특훈의 특훈을 거듭한 나날들.\n그리고 드디어 10월. 한국 대표 선발전의 막이 올랐다!'),
+  say('kc', 'grin', '드디어 왔다…! 한국 대표 선발전!'),
+  say('sr', 'smile', '규칙을 다시 정리할게. 이번엔 진짜 중요해.'),
+  { t: 'cards', set: 'sel', title: '한국 대표 선발전', btn: '각오했어요!' },
+  say('sw', 'grin', '첫 상대는 초등부 대표, 스노우화이트다!'),
+  { t: 'show', who: 'jh' },
+  say('jh', 'grin', '언니 오빠들! 약속대로 다시 만났네요! 이번엔 우리가 이길 거예요!'),
+  say('kc', 'grin', '우리도 지지 않을 거야, 지희야!'),
+  say('sw', 'cool', '대진은 선봉 은하, 중견 나, 대장 강찬!'),
+  { t: 'match', key: 'k1' },
+  { t: 'scene', id: 'sel' },
+  { t: 'show', who: 'jh' },
+  say('jh', 'shock', '으아… 또 졌다! 진짜 아슬아슬했는데!'),
+  say('kc', 'shock', '헉, 헉… 가까스로 이겼다…! 초등부라고 절대 얕볼 수 없어.'),
+  say('jh', 'happy', '오빠, 결승까지 꼭 올라가요! 응원할게요!'),
+  { t: 'hide', who: 'jh' },
+  say('eh', 'happy', '1승이야! 다음은…'),
+  say('dh', 'cool', '…고등부 대표, 더크로스. 권성준이다.'),
+  { t: 'show', who: 'ks' },
+  say('ks', 'cool', '최강찬. 트레이닝룸 이후로 조금은 달라졌나?'),
+  say('kc', 'cool', '…그날 진 거, 하루도 잊은 적 없어요.'),
+  say('kc', 'grin', '세웅 선배! 이번엔 제가 대장으로 나갈게요. 권성준 씨랑 붙어야 해요!'),
+  say('sw', 'grin', '…좋다. 설욕전이다, 강찬! 대진은 선봉 새롬, 중견 도혁, 대장 강찬!'),
+  { t: 'hide', who: 'ks' },
+  { t: 'match', key: 'k2' },
+  { t: 'scene', id: 'sel' },
+  { t: 'show', who: 'ks' },
+  say('ks', 'shock', '…내 물장군이, 졌다고?'),
+  say('ks', 'cool', '…그날과는 눈빛이 달라. 곤충들이 너를 완전히 믿고 있군.'),
+  say('kc', 'grin', '이겼다아아아! 권성준 씨, 고마워요! 그날 져서 여기까지 올 수 있었어요!'),
+  say('ks', 'smile', '…결승에서 지면 용서 안 한다.'),
+  { t: 'hide', who: 'ks' },
+  say('sr', 'happy', '2승! 계산해 봤는데… 이걸로 결승 진출은 이미 확정이야!'),
+  say('eh', 'happy', '우와아! 우리가 결승이래!'),
+  say('sw', 'cool', '…하지만 마지막 상대가 남았다. 한국 최강, 제로원.'),
+  { t: 'show', who: 'hj' },
+  say('hj', 'cool', '여기까지 올라왔구나, {팀}. 약속대로 상대해 주지.'),
+  { t: 'hide', who: 'hj' },
+  { t: 'match', key: 'k3' },
+  { t: 'scene', id: 'sel' },
+  narr('결과는 처참한 패배였다.\n제로원의 곤충들은 단 한 번도 흔들리지 않았다.'),
+  say('kc', 'shock', '…또, 아무것도 못 했어.'),
+  say('dh', 'cool', '…이게 결승 상대라니.'),
+  { t: 'cards', set: 'selb', title: '리그전 결과', btn: '결승이다!' },
+  say('sw', 'grin', '…그래도! 고등부 대표까지 이겼다고! 중등부 팀이 선발전 결승에 간 건 처음이래!'),
+  say('eh', 'happy', '맞아! 우리 정말 대단해!'),
+  say('sr', 'happy', '데이터를 또 뒤집었어! 우리 팀 최고야!'),
+  say('kc', 'grin', '그래! 오늘은 일단 축하하자! 세온중 최고!'),
+  narr('그때였다. 경기장의 조명이 하나둘 꺼지더니, 보랏빛 스포트라이트가 무대를 비췄다.'),
+  { t: 'show', who: 'ln' },
+  say('ln', 'grin', '훌륭합니다. 지금까지의 경기는 잘 보았습니다.'),
+  say('kc', 'shock', '라, 라이언?!'),
+  say('ln', 'grin', '하지만 진짜 시험은 이제부터입니다.\n이제 저희 네오 직원들의 강화 곤충들을 상대하셔야 합니다!'),
+  { t: 'trophy', dark: true, chip: '챕터 19 완료', title: '결승 진출… 그리고', text: '{팀}이 스노우화이트와 더크로스를 꺾고 2승으로 결승 진출을 확정했어요! 제로원에게는 처참하게 졌지만… 축하하는 순간, 네오의 라이언이 나타났어요. 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 20 · 네오의 급습', d: '라이언과 네오 직원들의 강화 곤충이 경기장에 나타났어요!' } },
+  { t: 'chapter', no: '챕터 20', title: '네오의 급습' },
+  { t: 'scene', id: 'sel' },
+  { t: 'show', who: 'ln' },
+  { t: 'show', who: 'neo' },
+  { t: 'show', who: 'neo2' },
+  narr('보랏빛 문양의 옷을 입은 네오 직원들이 경기장으로 쏟아져 들어왔다.\n그들의 사육통 속 곤충들이 보랏빛으로 번뜩였다!'),
+  say('ln', 'grin', '네오비전으로 강화된 곤충들입니다. 여러분의 "평범한" 곤충이 어디까지 버티는지, 데이터를 모으도록 하죠.'),
+  say('sw', 'cool', '…곤충을 저렇게 만들다니. 다들, 가자!'),
+  say('kc', 'grin', '곤충은 무기가 아니야! 우리가 막는다!'),
+  { t: 'wild', who: 'neo', name: '네오 직원', sub: '네오비전 강화 곤충', team: ['scutigera', 'fireant', 'hornet'], lvAdd: 6, line: '강화 곤충의 힘, 온몸으로 느껴 봐!', prize: 2500 },
+  { t: 'scene', id: 'sel' },
+  { t: 'show', who: 'ln' },
+  { t: 'show', who: 'neo2' },
+  say('eh', 'shock', '강찬아, 아직 하나 더 있어!'),
+  { t: 'wild', who: 'neo2', name: '네오 직원', sub: '네오비전 강화 곤충', team: ['paperw', 'bombard', 'ostag'], lvAdd: 7, line: '데이터 수집, 계속합니다!', prize: 2500 },
+  { t: 'scene', id: 'sel' },
+  { t: 'show', who: 'ln' },
+  narr('{팀}은 힘겹게 네오 직원들의 강화 곤충들을 모두 쓰러뜨렸다.'),
+  say('dh', 'cool', '헉… 헉… 이게 네오비전의 힘인가.'),
+  say('sr', 'shock', '강화 곤충들… 쓰러지자마자 숨이 거칠어져. 역시 생명을 깎아 먹고 있어…!'),
+  say('ln', 'cool', '흥미롭군요. 하지만 착각하지 마시길.'),
+  say('ln', 'grin', '이번 선발전은 네오가 후원하는 대회입니다.\n즉, 여러분을 비롯한 모든 참가자는 저희의 말을 따르셔야 한다는 뜻이죠.'),
+  say('eh', 'shock', '그런 말도 안 되는…!'),
+  say('ln', 'grin', '불만이 있다면… 저와의 배틀로 증명해 보시죠.'),
+  say('kc', 'grin', '…제가 나갈게요.'),
+  say('sw', 'shock', '강찬!'),
+  say('kc', 'grin', '괜찮아요, 선배. 우리 곤충들이랑 같이라면, 저런 약 따위에 안 져요!'),
+  { t: 'wild', who: 'ln', name: '라이언', sub: '네오 연구부장', team: ['satmoth', 'ostag', 'scutigera'], lvAdd: 8, q: 1, line: '네오비전의 완성형을 보여 드리겠습니다.', prize: 5000 },
+  { t: 'scene', id: 'sel' },
+  { t: 'show', who: 'ln' },
+  say('ln', 'shock', '…말도 안 돼. 완성형 네오비전 곤충이…!'),
+  say('kc', 'grin', '봤지! 곤충은 약으로 강해지는 게 아니야. 같이 키워 가는 거라고!'),
+  say('ln', 'cool', '…좋습니다. 이번만큼은 물러나도록 하죠. 하지만 이걸로 끝이라고 생각하진 마시길.'),
+  { t: 'hide', who: 'ln' },
+  { t: 'hide', who: 'neo' },
+  { t: 'hide', who: 'neo2' },
+  narr('라이언과 네오 직원들이 사라지고, 경기장에 다시 불이 켜졌다.'),
+  { t: 'show', who: 'ry' },
+  say('ry', 'shock', '다들 무사한가?! 연락을 받고 급히 달려왔네!'),
+  say('ry', 'cool', '네오의 후원은 지금 이 순간부로 끊겠네. 이 대회는 협회가 책임지고 지킬 걸세!'),
+  say('ry', 'smile', '…그리고 최강찬 군. 곤충들을 지켜 줘서 고맙네.'),
+  say('kc', 'grin', '헤헤… 곤충들이 저를 지켜 준 거예요.'),
+  say('ry', 'grin', '경기는 재개하겠네! 결승전은 내일일세. 다들 푹 쉬게나!'),
+  { t: 'trophy', chip: '챕터 20 완료', title: '네오를 물리쳤다!', text: '{팀}이 네오 직원들의 강화 곤충과 라이언까지 쓰러뜨렸어요! 류성룡 회장이 사태를 수습하고 선발전이 다시 시작됐어요. 결승전은 내일, 상대는 제로원! 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 21 · 한국 대표 등극!', d: '대망의 결승전! 상대는 한국 최강 제로원!' } },
+  { t: 'chapter', no: '챕터 21', title: '한국 대표 등극!' },
+  { t: 'scene', id: 'dawn' },
+  narr('결승 전날 새벽. 하늘 끝이 붉게 밝아 오고 있었다.\n잠들지 못한 다섯 명이 숙소 뒤편에 모였다.'),
+  say('sw', 'grin', '…다들 못 잤구나.'),
+  say('eh', 'smile', '응. 설레서… 그리고 조금 무서워서.'),
+  say('sr', 'smile', '데이터로 보면 제로원을 이길 확률은 정말 낮아. 그래도… 우리 팀은 늘 데이터를 뒤집어 왔지.'),
+  say('dh', 'cool', '…장현우한테 진 날, 권성준한테 진 날, 제로원한테 진 날. 전부 기억하고 있어. 그래서 여기까지 왔어.'),
+  say('kc', 'grin', '아무리 어려운 상대라도… 꼭 이기자!'),
+  say('kc', 'grin', '제로원과의 승부, 우리가 이기는 거야!'),
+  say('sw', 'grin', '좋다! {팀}, 세계를 향해 간다!'),
+  say('kc', 'grin', '오오오오!'),
+  { t: 'scene', id: 'selfinal' },
+  narr('그리고 대망의 결승날.\n경기장은 발 디딜 틈 없이 엄청난 인파로 가득 찼다!'),
+  say('eh', 'shock', '사람이… 사람이 너무 많아!'),
+  say('sr', 'happy', 'TV 생중계도 한대! 전국에서 보고 있어!'),
+  { t: 'show', who: 'hj' },
+  say('hj', 'cool', '올라왔구나, {팀}. 어제의 일은 협회에서 들었다. 네오를 막아 줘서 고맙다.'),
+  say('hj', 'smile', '하지만 승부는 승부다. 봐주지 않는다.'),
+  say('kc', 'grin', '저희도요! 전력으로 갈게요!'),
+  { t: 'hide', who: 'hj' },
+  say('sw', 'grin', '대진 발표! 선봉은 나, 세웅! 중견은 도혁! 그리고 대장은… 강찬, 너다!'),
+  say('kc', 'grin', '네!'),
+  { t: 'match', key: 'kf' },
+  { t: 'scene', id: 'selfinal' },
+  narr('박현준의 장수하늘소가 천천히 쓰러졌다.\n경기장이 한순간 고요해졌다가—'),
+  narr('우와아아아아아!!!\n엄청난 함성이 경기장을 뒤흔들었다!'),
+  { t: 'show', who: 'ry' },
+  say('ry', 'grin', '한국 대표 선발전 우승! 세계 곤충 배틀 리그 한국 대표는… {팀}일세!'),
+  say('kc', 'happy', '이… 이겼다… 우리가… 한국 대표다아아아!'),
+  say('eh', 'happy', '해냈어! 진짜 해냈어!'),
+  say('sw', 'happy', '하하하! 중등부가 한국 대표라니! 현철이 형한테 자랑해야겠다!'),
+  say('sr', 'happy', '역사상 처음이야! 데이터, 완전히 뒤집었어!'),
+  say('dh', 'smile', '…최강찬. 역시 너다.'),
+  { t: 'hide', who: 'ry' },
+  { t: 'show', who: 'hj' },
+  say('hj', 'smile', '…졌다. 최강찬, 세계 무대는 더 넓고 더 험하다. 한국의 이름을 걸고 싸워라.'),
+  say('kc', 'grin', '네! 꼭 세계 최강이 돼서 돌아올게요!'),
+  { t: 'trophy', chip: '챕터 21 완료', title: '한국 대표 등극!', text: '{팀}이 제로원을 꺾고 한국 대표 선발전에서 우승했어요! 중등부 팀 최초의 한국 대표! 이제 세계 곤충 배틀 리그가 기다리고 있어요. 다음 이야기는 준비 중이에요.' },
   { t: 'hub' },
   { t: 'end' }
 ];
@@ -5729,6 +5878,14 @@ function openFieldSelect() {
 const SCHOOL_JK = { maetan: '#1E5A5A', garam: '#5A1E2A', songdo: '#2A3A6A', hwaseong: '#4A2A5A', ilsan: '#2A4A2A', gangneung: '#1E4A2A', cheonan: '#3A2A6A' };
 const kface = (k, f = 'grin', look) => `<div class="b-face" style="width:70px;height:70px">${chibi(look || CH[k].look, f)}</div>`;
 const CARDSETS = {
+  sel: [
+    { t: '한국 대표 선발전', d: '초등부, 중등부, 고등부, 성인부 대표 4팀이 출전해요. 이긴 팀 단 하나만 세계 곤충 배틀 리그에 나갈 수 있어요.', art: () => ['초등부', '중등부', '고등부', '성인부'].map((x) => `<span class="schip" style="border-color:#FFD23F">${x}</span>`).join('') },
+    { t: '리그전 → 결승', d: '모든 팀이 서로 두 번 이상 붙는 리그전을 치러요. 승률이 가장 높은 두 팀만 결승에 올라가요.', art: () => kface('jh', 'grin') + kface('kc', 'grin') + kface('ks', 'cool') + kface('hj', 'cool') },
+    { t: '여기서부터는 진지하게!', d: '선발전부터는 강찬이 나간 배틀에서 지면, 그 배틀을 이길 때까지 다시 해야 해요. 곤충들을 잘 키우고 오세요!', art: () => kface('kc', 'cool') }
+  ],
+  selb: [
+    { t: '리그전 결과', d: '{팀}은 스노우화이트와 더크로스를 꺾고 2승! 제로원에게는 졌지만, 승률 2위로 결승 진출이 확정됐어요. 결승 상대는 전승의 제로원!', art: () => `<table style="border-collapse:collapse;font-weight:800;font-size:18px">${[['1', '제로원', '전승'], ['2', teamNm(), '2승 1패'], ['3', '더크로스', '1승 2패'], ['4', '스노우화이트', '전패']].map(([r, n, w], i) => `<tr style="background:${i < 2 ? '#FFF3C4' : '#fff'}"><td style="padding:4px 14px;border:2px solid #111">${r}위</td><td style="padding:4px 14px;border:2px solid #111">${n}</td><td style="padding:4px 14px;border:2px solid #111">${w}</td></tr>`).join('')}</table>` }
+  ],
   zero: [
     { t: '제로원 · 박현준', d: '한국 최강, 세계 곤충 배틀 챔피언십 2위. 천연기념물 장수하늘소를 특별 허가로 다루는 국가대표 주장이에요.', art: () => kface('hj', 'cool') + idleSvg('callipogon', 'm') },
     { t: '제로원 · 권성준', d: '고교 최강의 배틀러. "더크로스"의 주장이면서 제로원과 함께 훈련해요. 물장군 하나로 상대 팀을 전부 쓰러뜨린 적도 있대요.', art: () => kface('ks', 'cool') + idleSvg('waterbug', 'm') },
@@ -5769,12 +5926,32 @@ NATIONAL.forEach((t) => { SCHOOL_JK['n_' + t.key] = t.jk; });
 // 이야기 속 주장 캐릭터 모습도 명단과 맞춰요
 [['gw', '박진섭'], ['cc', '이빛나'], ['bs', '장현우'], ['jn', '고바다'], ['gb', '석무열'], ['jb', '소율']].forEach(([k, n]) => { const r = natFind(n); if (r) CH[k].look = natLook(...r); });
 const natOpp = (name, extra = {}) => { const [t, m] = natFind(name); return { name: m.name, sub: natSub(t, m), team: m.team.slice(), rare: m.rare || null, look: natLook(t, m), line: m.line, ...extra }; };
-const NL = '전국 중등부 곤충 배틀 리그 · 본선';
+const NL = '전국 중등부 곤충 배틀 리그 · 본선', KL = '세계 곤충 배틀 리그 · 한국 대표 선발전';
 const MATCHES = {
   sw1: { league: '친선 경기 · 세온중 동아리실', round: '초등부 대표와의 친선전', vs: '스노우화이트', col: '#B8C4E0', prize: 1500, lvAdd: 6, q: .85, bouts: [
     { pos: '선봉', me: 'eh', res: 'lose', note: '은하의 곤충들이 윤눈솔의 초파리 떼에 정신없이 흔들리다 졌어요.', opp: { name: '윤눈솔', sub: '스노우화이트 · 초등학교 4학년', team: ['fruitfly', 'cabbage', 'lady'], look: { hair: 'buzz', outfit: 'boy', acc: 'none', hc: '#E0D8C8', hl: '#FFFFFF', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } },
     { pos: '중견', me: 'kc', opp: { name: '백설아', sub: '스노우화이트 · 초등학교 5학년', team: ['silk', 'comma', 'snail'], line: '초등학생이라고 봐주면 큰일 나요!', look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#2A2A3A', hl: '#5A5A7A', ec: '#7A3A5A', tie: '#E85A8A', jk: '#E8EEF8' } } },
     { pos: '대장', me: 'dh', res: 'win', note: '도혁의 곤충들이 한지희의 배추흰나비와 누에나방을 끝까지 몰아붙여 이겼어요!', opp: { name: '한지희', sub: '스노우화이트 · 초등학교 6학년 · 주장', team: ['cabbage', 'silk', 'bee'], look: { hair: 'bob', outfit: 'girl', acc: 'band', capc: '#E85A8A', hc: '#1A1A2A', hl: '#4A4A6A', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } }
+  ] },
+  k1: { league: KL, round: '리그전 1경기', vs: '스노우화이트', col: '#B8C4E0', prize: 3000, lvAdd: 7, q: .95, retry: true, bouts: [
+    { pos: '선봉', me: 'eh', res: 'win', note: '은하의 곤충들이 이번엔 윤눈솔의 초파리 떼를 침착하게 받아넘겼어요! 설욕 성공!', opp: { name: '윤눈솔', sub: '스노우화이트 · 초등학교 4학년', team: ['fruitfly', 'cabbage', 'lady'], look: { hair: 'buzz', outfit: 'boy', acc: 'none', hc: '#E0D8C8', hl: '#FFFFFF', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } },
+    { pos: '중견', me: 'sw', res: 'lose', note: '세웅의 곤충들이 백설아의 누에나방 실에 발이 묶여 아깝게 졌어요!', opp: { name: '백설아', sub: '스노우화이트 · 초등학교 5학년', team: ['silk', 'comma', 'snail'], look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#2A2A3A', hl: '#5A5A7A', ec: '#7A3A5A', tie: '#E85A8A', jk: '#E8EEF8' } } },
+    { pos: '대장', me: 'kc', opp: { name: '한지희', sub: '스노우화이트 · 초등학교 6학년 · 주장', team: ['cabbage', 'silk', 'bee'], line: '이번엔 진짜 이길 거예요, 오빠!', look: CH.jh.look } }
+  ] },
+  k2: { league: KL, round: '리그전 2경기', vs: '더크로스', col: '#1A3A2A', prize: 4000, lvAdd: 9, q: 1, retry: true, bouts: [
+    { pos: '선봉', me: 'sr', res: 'lose', note: '새롬의 곤충들이 서민혁의 물자라와 송장헤엄치개에게 물속으로 끌려가 졌어요…', opp: { name: '서민혁', sub: '더크로스 · 고등학교 2학년', team: ['appasus', 'notonecta', 'damsel'], look: CH.mh.look } },
+    { pos: '중견', me: 'dh', res: 'win', note: '<b style="color:#FFD23F">도혁이 이겼어요!</b> 일본에서 균사로 키운 사슴벌레가 이도윤의 장구애비를 힘으로 눌렀어요!', opp: { name: '이도윤', sub: '더크로스 · 고등학교 1학년', team: ['nepa', 'hydro', 'mayfly'], look: CH.dy.look } },
+    { pos: '대장', me: 'kc', opp: { name: '권성준', sub: '더크로스 · 고교 최강 · 주장', team: ['waterbug', 'ranatra', 'dragonfly'], line: '…또 왔군. 이번엔 얼마나 버티는지 보자.', look: CH.ks.look } }
+  ] },
+  k3: { league: KL, round: '리그전 3경기', vs: '제로원', col: '#C8232C', prize: 0, lvAdd: 14, q: 1, lossOk: true, lossMsg: '한국 최강 제로원의 벽은 너무나 높았어요…', bouts: [
+    { pos: '선봉', me: 'sw', res: 'lose', note: '세웅의 장수풍뎅이가 정태준의 사슴풍뎅이 뿔에 단숨에 뒤집혔어요…', opp: { name: '정태준', sub: '제로원 · 성인부', team: ['deerch', 'kabuto', 'hanul'], look: CH.tj.look } },
+    { pos: '중견', me: 'kc', res: 'lose', note: '강찬의 곤충들이 오연서의 옥색긴꼬리산누에나방 비늘가루에 손도 쓰지 못하고 쓰러졌어요…', opp: { name: '오연서', sub: '제로원 · 성인부', team: ['lunamoth', 'satmoth', 'swallowtail'], look: CH.oy.look } },
+    { pos: '대장', me: 'dh', res: 'lose', note: '', opp: { name: '박현준', sub: '제로원 · 국가대표 주장', team: ['callipogon', 'ostag', 'emperor'], look: CH.hj.look } }
+  ] },
+  kf: { league: KL, round: '결승전', vs: '제로원', col: '#C8232C', prize: 30000, lvAdd: 12, q: 1, retry: true, bouts: [
+    { pos: '선봉', me: 'sw', res: 'lose', note: '세웅이 끝까지 버텼지만… 정태준의 사슴풍뎅이가 마지막 뿔치기를 꽂았어요. 세웅의 패배!', opp: { name: '정태준', sub: '제로원 · 성인부', team: ['deerch', 'kabuto', 'hanul'], look: CH.tj.look } },
+    { pos: '중견', me: 'dh', res: 'win', note: '<b style="color:#FFD23F">도혁이 해냈어요!</b> 오연서의 날갯짓을 끝까지 읽어 낸 도혁의 사슴벌레가 역전승을 거뒀어요! 1 : 1!', opp: { name: '오연서', sub: '제로원 · 성인부', team: ['lunamoth', 'satmoth', 'swallowtail'], look: CH.oy.look } },
+    { pos: '대장', me: 'kc', opp: { name: '박현준', sub: '제로원 · 국가대표 주장 · 세계 2위', team: ['callipogon', 'ostag', 'emperor'], line: '올라왔구나, 최강찬. 세계의 벽, 지금 보여 주마.', look: CH.hj.look } }
   ] },
   nf: { league: NL, round: '결승전', vs: '타이탄즈', col: '#1A2236', prize: 10000, lvAdd: 9, q: 1, bouts: [
     { pos: '선봉', me: 'kc', opp: natOpp('배수빈', { line: '우리 레드기어 톱사슴벌레, 장현우 것만큼 강하다.' }) },
@@ -5858,14 +6035,17 @@ function startMatch(key, done) {
   };
   const next = () => {
     if (st.w >= 2) { AU.sfx('win'); AU.play('victory'); draw(`<b style="color:#7CFC6A">${teamNm()} ${st.w} : ${st.l} 승리!</b> 상금 ${M.prize.toLocaleString()}원을 받았어요.`, '<button type="button" class="btn pri" id="mGo">계속하기</button>'); S.money = (S.money || 0) + M.prize; save(); $('#mGo').addEventListener('click', () => { L.ov.innerHTML = ''; $('#menuBtn').hidden = false; S.mode = 'story'; done(); }); return; }
+    if (st.l >= 2 && M.lossOk) { AU.sfx('lose'); draw(`<b style="color:#FF8A7A">${teamNm()} ${st.w} : ${st.l} 패배…</b> ${M.lossMsg || ''}`, '<button type="button" class="btn pri" id="mGo">계속하기</button>'); save(); $('#mGo').addEventListener('click', () => { L.ov.innerHTML = ''; S.mode = 'story'; done(); }); return; }
     if (st.l >= 2 && M.friendly) { AU.sfx('lose'); draw(`<b style="color:#FF8A7A">${teamNm()} ${st.w} : ${st.l} 패배…</b> 친선전이니까 괜찮아요. 좋은 경험이 됐어요!`, '<button type="button" class="btn pri" id="mGo">계속하기</button>'); save(); $('#mGo').addEventListener('click', () => { L.ov.innerHTML = ''; $('#menuBtn').hidden = false; S.mode = 'story'; done(); }); return; }
     if (st.l >= 2) { AU.sfx('lose'); draw(`<b style="color:#FF8A7A">${teamNm()} ${st.w} : ${st.l} 패배…</b> 곤충들을 쉬게 하고 다시 도전할 수 있어요.`, '<button type="button" class="btn pri" id="mRe">다시 도전하기</button>'); $('#mRe').addEventListener('click', () => startMatch(key, done)); return; }
     const bt = M.bouts[st.i];
-    if (bt.me === 'kc') {
+    if (bt.me === 'kc' && !bt.res) {
       draw(`<b>${bt.pos}전</b> · 이번엔 강찬이 나갈 차례예요! ${st.l ? '여기서 지면 탈락이에요.' : st.w ? '이기면 이 경기를 따내요.' : ''}`, '<button type="button" class="btn pri" id="mGo">출전하기!</button>');
       $('#mGo').addEventListener('click', () => {
         const lv = avgLv + M.lvAdd + (bt.pos === '대장' ? 1 : 0);
-        startBattle(() => { st.res[st.i] = S.lastWin ? 'win' : 'lose'; S.lastWin ? st.w++ : st.l++; st.i++; S.mode = 'match'; $('#menuBtn').hidden = true; AU.play('battle'); next(); },
+        startBattle(() => {
+          if (!S.lastWin && M.retry) { S.mode = 'match'; $('#menuBtn').hidden = true; AU.play('battle'); draw(`<b style="color:#FF8A7A">${bt.pos}전 패배…</b> 여기서 물러설 수 없어요! 곤충들을 추스르고 이 배틀을 다시 해요.`, '<button type="button" class="btn pri" id="mRe">다시 도전하기</button>'); $('#mRe').addEventListener('click', () => { partyInsects().forEach((b) => { b.en = calcStats(b).en; }); next(); }); return; }
+          st.res[st.i] = S.lastWin ? 'win' : 'lose'; S.lastWin ? st.w++ : st.l++; st.i++; S.mode = 'match'; $('#menuBtn').hidden = true; AU.play('battle'); next(); },
           { rand: true, name: bt.opp.name, sub: bt.opp.sub, team: bt.opp.team, rare: bt.opp.rare, lv, look: bt.opp.look, line: bt.opp.line, prize: 0, q: M.q });
       });
       return;
