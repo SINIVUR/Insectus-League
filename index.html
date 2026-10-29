@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.33">
+<meta name="version" content="0.0.36">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -222,6 +222,21 @@ b.aw { color: #FFD23F; }
 .big-ui .catch-card .fact { font-size: 17px; line-height: 1.45; }
 .big-ui .catch-card .where { font-size: 16px; }
 .big-ui .catch-card button { height: 50px; margin-top: 4px; }
+/* 사육장 팝업(먹이 주기 · 특훈 · 사육통 관리): 화면 가운데에 고정하고, 길면 안에서 스크롤 */
+.ov.scr .pop { position: fixed; inset: 0; z-index: 60; }
+.pop-box { max-height: calc(100% - 36px) !important; box-sizing: border-box; }
+.big-ui .pop-box { width: 600px; padding: 12px 16px; gap: 6px; }
+.big-ui .pop-box .opt { padding: 6px 10px; font-size: 17px; }
+.msn-tab { position: relative; } .msn-tab { margin-right: 8px; } .msn-tab .tdot { position: absolute; top: -10px; right: -16px; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px; background: #C8232C; color: #fff; font-size: 14px; font-weight: 900; display: grid; place-items: center; border: 2px solid #fff; animation: tdotP 1s ease-in-out infinite alternate; }
+@keyframes tdotP { to { transform: scale(1.15); } }
+.msn.ready { background: #2A2410; } .msn.ready .btn.pri { animation: awkPulseB 1s ease-in-out infinite alternate; }
+.msn.ready b::after { content: ' · 받을 수 있어요!'; color: #FFD23F; font-size: 14px; }
+.skv { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border: 3px solid var(--ink); background: #fff; }
+.skv-k { width: 34px; height: 34px; flex: none; display: grid; place-items: center; background: #111114; color: #fff; font-weight: 900; font-size: 18px; }
+.skv > div { flex: 1; display: flex; flex-direction: column; } .skv b { font-size: 18px; } .skv small { color: #4A4A52; font-weight: 700; }
+.skv-c { font-weight: 900; font-size: 14px; text-align: right; color: #2A5ACA; }
+.skv.skv-ult { background: #FFF0D8; border-color: #C8232C; } .skv.skv-ult .skv-k { background: #C8232C; }
+.skv.rare { background: #FFF6C8; } .skv i.rs { font-style: normal; color: #C8902A; font-size: 13px; }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -989,7 +1004,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.33';
+const VERSION = '0.0.36';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -6063,7 +6078,7 @@ ${b.awake ? '<p class="hd-p awk-p">✦ 유대 각성 완료 · 모든 능력치 
 <div class="lbar">경험치<span class="mbar"><i style="width:${b.xp / XP_NEED(b.lv) * 100}%;background:#9AE06A"></i></span>${b.xp}/${XP_NEED(b.lv)}</div>
 <div class="lbar">기력<span class="mbar"><i style="width:${b.en / st.en * 100}%;background:#4FD1FF"></i></span>${b.en}/${st.en}</div></div></div>
 <div class="stats2">${rows}</div>
-<div class="acts"><button type="button" class="btn pri" id="hFeed">먹이 주기</button><button type="button" class="btn pri" id="hTrain">특훈</button><button type="button" class="btn" id="hHeld">지닌 도구</button><button type="button" class="btn" id="hPlay"${b.played === (S.day || 1) ? ' disabled' : ''}>${b.played === (S.day || 1) ? '오늘 놀아 줬어요' : '놀아 주기'}</button>${canAwake(b) ? '<button type="button" class="btn pri awk-btn" id="hAwake">✦ 유대 각성!</button>' : ''}<button type="button" class="btn" id="hParty">${inParty ? '팀에서 빼기' : '팀에 넣기'}</button><button type="button" class="btn" id="hCare">사육통 관리</button><button type="button" class="btn" id="hView">🔍 들여다보기</button><button type="button" class="btn" id="hMove">옮기기</button><button type="button" class="btn warn" id="hFree">풀어주기</button></div>`;
+<div class="acts"><button type="button" class="btn pri" id="hFeed">먹이 주기</button><button type="button" class="btn pri" id="hTrain">특훈</button><button type="button" class="btn" id="hSkill">📜 기술 보기</button><button type="button" class="btn" id="hHeld">지닌 도구</button><button type="button" class="btn" id="hPlay"${b.played === (S.day || 1) ? ' disabled' : ''}>${b.played === (S.day || 1) ? '오늘 놀아 줬어요' : '놀아 주기'}</button>${canAwake(b) ? '<button type="button" class="btn pri awk-btn" id="hAwake">✦ 유대 각성!</button>' : ''}<button type="button" class="btn" id="hParty">${inParty ? '팀에서 빼기' : '팀에 넣기'}</button><button type="button" class="btn" id="hCare">사육통 관리</button><button type="button" class="btn" id="hView">🔍 들여다보기</button><button type="button" class="btn" id="hMove">옮기기</button><button type="button" class="btn warn" id="hFree">풀어주기</button></div>`;
 }
 function openHab() {
   ensureBugs(); AU.play('home');
@@ -6111,6 +6126,12 @@ function bindCage(root, draw, armFree) {
   });
   $('#hMove').addEventListener('click', () => { habMove = b.uid; AU.sfx('page'); draw(); });
   $('#hHeld').addEventListener('click', () => openHeld(b, draw));
+  $('#hSkill').addEventListener('click', () => {
+    const u = mkUnit(b), keys = ['a', 'q', 'w', 'e', 'r'];
+    const rows = keys.map((k) => { const sk = u.s[k], sp = k === 'e' && b.rare && RARE[b.id]; return `<div class="skv${k === 'r' ? ' skv-ult' : ''}${sp ? ' rare' : ''}"><span class="skv-k">${k.toUpperCase()}</span><div><b>${sk.n}${sp ? ' <i class="rs">★ 레어 전용</i>' : ''}</b><small>${roleOf(k, sk)} · ${skDesc(sk) || '-'}</small></div><span class="skv-c">${k === 'a' ? '기력 0' : `기력 ${sk.cost}`}${sk.cd ? `<br>재사용 ${sk.cd}턴` : ''}</span></div>`; }).join('');
+    draw(`<div class="pop"><div class="pop-box"><h3>${u.s.name}의 기술</h3><p class="pop-p">${typeChip(SP[b.id].type)} ${kindChip(SP[b.id].hab)} 계통 · 기술은 배틀에서 A·Q·W·E·R 버튼으로 써요. 필살기(R)는 나온 다음 턴부터, 기력 90을 써서 쓸 수 있어요.</p>${rows}<button type="button" class="close" id="popX">닫기</button></div></div>`);
+    $('#popX').addEventListener('click', () => draw());
+  });
   $('#hPlay').addEventListener('click', () => {
     if (b.played === (S.day || 1)) return;
     b.played = S.day || 1; const nm = SP[b.id].name, st2 = calcStats(b);
@@ -6976,17 +6997,21 @@ let msnTab = 'daily';
 function openMissions() {
   ensureDm(); ensureDex(); if (!Array.isArray(S.ach)) S.ach = []; if (!Array.isArray(S.dexRw)) S.dexRw = [];
   AU.play('home');
-  const tabs = [['daily', '일일 미션'], ['ach', '업적'], ['dex', '도감 보상']].map(([k, n]) => `<button type="button" class="tab${k === msnTab ? ' on' : ''}" data-mt="${k}">${n}</button>`).join('');
+  const dexReady = (g) => { const ids = g.ids(); return ids.length && ids.every((id) => S.dex[id] && S.dex[id].caught) && !S.dexRw.includes(g.id); };
+  const cnt = { daily: dmList().filter((m, i) => dmProg(m) >= m.n && !S.dm.got.includes(i)).length + (dmList().every((m, i) => S.dm.got.includes(i)) && !S.dm.all ? 1 : 0), ach: ACH.filter((x) => x.ok() && !S.ach.includes(x.id)).length, dex: DEX_GROUPS.filter(dexReady).length };
+  const tabs = [['daily', '일일 미션'], ['ach', '업적'], ['dex', '도감 보상']].map(([k, n]) => `<button type="button" class="tab msn-tab${k === msnTab ? ' on' : ''}" data-mt="${k}">${n}${cnt[k] ? `<span class="tdot">${cnt[k]}</span>` : ''}</button>`).join('');
   let body = '';
   if (msnTab === 'daily') {
     body = dmList().map((m, i) => { const p = Math.min(m.n, dmProg(m)), got = S.dm.got.includes(i); return `<div class="msn${got ? ' got' : p >= m.n ? ' ready' : ''}"><div><b>${m.t}</b><span class="mbar"><i style="width:${p / m.n * 100}%;background:#FFD23F"></i></span><small>${p} / ${m.n} · 보상 ${m.r.toLocaleString()}원</small></div><button type="button" class="btn${p >= m.n && !got ? ' pri' : ''}" data-dm="${i}" ${got || p < m.n ? 'disabled' : ''}>${got ? '받음' : p >= m.n ? '보상 받기' : '진행 중'}</button></div>`; }).join('') +
       (() => { const all = dmList().every((m, i) => S.dm.got.includes(i)); return `<div class="msn bonus${S.dm.all ? ' got' : all ? ' ready' : ''}"><div><b>🎁 오늘의 미션 3개 모두 완료</b><small>보너스 1,000원 + 바이오 젤리 2개</small></div><button type="button" class="btn${all && !S.dm.all ? ' pri' : ''}" id="dmAll" ${S.dm.all || !all ? 'disabled' : ''}>${S.dm.all ? '받음' : all ? '보너스 받기' : '진행 중'}</button></div>`; })() +
       '<p class="msn-note">일일 미션은 집에서 쉬고 다음 날이 되면 새로 바뀌어요.</p>';
   } else if (msnTab === 'ach') {
-    body = ACH.map((x) => { const ok = x.ok(), got = S.ach.includes(x.id); return `<div class="msn${got ? ' got' : ok ? ' ready' : ''}"><div><b>${got ? '🏅' : ok ? '🎖️' : '🔒'} ${x.n}</b><small>${x.d} · 보상 ${x.r.toLocaleString()}원</small></div><button type="button" class="btn${ok && !got ? ' pri' : ''}" data-ach="${x.id}" ${got || !ok ? 'disabled' : ''}>${got ? '달성' : ok ? '보상 받기' : '미달성'}</button></div>`; }).join('');
+    const rank = (x) => (x.ok() && !S.ach.includes(x.id) ? 0 : S.ach.includes(x.id) ? 2 : 1);
+    body = ACH.slice().sort((a, b) => rank(a) - rank(b)).map((x) => { const ok = x.ok(), got = S.ach.includes(x.id); return `<div class="msn${got ? ' got' : ok ? ' ready' : ''}"><div><b>${got ? '🏅' : ok ? '🎖️' : '🔒'} ${x.n}</b><small>${x.d} · 보상 ${x.r.toLocaleString()}원</small></div><button type="button" class="btn${ok && !got ? ' pri' : ''}" data-ach="${x.id}" ${got || !ok ? 'disabled' : ''}>${got ? '달성' : ok ? '보상 받기' : '미달성'}</button></div>`; }).join('');
     body = `<p class="msn-note">업적 ${S.ach.length} / ${ACH.length} 달성</p>` + body;
   } else {
-    body = DEX_GROUPS.map((g) => { const ids = g.ids(), have = ids.filter((id) => S.dex[id] && S.dex[id].caught).length, ok = ids.length && have >= ids.length, got = S.dexRw.includes(g.id); return `<div class="msn${got ? ' got' : ok ? ' ready' : ''}"><div><b>📘 ${g.n} 모두 채집</b><span class="mbar"><i style="width:${have / Math.max(1, ids.length) * 100}%;background:#7CFC6A"></i></span><small>${have} / ${ids.length}종 · 보상 ${g.rw[1].toLocaleString()}원 + ${rwName(g.rw[0])}</small><div class="msn-bugs">${ids.map((id) => `<span class="${S.dex[id] && S.dex[id].caught ? 'got' : ''}" title="${S.dex[id] && S.dex[id].caught ? SP[id].name : '???'}">${bugSvg(id)}</span>`).join('')}</div></div><button type="button" class="btn${ok && !got ? ' pri' : ''}" data-dg="${g.id}" ${got || !ok ? 'disabled' : ''}>${got ? '받음' : ok ? '보상 받기' : '모으는 중'}</button></div>`; }).join('');
+    const rk = (g) => (dexReady(g) ? 0 : S.dexRw.includes(g.id) ? 2 : 1);
+    body = DEX_GROUPS.slice().sort((a, b) => rk(a) - rk(b)).map((g) => { const ids = g.ids(), have = ids.filter((id) => S.dex[id] && S.dex[id].caught).length, ok = ids.length && have >= ids.length, got = S.dexRw.includes(g.id); return `<div class="msn${got ? ' got' : ok ? ' ready' : ''}"><div><b>📘 ${g.n} 모두 채집</b><span class="mbar"><i style="width:${have / Math.max(1, ids.length) * 100}%;background:#7CFC6A"></i></span><small>${have} / ${ids.length}종 · 보상 ${g.rw[1].toLocaleString()}원 + ${rwName(g.rw[0])}</small><div class="msn-bugs">${ids.map((id) => `<span class="${S.dex[id] && S.dex[id].caught ? 'got' : ''}" title="${S.dex[id] && S.dex[id].caught ? SP[id].name : '???'}">${bugSvg(id)}</span>`).join('')}</div></div><button type="button" class="btn${ok && !got ? ' pri' : ''}" data-dg="${g.id}" ${got || !ok ? 'disabled' : ''}>${got ? '받음' : ok ? '보상 받기' : '모으는 중'}</button></div>`; }).join('');
   }
   const root = openScr('shop msns', `${scrHead('미션 · 업적 · 도감 보상')}<div class="tabs">${tabs}</div><div class="scr-body feat"><div class="msn-list">${body}</div></div>`, () => openHub());
   root.querySelectorAll('[data-mt]').forEach((b) => b.addEventListener('click', () => { msnTab = b.dataset.mt; AU.sfx('page'); openMissions(); }));
