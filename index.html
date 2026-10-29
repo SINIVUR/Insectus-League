@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.42">
+<meta name="version" content="0.0.43">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -1039,7 +1039,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.42';
+const VERSION = '0.0.43';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -1286,6 +1286,12 @@ const CH = {
   mh: { name: '서민혁', color: '#1A3A2A', fg: '#FFFFFF', look: { hair: 'spiky', outfit: 'boy', acc: 'glasses', hc: '#1A1A22', hl: '#44445A', ec: '#2A3A4A', tie: '#E0E0E0', jk: '#1A3A2A' } },
   ch: { name: '이찬혁', color: '#2A7AD8', fg: '#FFFFFF', look: { hair: 'spiky', outfit: 'boy', acc: 'band', capc: '#2A7AD8', hc: '#5A3418', hl: '#8A5A2A', ec: '#3A2A1A', tie: '#C8232C' } },
   mz: { name: '???', color: '#0A0A14', fg: '#7AE8FF', look: { hair: 'side', outfit: 'boy', acc: 'glasses', hc: '#0E0E16', hl: '#3A3A5A', ec: '#C83AE8', tie: '#1AE8FF', jk: '#0A0A12' } },
+  hsj: { name: '허성진', color: '#0A0A14', fg: '#7AE8FF', look: { hair: 'side', outfit: 'boy', acc: 'glasses', hc: '#0E0E16', hl: '#3A3A5A', ec: '#C83AE8', tie: '#1AE8FF', jk: '#0A0A12', emblem: true } },
+  de1: { name: '루카스 베버', color: '#1A1A1A', fg: '#FFCE00', look: { hair: 'cool', outfit: 'boy', acc: 'none', hc: '#E8D8A0', hl: '#FFF8D0', ec: '#3A6AC8', tie: '#DD0000', jk: '#1A1A1A' } },
+  de2: { name: '미아 피셔', color: '#DD0000', fg: '#FFFFFF', look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#C8A060', hl: '#F0D090', ec: '#3A8A6A', tie: '#FFCE00', jk: '#1A1A1A' } },
+  de3: { name: '요나스 뮐러', color: '#1A1A1A', fg: '#FFCE00', look: { hair: 'buzz', outfit: 'boy', acc: 'glasses', hc: '#6A4A2A', hl: '#9A7A4A', ec: '#4A3A2A', tie: '#FFCE00', jk: '#1A1A1A' } },
+  de4: { name: '한나 바그너', color: '#DD0000', fg: '#FFFFFF', look: { hair: 'long', outfit: 'girl', acc: 'band', capc: '#FFCE00', hc: '#2A1A14', hl: '#5A3A2A', ec: '#2A4A8A', tie: '#DD0000', jk: '#1A1A1A' } },
+  de5: { name: '레온 슈미트', color: '#1A1A1A', fg: '#FFCE00', look: { hair: 'spiky', outfit: 'boy', acc: 'none', hc: '#B85A2A', hl: '#E08A4A', ec: '#3A5A3A', tie: '#DD0000', jk: '#1A1A1A' } },
   jrh: { name: '다카하시 겐이치로', color: '#2A2A30', fg: '#F0D070', look: { hair: 'neat', outfit: 'boy', acc: 'elder', hc: '#B8B8C0', hl: '#E8E8F0', ec: '#3A2A1A', tie: '#C8302A', jk: '#14182A' } },
   jp1: { name: '사카모토 류세이', color: '#14182A', fg: '#FFFFFF', look: { hair: 'side', outfit: 'boy', acc: 'none', hc: '#141420', hl: '#3A3A5A', ec: '#3A2A1A', tie: '#C8302A', jk: '#14182A' } },
   jp2: { name: '미즈노 하나', color: '#C8302A', fg: '#FFFFFF', look: { hair: 'bob', outfit: 'girl', acc: 'band', capc: '#C8302A', hc: '#2A1A14', hl: '#5A3A2A', ec: '#4A2A18', tie: '#C8302A', jk: '#14182A' } },
@@ -2237,6 +2243,14 @@ BG.jeju = regionBg('forest', '#FF8A3A', .12, '제주도'); BG.gangwon = regionBg
 BG.chungcheong = regionBg('meadow', '#3AA0C0', .1, '충청도'); BG.jeolla = regionBg('meadow', '#FFC040', .12, '전라도'); BG.gyeongsang = regionBg('meadow', '#C86A3A', .1, '경상도');
 BG.club2 = () => BG.club();
 BG.gymus = () => BG.gym();
+BG.neohq = () => `<svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true"><defs><linearGradient id="nq-w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A0814"/><stop offset="1" stop-color="#1E1438"/></linearGradient><radialGradient id="nq-c" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#B05AFF" stop-opacity=".55"/><stop offset="1" stop-color="#B05AFF" stop-opacity="0"/></radialGradient></defs>
+<rect width="1280" height="470" fill="url(#nq-w)"/>
+<g stroke="#2A1A4A" stroke-width="4">${[40, 230, 1000, 1150].map((x, i) => `<rect x="${x}" y="90" width="${i < 2 ? 160 : 110}" height="250" fill="#120C22"/>${[0, 1, 2].map((r) => `<rect x="${x + 10}" y="${100 + r * 80}" width="${i < 2 ? 140 : 90}" height="66" fill="#2A1450" fill-opacity=".7"/><ellipse cx="${x + (i < 2 ? 80 : 55)}" cy="${150 + r * 80}" rx="22" ry="9" fill="#C08AFF" opacity=".75"/><ellipse cx="${x + (i < 2 ? 80 : 55)}" cy="${133 + r * 80}" rx="${i < 2 ? 70 : 45}" ry="30" fill="url(#nq-c)"/>`).join('')}`).join('')}</g>
+<rect x="430" y="60" width="420" height="140" rx="10" fill="#0A0A12" stroke="#B05AFF" stroke-width="4"/><path d="M640 84 L686 162 L594 162 Z" fill="none" stroke="#D08AFF" stroke-width="7" stroke-linejoin="round"/><circle cx="640" cy="134" r="10" fill="#D08AFF"/><text x="640" y="190" text-anchor="middle" font-family="Black Han Sans, sans-serif" font-size="20" fill="#C8A8FF" letter-spacing="6">NEO · GANGNAM HQ</text>
+<g opacity=".7">${[480, 560, 720, 800].map((x) => `<rect x="${x}" y="240" width="40" height="130" rx="6" fill="#1A2A3A" stroke="#4AE0FF" stroke-width="2"/><rect x="${x + 6}" y="${270 + (x % 30)}" width="28" height="${90 - (x % 30)}" fill="#4AE0FF" opacity=".35"/>`).join('')}</g>
+<rect y="400" width="1280" height="70" fill="#14102A"/><rect y="470" width="1280" height="250" fill="#1E1A30"/>
+<path d="M0 540 H1280 M0 620 H1280 M200 470 L120 720 M520 470 L500 720 M760 470 L780 720 M1080 470 L1160 720" stroke="#3A2A5A" stroke-width="2" fill="none"/>
+<ellipse cx="640" cy="560" rx="380" ry="74" fill="#2A1A4A" stroke="#B05AFF" stroke-width="4"/><ellipse cx="640" cy="556" rx="330" ry="58" fill="none" stroke="#6A3AA0" stroke-width="3"/></svg>`;
 BG.airport = () => `<svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true"><defs><linearGradient id="ap-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB870"/><stop offset=".55" stop-color="#FFE0B0"/><stop offset="1" stop-color="#BFE3F5"/></linearGradient></defs>
 <rect width="1280" height="470" fill="url(#ap-sky)"/><circle cx="1050" cy="300" r="70" fill="#FFF0C0" opacity=".9"/>
 <path d="M120 300 L520 270 L560 262 L600 270 L560 284 L120 312 Z" fill="#F4F6FA" stroke="#5A6A80" stroke-width="3"/><path d="M330 284 L420 330 L440 330 L380 280 Z M480 270 L520 232 L534 232 L512 270 Z" fill="#D8E0EA" stroke="#5A6A80" stroke-width="3"/><path d="M150 296 h360" stroke="#2A5ACA" stroke-width="6"/>
@@ -2313,6 +2327,7 @@ const SCENES = {
   club4: { get place() { return [`${curMonth()}월`, '세온중 곤충 배틀부 동아리실']; }, actors: { dh: { x: 500, y: 330, s: .82, face: 'cool' }, sr: { x: 360, y: 320, s: .82, face: 'smile' }, eh: { x: 160, y: 330, s: .84, face: 'smile' }, kc: { x: 0, y: 310, s: .92, face: 'grin' }, ch: { x: 920, y: 300, s: .9, face: 'grin' } } },
   kansai: { place: ['4월 · 일본 오사카', '간사이 곤충 배틀 페스티벌'], actors: { kc: { x: 0, y: 330, s: .82, face: 'happy', casual: true }, eh: { x: 120, y: 340, s: .78, face: 'happy', casual: true }, sr: { x: 240, y: 335, s: .78, face: 'happy', casual: true }, dh: { x: 360, y: 335, s: .78, face: 'smile', casual: true }, ch: { x: 480, y: 330, s: .8, face: 'happy' }, dk: { x: 950, y: 290, s: 1, face: 'grin', hidden: true } } },
   gymus: { place: ['6월', '분당 · 제로원 트레이닝룸'], actors: { kc: { x: 0, y: 350, s: .72, face: 'grin' }, eh: { x: 92, y: 360, s: .68, face: 'smile' }, sr: { x: 182, y: 355, s: .68, face: 'smile' }, dh: { x: 272, y: 355, s: .68, face: 'cool' }, ch: { x: 362, y: 352, s: .7, face: 'grin' }, us5: { x: 640, y: 330, s: .78, face: 'grin', hidden: true }, us4: { x: 745, y: 335, s: .76, face: 'smile', hidden: true }, us3: { x: 850, y: 325, s: .78, face: 'smile', hidden: true }, us2: { x: 955, y: 335, s: .76, face: 'cool', hidden: true }, us1: { x: 1065, y: 290, s: .9, face: 'cool', hidden: true } } },
+  neohq: { place: ['9월 · 서울 강남', '네오 본사 빌딩'], actors: { kc: { x: 0, y: 350, s: .72, face: 'cool' }, eh: { x: 92, y: 360, s: .68, face: 'shock' }, sr: { x: 182, y: 355, s: .68, face: 'shock' }, dh: { x: 272, y: 355, s: .68, face: 'cool' }, ch: { x: 362, y: 352, s: .7, face: 'shock' }, hsj: { x: 980, y: 260, s: 1.08, face: 'grin', hidden: true }, de5: { x: 560, y: 335, s: .74, face: 'cool', hidden: true }, de4: { x: 660, y: 340, s: .72, face: 'cool', hidden: true }, de3: { x: 760, y: 330, s: .74, face: 'cool', hidden: true }, de2: { x: 860, y: 340, s: .72, face: 'cool', hidden: true }, de1: { x: 1080, y: 290, s: .9, face: 'cool', hidden: true } } },
   airport: { place: ['7월 · 출발 당일 아침', '인천 국제공항'], actors: { kc: { x: 0, y: 320, s: .84, face: 'grin', casual: true }, eh: { x: 130, y: 330, s: .8, face: 'happy', casual: true }, sr: { x: 260, y: 325, s: .8, face: 'smile', casual: true }, dh: { x: 400, y: 320, s: .82, face: 'cool', casual: true }, ch: { x: 540, y: 320, s: .82, face: 'happy' }, ry: { x: 960, y: 250, s: 1.1, face: 'smile', hidden: true } } },
   beijing: { place: ['7월 · 중국 베이징', '한중일 연합 훈련장'], actors: { kc: { x: 0, y: 350, s: .72, face: 'grin', casual: true }, eh: { x: 92, y: 360, s: .68, face: 'smile', casual: true }, sr: { x: 182, y: 355, s: .68, face: 'smile', casual: true }, dh: { x: 272, y: 355, s: .68, face: 'cool', casual: true }, ch: { x: 362, y: 352, s: .7, face: 'grin' }, jp1: { x: 600, y: 320, s: .8, face: 'cool', hidden: true }, kt: { x: 700, y: 330, s: .76, face: 'grin', hidden: true }, jp2: { x: 800, y: 335, s: .74, face: 'smile', hidden: true }, cn1: { x: 1060, y: 300, s: .86, face: 'cool', hidden: true }, cn2: { x: 900, y: 335, s: .74, face: 'smile', hidden: true }, cn3: { x: 980, y: 330, s: .76, face: 'cool', hidden: true }, ry: { x: 560, y: 250, s: 1, face: 'smile', hidden: true }, jrh: { x: 680, y: 250, s: 1, face: 'smile', hidden: true } } },
   kansaidusk: { place: ['해 질 녘', '간사이 곤충 배틀 페스티벌'], actors: { kc: { x: 0, y: 330, s: .82, face: 'shock', casual: true }, eh: { x: 120, y: 340, s: .78, face: 'shock', casual: true }, sr: { x: 240, y: 335, s: .78, face: 'shock', casual: true }, dh: { x: 360, y: 335, s: .78, face: 'cool', casual: true }, ch: { x: 480, y: 330, s: .8, face: 'shock' }, jg: { x: 960, y: 250, s: 1.12, face: 'grin', hidden: true }, neo: { x: 760, y: 300, s: .95, face: 'cool', hidden: true }, neo2: { x: 1130, y: 310, s: .92, face: 'cool', hidden: true }, dk: { x: 640, y: 300, s: .9, face: 'shock', hidden: true } } },
@@ -2332,7 +2347,7 @@ const SCENES = {
   jeju: { place: null, actors: {}, field: true }, gangwon: { place: null, actors: {}, field: true }, gyeonggi: { place: null, actors: {}, field: true },
   chungcheong: { place: null, actors: {}, field: true }, jeolla: { place: null, actors: {}, field: true }, gyeongsang: { place: null, actors: {}, field: true }
 };
-const MUSIC = { airport: 'opening', beijing: 'opening', gymus: 'club', kansaidusk: 'battle', club4: 'club', kansai: 'opening', club3: 'club', tower: 'battle', grad: 'home', sel: 'opening', selfinal: 'opening', dawn: 'home', clubnight: 'home', gym: 'club', jeju: 'forest', gangwon: 'forest', gyeonggi: 'forest', chungcheong: 'forest', jeolla: 'forest', gyeongsang: 'forest', opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', jejuroad: 'opening', tokyo: 'opening', seogwipo: 'home', club2: 'club', nat: 'opening', lodge: 'home' };
+const MUSIC = { neohq: 'battle', airport: 'opening', beijing: 'opening', gymus: 'club', kansaidusk: 'battle', club4: 'club', kansai: 'opening', club3: 'club', tower: 'battle', grad: 'home', sel: 'opening', selfinal: 'opening', dawn: 'home', clubnight: 'home', gym: 'club', jeju: 'forest', gangwon: 'forest', gyeonggi: 'forest', chungcheong: 'forest', jeolla: 'forest', gyeongsang: 'forest', opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', jejuroad: 'opening', tokyo: 'opening', seogwipo: 'home', club2: 'club', nat: 'opening', lodge: 'home' };
 const PITCH = { kc: 520, eh: 780, dh: 330, sw: 420, sr: 640, mt: 300, gr: 700 };
 
 /* ---------- 스크립트 ---------- */
@@ -3682,7 +3697,56 @@ const SCRIPT = [
   say('sr', 'shock', '이건… 전설로만 듣던 "초월의 보석"?! 유대 각성한 곤충이 지니면, 배틀 중에 한 번 초월한대!'),
   say('kc', 'grin', '초월…! 기데온이 각성하면, 이걸로 더 강해질 수 있는 거야!'),
   { t: 'cards', set: 'trans', title: '새로운 힘 · 초월', btn: '세계급을 향해!' },
-  { t: 'trophy', chip: '챕터 29 완료', title: '세계급의 벽, 그리고 새로운 힘', text: '중국 대표팀에게 졌지만, 세계급 배틀을 눈앞에서 봤어요. 베이징 시장에서 <b>초월의 보석</b>을 얻었어요! 유대 각성한 곤충에게 지니게 하면 배틀 중 한 번 황금빛 초월 폼이 돼요. 곤충마트에 베이징 사육용품(대나무 은신처 · 귀뚜라미 항아리 · 연꽃 수반 · 비단 해먹)과 먹이(리치 젤리 · 대추 젤리 · 누에 번데기)가 들어왔어요. 다음 이야기는 준비 중이에요.' },
+  { t: 'trophy', chip: '챕터 29 완료', title: '세계급의 벽, 그리고 새로운 힘', text: '중국 대표팀에게 졌지만, 세계급 배틀을 눈앞에서 봤어요. 베이징 시장에서 <b>초월의 보석</b>을 얻었어요! 유대 각성한 곤충에게 지니게 하면 배틀 중 한 번 황금빛 초월 폼이 돼요. 곤충마트에 베이징 사육용품(대나무 은신처 · 귀뚜라미 항아리 · 연꽃 수반 · 비단 해먹)과 먹이(리치 젤리 · 대추 젤리 · 누에 번데기)가 들어왔어요. 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 30 · 네오의 제안', d: '9월, 2학기 시작! 그런데 학교에 누군가가 찾아왔어요…' } },
+  { t: 'chapter', no: '챕터 30', title: '네오의 제안' },
+  { t: 'scene', id: 'club4' },
+  narr('정말 알찼던 여름 방학이 끝나고, 9월.\n강찬과 친구들은 2학기를 맞이했다.'),
+  say('ch', 'happy', '방학 끝나니까 아쉽다… 그래도 베이징 진짜 재밌었어요!'),
+  say('kc', 'grin', '이제 세계 대회까지 얼마 안 남았어! 2학기도 특훈이다!'),
+  narr('그때, 동아리실 문이 똑똑 울렸다.\n검은 정장에 보랏빛 넥타이를 맨 남자가 미소를 지으며 서 있었다.'),
+  { t: 'show', who: 'ch' },
+  say('sr', 'shock', '저 옷의 문양… 네오?!'),
+  { t: 'scene', id: 'neohq' },
+  narr('남자는 자신을 네오의 대표, "허성진"이라고 소개했다.\n그리고 {팀}을 강남의 네오 본사 빌딩으로 안내했다.'),
+  { t: 'show', who: 'hsj' },
+  say('hsj', 'grin', '어서 오십시오. 여기가 네오의 본사입니다.'),
+  narr('그곳에는 엄청난 수준의 곤충 연구실과, 제로원의 트레이닝룸보다 더 거대한 프로급 트레이닝룸이 있었다.\n그리고… 유리관 속에서 보랏빛으로 번뜩이는 곤충들.'),
+  say('eh', 'shock', '저 곤충들… 네오비전 가루로 광폭화된 곤충들이야!'),
+  say('dh', 'cool', '…역시 이런 곳이었군.'),
+  say('kc', 'cool', '…허성진 대표님. 대체 무슨 꿍꿍이예요?'),
+  say('kc', 'shock', '재규어를 시켜서 저한테 붉은 기데온까지 주고, 이제는 회사까지 끌고 오고! 우리한테 뭘 원하는 거예요?!'),
+  say('hsj', 'grin', '하하하! 역시 소문대로 기세가 좋군요.'),
+  say('hsj', 'grin', '{팀} 여러분. 당신들의 배틀 데이터를 보니, 정말 유망한 곤충 배틀러가 될 자질이 보입니다.'),
+  say('hsj', 'grin', '그런 당신들을 제가… 스카우트하겠다, 이 말입니다!'),
+  say('ch', 'shock', '스, 스카우트?!'),
+  say('kc', 'shock', '……'),
+  say('kc', 'cool', '…그딴 건 안 해요. 곤충한테 약을 먹여서 강해지는 회사에 들어갈 생각 없어요!'),
+  say('sr', 'cool', '우리 모두 같은 생각이에요.'),
+  say('hsj', 'smile', '…그러실 줄 알았습니다. 그래서 이미 다른 팀을 준비해 두었지요.'),
+  say('hsj', 'grin', '소개하겠습니다. 전년도 세계 곤충 배틀 대회 우승팀… 독일 대표팀입니다!'),
+  { t: 'show', who: 'de5' }, narr('한 명.'),
+  { t: 'show', who: 'de4' }, narr('또 한 명.'),
+  { t: 'show', who: 'de3' }, { t: 'show', who: 'de2' }, narr('그리고…'),
+  { t: 'show', who: 'de1' },
+  narr('다섯 명이 차례대로 걸어 나왔다.\n말없이 서 있는 것만으로도, 공기가 무겁게 가라앉았다.'),
+  say('de1', 'cool', '…독일 대표팀 주장, 루카스 베버다. 네가 한국 대표의 최강찬인가.'),
+  say('de3', 'cool', '과학은 곤충을 더 강하게 만든다. 그걸 거부하는 건 비효율이야.'),
+  say('dh', 'cool', '…세계 챔피언이 네오 편이라니.'),
+  { t: 'cards', set: 'de', title: '전년도 세계 챔피언 · 독일 대표팀', btn: '…엄청 강해 보여' },
+  say('hsj', 'grin', '자, 그럼 당신들의 잠재력이 정말 세계 최고 수준인지, 검증을 해 보겠습니다!'),
+  say('kc', 'grin', '…좋아요. 받아 줄게요! 우리 곤충들의 힘, 보여 주겠어!'),
+  { t: 'match', key: 'de' },
+  { t: 'scene', id: 'neohq' },
+  { t: 'show', who: 'hsj' }, { t: 'show', who: 'de1' },
+  narr('결과는… 처참한 패배였다.\n독일 대표팀의 곤충들은 단 한 번도 흔들리지 않았다.'),
+  say('de1', 'cool', '…예상 범위 안이다. 잠재력은 있지만, 지금은 그뿐이야.'),
+  say('hsj', 'grin', '흐흐. 오늘은 여기까지 하지요. 제 제안은 언제든 유효합니다. 마음이 바뀌면 연락 주십시오.'),
+  { t: 'scene', id: 'home' },
+  narr('그날 밤.\n{팀}은 아무 말 없이 터덜터덜, 각자의 집으로 돌아갔다.'),
+  say('kc', 'cool', '……'),
+  say('kc', 'cool', '…세계 챔피언. 저게… 우리가 넘어야 할 벽이구나.'),
+  { t: 'trophy', dark: true, chip: '챕터 30 완료', title: '네오의 제안', text: '네오의 대표 허성진이 {팀}을 스카우트하려 했지만 거절했어요. 그리고 네오와 손잡은 전년도 세계 챔피언 독일 대표팀에게 처참하게 졌어요… 도감에 유럽 곤충 5종(유럽사슴벌레 · 유럽코뿔소풍뎅이 · 유럽사마귀 · 유럽말벌 · 금풍뎅이꽃무지)이 기록됐어요. 다음 이야기는 준비 중이에요.' },
   { t: 'hub' },
   { t: 'end' }
 ];
@@ -6745,6 +6809,12 @@ function openFieldSelect() {
 const SCHOOL_JK = { maetan: '#1E5A5A', garam: '#5A1E2A', songdo: '#2A3A6A', hwaseong: '#4A2A5A', ilsan: '#2A4A2A', gangneung: '#1E4A2A', cheonan: '#3A2A6A' };
 const kface = (k, f = 'grin', look) => `<div class="b-face" style="width:70px;height:70px">${chibi(look || CH[k].look, f)}</div>`;
 const CARDSETS = {
+  de: [
+    { t: '독일 대표 · 루카스 베버', d: '전년도 세계 대회 우승팀의 주장. 감정 없는 정확한 배틀이 특기예요. 주력은 유럽에서 가장 큰 딱정벌레, 유럽사슴벌레.', art: () => kface('de1', 'cool') + idleSvg('cervus', 'm') },
+    { t: '레온 슈미트 · 미아 피셔', d: '레온은 공격적인 큰턱 배틀, 미아는 유럽말벌의 빠른 독침 배틀을 써요.', art: () => kface('de5', 'cool') + kface('de2', 'cool') + idleSvg('crabro', 'm') },
+    { t: '요나스 뮐러 · 한나 바그너', d: '요나스는 데이터로 상대를 꿰뚫는 전략가, 한나는 단단한 유럽코뿔소풍뎅이로 끝까지 버티는 배틀러예요.', art: () => kface('de3', 'cool') + kface('de4', 'cool') + idleSvg('nasicornis', 'm') },
+    { t: '과학으로 강해지는 배틀', d: '독일 대표팀은 과학 기술로 곤충 배틀이 강해지는 것에 찬성이에요. 네오의 연구 데이터와 트레이닝 장비를 함께 쓰고 있어요.', art: () => `<div class="b-face" style="width:96px;height:96px;background:#1A1024;display:grid;place-items:center;font-size:52px;border-radius:50%">🔬</div>` }
+  ],
   trans: [
     { t: '초월', d: '유대 각성한 곤충에게 <b>초월의 보석</b>을 지니게 하면, 배틀 중 한 번 네온 그린·레드 글리치가 지직거리며 황금빛 <b>초월 폼</b>으로 변해요!', art: () => `<div class="b-face" style="width:96px;height:96px;background:#1A1408;display:grid;place-items:center;font-size:52px;border-radius:50%;box-shadow:0 0 20px #FFD040">💎</div>` },
     { t: '초월 폼의 힘', d: '모든 능력치(공격·방어·특수공격·특수방어·스피드)가 1.5배, 체력과 기력통도 1.5배로 커져요. 모든 기술은 "초월 기술"이 되어 위력이 1.3배, 기력 소모는 줄고, 기절 확률은 올라가요.', art: () => ['×1.5', '기술 강화'].map((x) => `<span class="schip" style="border-color:#FFD23F">${x}</span>`).join('') },
@@ -6819,6 +6889,13 @@ const MATCHES = {
     { pos: '선봉', me: 'eh', res: 'lose', note: '은하의 곤충들이 윤눈솔의 초파리 떼에 정신없이 흔들리다 졌어요.', opp: { name: '윤눈솔', sub: '스노우화이트 · 초등학교 4학년', team: ['fruitfly', 'cabbage', 'lady'], look: { hair: 'buzz', outfit: 'boy', acc: 'none', hc: '#E0D8C8', hl: '#FFFFFF', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } },
     { pos: '중견', me: 'kc', opp: { name: '백설아', sub: '스노우화이트 · 초등학교 5학년', team: ['silk', 'comma', 'snail'], line: '초등학생이라고 봐주면 큰일 나요!', look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#2A2A3A', hl: '#5A5A7A', ec: '#7A3A5A', tie: '#E85A8A', jk: '#E8EEF8' } } },
     { pos: '대장', me: 'dh', res: 'win', note: '도혁의 곤충들이 한지희의 배추흰나비와 누에나방을 끝까지 몰아붙여 이겼어요!', opp: { name: '한지희', sub: '스노우화이트 · 초등학교 6학년 · 주장', team: ['cabbage', 'silk', 'bee'], look: { hair: 'bob', outfit: 'girl', acc: 'band', capc: '#E85A8A', hc: '#1A1A2A', hl: '#4A4A6A', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } }
+  ] },
+  de: { league: '네오 트레이닝룸 · 검증 배틀', round: '한국 대표 vs 독일 대표 (전년도 세계 챔피언)', vs: '독일 대표', col: '#1A1A1A', prize: 0, lvAdd: 16, q: 1.2, lossOk: true, need: 3, lossMsg: '전년도 세계 챔피언, 독일 대표팀… 손도 쓰지 못했어요.', bouts: [
+    { pos: '선봉', me: 'kc', opp: { name: '루카스 베버', sub: '독일 대표 주장 · 세계 챔피언', team: ['cervus', 'nasicornis', 'crabro'], line: '감정은 변수일 뿐이다. 데이터가 승패를 정한다.', look: CH.de1.look } },
+    { pos: '차봉', me: 'dh', res: 'lose', note: '도혁의 각성 넓적사슴벌레가 큰턱을 맞부딪쳤지만… 레온의 유럽사슴벌레가 한 치의 오차도 없이 받아넘겼어요.', opp: { name: '레온 슈미트', sub: '독일 대표', team: ['cervus', 'religiosa', 'aurata'], look: CH.de5.look } },
+    { pos: '중견', me: 'sr', res: 'lose', note: '새롬의 데이터 분석보다, 요나스의 분석이 한 수 위였어요…', opp: { name: '요나스 뮐러', sub: '독일 대표 · 전략 담당', team: ['aurata', 'nasicornis', 'religiosa'], look: CH.de3.look } },
+    { pos: '부장', me: 'eh', res: 'lose', note: '은하의 곤충들이 미아의 유럽말벌 독침에 차례로 쓰러졌어요…', opp: { name: '미아 피셔', sub: '독일 대표', team: ['crabro', 'religiosa', 'aurata'], look: CH.de2.look } },
+    { pos: '대장', me: 'ch', res: 'lose', note: '찬혁이 근성으로 버텼지만, 한나의 유럽코뿔소풍뎅이를 끝내 넘지 못했어요.', opp: { name: '한나 바그너', sub: '독일 대표', team: ['nasicornis', 'cervus', 'crabro'], look: CH.de4.look } }
   ] },
   cn1: { league: '한중일 연합 훈련 · 친선 대항전', round: '한국 대표 vs 중국 대표', vs: '중국 대표', col: '#B01A1A', prize: 0, lvAdd: 12, q: 1, lossOk: true, lossMsg: '세계급 중국 대표팀의 벽은 높았어요…', bouts: [
     { pos: '선봉', me: 'kc', opp: { name: '천위', sub: '중국 대표 · 분석가', team: ['neolucanus', 'kdung', 'curvidens'], line: '…네 패턴, 이미 다 계산해 뒀어.', look: CH.cn3.look } },
@@ -6995,7 +7072,7 @@ function showEnd() {
 /* ---------- 계절 · 날씨 · 시간대 ---------- */
 const SEASONS = [['봄', '🌸'], ['여름', '☀️'], ['가을', '🍁'], ['겨울', '❄️']];
 // 스토리 진행 중에는 챕터에 맞춰 달(월)이 정해지고, 이야기를 다 본 뒤에는 5일마다 한 달씩 흘러요.
-const CH_MONTH = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 4, 6: 6, 7: 6, 8: 6, 9: 7, 10: 7, 11: 8, 12: 8, 13: 9, 14: 9, 15: 9, 16: 9, 17: 9, 18: 9, 19: 10, 20: 10, 21: 10, 22: 2, 23: 3, 24: 4, 25: 4, 26: 4, 27: 6, 28: 7, 29: 7 };
+const CH_MONTH = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 4, 6: 6, 7: 6, 8: 6, 9: 7, 10: 7, 11: 8, 12: 8, 13: 9, 14: 9, 15: 9, 16: 9, 17: 9, 18: 9, 19: 10, 20: 10, 21: 10, 22: 2, 23: 3, 24: 4, 25: 4, 26: 4, 27: 6, 28: 7, 29: 7, 30: 9 };
 let chapMemo = { ip: -1, n: 1 };
 function chapNo() { const ip = S.ip || 0; if (chapMemo.ip === ip) return chapMemo.n; let n = 1; for (let i = 0; i < ip && i < SCRIPT.length; i++) { const c = SCRIPT[i]; if (c.t === 'chapter') n = parseInt(String(c.no).replace(/\D/g, ''), 10) || n; } chapMemo = { ip, n }; return n; }
 const kcGrade = () => (chapNo() >= 23 ? 2 : 1);
@@ -7607,6 +7684,21 @@ for (const [a, o] of Object.entries(ABROAD)) {
   MUSIC[a] = 'forest'; SCENES[a] = { place: null, actors: {}, field: true };
 }
 const abroadOpen = () => chapNo() >= 28;
+// 유럽 곤충 (독일 대표팀)
+for (const [id, name, base, col, mul, type, fact] of [
+  ['cervus', '유럽사슴벌레', 'lucanus', { hue: -12, sat: 1.4, br: .8, sc: 1.2 }, 1.3, '참격', '유럽에서 가장 큰 딱정벌레. 사슴뿔처럼 붉은 큰턱으로 상대를 들어 올려요. 독일 대표팀 주장의 주력!'],
+  ['nasicornis', '유럽코뿔소풍뎅이', 'kabuto', { hue: 10, sat: 1.1, br: .75, sc: 1.05 }, 1.25, '장갑', '머리에 코뿔소 같은 뿔이 하나 달린 유럽의 풍뎅이예요. 단단하기로 유명해요.'],
+  ['religiosa', '유럽사마귀', 'mantis', { hue: -8, sat: 1.15, br: 1.05, sc: 1 }, 1.25, '참격', '앞다리를 기도하듯 모으는 유럽의 사마귀. 앞다리 안쪽에 검은 눈알 무늬가 있어요.'],
+  ['crabro', '유럽말벌', 'hornet', { hue: -15, sat: 1.4, br: .9, sc: 1.1 }, 1.25, '독침', '적갈색 몸에 노란 배를 가진 유럽의 커다란 말벌이에요.'],
+  ['aurata', '금풍뎅이꽃무지', 'pungi', { hue: 20, sat: 1.5, br: 1.15, sc: 1 }, 1.2, '장갑', '금빛 초록으로 번쩍이는 유럽의 꽃무지. 장미꽃 위에서 자주 보여요.']]) {
+  INSECT[id] = tintSvg(INSECT[base], id, col);
+  const s = { ...SP[base], name, foreign: true, type };
+  for (const k of ['hp', 'atk', 'spa', 'def', 'sdf', 'spd']) s[k] = Math.round(SP[base][k] * mul);
+  SP[id] = s; MOTION[id] = MOTION[base]; IDLE_AS[id] = IDLE_AS[base] || base;
+  const j = (w, a, b) => ((w.charCodeAt(w.length - 1) - 0xAC00) % 28 ? a : b);
+  SPOTS.push({ area: 'abroad', id, protect: true, foreign: true, name, obj: name + j(name, '을', '를'), subj: name + j(name, '이', '가'), type, game: 'ring', place: '유럽 · 독일 (아직 기를 수 없어요)', fact });
+  DEX.push(id);
+}
 
 /* 오른쪽 위 메뉴 버튼은 메인 화면(홈)에서만 보여요. 다른 화면은 모두 "뒤로가기"로 나가요. */
 setInterval(() => { const mb = $('#menuBtn'); if (!mb) return; const show = S.mode === 'hub' && !S.modal && !S.talking && !hubL.hidden; if (mb.style.display !== (show ? '' : 'none')) mb.style.display = show ? '' : 'none'; }, 150);
