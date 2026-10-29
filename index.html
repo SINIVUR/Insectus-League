@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.32">
+<meta name="version" content="0.0.33">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -212,6 +212,16 @@ b.aw { color: #FFD23F; }
 .cv-info > div { display: flex; flex-direction: column; gap: 3px; background: #0C0F18; padding: 8px 10px; } .cv-info small { color: #9AA3B5; font-weight: 700; } .cv-info i { font-style: normal; color: #C9D3E2; font-size: 14px; }
 .cv-g { display: inline-block; margin: 2px 4px 2px 0; padding: 2px 8px; background: #2E7D4F; border-radius: 6px; font-size: 14px; }
 .big-ui .cv-ov .cv { zoom: calc(var(--uiz) * .62); }
+/* 채집 카드: 화면보다 길면 스크롤되고, 버튼이 잘리지 않게 */
+.ov.catch { overflow-y: auto; align-items: flex-start !important; justify-content: flex-start !important; display: flex; padding: 10px 0; box-sizing: border-box; }
+.ov.catch .catch-card { margin: auto; }
+.big-ui .catch-card { width: 700px; padding: 12px 26px 16px; gap: 6px; }
+.big-ui .catch-bug { width: 330px; height: 206px; margin: -4px 0 -8px; }
+.big-ui .catch-bug svg { width: 330px; height: 206px; }
+.big-ui .catch-card h2 { font-size: 32px; }
+.big-ui .catch-card .fact { font-size: 17px; line-height: 1.45; }
+.big-ui .catch-card .where { font-size: 16px; }
+.big-ui .catch-card button { height: 50px; margin-top: 4px; }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -979,7 +989,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.32';
+const VERSION = '0.0.33';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
