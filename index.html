@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.6">
+<meta name="version" content="0.0.9">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -52,6 +52,9 @@ body {
 .nat-card .mini { display: flex; gap: 2px; } .nat-card .mini svg { width: 58px; height: 36px; }
 .nat-card p { margin: 0; font-size: 13px; font-weight: 700; color: var(--gold); word-break: keep-all; } .nat-card i { font-size: 13px; color: #E8E0D0; word-break: keep-all; }
 .nat-q { font-size: 28px; color: #6A7488; }
+.opps.regions { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: min-content; gap: 10px; overflow-y: auto; }
+.opps.regions .fs { padding-bottom: 8px; gap: 3px; } .opps.regions .fs-bg { height: 52px; } .opps.regions .fs b { font-size: 20px; } .opps.regions .fs > small { font-size: 15px; } .opps.regions .fs-list { min-height: 0; } .opps.regions .fs-bug { width: 96px; } .opps.regions .fs-bug svg { width: 70px; height: 40px; } .fs-more { font-size: 14px !important; color: #9AA3B5 !important; } .opps.regions .fs .btn { height: 40px; font-size: 17px; }
+.fs-list.dense .fs-bug { width: 56px; } .fs-list.dense .fs-bug svg { width: 50px; height: 30px; } .fs-list.dense .fs-bug small { font-size: 12px; }
 .tn { background: rgba(8,10,18,.86); display: flex; align-items: center; justify-content: center; }
 .tn-box { position: relative; width: 680px; align-items: stretch; gap: 14px; }
 .tn-p { margin: 0; font-size: 19px; font-weight: 700; color: #4A4A52; }
@@ -89,6 +92,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .actor.dim { filter: brightness(.68) saturate(.8); }
 .actor.talk .inner { animation: hop .35s ease-out; }
 .actor.pop .inner { animation: popin .45s ease-out; }
+.actor.pop { background: transparent; right: auto; bottom: auto; z-index: auto; display: block; }
 .field .actor { transition: filter .2s; }
 .actor.walk .inner { animation: walk .36s ease-in-out infinite; }
 @keyframes hop { 0% { transform: translateY(0) } 40% { transform: translateY(-14px) } 100% { transform: translateY(0) } }
@@ -779,7 +783,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.6';
+const VERSION = '0.0.9';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -1000,6 +1004,11 @@ const CH = {
   cc: { name: '이빛나', color: '#3A2A6A', fg: '#FFFFFF', look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#C8C8D0', hl: '#F0F0F4', ec: '#3A4A8A', tie: '#F0D060', jk: '#3A2A6A' } },
   mx: { name: '수상한 사람', color: '#2A1A3A', fg: '#D8B0FF', look: { hair: 'cool', outfit: 'boy', acc: 'none', hc: '#141418', hl: '#3A2A4A', ec: '#7A3AC0', tie: '#9A4AE0', jk: '#1E1428' } },
   bs: { name: '장현우', color: '#7A1410', fg: '#FFFFFF', look: { hair: 'spiky', outfit: 'boy', acc: 'none', hc: '#1A1418', hl: '#5A2A2A', ec: '#7A3A2A', tie: '#E0302A', jk: '#1A2236' } },
+  jn: { name: '고바다', color: '#14406A', fg: '#FFFFFF', look: { hair: 'wave', outfit: 'girl', acc: 'none', hc: '#2A3A5A', hl: '#4A6A9A', ec: '#3A7A8A', tie: '#7AD0F0', jk: '#14406A' } },
+  gb: { name: '석무열', color: '#1E4A4A', fg: '#FFFFFF', look: { hair: 'neat', outfit: 'boy', acc: 'glasses', hc: '#5A4030', hl: '#8A6A50', ec: '#2E6A4A', tie: '#3AD0A0', jk: '#1E4A4A' } },
+  jb: { name: '소율', color: '#5A3A1A', fg: '#FFFFFF', look: { hair: 'long', outfit: 'girl', acc: 'none', hc: '#3A2A1A', hl: '#6A5030', ec: '#6A4226', tie: '#F0B040', jk: '#5A3A1A' } },
+  ry: { name: '류성룡', color: '#2A2A30', fg: '#F0D070', look: { hair: 'neat', outfit: 'boy', acc: 'elder', hc: '#D0D0D8', hl: '#FFFFFF', ec: '#4A3020', tie: '#C8A040', jk: '#2A2A30' } },
+  hj: { name: '박현준', color: '#C8232C', fg: '#FFFFFF', look: { hair: 'side', outfit: 'boy', acc: 'none', hc: '#1A1A2A', hl: '#4A5A8A', ec: '#2A3A7A', tie: '#1F4AA0', jk: '#E8EAF2' } },
   gy: { name: '하도겸', color: '#2A4A2A', fg: '#FFFFFF', look: { hair: 'cool', outfit: 'boy', acc: 'none', hc: '#8A2A2A', hl: '#C04A4A', ec: '#2E6A4A', tie: '#F08A3A', jk: '#2A4A2A' } }
 };
 
@@ -1054,6 +1063,8 @@ function chibi(o, face) {
     : `<path d="M97 152 L103 152 L105 170 L100 177 L95 170 Z" fill="${tie}" stroke-width="2"/>`;
   const acc = o.acc === 'bandage'
     ? `<rect x="124" y="116" width="20" height="9" rx="3" fill="#F7E6D2" stroke-width="2" transform="rotate(-15 134 120)"/><path d="M131 117 L137 123 M137 117 L131 123" fill="none" stroke="#C9A98A" stroke-width="1.5"/>`
+    : o.acc === 'elder'
+      ? `<rect x="60" y="90" width="32" height="27" rx="9" fill="#fff" fill-opacity=".15"/><rect x="108" y="90" width="32" height="27" rx="9" fill="#fff" fill-opacity=".15"/><path d="M92 102 L108 102" fill="none"/><path d="M78 122 C88 114 96 116 100 120 C104 116 112 114 122 122 C112 126 104 124 100 122 C96 124 88 126 78 122 Z" fill="${hc}"/>`
     : o.acc === 'glasses'
       ? `<rect x="60" y="90" width="32" height="27" rx="9" fill="#fff" fill-opacity=".15"/><rect x="108" y="90" width="32" height="27" rx="9" fill="#fff" fill-opacity=".15"/><path d="M92 102 L108 102" fill="none"/>`
       : '';
@@ -1535,6 +1546,93 @@ INSECT.lady = addAfterShadow(INSECT.lady, flapWings(310, 140, '#F0E0D0')); INSEC
 INSECT.hanul = recolor(INSECT.longhorn, [['lh-b', 'hn-b'], ['#5A5A6E', '#C08A52'], ['#14141C', '#5A3418'], ['#050508', '#2A1408'], ['#A8C8F0', '#D8A870'], ['#C8D0F0', '#F8D8B0'], ['#3A3A50', '#9A6A3A'], ['#2A2A3A', '#6A4020'], ['#D8DCE8', '#E8DCC0']]).replace(/<g fill="#F4F4FF">[\s\S]*?<\/g>/, '<g stroke="#E8C898" stroke-width="1.4" opacity=".45">' + Array.from({ length: 20 }, (_, i) => `<path d="M${140 + (i % 10) * 18} ${160 + Math.floor(i / 10) * 24} l4 -4"/>`).join('') + '</g>');
 /* 긴꼬리산누에나방: 연둣빛 날개와 긴 꼬리 */
 INSECT.lunamoth = mothSvg({ wing: '#CDEFB8', wing2: '#B6E2A0', line: '#7A4A6A', band: '#9A5A8A', body: '#F6F4EA', ant: '#C8A060', eye: true, eyeC: '#F0D890', tail: true, tf: 'translate(-26 -14) scale(1.08)' });
+
+/* ---------- 전국 각지 · 새 곤충 그림 ---------- */
+function carabSvg(o) {
+  const P = o.id, lg = o.leg || '#3A3A3A';
+  return `<defs><linearGradient id="${P}-e" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${o.e1}"/><stop offset=".55" stop-color="${o.e2}"/><stop offset="1" stop-color="${o.e3}"/></linearGradient></defs>
+${shadowE(250, 170)}${o.back || ''}<g class="lg2" opacity=".85">${legPair('M290 204 L318 240 L340 274', '#050505', lg, 4.5, 2)}${legPair('M220 206 L196 244 L176 274', '#050505', lg, 4.5, 2)}</g>
+<path d="M110 188 C110 156 160 140 230 142 C278 144 300 160 302 186 C300 212 276 226 228 228 C160 230 110 220 110 188 Z" fill="url(#${P}-e)" stroke="#000" stroke-width="2.5"/>
+${o.edge ? `<path d="M116 198 C132 220 200 228 252 224 C280 222 296 210 300 196" stroke="${o.edge}" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M120 176 C132 154 190 144 240 146" stroke="${o.edge}" stroke-width="5" fill="none" stroke-linecap="round"/>` : ''}
+<g stroke="${o.rib || 'rgba(0,0,0,.35)'}" stroke-width="1.6" fill="none"><path d="M124 188 C170 180 240 178 296 184"/><path d="M128 172 C176 162 240 160 290 168"/><path d="M128 204 C176 202 240 200 292 200"/></g>${o.spots || ''}
+<path d="M140 156 C180 146 230 146 270 152" stroke="#fff" stroke-width="4" fill="none" opacity="${o.gloss ?? .3}" stroke-linecap="round"/>
+<path d="M298 168 C316 156 344 158 350 178 C354 196 340 210 318 208 C304 206 296 196 298 168 Z" fill="${o.pr}" stroke="#000" stroke-width="2.5"/>
+<g class="hd" style="transform-origin:350px 184px"><path d="M346 172 C362 166 380 172 384 184 C384 196 370 204 350 198 Z" fill="${o.hd || o.pr}" stroke="#000" stroke-width="2.5"/><circle cx="366" cy="178" r="3.5" fill="#111"/>
+<g class="jawU" style="transform-origin:382px 188px"><path d="M380 182 C394 180 404 186 406 194 L398 192 C392 190 386 190 380 192 Z" fill="#111" stroke="#000" stroke-width="1.5"/></g>
+<path d="M372 172 C392 140 420 120 452 112" stroke="${o.ant || '#111'}" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M366 172 C380 146 404 128 432 118" stroke="${o.ant || '#111'}" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
+<g class="lg">${legPair('M326 206 L356 238 L380 272', '#050505', lg, 5, 2.5)}${legPair('M272 212 L266 246 L250 274', '#050505', lg, 5, 2.5)}${legPair('M220 212 L190 244 L160 272', '#050505', lg, 5, 2.5)}</g>`;
+}
+function bflySvg(o) {
+  const P = o.id;
+  const fw = 'M286 170 C272 112 290 46 340 14 C366 30 384 64 378 96 C362 128 320 156 292 178 Z';
+  const hw = o.tail === 'long' ? 'M282 178 C250 150 196 140 166 160 C150 172 150 196 164 214 L92 272 L178 226 C204 236 240 232 262 216 C276 204 282 190 282 178 Z'
+    : o.tail ? 'M282 178 C250 150 196 140 166 160 C150 172 150 196 164 214 L140 252 L178 226 C204 236 240 232 262 216 C276 204 282 190 282 178 Z'
+      : 'M282 178 C250 150 196 140 166 160 C150 172 148 200 166 220 C196 240 240 232 262 216 C276 204 282 190 282 178 Z';
+  return `<g transform="${o.tf || ''}"><defs><linearGradient id="${P}-y" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${o.c1}"/><stop offset="1" stop-color="${o.c2}"/></linearGradient><clipPath id="${P}-fw"><path d="${fw}"/></clipPath><clipPath id="${P}-hw"><path d="${hw}"/></clipPath></defs>
+<ellipse cx="260" cy="284" rx="120" ry="7" fill="#000" opacity=".16"/>
+<g class="lg">${legPair('M300 194 L316 230 L322 262', o.dk, '#3A3020', 4, 2)}${legPair('M290 196 L282 232 L270 262', o.dk, '#3A3020', 4, 2)}</g>
+<g class="wing" style="transform-origin:288px 178px"><path d="${hw}" fill="url(#${P}-y)"/><g clip-path="url(#${P}-hw)">${o.hwp || ''}</g><path d="${hw}" fill="none" stroke="${o.dk}" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="${fw}" fill="url(#${P}-y)"/><g clip-path="url(#${P}-fw)">${o.fwp || ''}</g><path d="${fw}" fill="none" stroke="${o.dk}" stroke-width="2.5" stroke-linejoin="round"/></g>
+<path d="M282 182 C250 182 200 186 176 192 C172 196 178 200 184 200 C214 200 256 196 284 192 Z" fill="${o.body}" stroke="${o.dk}" stroke-width="2.5"/>
+<ellipse cx="298" cy="184" rx="20" ry="13" fill="${o.thx || o.dk}" stroke="#0A0806" stroke-width="2"/>
+<g class="hd" style="transform-origin:312px 184px"><circle cx="322" cy="182" r="11" fill="${o.thx || o.dk}" stroke="#0A0806" stroke-width="2"/><circle cx="325" cy="179" r="4.5" fill="#4A3E28"/>
+<path d="M322 172 C338 130 358 104 384 88" stroke="${o.dk}" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="386" cy="86" rx="4" ry="6" fill="${o.dk}"/></g></g>`;
+}
+const uidSvg = (s, suf) => s.replace(/id="([^"]+)"/g, `id="$1-${suf}"`).replace(/url\(#([^)]+)\)/g, `url(#$1-${suf})`);
+// 사슴벌레들
+INSECT.dotstag = recolor(INSECT.sawstag, [['sa-', 'dt-'], ['#B8682E', '#F0B048'], ['#6A2A10', '#B8701A'], ['#2A0E04', '#5A3408'], ['#3A1606', '#5A3408'], ['#9A5226', '#E09A38'], ['#4A1E0A', '#7A4A10'], ['#6A3418', '#8A5418']]).replace('<g class="lg">', '<circle cx="306" cy="148" r="7" fill="#111"/><circle cx="328" cy="150" r="7" fill="#111"/><g class="lg">');
+INSECT.redleg = recolor(INSECT.stag, [['st-body', 'rl-body'], ['st-man', 'rl-man'], ['stroke="#26262E"', 'stroke="#D0301A"']]);
+INSECT.dauri = recolor(INSECT.stag, [['st-body', 'du-body'], ['st-man', 'du-man'], ['#565A68', '#C0683A'], ['#1E1E24', '#6A2410'], ['#060607', '#2A0A04'], ['#08080A', '#2A0A04'], ['#3A3A44', '#8A3A1A'], ['#141418', '#4A1A08'], ['stroke="#26262E"', 'stroke="#7A3418"']])
+  .replace(/<g class="jawL"[\s\S]*?<\/g><g class="jawU"[\s\S]*?<\/g>/, '<g class="jawL" style="transform-origin:390px 164px"><path d="M386 172 C404 178 424 176 436 166 C442 160 440 152 434 150 C430 158 420 162 410 162 L388 160 Z" fill="#2A0A04" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/></g><g class="jawU" style="transform-origin:390px 150px"><path d="M386 144 C404 136 424 136 436 146 C442 152 440 160 434 162 C430 154 420 150 410 150 L392 158 Z" fill="url(#du-man)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/></g>');
+// 딱정벌레(먼지벌레)들
+INSECT.jejucarab = carabSvg({ id: 'jc', e1: '#8A5AC0', e2: '#2E1650', e3: '#0A0614', pr: '#3A2460', edge: '#9A6AE0', gloss: .4 });
+INSECT.jankow = carabSvg({ id: 'jk', e1: '#9AF08A', e2: '#2AA04A', e3: '#0A3A1A', pr: '#D8402A', hd: '#2A8A4A', edge: '#F05A2A', gloss: .5, leg: '#2A6A3A' });
+INSECT.redcarab = carabSvg({ id: 'rc', e1: '#3A3A3A', e2: '#141414', e3: '#050505', pr: '#1A1A1A', edge: '#E0301A' });
+INSECT.bombard = carabSvg({ id: 'bb', e1: '#3A3A2A', e2: '#141410', e3: '#050505', pr: '#F0B030', hd: '#F0B030', leg: '#D89A30', ant: '#C88A2A', spots: '<g fill="#F0C040"><ellipse cx="170" cy="176" rx="18" ry="11"/><ellipse cx="240" cy="168" rx="16" ry="10"/><ellipse cx="200" cy="208" rx="20" ry="9"/><ellipse cx="270" cy="200" rx="12" ry="8"/></g>', back: '<g fill="#E8E0D0" opacity=".55"><circle cx="96" cy="186" r="14"/><circle cx="74" cy="176" r="10"/><circle cx="58" cy="190" r="7"/></g>' });
+INSECT.darkling = carabSvg({ id: 'dk', e1: '#4A4A4A', e2: '#1E1E1E', e3: '#0A0A0A', pr: '#1E1E1E', gloss: .12, rib: 'rgba(80,80,80,.6)' });
+// 나비들
+INSECT.sblue = bflySvg({ id: 'sb', c1: '#9AC4FF', c2: '#3A5AD0', dk: '#14183A', body: '#4A4A6A', thx: '#2A2A44', tf: 'translate(50 40) scale(.82)', fwp: '<path d="M286 170 C272 112 290 46 340 14 C366 30 384 64 378 96 C362 128 320 156 292 178 Z" fill="none" stroke="#1A1E40" stroke-width="12"/>', hwp: '<path d="M282 178 C250 150 196 140 166 160 C150 172 148 200 166 220 C196 240 240 232 262 216" fill="none" stroke="#1A1E40" stroke-width="10"/><circle cx="176" cy="212" r="7" fill="#F08A3A"/>' });
+INSECT.montela = bflySvg({ id: 'mt', c1: '#FFF8E0', c2: '#F0E2B0', dk: '#1A1410', body: '#2A2018', tail: 'long', fwp: '<path d="M300 172 L330 18 M320 162 L362 40 M340 150 L382 84" stroke="#1A1410" stroke-width="8"/>', hwp: '<path d="M190 160 L282 178" stroke="#1A1410" stroke-width="10"/><circle cx="178" cy="214" r="7" fill="#E0302A"/><circle cx="202" cy="224" r="6" fill="#E0302A"/><path d="M164 214 L92 272" stroke="#1A1410" stroke-width="6"/>' });
+INSECT.cabbage = bflySvg({ id: 'cb', c1: '#FCFCF4', c2: '#E8E8D4', dk: '#2A2A2A', body: '#4A4A48', thx: '#3A3A3A', fwp: '<path d="M326 8 C360 22 386 56 386 84 C370 72 350 52 328 30 Z" fill="#2A2A2A"/><circle cx="336" cy="90" r="9" fill="#2A2A2A"/><circle cx="318" cy="118" r="7" fill="#2A2A2A"/>', hwp: '<circle cx="250" cy="168" r="6" fill="#2A2A2A" opacity=".6"/>' });
+INSECT.comma = bflySvg({ id: 'cm', c1: '#FFB050', c2: '#D8621A', dk: '#3A1E0A', body: '#6A3A1A', thx: '#4A2A10', fwp: '<path d="M340 12 C368 30 386 64 380 98 C364 130 340 148 318 160" stroke="#5A2E10" stroke-width="12" fill="none"/><circle cx="320" cy="84" r="9" fill="#3A1E0A"/><circle cx="342" cy="58" r="7" fill="#3A1E0A"/><circle cx="306" cy="122" r="8" fill="#3A1E0A"/><circle cx="352" cy="100" r="6" fill="#3A1E0A"/>', hwp: '<path d="M168 156 C150 180 156 212 176 228 C210 238 250 232 270 214" stroke="#5A2E10" stroke-width="12" fill="none"/><circle cx="220" cy="180" r="8" fill="#3A1E0A"/><circle cx="250" cy="196" r="6" fill="#3A1E0A"/>' });
+// 매미들
+const cicadaMap = (m, suf) => uidSvg(recolor(INSECT.cicada, m), suf);
+INSECT.blkcicada = cicadaMap([['#4E5A2A', '#2A2420'], ['#2A3018', '#141210'], ['#7E9A44', '#5A4A3A'], ['#6E8A3A', '#4A3A2A'], ['#5E6A3A', '#3A3028'], ['#4E7A3A', '#3A2A1A'], ['#3E6A3A', '#2A2018'], ['#2E4A2A', '#1A1410'], ['#9FC4A0', '#C8A070'], ['#3A4024', '#241E18'], ['#23261A', '#141210'], ['#7A6A3A', '#A87A3A'], ['#2A2E18', '#1A1612'], ['#1A1C10', '#0E0C0A']], 'mm');
+INSECT.smcicada = '<g transform="translate(36 34) scale(.86)">' + cicadaMap([['#4E5A2A', '#3A7A4A'], ['#7E9A44', '#9ACC6A'], ['#6E8A3A', '#6AA050'], ['#5E6A3A', '#4A8A4A'], ['#4E7A3A', '#3A8A3A'], ['#9FC4A0', '#D0F0B8'], ['#7A6A3A', '#5A8A3A']], 'am') + '</g>';
+// 노린재·하늘소·풍뎅이
+INSECT.bigstink = recolor(INSECT.stink, [['sk-b', 'kh-b'], ['#A8C860', '#9A7A54'], ['#6A9A34', '#5A4028'], ['#3A5A1A', '#2A1A0E'], ['#8AB84A', '#7A5A3A'], ['#7AAA3E', '#6A4C30'], ['#1E2A0E', '#140C06'], ['#2A3A14', '#1E140A'], ['#8AA850', '#8A6A44'], ['#6A7A3A', '#4A3420']]).replace('<g class="lg">', '<path d="M140 250 C150 236 172 236 178 250 C172 262 150 264 140 250 Z" fill="#6A4C30" stroke="#140C06" stroke-width="2"/><g class="lg">');
+INSECT.antwaist = recolor(INSECT.ant, [['an-g', 'rp-g'], ['#1E1A1A', '#7A5A30'], ['#5A5050', '#B08A50'], ['#141010', '#5A3E1A'], ['#050404', '#2A1A0A'], ['#4A4040', '#C8A868'], ['#2A2020', '#5A3E1E'], ['#2A2424', '#6A4A2A']]).replace('<g class="hd"', '<path d="M244 192 L326 190" stroke="#F0D070" stroke-width="3" opacity=".8"/><g class="hd"');
+INSECT.cherrylh = recolor(INSECT.longhorn, [['lh-b', 'ch-b'], ['#5A5A6E', '#3A4A6A'], ['#A8C8F0', '#1A1A2A'], ['#C8D0F0', '#A8C0F0']]).replace(/<g fill="#F4F4FF">[\s\S]*?<\/g>/, '').replace('<path d="M326 148 C346 142 364 150 366 170 C368 188 354 198 336 196 C328 194 324 184 326 168 Z" fill="url(#ch-b)"', '<path d="M326 148 C346 142 364 150 366 170 C368 188 354 198 336 196 C328 194 324 184 326 168 Z" fill="#D0281A"');
+INSECT.purpdung = recolor(INSECT.dung, [['dg-b', 'pd-b'], ['#6A6A7A', '#C08AF0'], ['#1A1A20', '#4A1A7A'], ['#050506', '#140628'], ['#3A3A44', '#3A1A5A'], ['#2A2A30', '#2A1048'], ['#C8D0E8', '#F0D0FF'], ['#141418', '#1E0A34']]);
+INSECT.wspot = uidSvg(recolor(INSECT.chafer, [['#5A6A2A', '#7A6A3A'], ['#2E3812', '#3A3018'], ['#3A4A1C', '#4A3E20'], ['#6A7A30', '#8A7A44'], ['#B8C070', '#C8B888'], ['#1E260E', '#241E0E'], ['#141A08', '#181408'], ['#0A0E04', '#0A0804']]), 'ws').replace('<g class="lg">', '<g fill="#F4F0E4"><circle cx="190" cy="168" r="4"/><circle cx="214" cy="182" r="3.5"/><circle cx="238" cy="166" r="4"/><circle cx="262" cy="184" r="3"/><circle cx="176" cy="190" r="3"/><circle cx="226" cy="198" r="3.5"/></g><g class="lg">');
+INSECT.pungi = '<g transform="translate(-14 -18) scale(1.06)">' + uidSvg(recolor(INSECT.chafer, [['#5A6A2A', '#2E8A4A'], ['#2E3812', '#0E3A1A'], ['#3A4A1C', '#1A5A2A'], ['#6A7A30', '#4AAA5A'], ['#B8C070', '#B8F0A8'], ['#F0EEE0', '#2E8A4A'], ['#F0F4C8', '#D0FFC0']]), 'pg') + '</g>';
+INSECT.acornw = recolor(INSECT.weevil, [['wv-b', 'ac-b'], ['#7A5A3A', '#C88A4A'], ['#3A2614', '#7A4A1E'], ['#140A04', '#3A1E08'], ['#5A3A20', '#8A5A2A'], ['#6A4A2A', '#9A6A3A'], ['#4A3020', '#6A4020'], ['#2A1A0A', '#5A3010'], ['#C8A878', '#E8E0D0']]);
+// 잠자리·명주잠자리
+INSECT.damsel = recolor(INSECT.dragonfly, [['df-', 'dm-'], ['#E8642A', '#1E7A64'], ['#C8401A', '#0E5A48'], ['#B8442A', '#0E4A3A'], ['#9A3A12', '#0A3A2E'], ['#7A3A12', '#0A3A2E'], ['#FFB080', '#4AC0A0'], ['#C8742E', '#1E6A58'], ['#F0C890', '#2A8A74'], ['#FFC8A8', '#5AD0B0'], ['#F0F6FA', '#14141A'], ['#B8D0E0', '#000000'], ['stop-opacity=".55"', 'stop-opacity=".92"'], ['stop-opacity=".25"', 'stop-opacity=".85"']]);
+INSECT.antlion = recolor(INSECT.dragonfly, [['df-', 'al-'], ['#E8642A', '#8A6A4A'], ['#C8401A', '#6A4A2A'], ['#B8442A', '#5A3A20'], ['#9A3A12', '#4A2A14'], ['#7A3A12', '#4A2A14'], ['#FFB080', '#C8A880'], ['#C8742E', '#7A5A3A'], ['#F0C890', '#B8987A'], ['#FFC8A8', '#D8C0A0']]) + '<g fill="#3A2A1A" opacity=".55"><circle cx="200" cy="110" r="3.5"/><circle cx="172" cy="76" r="3"/><circle cx="150" cy="52" r="3"/><circle cx="220" cy="92" r="3"/><circle cx="196" cy="60" r="2.5"/></g>';
+// 메뚜기·땅강아지
+INSECT.locust = uidSvg(recolor(INSECT.grasshopper, [['#7AB040', '#A4A052'], ['#3E6A20', '#5E5A28'], ['#1E3410', '#2A2814'], ['#4E8A2A', '#7E7A3A'], ['#8AB84A', '#B0AC62'], ['#A8D866', '#CCC87C'], ['#9AD05A', '#BCB86A'], ['#5E8A30', '#6E6A30'], ['#D8F0A0', '#ECE6B4'], ['#6A5A2A', '#5A4A20']]), 'lc');
+INSECT.molecr = `<defs><linearGradient id="mc-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B08A5A"/><stop offset="1" stop-color="#5A3A1E"/></linearGradient></defs>
+${shadowE(240, 170)}<g class="lg2" opacity=".85">${legPair('M220 214 L200 246 L150 268', '#2A1A0A', '#6A4A2A', 5, 2.5)}</g>
+<g class="tail" style="transform-origin:110px 200px"><path d="M112 196 L60 186 M112 204 L62 214" stroke="#3A2614" stroke-width="3" stroke-linecap="round"/></g>
+<path d="M110 200 C112 176 150 166 210 168 L260 170 L260 228 L200 230 C150 230 110 222 110 200 Z" fill="url(#mc-b)" stroke="#2A1A0A" stroke-width="2.5"/>
+<path d="M130 186 L130 222 M152 182 L152 226 M174 178 L174 228 M196 176 L196 228" stroke="#3A2614" stroke-width="1.6" opacity=".6"/>
+<path d="M200 170 L262 166 L262 196 L204 200 Z" fill="#8A6A44" stroke="#2A1A0A" stroke-width="2"/>
+<path d="M256 160 C290 150 330 156 340 180 C346 204 330 222 300 224 L256 226 Z" fill="url(#mc-b)" stroke="#2A1A0A" stroke-width="2.5"/><path d="M270 170 C296 164 320 168 332 180" stroke="#E8C898" stroke-width="3" opacity=".4" fill="none"/>
+<g class="hd" style="transform-origin:340px 196px"><path d="M336 182 C356 178 372 188 372 200 C370 212 356 218 338 214 Z" fill="#6A4A2A" stroke="#2A1A0A" stroke-width="2.5"/><circle cx="356" cy="192" r="4" fill="#111"/><path d="M366 190 L392 172 M368 196 L396 186" stroke="#3A2614" stroke-width="2" stroke-linecap="round"/></g>
+<g class="arm" style="transform-origin:330px 220px"><path d="M326 216 L360 238 L376 236 Z" fill="#7A5A34" stroke="#2A1A0A" stroke-width="2.5"/><path d="M360 230 C380 226 398 236 398 252 C398 262 388 266 378 262 L356 248 Z" fill="#8A6A40" stroke="#2A1A0A" stroke-width="2.5"/><path d="M386 254 l12 6 M380 260 l10 10 M372 258 l6 12" stroke="#2A1A0A" stroke-width="3" stroke-linecap="round"/></g>
+<g class="lg">${legPair('M286 226 L292 252 L280 274', '#2A1A0A', '#9A7A50', 6, 3)}${legPair('M236 228 L212 250 L170 270', '#2A1A0A', '#9A7A50', 7, 3.5)}</g>`;
+// 벌
+INSECT.paperw = recolor(INSECT.hornet, [['hn-', 'pw-'], ['#FFC64E', '#F8E048'], ['#E08A10', '#D0A818'], ['#9A5206', '#7A5A08'], ['#E89A1C', '#F0CC30'], ['#3A2210', '#1A1408'], ['#5E3E24', '#3A2A14'], ['#C2701E', '#C8A030']]);
+INSECT.chalcid = recolor(INSECT.hornet, [['hn-', 'cc-'], ['#FFC64E', '#8AE0A0'], ['#E08A10', '#2A9A5A'], ['#9A5206', '#0A4A2A'], ['#E89A1C', '#1E7A4A'], ['#3A2210', '#0A3A1E'], ['#5E3E24', '#1E5A3A'], ['#C2701E', '#3A8A5A'], ['#8A5A20', '#2A6A4A'], ['#3E1E0A', '#0A2A18'], ['#2A1406', '#0A2A18']]);
+// 달팽이·민달팽이
+INSECT.snail = `${shadowE(250, 160)}<path d="M100 270 C92 254 112 240 150 240 L330 240 C362 240 384 228 392 208 C398 194 412 192 418 202 C424 216 416 238 400 254 C380 272 330 276 280 276 L130 276 C112 276 102 274 100 270 Z" fill="#C8B490" stroke="#5A4A30" stroke-width="2.5"/>
+<g class="hd" style="transform-origin:400px 210px"><path d="M398 206 L410 152 M408 210 L432 160" stroke="#8A7A5A" stroke-width="5" stroke-linecap="round"/><circle cx="410" cy="150" r="5" fill="#2A2018"/><circle cx="433" cy="158" r="5" fill="#2A2018"/></g>
+<g class="tail" style="transform-origin:240px 220px"><circle cx="232" cy="178" r="70" fill="#B07A40" stroke="#4A2E14" stroke-width="3"/><path d="M232 178 m-52 0 a52 52 0 1 1 52 52 a38 38 0 1 1 -38 -38 a24 24 0 1 1 24 24 a12 12 0 1 1 -12 -12" stroke="#5A3A18" stroke-width="5" fill="none"/><path d="M190 130 C210 114 250 112 272 128" stroke="#F0D0A0" stroke-width="6" opacity=".4" fill="none" stroke-linecap="round"/></g>`;
+INSECT.slug = `${shadowE(250, 180)}<path d="M80 272 C70 258 92 242 132 238 C196 230 280 214 330 206 C370 200 400 206 410 222 C420 240 408 262 380 268 C320 276 200 278 112 278 C92 278 82 276 80 272 Z" fill="#9A8A70" stroke="#4A3E2A" stroke-width="2.5"/>
+<path d="M240 222 C280 200 340 192 380 206 C390 226 370 240 330 244 C290 248 250 244 240 222 Z" fill="#7A6A52" stroke="#4A3E2A" stroke-width="2"/>
+<g fill="#5A4A36" opacity=".5"><circle cx="160" cy="252" r="4"/><circle cx="200" cy="246" r="3"/><circle cx="300" cy="222" r="4"/><circle cx="340" cy="216" r="3"/><circle cx="130" cy="262" r="3"/></g><path d="M120 258 C200 250 300 238 380 232" stroke="#C8B898" stroke-width="3" opacity=".4" fill="none"/>
+<g class="hd" style="transform-origin:400px 220px"><path d="M398 214 L412 168 M408 218 L436 176" stroke="#7A6A52" stroke-width="5" stroke-linecap="round"/><circle cx="412" cy="166" r="5" fill="#2A2018"/><circle cx="437" cy="174" r="5" fill="#2A2018"/></g>`;
 /* 사슴벌레: 넓적사슴벌레 몸에 붉은 갈색, 끝이 갈라진 큰턱 */
 INSECT.lucanus = INSECT.stag.replace(/st-body/g, 'lc-body').replace(/st-man/g, 'lc-man')
   .replace('<stop offset="0" stop-color="#565A68"/><stop offset=".45" stop-color="#1E1E24"/><stop offset="1" stop-color="#060607"/>', '<stop offset="0" stop-color="#C0703A"/><stop offset=".45" stop-color="#6A2A10"/><stop offset="1" stop-color="#240A04"/>')
@@ -1619,9 +1717,9 @@ const RARE_SVG = {}, RARE_SVG_F = {};
 // 개체 모습 키: 성별 + 레어 여부 (예: 'm', 'fr')
 const vk = (b) => (b && b.sex === 'f' ? 'f' : 'm') + (b && b.rare ? 'r' : '');
 const rareTag = (b) => (b && b.rare && RARE[b.id] ? `<span class="rstar">★ ${RARE[b.id].n}</span>` : '');
-const SING = new Set(['cicada', 'cricket', 'katydid']);
+const SING = new Set(['cicada', 'cricket', 'katydid', 'smcicada', 'blkcicada']);
 // 새 곤충은 비슷한 곤충의 대기 모션을 빌려 써요
-const IDLE_AS = { hanul: 'stag', lunamoth: 'butterfly', stink: 'chafer', jstink: 'chafer', earwig: 'roach', ant: 'roach', fireant: 'roach', lady: 'chafer', fruitfly: 'fly', aphid: 'grasshopper', tick: 'spider', weevil: 'roach', lucanus: 'stag', hydro: 'diving', appasus: 'waterbug', nepa: 'waterbug', ostag: 'stag', sawstag: 'stag', emperor: 'dragonfly', ranatra: 'waterbug', notonecta: 'diving', bee: 'hornet', katydid: 'grasshopper', silk: 'butterfly', satmoth: 'butterfly', swallowtail: 'butterfly', jewel: 'chafer', tiger: 'roach', mayfly: 'mosquito', cranefly: 'mosquito', scutigera: 'centipede' };
+const IDLE_AS = { dotstag: 'stag', jejucarab: 'roach', sblue: 'butterfly', redleg: 'stag', dauri: 'stag', smcicada: 'cicada', bigstink: 'chafer', cherrylh: 'stag', blkcicada: 'cicada', purpdung: 'chafer', damsel: 'dragonfly', montela: 'butterfly', molecr: 'cricket', locust: 'grasshopper', wspot: 'chafer', paperw: 'hornet', cabbage: 'butterfly', jankow: 'roach', bombard: 'roach', redcarab: 'roach', acornw: 'roach', comma: 'butterfly', darkling: 'roach', chalcid: 'hornet', antlion: 'dragonfly', slug: 'stick', snail: 'stick', antwaist: 'chafer', pungi: 'chafer', hanul: 'stag', lunamoth: 'butterfly', stink: 'chafer', jstink: 'chafer', earwig: 'roach', ant: 'roach', fireant: 'roach', lady: 'chafer', fruitfly: 'fly', aphid: 'grasshopper', tick: 'spider', weevil: 'roach', lucanus: 'stag', hydro: 'diving', appasus: 'waterbug', nepa: 'waterbug', ostag: 'stag', sawstag: 'stag', emperor: 'dragonfly', ranatra: 'waterbug', notonecta: 'diving', bee: 'hornet', katydid: 'grasshopper', silk: 'butterfly', satmoth: 'butterfly', swallowtail: 'butterfly', jewel: 'chafer', tiger: 'roach', mayfly: 'mosquito', cranefly: 'mosquito', scutigera: 'centipede' };
 const bugSvg = (id, attrs = '', sex) => {
   const f = typeof sex === 'string' && sex[0] === 'f', r = typeof sex === 'string' && sex[1] === 'r' && RARE_SVG[id];
   const src = r ? (f ? RARE_SVG_F[id] : RARE_SVG[id]) : f && INSECT_F[id] ? INSECT_F[id] : INSECT[id];
@@ -1793,7 +1891,22 @@ ${Array.from({ length: 14 }, (_, i) => { const x = 20 + i * 95, s = .8 + (i % 3)
 ${night ? '<g fill="#B05AFF" opacity=".28">' + Array.from({ length: 18 }, (_, i) => `<circle cx="${(i * 173) % 1280}" cy="${380 + (i * 97) % 300}" r="${40 + (i * 37) % 80}"/>`).join('') + '</g><g fill="#E0B0FF">' + Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 131) % 1280}" cy="${300 + (i * 71) % 400}" r="${1.5 + (i % 3)}" opacity=".8"/>`).join('') + '</g>' : ''}
 </svg>`;
 BG.campnight = () => BG.camp(true);
+const regionBg = (base, tint, op, label) => () => BG[base]().replace(/<\/svg>\s*$/, `<rect width="1280" height="720" fill="${tint}" opacity="${op}"/><g transform="translate(1200 330)"><rect x="-5" y="0" width="10" height="80" fill="#6A4A2A"/><rect x="-72" y="-38" width="144" height="46" rx="6" fill="#F2E6C4" stroke="#5A3A1A" stroke-width="5"/><text x="0" y="-7" text-anchor="middle" font-size="24" font-weight="900" fill="#3A2A14" font-family="sans-serif">${label}</text></g></svg>`);
+BG.jeju = regionBg('forest', '#FF8A3A', .12, '제주도'); BG.gangwon = regionBg('forest', '#2A6A8A', .14, '강원도'); BG.gyeonggi = regionBg('forest', '#FFE0A0', .08, '경기도');
+BG.chungcheong = regionBg('meadow', '#3AA0C0', .1, '충청도'); BG.jeolla = regionBg('meadow', '#FFC040', .12, '전라도'); BG.gyeongsang = regionBg('meadow', '#C86A3A', .1, '경상도');
 BG.club2 = () => BG.club();
+BG.nat = () => BG.league().replace('서울시 중등부 곤충 배틀 리그', '전국 중등부 곤충 배틀 리그').replace('SEOUL MIDDLE SCHOOL LEAGUE', 'NATIONAL MIDDLE SCHOOL LEAGUE');
+BG.lodge = () => `<svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true"><defs><linearGradient id="ld-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1430"/><stop offset="1" stop-color="#2A2A5A"/></linearGradient><radialGradient id="ld-lamp" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFE9A0" stop-opacity=".75"/><stop offset="1" stop-color="#FFE9A0" stop-opacity="0"/></radialGradient></defs>
+<rect width="1280" height="720" fill="url(#ld-sky)"/><g fill="#fff" opacity=".85">${[[70, 50], [190, 110], [330, 60], [470, 30], [620, 90], [1000, 40], [1120, 120], [1220, 60]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2"/>`).join('')}</g><circle cx="860" cy="90" r="38" fill="#F4F0D8"/>
+<rect x="0" y="150" width="1280" height="330" fill="#3A3A4E"/><rect x="0" y="140" width="1280" height="18" fill="#2A2A3A"/>
+${Array.from({ length: 10 }, (_, i) => `<rect x="${60 + i * 125}" y="${200 + (i % 2) * 0}" width="70" height="80" fill="${i % 3 === 1 ? '#FFD87A' : '#1E2236'}" stroke="#14141E" stroke-width="5"/><rect x="${60 + i * 125}" y="330" width="70" height="80" fill="${i % 4 === 2 ? '#FFD87A' : '#1E2236'}" stroke="#14141E" stroke-width="5"/>`).join('')}
+<rect x="560" y="370" width="110" height="110" fill="#5A3A2A" stroke="#14141E" stroke-width="5"/><circle cx="650" cy="428" r="5" fill="#FFD23F"/>
+<rect y="470" width="1280" height="250" fill="#1E2A1E"/><path d="M0 480 C300 470 600 490 900 476 C1050 470 1180 482 1280 478 L1280 520 L0 520 Z" fill="#24321E"/>
+<g fill="#16241A">${Array.from({ length: 8 }, (_, i) => `<ellipse cx="${80 + i * 170}" cy="${490}" rx="70" ry="34"/>`).join('')}</g>
+<rect x="1006" y="250" width="12" height="250" fill="#2A2A30"/><path d="M990 250 L1034 250 L1024 236 L1000 236 Z" fill="#3A3A44"/><ellipse cx="1012" cy="420" rx="230" ry="200" fill="url(#ld-lamp)"/>
+<g transform="translate(860 560)"><rect x="-60" y="-26" width="120" height="70" rx="6" fill="#DDEEFF" fill-opacity=".35" stroke="#AACCEE" stroke-width="4"/><rect x="-60" y="-34" width="120" height="12" fill="#2E7D4F"/></g>
+<g transform="translate(1000 570)"><rect x="-50" y="-22" width="100" height="58" rx="6" fill="#DDEEFF" fill-opacity=".35" stroke="#AACCEE" stroke-width="4"/><rect x="-50" y="-30" width="100" height="10" fill="#1F3A6E"/></g>
+<g fill="#FFF3A0">${[[300, 380], [420, 300], [1180, 360], [760, 260], [200, 520]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.5" opacity=".9"/>`).join('')}</g></svg>`;
 BG.league2 = () => BG.league().replace('서울시 중등부 곤충 배틀 리그', '전국 중등부 곤충 배틀 리그 · 경기 예선').replace('SEOUL MIDDLE SCHOOL LEAGUE', 'NATIONAL LEAGUE QUALIFIER');
 BG.league = () => BG.opening()
   .replace('곤충 배틀 세계 대회', '서울시 중등부 곤충 배틀 리그').replace('font-size="44" fill="#FFD23F"', 'font-size="30" fill="#FFD23F"')
@@ -1811,6 +1924,8 @@ const SCENES = {
     actors: { kc: { x: 60, y: 300, s: 1.1, face: 'smile' }, eh: { x: 260, y: 306, s: 1.05, face: 'smile' }, sw: { x: 520, y: 238, s: 1.25, face: 'grin' }, sr: { x: 790, y: 252, s: 1.2, face: 'smile' }, dh: { x: 1030, y: 262, s: 1.15, face: 'cool' } }
   },
   club2: { place: ['방과 후', '동아리실 · 뜻밖의 손님'], actors: { dh: { x: 500, y: 330, s: .8, face: 'cool' }, sr: { x: 380, y: 320, s: .8, face: 'smile' }, sw: { x: 250, y: 310, s: .85, face: 'grin' }, eh: { x: 125, y: 330, s: .82, face: 'smile' }, kc: { x: 0, y: 320, s: .88, face: 'grin' }, bs: { x: 940, y: 270, s: 1.08, face: 'cool', hidden: true } } },
+  nat: { place: ['전국 리그 본선', '전국 중등부 곤충 배틀 리그'], actors: { dh: { x: 500, y: 330, s: .8, face: 'cool' }, sr: { x: 380, y: 320, s: .8, face: 'smile' }, sw: { x: 250, y: 310, s: .85, face: 'grin' }, eh: { x: 125, y: 330, s: .82, face: 'smile' }, kc: { x: 0, y: 320, s: .88, face: 'grin' }, bs: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true }, jn: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true }, gb: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true }, jb: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true }, gw: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true }, ry: { x: 760, y: 250, s: 1.12, face: 'smile', hidden: true }, hj: { x: 990, y: 250, s: 1.12, face: 'cool', hidden: true } } },
+  lodge: { place: ['4강 전날 밤', '선수 숙소 뒤편'], actors: { dh: { x: 760, y: 300, s: 1, face: 'smile', casual: true }, kc: { x: 120, y: 300, s: 1, face: 'shock', casual: true, hidden: true } } },
   home: { place: ['그날 밤', '강찬의 방'], actors: { kc: { x: 470, y: 250, s: 1.2, face: 'happy', casual: true } } },
   forest: { place: null, actors: {}, field: true },
   league: { place: ['챕터 5', '서울시 중등부 곤충 배틀 리그'], actors: { dh: { x: 380, y: 330, s: .8, face: 'cool' }, sr: { x: 290, y: 320, s: .8, face: 'smile' }, sw: { x: 190, y: 310, s: .85, face: 'grin' }, eh: { x: 100, y: 330, s: .82, face: 'smile' }, kc: { x: 0, y: 320, s: .88, face: 'grin' }, mt: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true }, gr: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true } } },
@@ -1818,9 +1933,11 @@ const SCENES = {
   camp: { place: ['챕터 7', '합숙 훈련 · 숲속 캠핑장'], actors: { dh: { x: 380, y: 330, s: .8, face: 'cool', casual: true }, sr: { x: 290, y: 320, s: .8, face: 'smile', casual: true }, sw: { x: 190, y: 310, s: .85, face: 'grin', casual: true }, eh: { x: 100, y: 330, s: .82, face: 'smile', casual: true }, kc: { x: 0, y: 320, s: .88, face: 'grin', casual: true }, gw: { x: 760, y: 300, s: .95, face: 'grin', hidden: true }, cc: { x: 960, y: 300, s: .95, face: 'smile', hidden: true } } },
   campnight: { place: ['그날 밤', '숲속 캠핑장'], actors: { dh: { x: 380, y: 330, s: .8, face: 'cool', casual: true }, sr: { x: 290, y: 320, s: .8, face: 'shock', casual: true }, sw: { x: 190, y: 310, s: .85, face: 'shock', casual: true }, eh: { x: 100, y: 330, s: .82, face: 'shock', casual: true }, kc: { x: 0, y: 320, s: .88, face: 'shock', casual: true }, gw: { x: 700, y: 300, s: .9, face: 'shock' }, cc: { x: 860, y: 300, s: .9, face: 'shock' }, mx: { x: 1040, y: 270, s: 1.05, face: 'cool', hidden: true } } },
   meadow: { place: null, actors: {}, field: true },
-  pond: { place: null, actors: {}, field: true }
+  pond: { place: null, actors: {}, field: true },
+  jeju: { place: null, actors: {}, field: true }, gangwon: { place: null, actors: {}, field: true }, gyeonggi: { place: null, actors: {}, field: true },
+  chungcheong: { place: null, actors: {}, field: true }, jeolla: { place: null, actors: {}, field: true }, gyeongsang: { place: null, actors: {}, field: true }
 };
-const MUSIC = { opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', club2: 'club' };
+const MUSIC = { jeju: 'forest', gangwon: 'forest', gyeonggi: 'forest', chungcheong: 'forest', jeolla: 'forest', gyeongsang: 'forest', opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', club2: 'club', nat: 'opening', lodge: 'home' };
 const PITCH = { kc: 520, eh: 780, dh: 330, sw: 420, sr: 640, mt: 300, gr: 700 };
 
 /* ---------- 스크립트 ---------- */
@@ -2182,7 +2299,171 @@ const SCRIPT = [
   say('dh', 'cool', '…다음엔 안 진다. 본선에서 반드시 갚아 준다.'),
   say('sw', 'grin', '좋아, 그 기세다! 오늘부터 본선까지 매일 특훈이다!'),
   say('sr', 'smile', '먹이, 특훈, 사육장 관리. 그리고 같은 종을 여러 번 잡으면 레어 개체가 나올 확률도 올라가.\n우리도 강한 개체를 찾아보자.'),
-  { t: 'trophy', chip: '챕터 8 완료', title: '본선을 향한 특훈 시작!', text: '전국 우승팀 주장 장현우의 레드기어에게 도혁이 완패했어요. {팀}은 전국의 벽을 실감하고 본선을 향해 특훈에 들어가요. 다음 이야기는 준비 중이에요. 그동안 곤충들을 최강으로 키워 보세요.' },
+  { t: 'trophy', chip: '챕터 8 완료', title: '본선을 향한 특훈 시작!', text: '전국 우승팀 주장 장현우의 레드기어에게 도혁이 완패했어요. {팀}은 전국의 벽을 실감하고 본선을 향해 특훈에 들어가요. 본선까지 남은 날 동안 곤충들을 최강으로 키워 보세요!' },
+  { t: 'hub', goal: { name: '전국 중등 곤충 배틀 리그', days: 10 } },
+  { t: 'chapter', no: '챕터 9', title: '전국 중등 곤충 리그' },
+  { t: 'scene', id: 'nat' },
+  narr('매일같이 이어진 특훈. 그리고 드디어 7월!'),
+  narr('전국 중등부 곤충 배틀 리그 개막!\n8개 도를 대표하는 팀들이 서울의 경기장에 모였다!'),
+  say('eh', 'shock', '와… 서울 리그 때랑은 비교도 안 돼. 관중이 몇 명이야?!'),
+  say('sw', 'grin', '강원, 충청, 경남, 경북, 전남, 전북, 제주… 그리고 경기도 대표, 우리 {팀}이다!'),
+  say('sr', 'smile', '본선은 먼저 8강 1차 조별 경기부터야.\n네 팀씩 두 조로 나뉘어서, 조 상위 팀만 8강 2차전에 올라가.'),
+  say('sr', 'cool', '우리 조는… 서울의 우리, 전북 하모니즈, 전남 블루타이드, 경북 에메랄드.'),
+  say('dh', 'cool', '…부산중은 반대편 조인가.'),
+  { t: 'show', who: 'bs' },
+  say('bs', 'grin', '오, 서울 대표 아이가. 그때 그 사마귀 쓰던 니도 왔네.'),
+  say('dh', 'cool', '…이번엔 안 진다.'),
+  say('bs', 'grin', '그 말, 결승까지 올라와서 해라. 기다리고 있을게.'),
+  { t: 'hide', who: 'bs' },
+  say('kc', 'grin', '결승에서 보자, 장현우! 그 전에 우리 조부터 뚫는다!'),
+  narr('8강 1차 조별 경기, 첫 상대는 전라남도 대표 목포중 블루타이드!'),
+  { t: 'show', who: 'jn' },
+  say('jn', 'grin', '목포중 주장 고바다야. 물에 들어오면 그때부턴 우리 무대야.'),
+  say('jn', 'cool', '물장군의 갈고리, 한 번 잡히면 못 빠져나갈걸.'),
+  say('sr', 'smile', '대진. 선봉 세웅, 중견 강찬, 대장 은하.'),
+  say('kc', 'grin', '수서 곤충은 매탄중이랑 싸워 봤어. 자신 있어!'),
+  { t: 'match', key: 'n1' },
+  { t: 'scene', id: 'nat' },
+  { t: 'show', who: 'jn' },
+  say('jn', 'shock', '…우리 파도를 넘다니. 서울도 만만치 않네.'),
+  { t: 'hide', who: 'jn' },
+  narr('조별 두 번째 상대는 경상북도 대표 경주중 에메랄드!'),
+  { t: 'show', who: 'gb' },
+  say('gb', 'cool', '경주중 주장 석무열이다.\n천 년 전 신라 왕관을 꾸민 게 바로 비단벌레지.'),
+  say('gb', 'grin', '우리 갑옷 딱정벌레들, 쉽게 깨질 거라 생각하지 마라.'),
+  say('sr', 'smile', '선봉 도혁, 중견 나, 대장 강찬.'),
+  { t: 'match', key: 'n2' },
+  { t: 'scene', id: 'nat' },
+  { t: 'show', who: 'gb' },
+  say('gb', 'smile', '…훌륭했다. 우리 갑옷에 금이 간 건 오랜만이야.'),
+  { t: 'hide', who: 'gb' },
+  narr('그리고 마지막 조별 경기, 전북 하모니즈에게는 아깝게 패배…'),
+  narr('조 1위는 3전 전승의 전북 하모니즈.\n2승 1패의 {팀}은 조 2위로, 힘겹게 8강 2차전에 진출했다!'),
+  say('eh', 'happy', '휴… 진짜 아슬아슬했어!'),
+  say('sw', 'cool', '8강 2차전 상대는… 조별에서 우리를 이긴 전북이다.'),
+  say('kc', 'grin', '그럼 이번엔 우리가 이길 차례야!'),
+  { t: 'show', who: 'jb' },
+  say('jb', 'smile', '전주중 주장 소율이야. 또 만났네, {팀}.'),
+  say('jb', 'grin', '우리 곤충들의 노래, 이번에도 끝까지 들어 줄래?'),
+  say('sr', 'smile', '대진. 선봉 은하, 중견 도혁, 대장 강찬.'),
+  say('eh', 'grin', '이번엔 내가 먼저 기세를 올릴게!'),
+  { t: 'match', key: 'n3' },
+  { t: 'scene', id: 'nat' },
+  { t: 'show', who: 'jb' },
+  say('jb', 'shock', '…우리 합창이 멈췄어.'),
+  say('jb', 'smile', '축하해. 4강에서도 좋은 노래 들려줘.'),
+  { t: 'hide', who: 'jb' },
+  narr('{팀}, 8강 2차전 승리! 드디어 4강 진출!'),
+  say('sr', 'smile', '내일 4강 상대가 정해졌어. 강원도 대표… 강릉중 파인트리.'),
+  say('kc', 'shock', '진섭이 형네 팀?! 같이 합숙했던…!'),
+  say('sw', 'cool', '친구라도 봐주는 건 없다. 그쪽도 마찬가지일 거고.'),
+  { t: 'scene', id: 'lodge' },
+  narr('그날 밤 늦게. 잠이 오지 않던 강찬은 숙소 밖으로 나왔다.'),
+  { t: 'show', who: 'kc' },
+  say('kc', 'shock', '…어? 저기, 도혁이?'),
+  narr('숙소 뒤편 가로등 아래, 도혁이 사육통을 하나하나 열어\n곤충들의 몸을 살피고, 젤리를 갈아 주고 있었다.'),
+  say('dh', 'smile', '…오늘 고생했어. 많이 아팠지.'),
+  say('dh', 'smile', '부산중한테 졌을 때, 내가 너희를 제대로 못 믿었어.\n…미안해. 내일은 같이 이기자.'),
+  say('kc', 'shock', '……'),
+  say('kc', 'smile', '도혁아.'),
+  say('dh', 'shock', '…최강찬? 안 자고 뭐 해.'),
+  say('kc', 'smile', '너, 매일 밤 이렇게 곤충들 돌봐 줬던 거야?'),
+  say('dh', 'cool', '…장현우한테 지고 나서 알았어.\n이기는 것만 생각했지, 이 녀석들 마음은 생각 안 했다는 걸.'),
+  say('kc', 'grin', '…멋있다. 진짜로.'),
+  say('kc', 'grin', '나도 더 잘할게. 곤충들이랑 같이, 더 강해질 거야!'),
+  say('dh', 'smile', '…그래. 둘 다 더 강해지자.'),
+  say('dh', 'cool', '그리고 결승에서, 장현우를 같이 쓰러뜨리는 거다.'),
+  say('kc', 'grin', '약속이야!'),
+  narr('두 사람은 가로등 아래에서 주먹을 맞부딪쳤다.'),
+  { t: 'scene', id: 'nat' },
+  narr('다음 날, 대망의 4강전!\n경기도 대표 {팀} vs 강원도 대표 강릉중 파인트리!'),
+  { t: 'show', who: 'gw' },
+  say('gw', 'grin', '왔구나, {팀}! 캠핑장에서 같이 싸운 사이지만, 오늘은 적이다!'),
+  say('gw', 'cool', '강원도 숲의 하늘소, 전력으로 간다!'),
+  say('kc', 'grin', '우리도 전력이야, 진섭이 형!'),
+  say('sr', 'smile', '마지막 대진. 선봉 나, 중견 도혁, 대장 강찬.'),
+  say('dh', 'cool', '…어젯밤 약속, 잊지 마라.'),
+  { t: 'match', key: 'n4' },
+  { t: 'scene', id: 'nat' },
+  { t: 'show', who: 'gw' },
+  say('gw', 'shock', '…졌다. 하하, 완전히 졌어!'),
+  say('gw', 'grin', '결승 꼭 이겨라. 강원도 몫까지!'),
+  { t: 'hide', who: 'gw' },
+  narr('{팀}, 4강 승리! 전국 중등부 곤충 배틀 리그 결승 진출!'),
+  say('eh', 'happy', '결승이야! 우리가 결승에 올라왔어!'),
+  say('dh', 'smile', '…이제, 남은 건 하나야.'),
+  say('kc', 'grin', '기다려라, 결승! {팀}이 간다!'),
+  { t: 'trophy', chip: '챕터 9 완료', title: '전국 리그 결승 진출!', text: '{팀}이 조별 경기와 8강 2차전을 뚫고, 4강에서 파인트리까지 꺾었어요! 이제 남은 건 결승전뿐이에요. 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 10 · 전국 중등 리그 우승!', d: '결승 상대가 정해졌대요.' } },
+  { t: 'chapter', no: '챕터 10', title: '전국 중등 리그 우승!' },
+  { t: 'scene', id: 'nat' },
+  narr('강원 대표 파인트리를 꺾고 결승에 오른 {팀}.'),
+  narr('그리고 반대편 4강에서는…\n경남 대표 부산중 타이탄즈가 제주 윈드라이더즈를 꺾고 결승에 올랐다!'),
+  { t: 'show', who: 'bs' },
+  say('bs', 'grin', '올라왔네, 서울. 약속은 지켰구나.'),
+  say('bs', 'cool', '작년 우승팀은 우리다. 올해도 우리가 가져간다.'),
+  say('dh', 'cool', '…그때 진 빚, 결승에서 갚는다.'),
+  say('bs', 'grin', '좋다. 그 눈빛, 결승까지 꺼뜨리지 마라.'),
+  { t: 'hide', who: 'bs' },
+  say('eh', 'shock', '진짜 결승 상대가 부산중이야… 레드기어…'),
+  say('sw', 'cool', '다들 들어라. 결승 대진은 내가 정했다.'),
+  say('sw', 'cool', '선봉은 강찬, 중견은 나. 그리고 대장은… 도혁이다.'),
+  say('dh', 'shock', '…내가, 대장?'),
+  say('sw', 'grin', '장현우랑 붙을 사람은 너밖에 없다.\n그날 진 걸 제일 분해한 것도, 제일 많이 연습한 것도 너니까.'),
+  say('sr', 'smile', '도혁이 밤마다 곤충들 돌보는 거, 사실 다 알고 있었어.'),
+  say('kc', 'grin', '도혁아, 내가 선봉에서 길을 열게! 대장은 너한테 맡긴다!'),
+  say('dh', 'smile', '…알았다. 반드시 이긴다.'),
+  say('sw', 'grin', '좋아! 결승은 내일이다. 오늘은 마지막으로 곤충들 컨디션을 최고로 맞춰 둬라!'),
+  { t: 'hub', goal: { name: '전국 리그 결승전', days: 1 } },
+  { t: 'scene', id: 'nat' },
+  narr('결승전 당일. 경기장은 개막식보다 더 많은 관중으로 가득 찼다.'),
+  narr('그때, 관계자석이 술렁이기 시작했다.'),
+  { t: 'show', who: 'ry' },
+  say('ry', 'smile', '허허, 올해 결승은 서울과 부산인가. 재미있겠군.'),
+  say('sr', 'shock', '저, 저분은… 한국 곤충 배틀 협회 류성룡 회장님?!'),
+  say('ry', 'smile', '두 팀을 직접 보고 싶어서 왔단다. 긴장하지 말거라.'),
+  { t: 'show', who: 'hj' },
+  say('hj', 'cool', '회장님, 여기 계셨군요.'),
+  say('eh', 'shock', '그리고 저 사람은… 국가대표 팀 "제로원"의 주장, 박현준?!'),
+  say('sw', 'shock', '세계 곤충 배틀 챔피언십 2위… 한국 최고의 곤충 배틀러다.'),
+  say('kc', 'shock', '지, 진짜 박현준이다…!'),
+  say('hj', 'smile', '너희가 서울에서 올라온 {팀}이구나. 4강 경기, 잘 봤어.'),
+  say('hj', 'smile', '특히 사마귀 쓰는 너. 곤충들이 너를 믿고 움직이더라.\n그건 아무리 연습해도 쉽게 얻을 수 있는 게 아니야.'),
+  say('dh', 'shock', '…!'),
+  say('hj', 'grin', '그리고 거기 반창고 붙인 너. 곤충을 보는 눈이 반짝반짝하던데.'),
+  say('kc', 'grin', '네! 저, 언젠가 세계 최강의 곤충 배틀러가 될 거예요!'),
+  say('hj', 'grin', '좋은 꿈이네. 그럼 오늘 결승부터 보여 줘.'),
+  say('ry', 'smile', '부산중에도 아까 인사하고 왔단다. 두 팀 모두 후회 없는 배틀을 하거라.'),
+  { t: 'hide', who: 'ry' },
+  { t: 'hide', who: 'hj' },
+  say('eh', 'happy', '박현준한테 응원받았어…! 이거 꿈 아니지?'),
+  say('sr', 'smile', '꿈 아니야. 이제 우리가 보여 줄 차례야.'),
+  say('sw', 'grin', '가자, {팀}! 전국 결승이다!'),
+  say('kc', 'grin', '선봉은 나! 레드기어든 뭐든, 길은 내가 연다!'),
+  { t: 'show', who: 'bs' },
+  say('bs', 'grin', '와라, 서울. 전력으로 상대해 주지.'),
+  { t: 'match', key: 'nf' },
+  { t: 'scene', id: 'nat' },
+  narr('전국 중등부 곤충 배틀 리그 우승은…\n경기도 대표, {팀}!!!'),
+  say('dh', 'shock', '…이겼다. 내가… 장현우를…'),
+  say('kc', 'happy', '도혁아아아! 해냈어! 우리가 해냈어!'),
+  say('eh', 'happy', '우승이야! 전국 우승이야!'),
+  say('sw', 'happy', '세온중이… 전국 정상에 섰다!'),
+  say('sr', 'happy', '…선배들한테 자랑할 게 너무 많아졌네.'),
+  { t: 'show', who: 'bs' },
+  say('bs', 'shock', '…졌네. 내 레드기어가.'),
+  say('bs', 'grin', '사마귀 쓰는 니. 차도혁이랬나. 진짜 강해졌네.\n다음엔 세계 무대에서 붙자.'),
+  say('dh', 'smile', '…그래. 그때도 내가 이긴다.'),
+  { t: 'hide', who: 'bs' },
+  { t: 'show', who: 'ry' },
+  { t: 'show', who: 'hj' },
+  say('ry', 'happy', '훌륭한 결승이었다. 축하한다, {팀}!'),
+  say('ry', 'smile', '너희 같은 아이들이 있으니, 한국 곤충 배틀의 앞날이 밝구나.'),
+  say('hj', 'grin', '축하해. 오늘 너희 배틀, 세계 무대에서도 통할 거야.'),
+  say('hj', 'cool', '세계는 넓고, 훨씬 강한 녀석들이 기다리고 있어.\n그 자리까지 올라와. 기다릴게.'),
+  say('kc', 'grin', '네! 반드시 갈게요!'),
+  say('kc', 'grin', '서울, 전국, 그리고 다음은… 세계다!'),
+  { t: 'trophy', chip: '챕터 10 완료', title: '전국 중등 리그 우승!', text: '{팀}이 작년 우승팀 부산중 타이탄즈를 꺾고 전국 중등부 곤충 배틀 리그 정상에 섰어요! 대장 차도혁이 장현우에게 설욕했고, 협회 회장 류성룡과 국가대표 주장 박현준도 {팀}을 눈여겨보고 있어요. 다음 이야기는 준비 중이에요.' },
   { t: 'hub' },
   { t: 'end' }
 ];
@@ -2509,38 +2790,83 @@ const SPOTS = [
   { area: 'meadow', id: 'tick', name: '진드기', obj: '진드기를', subj: '진드기가', type: '독침', game: 'bar', place: '긴 풀 끝', fact: '다리가 여덟 개인 거미의 친척이에요. 풀 끝에서 지나가는 동물을 기다렸다가 달라붙어요.' },
   { area: 'forest', id: 'weevil', name: '바구미', obj: '바구미를', subj: '바구미가', type: '장갑', game: 'bar', place: '도토리 위', fact: '코끼리 코처럼 긴 주둥이를 가진 딱정벌레예요. 위험하면 죽은 척해요.' },
   { area: 'forest', id: 'hanul', name: '하늘소', obj: '하늘소를', subj: '하늘소가', type: '참격', game: 'bar', place: '참나무 고목 줄기', fact: '몸보다 긴 마디 더듬이와 튼튼한 큰턱을 가진 밤색 하늘소예요. 애벌레는 나무속을 파먹으며 몇 해를 자라요.' },
-  { area: 'forest', id: 'lunamoth', name: '긴꼬리산누에나방', obj: '긴꼬리산누에나방을', subj: '긴꼬리산누에나방이', type: '독침', game: 'sneak', place: '밤 숲 가로등 아래', fact: '연둣빛 날개에 리본처럼 긴 꼬리가 달린 큰 나방이에요. 어른벌레는 입이 퇴화해서 아무것도 먹지 않고 짧게 살아요.' }
+  { area: 'forest', id: 'lunamoth', name: '긴꼬리산누에나방', obj: '긴꼬리산누에나방을', subj: '긴꼬리산누에나방이', type: '독침', game: 'sneak', place: '밤 숲 가로등 아래', fact: '연둣빛 날개에 리본처럼 긴 꼬리가 달린 큰 나방이에요. 어른벌레는 입이 퇴화해서 아무것도 먹지 않고 짧게 살아요.' },
+  { area: 'jeju', id: 'dotstag', name: '두점박이사슴벌레', obj: '두점박이사슴벌레를', subj: '두점박이사슴벌레가', type: '참격', game: 'bar', place: '곶자왈 고목', fact: '등에 검은 점 두 개가 찍힌 주황빛 사슴벌레예요. 우리나라에선 제주도에서만 볼 수 있어요.' },
+  { area: 'jeju', id: 'jejucarab', name: '제주왕딱정벌레', obj: '제주왕딱정벌레를', subj: '제주왕딱정벌레가', type: '참격', game: 'sneak', place: '곶자왈 낙엽 밑', fact: '보랏빛이 도는 커다란 딱정벌레예요. 밤에 땅을 빠르게 돌아다니며 달팽이와 지렁이를 사냥해요.' },
+  { area: 'jeju', id: 'sblue', name: '남방남색부전나비', obj: '남방남색부전나비를', subj: '남방남색부전나비가', type: '타격', game: 'sneak', place: '바닷가 꽃밭', fact: '날개 윗면이 남색으로 빛나는 작은 부전나비예요. 따뜻한 남쪽 지방에 살아요.' },
+  { area: 'gangwon', id: 'redleg', name: '홍다리사슴벌레', obj: '홍다리사슴벌레를', subj: '홍다리사슴벌레가', type: '참격', game: 'bar', place: '높은 산 고목', fact: '다리 넓적다리가 붉은색인 검은 사슴벌레예요. 높은 산의 서늘한 숲에 살아요.' },
+  { area: 'gangwon', id: 'dauri', name: '다우리아사슴벌레', obj: '다우리아사슴벌레를', subj: '다우리아사슴벌레가', type: '참격', game: 'ring', place: '산속 나무 줄기', fact: '붉은 갈색의 날씬한 사슴벌레예요. 북쪽 지방 산에 살고, 큰턱이 짧고 둥글게 휘었어요.' },
+  { area: 'gangwon', id: 'smcicada', name: '애매미', obj: '애매미를', subj: '애매미가', type: '소리', game: 'sneak', place: '산길 나무', fact: '"쓰름쓰름" 하고 우는 작은 매미예요. 늦여름 산속에서 자주 들려요.' },
+  { area: 'gyeonggi', id: 'bigstink', name: '큰허리노린재', obj: '큰허리노린재를', subj: '큰허리노린재가', type: '독침', game: 'sneak', place: '덤불 줄기', fact: '뒷다리가 넓적하게 퍼진 큰 갈색 노린재예요. 건드리면 아주 고약한 냄새를 뿜어요.' },
+  { area: 'gyeonggi', id: 'cherrylh', name: '벚나무사향하늘소', obj: '벚나무사향하늘소를', subj: '벚나무사향하늘소가', type: '참격', game: 'bar', place: '벚나무 줄기', fact: '검은 몸에 가슴만 붉은 하늘소예요. 사향 같은 냄새를 풍기고, 벚나무 속을 파먹어요.' },
+  { area: 'gyeonggi', id: 'blkcicada', name: '말매미', obj: '말매미를', subj: '말매미가', type: '소리', game: 'sneak', place: '도시 공원 나무', fact: '우리나라에서 가장 큰 매미예요. 한여름 도시 나무에서 "차르르르" 하고 크게 울어요.' },
+  { area: 'chungcheong', id: 'purpdung', name: '보라금풍뎅이', obj: '보라금풍뎅이를', subj: '보라금풍뎅이가', type: '장갑', game: 'ring', place: '숲길 동물 똥 옆', fact: '보랏빛으로 반짝이는 동그란 풍뎅이예요. 동물 똥을 땅속에 묻어 숲을 깨끗하게 해요.' },
+  { area: 'chungcheong', id: 'damsel', name: '물잠자리', obj: '물잠자리를', subj: '물잠자리가', type: '참격', game: 'sneak', place: '맑은 개울가', fact: '몸은 초록빛으로 반짝이고 날개는 새까만 실잠자리예요. 맑은 개울에서만 살아요.' },
+  { area: 'chungcheong', id: 'montela', name: '꼬리명주나비', obj: '꼬리명주나비를', subj: '꼬리명주나비가', type: '독침', game: 'sneak', place: '쥐방울덩굴 풀밭', fact: '하얀 날개에 검은 줄무늬, 아주 긴 꼬리를 가진 나비예요. 애벌레는 독이 있는 쥐방울덩굴을 먹어요.' },
+  { area: 'jeolla', id: 'molecr', name: '땅강아지', obj: '땅강아지를', subj: '땅강아지가', type: '타격', game: 'bar', place: '논두렁 흙속', fact: '삽처럼 생긴 앞다리로 땅을 파고 사는 곤충이에요. 헤엄도 치고 날 수도 있는 재주꾼이에요.' },
+  { area: 'jeolla', id: 'locust', name: '풀무치', obj: '풀무치를', subj: '풀무치가', type: '타격', game: 'bar', place: '넓은 들판', fact: '메뚜기 중에서도 크고 힘센 풀무치예요. 떼를 지으면 아주 멀리까지 날아가요.' },
+  { area: 'jeolla', id: 'wspot', name: '흰점박이꽃무지', obj: '흰점박이꽃무지를', subj: '흰점박이꽃무지가', type: '장갑', game: 'ring', place: '과일나무 진액', fact: '구릿빛 몸에 흰 점이 흩어진 꽃무지예요. 익은 과일과 나무 진을 좋아해요.' },
+  { area: 'gyeongsang', id: 'paperw', name: '쌍살벌', obj: '쌍살벌을', subj: '쌍살벌이', type: '독침', game: 'sneak', place: '처마 밑 꽃밭', fact: '긴 다리를 늘어뜨리고 나는 날씬한 벌이에요. 종이로 만든 둥지에서 살아요.' },
+  { area: 'gyeongsang', id: 'cabbage', name: '배추흰나비', obj: '배추흰나비를', subj: '배추흰나비가', type: '타격', game: 'ring', place: '배추밭', fact: '우리 주변에서 가장 흔한 흰 나비예요. 애벌레는 배추와 무 잎을 좋아해요.' },
+  { area: 'gyeongsang', id: 'jankow', name: '멋쟁이딱정벌레', obj: '멋쟁이딱정벌레를', subj: '멋쟁이딱정벌레가', type: '참격', game: 'sneak', place: '산길 낙엽 밑', fact: '초록과 붉은빛으로 반짝이는 멋쟁이 딱정벌레예요. 이름처럼 우리나라에서 가장 화려한 딱정벌레 중 하나예요.' },
+  { area: 'forest', id: 'bombard', name: '폭탄먼지벌레', obj: '폭탄먼지벌레를', subj: '폭탄먼지벌레가', type: '독침', game: 'sneak', place: '돌 밑 축축한 땅', fact: '위험하면 꽁무니에서 "펑!" 소리와 함께 뜨거운 가스를 뿜어요. 그래서 폭탄먼지벌레예요.' },
+  { area: 'forest', id: 'redcarab', name: '홍단딱정벌레', obj: '홍단딱정벌레를', subj: '홍단딱정벌레가', type: '참격', game: 'sneak', place: '낙엽 밑', fact: '검은 몸 가장자리에 붉은 테를 두른 딱정벌레예요. 밤에 달팽이를 사냥해요.' },
+  { area: 'forest', id: 'acornw', name: '도토리거위벌레', obj: '도토리거위벌레를', subj: '도토리거위벌레가', type: '장갑', game: 'ring', place: '참나무 가지', fact: '긴 주둥이로 도토리에 구멍을 뚫고 알을 낳아요. 그다음 가지째 잘라 땅에 떨어뜨려요.' },
+  { area: 'meadow', id: 'comma', name: '네발나비', obj: '네발나비를', subj: '네발나비가', type: '타격', game: 'sneak', place: '환삼덩굴 풀밭', fact: '앞다리 한 쌍이 작아서 다리가 네 개처럼 보이는 나비예요. 날개를 접으면 낙엽 같아요.' },
+  { area: 'forest', id: 'darkling', name: '거저리', obj: '거저리를', subj: '거저리가', type: '장갑', game: 'ring', place: '썩은 고목 밑', fact: '까맣고 단단한 몸을 가진 딱정벌레예요. 썩은 나무와 버섯을 먹으며 숲을 청소해요.' },
+  { area: 'meadow', id: 'chalcid', name: '좀벌', obj: '좀벌을', subj: '좀벌이', type: '독침', game: 'sneak', place: '꽃잎 위', fact: '몸길이가 겨우 몇 밀리미터인 아주 작은 기생벌이에요. 다른 곤충의 알이나 애벌레에 알을 낳아요.' },
+  { area: 'meadow', id: 'antlion', name: '명주잠자리', obj: '명주잠자리를', subj: '명주잠자리가', type: '참격', game: 'ring', place: '모래 언덕 풀숲', fact: '잠자리처럼 생겼지만 다른 곤충이에요. 애벌레가 모래에 함정을 파는 "개미귀신"이에요.' },
+  { area: 'forest', id: 'slug', name: '민달팽이', obj: '민달팽이를', subj: '민달팽이가', type: '타격', game: 'sneak', place: '비 온 뒤 낙엽 위', fact: '껍데기가 없는 달팽이 친구예요. 곤충은 아니지만 숲 바닥에서 함께 살아요. 끈적한 점액으로 몸을 지켜요.' },
+  { area: 'meadow', id: 'snail', name: '달팽이', obj: '달팽이를', subj: '달팽이가', type: '장갑', game: 'sneak', place: '젖은 풀잎', fact: '등에 동그란 껍데기를 지고 다니는 달팽이예요. 곤충은 아니지만 풀밭에서 자주 만나요.' },
+  { area: 'meadow', id: 'antwaist', name: '개미허리노린재', obj: '개미허리노린재를', subj: '개미허리노린재가', type: '독침', game: 'bar', place: '콩밭 풀숲', fact: '허리가 개미처럼 잘록한 날씬한 노린재예요. 어릴 때는 개미와 정말 똑같이 생겼어요.' },
+  { area: 'forest', id: 'pungi', name: '풍이', obj: '풍이를', subj: '풍이가', type: '장갑', game: 'ring', place: '참나무 수액', fact: '초록빛과 구릿빛으로 반짝이는 큼직한 꽃무지예요. 참나무 수액에 장수풍뎅이와 함께 모여요.' }
 ];
 const AREAS = {
   forest: { n: '참나무 숲', chip: ['세온중 뒷산 · 저녁 7:40', '참나무 숲 한가운데'], start: [640, 600], d: '해 질 녘 수액과 낙엽 밑에 모이는 곤충' },
   meadow: { n: '강변 풀밭', chip: ['세온천 둔치 · 오후 4:30', '강변 풀밭'], start: [440, 600], d: '꽃과 풀숲, 돌 밑에 사는 곤충' },
-  pond: { n: '뒷산 연못', chip: ['세온중 뒷산 · 오후 5:20', '뒷산 연못가'], start: [640, 600], d: '물속과 물가에 사는 곤충' }
+  pond: { n: '뒷산 연못', chip: ['세온중 뒷산 · 오후 5:20', '뒷산 연못가'], start: [640, 600], d: '물속과 물가에 사는 곤충' },
+  jeju: { n: '제주도 · 곶자왈', chip: ['제주도 · 오후 6:10', '곶자왈 숲'], start: [640, 600], d: '따뜻한 섬에만 사는 곤충', region: true, base: 'forest' },
+  gangwon: { n: '강원도 · 깊은 산', chip: ['강원도 · 저녁 7:00', '깊은 산 고목 숲'], start: [640, 600], d: '서늘한 높은 산의 곤충', region: true, base: 'forest' },
+  gyeonggi: { n: '경기도 · 도시 공원', chip: ['경기도 · 오후 5:40', '도시 공원 숲'], start: [640, 600], d: '공원과 벚나무 길의 곤충', region: true, base: 'forest' },
+  chungcheong: { n: '충청도 · 맑은 개울', chip: ['충청도 · 오후 4:50', '맑은 개울 풀밭'], start: [440, 600], d: '맑은 개울과 숲길의 곤충', region: true, base: 'meadow' },
+  jeolla: { n: '전라도 · 넓은 들판', chip: ['전라도 · 오후 4:20', '넓은 들판'], start: [440, 600], d: '논밭과 과수원의 곤충', region: true, base: 'meadow' },
+  gyeongsang: { n: '경상도 · 산골 마을', chip: ['경상도 · 오후 5:00', '산골 마을 텃밭'], start: [440, 600], d: '산길과 텃밭의 곤충', region: true, base: 'meadow' }
+};
+const REGION_POOLS = {
+  jeju: [['dotstag', 'kabuto', 'satmoth'], ['dotstag', 'hornet', 'pungi'], ['cicada', 'jewel', 'lunamoth'], ['sblue', 'swallowtail', 'mantis'], ['dotstag', 'stag', 'darkling'], ['jejucarab', 'slug', 'scutigera'], ['jejucarab', 'centipede', 'bombard']],
+  gangwon: [['redleg', 'hanul', 'ostag'], ['dauri', 'smcicada', 'longhorn'], ['smcicada', 'lunamoth', 'cicada'], ['stick', 'katydid', 'mantis'], ['redleg', 'dauri', 'lucanus'], ['redcarab', 'darkling', 'slug'], ['centipede', 'acornw', 'earwig']],
+  gyeonggi: [['cherrylh', 'kabuto', 'sawstag'], ['blkcicada', 'hornet', 'pungi'], ['blkcicada', 'cicada', 'cherrylh'], ['bigstink', 'mantis', 'stink'], ['stag', 'ostag', 'acornw'], ['roach', 'darkling', 'redcarab'], ['bigstink', 'bombard', 'scutigera']],
+  chungcheong: [['montela', 'butterfly', 'comma'], ['spider'], ['purpdung', 'dung', 'tiger'], ['damsel', 'grasshopper', 'katydid'], ['montela', 'bee', 'lady'], ['purpdung', 'fireant', 'snail']],
+  jeolla: [['wspot', 'comma', 'swallowtail'], ['spider'], ['molecr', 'dung', 'antwaist'], ['locust', 'grasshopper', 'katydid'], ['wspot', 'chafer', 'chalcid'], ['molecr', 'cricket', 'snail']],
+  gyeongsang: [['cabbage', 'butterfly', 'paperw'], ['spider'], ['jankow', 'tiger', 'fly'], ['grasshopper', 'antlion', 'katydid'], ['paperw', 'bee', 'cabbage'], ['jankow', 'fireant', 'ant']]
 };
 const AREA_SLOTS = {
   forest: [
     { sx: 238, sy: 300, ix: 320, iy: 470, s: 'left:0;top:160px;transform:rotate(-78deg) scale(.26)', pool: ['kabuto', 'ostag', 'sawstag', 'longhorn', 'satmoth', 'lucanus', 'hanul'] },
-    { sx: 486, sy: 286, ix: 500, iy: 470, s: 'left:246px;top:170px;transform:rotate(-82deg) scale(.2)', pool: ['hornet', 'jewel', 'click', 'sawstag', 'ant'] },
+    { sx: 486, sy: 286, ix: 500, iy: 470, s: 'left:246px;top:170px;transform:rotate(-82deg) scale(.2)', pool: ['hornet', 'jewel', 'click', 'sawstag', 'ant', 'pungi'] },
     { sx: 1040, sy: 250, ix: 1000, iy: 430, s: 'left:800px;top:100px;transform:rotate(-80deg) scale(.2)', pool: ['cicada', 'longhorn', 'satmoth', 'click', 'jewel', 'lunamoth', 'hanul'] },
     { sx: 1180, sy: 500, ix: 1110, iy: 560, s: 'left:940px;top:370px;transform:scale(.3)', pool: ['mantis', 'katydid', 'stick', 'stink'] },
-    { sx: 950, sy: 570, ix: 930, iy: 620, s: 'left:710px;top:450px;transform:rotate(-4deg) scale(.28)', pool: ['stag', 'ostag', 'sawstag', 'lucanus'] },
-    { sx: 180, sy: 650, ix: 200, iy: 620, s: 'left:-60px;top:526px;transform:rotate(6deg) scale(.15)', pool: ['roach', 'scutigera', 'earwig'] },
-    { sx: 760, sy: 420, ix: 740, iy: 470, s: 'left:520px;top:296px;transform:rotate(-6deg) scale(.18)', pool: ['centipede', 'scutigera', 'earwig', 'weevil'] }
+    { sx: 950, sy: 570, ix: 930, iy: 620, s: 'left:710px;top:450px;transform:rotate(-4deg) scale(.28)', pool: ['stag', 'ostag', 'sawstag', 'lucanus', 'acornw'] },
+    { sx: 180, sy: 650, ix: 200, iy: 620, s: 'left:-60px;top:526px;transform:rotate(6deg) scale(.15)', pool: ['roach', 'scutigera', 'earwig', 'slug', 'darkling'] },
+    { sx: 760, sy: 420, ix: 740, iy: 470, s: 'left:520px;top:296px;transform:rotate(-6deg) scale(.18)', pool: ['centipede', 'scutigera', 'earwig', 'weevil', 'bombard', 'redcarab'] }
   ],
   meadow: [
-    { sx: 350, sy: 300, ix: 360, iy: 450, s: 'left:110px;top:180px;transform:scale(.26)', pool: ['butterfly', 'swallowtail', 'bee', 'lady'] },
+    { sx: 350, sy: 300, ix: 360, iy: 450, s: 'left:110px;top:180px;transform:scale(.26)', pool: ['butterfly', 'swallowtail', 'bee', 'lady', 'comma'] },
     { sx: 170, sy: 290, ix: 170, iy: 450, s: 'left:-70px;top:140px;transform:rotate(90deg) scale(.2)', pool: ['spider'] },
     { sx: 580, sy: 460, ix: 580, iy: 530, s: 'left:340px;top:330px;transform:scale(.16)', pool: ['fly', 'tiger', 'cranefly', 'dung', 'fruitfly'] },
-    { sx: 300, sy: 590, ix: 300, iy: 610, s: 'left:60px;top:450px;transform:scale(.22)', pool: ['grasshopper', 'katydid', 'aphid', 'tick'] },
-    { sx: 990, sy: 410, ix: 980, iy: 470, s: 'left:750px;top:270px;transform:scale(.18)', pool: ['chafer', 'bee', 'silk', 'jstink', 'lady', 'aphid'] },
-    { sx: 865, sy: 570, ix: 860, iy: 610, s: 'left:625px;top:440px;transform:scale(.18)', pool: ['cricket', 'dung', 'tiger', 'fireant', 'ant'] }
+    { sx: 300, sy: 590, ix: 300, iy: 610, s: 'left:60px;top:450px;transform:scale(.22)', pool: ['grasshopper', 'katydid', 'aphid', 'tick', 'antwaist', 'antlion'] },
+    { sx: 990, sy: 410, ix: 980, iy: 470, s: 'left:750px;top:270px;transform:scale(.18)', pool: ['chafer', 'bee', 'silk', 'jstink', 'lady', 'aphid', 'chalcid'] },
+    { sx: 865, sy: 570, ix: 860, iy: 610, s: 'left:625px;top:440px;transform:scale(.18)', pool: ['cricket', 'dung', 'tiger', 'fireant', 'ant', 'snail'] }
   ],
   pond: [
     { sx: 420, sy: 350, ix: 420, iy: 430, s: 'left:180px;top:210px;transform:scale(.2)', pool: ['diving', 'notonecta', 'hydro'] },
     { sx: 820, sy: 340, ix: 820, iy: 430, s: 'left:580px;top:200px;transform:rotate(-8deg) scale(.22)', pool: ['waterbug', 'ranatra', 'nepa', 'appasus'] },
-    { sx: 1120, sy: 200, ix: 1100, iy: 440, s: 'left:880px;top:60px;transform:scale(.22)', pool: ['dragonfly', 'emperor', 'mayfly'] },
+    { sx: 1120, sy: 200, ix: 1100, iy: 440, s: 'left:880px;top:60px;transform:scale(.22)', pool: ['dragonfly', 'emperor', 'mayfly', 'antlion'] },
     { sx: 180, sy: 500, ix: 220, iy: 560, s: 'left:-60px;top:370px;transform:scale(.14)', pool: ['mosquito', 'cranefly', 'mayfly'] }
   ]
 };
+for (const [a, pools] of Object.entries(REGION_POOLS)) AREA_SLOTS[a] = AREA_SLOTS[AREAS[a].base].map((sl, i) => ({ ...sl, pool: pools[i] || sl.pool }));
+const natOpen = () => (S.ip || 0) > SCRIPT.findIndex((c) => c.t === 'chapter' && c.no === '챕터 9');
 function makeSpots(area) {
   const used = new Set();
   return AREA_SLOTS[area].map((sl) => {
@@ -3090,7 +3416,94 @@ const SP = {
     e: { n: '줄기 베어 넘기기', cost: 35, cd: 2, pow: 96, cat: 'phys', stun: 1, stunP: .4 }, r: { n: '천년 고목의 일격', cost: 90, cd: 4, pow: 225, cat: 'phys' } },
   lunamoth: { name: '긴꼬리산누에나방', type: '독침', hab: '공중', hp: 480, atk: 24, spa: 48, def: 30, spd: 66, face: 'right',
     a: { n: '날개 치기', pow: 24, cat: 'phys' }, q: { n: '달빛 인분', cost: 20, cd: 1, pow: 36, cat: 'spec', poison: [14, 3] }, w: { n: '긴 꼬리 유인', cost: 25, cd: 3, dodge: 1 },
-    e: { n: '월광 날갯짓', cost: 35, cd: 2, pow: 88, cat: 'spec', stun: 1, stunP: .35 }, r: { n: '보름달의 춤', cost: 90, cd: 4, pow: 205, cat: 'spec' } }
+    e: { n: '월광 날갯짓', cost: 35, cd: 2, pow: 88, cat: 'spec', stun: 1, stunP: .35 }, r: { n: '보름달의 춤', cost: 90, cd: 4, pow: 205, cat: 'spec' } },
+  dotstag: { name: '두점박이사슴벌레', type: '참격', hab: '육상', hp: 470, atk: 44, spa: 22, def: 36, spd: 50, face: 'right',
+    a: { n: '큰턱 물기', pow: 28, cat: 'phys' }, q: { n: '갈래턱 찝기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '머리 치켜들기', cost: 25, cd: 3, guard: 2 },
+    e: { n: '두 점 들어 던지기', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '한라산 대회전', cost: 90, cd: 4, pow: 210, cat: 'phys' } },
+  jejucarab: { name: '제주왕딱정벌레', type: '참격', hab: '육상', hp: 430, atk: 42, spa: 24, def: 34, spd: 62, face: 'right',
+    a: { n: '큰턱 물기', pow: 28, cat: 'phys' }, q: { n: '보랏빛 돌진', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '낙엽 속 숨기', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '연속 물어뜯기', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '곶자왈의 사냥꾼', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  sblue: { name: '남방남색부전나비', type: '타격', hab: '공중', hp: 300, atk: 26, spa: 34, def: 20, spd: 100, face: 'right',
+    a: { n: '날개 치기', pow: 28, cat: 'phys' }, q: { n: '남빛 날갯짓', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '팔랑 회피', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '작은 날개 연타', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '남쪽 바람의 춤', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  redleg: { name: '홍다리사슴벌레', type: '참격', hab: '육상', hp: 480, atk: 43, spa: 22, def: 40, spd: 42, face: 'right',
+    a: { n: '큰턱 물기', pow: 28, cat: 'phys' }, q: { n: '붉은 다리 차기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '다리 버티기', cost: 25, cd: 3, guard: 2 },
+    e: { n: '고목 들어 던지기', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '붉은 다리 대회전', cost: 90, cd: 4, pow: 210, cat: 'phys' } },
+  dauri: { name: '다우리아사슴벌레', type: '참격', hab: '육상', hp: 420, atk: 40, spa: 24, def: 34, spd: 56, face: 'right',
+    a: { n: '큰턱 물기', pow: 28, cat: 'phys' }, q: { n: '짧은 턱 찝기', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '재빠른 회피', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '연속 찝기', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '북쪽 숲의 일격', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  smcicada: { name: '애매미', type: '소리', hab: '공중', hp: 360, atk: 22, spa: 40, def: 26, spd: 66, face: 'right',
+    a: { n: '날개 치기', pow: 24, cat: 'phys' }, q: { n: '쓰름 울음', cost: 20, cd: 1, pow: 40, cat: 'spec', stun: 1, stunP: .3 }, w: { n: '나무껍질 의태', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '쓰름쓰름 합창', cost: 35, cd: 2, pow: 86, cat: 'spec' }, r: { n: '늦여름의 노래', cost: 90, cd: 4, pow: 190, cat: 'spec' } },
+  bigstink: { name: '큰허리노린재', type: '독침', hab: '육상', hp: 440, atk: 28, spa: 40, def: 38, spd: 40, face: 'right',
+    a: { n: '주둥이 찌르기', pow: 26, cat: 'phys' }, q: { n: '지독한 냄새', cost: 20, cd: 1, pow: 34, cat: 'spec', poison: [14, 3] }, w: { n: '넓은 등딱지', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '허리 악취탄', cost: 35, cd: 2, pow: 84, cat: 'spec' }, r: { n: '큰허리 가스 폭발', cost: 90, cd: 4, pow: 180, cat: 'spec', poison: [20, 3] } },
+  cherrylh: { name: '벚나무사향하늘소', type: '참격', hab: '육상', hp: 470, atk: 44, spa: 30, def: 38, spd: 46, face: 'right',
+    a: { n: '큰턱 물기', pow: 28, cat: 'phys' }, q: { n: '사향 내뿜기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '긴 더듬이 경계', cost: 25, cd: 3, guard: 2 },
+    e: { n: '벚나무 갉기', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '붉은 가슴 일격', cost: 90, cd: 4, pow: 210, cat: 'phys' } },
+  blkcicada: { name: '말매미', type: '소리', hab: '공중', hp: 420, atk: 24, spa: 46, def: 30, spd: 58, face: 'right',
+    a: { n: '날개 치기', pow: 24, cat: 'phys' }, q: { n: '차르르 울음', cost: 20, cd: 1, pow: 40, cat: 'spec', stun: 1, stunP: .3 }, w: { n: '큰 날개 방패', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '한여름 대합창', cost: 35, cd: 2, pow: 86, cat: 'spec' }, r: { n: '말매미 폭음', cost: 90, cd: 4, pow: 190, cat: 'spec' } },
+  purpdung: { name: '보라금풍뎅이', type: '장갑', hab: '육상', hp: 480, atk: 32, spa: 26, def: 46, spd: 38, face: 'right',
+    a: { n: '박치기', pow: 28, cat: 'phys' }, q: { n: '흙 파고들기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '보랏빛 갑옷', cost: 25, cd: 3, guard: 2 },
+    e: { n: '똥공 굴리기', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '보랏빛 대돌진', cost: 90, cd: 4, pow: 210, cat: 'phys' } },
+  damsel: { name: '물잠자리', type: '참격', hab: '공중', hp: 320, atk: 34, spa: 28, def: 22, spd: 92, face: 'right',
+    a: { n: '물기', pow: 28, cat: 'phys' }, q: { n: '검은 날개 베기', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '물가 맴돌기', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '연속 급습', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '개울 위의 춤', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  montela: { name: '꼬리명주나비', type: '독침', hab: '공중', hp: 330, atk: 18, spa: 40, def: 22, spd: 84, face: 'right',
+    a: { n: '날개 치기', pow: 26, cat: 'phys' }, q: { n: '쥐방울 독', cost: 20, cd: 1, pow: 34, cat: 'spec', poison: [14, 3] }, w: { n: '긴 꼬리 유인', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '줄무늬 인분', cost: 35, cd: 2, pow: 84, cat: 'spec' }, r: { n: '명주 꼬리 춤', cost: 90, cd: 4, pow: 180, cat: 'spec', poison: [20, 3] } },
+  molecr: { name: '땅강아지', type: '타격', hab: '육상', hp: 450, atk: 38, spa: 22, def: 40, spd: 40, face: 'right',
+    a: { n: '앞발 할퀴기', pow: 28, cat: 'phys' }, q: { n: '땅 파고들기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '흙 갑옷', cost: 25, cd: 3, guard: 2 },
+    e: { n: '삽발 연타', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '지하 대돌진', cost: 90, cd: 4, pow: 210, cat: 'phys' } },
+  locust: { name: '풀무치', type: '타격', hab: '육상', hp: 400, atk: 38, spa: 22, def: 30, spd: 74, face: 'right',
+    a: { n: '물기', pow: 28, cat: 'phys' }, q: { n: '뒷다리 차기', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '높이 뛰기', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '연속 날아차기', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '들판의 대이동', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  wspot: { name: '흰점박이꽃무지', type: '장갑', hab: '육상', hp: 460, atk: 30, spa: 26, def: 44, spd: 42, face: 'right',
+    a: { n: '박치기', pow: 28, cat: 'phys' }, q: { n: '꽃가루 뿌리기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '구릿빛 갑옷', cost: 25, cd: 3, guard: 2 },
+    e: { n: '과일 즙 돌진', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '흰 점 대돌격', cost: 90, cd: 4, pow: 210, cat: 'phys' } },
+  paperw: { name: '쌍살벌', type: '독침', hab: '공중', hp: 330, atk: 30, spa: 40, def: 24, spd: 86, face: 'right',
+    a: { n: '물기', pow: 26, cat: 'phys' }, q: { n: '독침 쏘기', cost: 20, cd: 1, pow: 34, cat: 'spec', poison: [14, 3] }, w: { n: '둥지 지키기', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '긴 다리 급습', cost: 35, cd: 2, pow: 84, cat: 'spec' }, r: { n: '쌍살벌 군단', cost: 90, cd: 4, pow: 180, cat: 'spec', poison: [20, 3] } },
+  cabbage: { name: '배추흰나비', type: '타격', hab: '공중', hp: 300, atk: 22, spa: 32, def: 20, spd: 96, face: 'right',
+    a: { n: '날개 치기', pow: 28, cat: 'phys' }, q: { n: '흰 날갯짓', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '팔랑 회피', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '배추밭 연타', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '하얀 나비 떼', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  jankow: { name: '멋쟁이딱정벌레', type: '참격', hab: '육상', hp: 440, atk: 44, spa: 26, def: 34, spd: 60, face: 'right',
+    a: { n: '큰턱 물기', pow: 28, cat: 'phys' }, q: { n: '무지갯빛 돌진', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '낙엽 속 숨기', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '연속 물어뜯기', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '멋쟁이의 일격', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  bombard: { name: '폭탄먼지벌레', type: '독침', hab: '육상', hp: 380, atk: 28, spa: 46, def: 30, spd: 58, face: 'right',
+    a: { n: '큰턱 물기', pow: 26, cat: 'phys' }, q: { n: '뜨거운 가스', cost: 20, cd: 1, pow: 34, cat: 'spec', poison: [14, 3] }, w: { n: '죽은 척', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '폭탄 가스 분사', cost: 35, cd: 2, pow: 84, cat: 'spec' }, r: { n: '100도 대폭발', cost: 90, cd: 4, pow: 180, cat: 'spec', poison: [20, 3] } },
+  redcarab: { name: '홍단딱정벌레', type: '참격', hab: '육상', hp: 430, atk: 42, spa: 24, def: 34, spd: 62, face: 'right',
+    a: { n: '큰턱 물기', pow: 28, cat: 'phys' }, q: { n: '붉은 테 돌진', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '낙엽 속 숨기', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '연속 물어뜯기', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '붉은 테의 사냥', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  acornw: { name: '도토리거위벌레', type: '장갑', hab: '육상', hp: 400, atk: 30, spa: 24, def: 42, spd: 40, face: 'right',
+    a: { n: '주둥이 찌르기', pow: 28, cat: 'phys' }, q: { n: '도토리 뚫기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '죽은 척', cost: 25, cd: 3, guard: 2 },
+    e: { n: '가지 자르기', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '도토리 낙하', cost: 90, cd: 4, pow: 210, cat: 'phys' } },
+  comma: { name: '네발나비', type: '타격', hab: '공중', hp: 320, atk: 26, spa: 34, def: 22, spd: 90, face: 'right',
+    a: { n: '날개 치기', pow: 28, cat: 'phys' }, q: { n: '주황 날갯짓', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '낙엽 의태', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '연속 날개치기', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '가을 들판의 춤', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  darkling: { name: '거저리', type: '장갑', hab: '육상', hp: 460, atk: 28, spa: 22, def: 46, spd: 34, face: 'right',
+    a: { n: '물기', pow: 28, cat: 'phys' }, q: { n: '썩은 나무 갉기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '단단한 등판', cost: 25, cd: 3, guard: 2 },
+    e: { n: '고목 굴리기', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '밤의 철갑', cost: 90, cd: 4, pow: 210, cat: 'phys' } },
+  chalcid: { name: '좀벌', type: '독침', hab: '공중', hp: 260, atk: 22, spa: 42, def: 18, spd: 108, face: 'right',
+    a: { n: '물기', pow: 26, cat: 'phys' }, q: { n: '산란관 찌르기', cost: 20, cd: 1, pow: 34, cat: 'spec', poison: [14, 3] }, w: { n: '몸 숨기기', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '기생 공격', cost: 35, cd: 2, pow: 84, cat: 'spec' }, r: { n: '작은 거인의 일격', cost: 90, cd: 4, pow: 180, cat: 'spec', poison: [20, 3] } },
+  antlion: { name: '명주잠자리', type: '참격', hab: '공중', hp: 340, atk: 36, spa: 30, def: 24, spd: 80, face: 'right',
+    a: { n: '물기', pow: 28, cat: 'phys' }, q: { n: '명주 날개 베기', cost: 20, cd: 1, pow: 56, cat: 'phys' }, w: { n: '밤하늘 맴돌기', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '연속 급습', cost: 35, cd: 2, pow: 30, hits: 3, cat: 'phys' }, r: { n: '개미지옥의 주인', cost: 90, cd: 4, pow: 205, cat: 'phys' } },
+  slug: { name: '민달팽이', type: '타격', hab: '육상', hp: 520, atk: 20, spa: 34, def: 30, spd: 20, face: 'right',
+    a: { n: '몸통 밀기', pow: 22, cat: 'phys' }, q: { n: '끈적 점액', cost: 20, cd: 1, pow: 34, cat: 'spec', stun: 1, stunP: .35 }, w: { n: '몸 움츠리기', cost: 25, cd: 3, heal: 140 },
+    e: { n: '점액 덮치기', cost: 35, cd: 2, pow: 76, cat: 'spec', poison: [12, 3] }, r: { n: '비 오는 밤의 습격', cost: 90, cd: 4, pow: 175, cat: 'spec' } },
+  snail: { name: '달팽이', type: '장갑', hab: '육상', hp: 500, atk: 20, spa: 28, def: 50, spd: 18, face: 'right',
+    a: { n: '몸통 밀기', pow: 22, cat: 'phys' }, q: { n: '끈적 점액', cost: 20, cd: 1, pow: 34, cat: 'spec', stun: 1, stunP: .35 }, w: { n: '껍데기 숨기', cost: 25, cd: 3, heal: 140 },
+    e: { n: '껍데기 굴리기', cost: 35, cd: 2, pow: 76, cat: 'spec', poison: [12, 3] }, r: { n: '비 오는 날의 행진', cost: 90, cd: 4, pow: 175, cat: 'spec' } },
+  antwaist: { name: '개미허리노린재', type: '독침', hab: '육상', hp: 340, atk: 30, spa: 36, def: 26, spd: 76, face: 'right',
+    a: { n: '주둥이 찌르기', pow: 26, cat: 'phys' }, q: { n: '콩 즙 빨기', cost: 20, cd: 1, pow: 34, cat: 'spec', poison: [14, 3] }, w: { n: '개미 흉내', cost: 25, cd: 3, dodge: 1 },
+    e: { n: '허리 비틀어 찌르기', cost: 35, cd: 2, pow: 84, cat: 'spec' }, r: { n: '가짜 개미 군단', cost: 90, cd: 4, pow: 180, cat: 'spec', poison: [20, 3] } },
+  pungi: { name: '풍이', type: '장갑', hab: '육상', hp: 480, atk: 34, spa: 26, def: 44, spd: 46, face: 'right',
+    a: { n: '박치기', pow: 28, cat: 'phys' }, q: { n: '수액 빨기', cost: 20, cd: 1, pow: 54, cat: 'phys' }, w: { n: '초록 갑옷', cost: 25, cd: 3, guard: 2 },
+    e: { n: '수액 터 돌진', cost: 35, cd: 2, pow: 94, cat: 'phys', stun: 1, stunP: .35 }, r: { n: '풍이 대돌격', cost: 90, cd: 4, pow: 210, cat: 'phys' } }
 };
 const STAT_NAMES = [['hp', '체력'], ['en', '기력'], ['atk', '공격'], ['def', '방어'], ['spa', '특수공격'], ['sdf', '특수방어'], ['spd', '스피드'], ['grit', '근성']];
 // 종족값 추가분: 기력통, 특수방어, 근성, 대형 여부, 먹이, 수컷 평균 몸길이(mm)
@@ -3122,7 +3535,36 @@ const SPEC = {
   lady: { en: 110, sdf: 40, grit: 55, big: false, diet: 'meat', mm: 7 }, fruitfly: { en: 125, sdf: 20, grit: 35, big: false, diet: 'jelly', mm: 3 },
   aphid: { en: 130, sdf: 26, grit: 40, big: false, diet: 'jelly', mm: 3 }, tick: { en: 140, sdf: 40, grit: 80, big: false, diet: 'meat', mm: 4 },
   weevil: { en: 110, sdf: 38, grit: 60, big: false, diet: 'jelly', mm: 10 },
-  hanul: { en: 115, sdf: 34, grit: 65, big: true, diet: 'jelly', mm: 52 }, lunamoth: { en: 145, sdf: 44, grit: 50, big: true, diet: 'jelly', mm: 120 }
+  hanul: { en: 115, sdf: 34, grit: 65, big: true, diet: 'jelly', mm: 52 }, lunamoth: { en: 145, sdf: 44, grit: 50, big: true, diet: 'jelly', mm: 120 },
+  dotstag: { en: 110, sdf: 30, grit: 60, big: true, diet: 'jelly', mm: 60 },
+  jejucarab: { en: 105, sdf: 26, grit: 55, big: false, diet: 'meat', mm: 35 },
+  sblue: { en: 125, sdf: 22, grit: 30, big: false, diet: 'jelly', mm: 13 },
+  redleg: { en: 110, sdf: 32, grit: 62, big: true, diet: 'jelly', mm: 50 },
+  dauri: { en: 105, sdf: 28, grit: 55, big: false, diet: 'jelly', mm: 32 },
+  smcicada: { en: 120, sdf: 28, grit: 35, big: false, diet: 'jelly', mm: 30 },
+  bigstink: { en: 115, sdf: 38, grit: 55, big: false, diet: 'jelly', mm: 25 },
+  cherrylh: { en: 115, sdf: 34, grit: 60, big: false, diet: 'jelly', mm: 35 },
+  blkcicada: { en: 125, sdf: 32, grit: 40, big: true, diet: 'jelly', mm: 45 },
+  purpdung: { en: 115, sdf: 40, grit: 65, big: false, diet: 'jelly', mm: 20 },
+  damsel: { en: 110, sdf: 22, grit: 35, big: false, diet: 'meat', mm: 60 },
+  montela: { en: 125, sdf: 26, grit: 30, big: false, diet: 'jelly', mm: 50 },
+  molecr: { en: 120, sdf: 34, grit: 65, big: false, diet: 'both', mm: 32 },
+  locust: { en: 115, sdf: 26, grit: 45, big: false, diet: 'jelly', mm: 60 },
+  wspot: { en: 110, sdf: 40, grit: 55, big: false, diet: 'jelly', mm: 22 },
+  paperw: { en: 115, sdf: 24, grit: 50, big: false, diet: 'both', mm: 20 },
+  cabbage: { en: 125, sdf: 22, grit: 30, big: false, diet: 'jelly', mm: 25 },
+  jankow: { en: 105, sdf: 28, grit: 55, big: false, diet: 'meat', mm: 30 },
+  bombard: { en: 110, sdf: 30, grit: 55, big: false, diet: 'meat', mm: 16 },
+  redcarab: { en: 105, sdf: 26, grit: 55, big: false, diet: 'meat', mm: 30 },
+  acornw: { en: 110, sdf: 36, grit: 55, big: false, diet: 'jelly', mm: 9 },
+  comma: { en: 120, sdf: 24, grit: 35, big: false, diet: 'jelly', mm: 25 },
+  darkling: { en: 115, sdf: 40, grit: 65, big: false, diet: 'both', mm: 20 },
+  chalcid: { en: 120, sdf: 22, grit: 45, big: false, diet: 'both', mm: 2 },
+  antlion: { en: 115, sdf: 24, grit: 40, big: false, diet: 'meat', mm: 40 },
+  slug: { en: 130, sdf: 36, grit: 60, big: false, diet: 'both', mm: 60 },
+  snail: { en: 125, sdf: 44, grit: 60, big: false, diet: 'jelly', mm: 35 },
+  antwaist: { en: 115, sdf: 26, grit: 45, big: false, diet: 'jelly', mm: 16 },
+  pungi: { en: 115, sdf: 40, grit: 60, big: false, diet: 'jelly', mm: 30 }
 };
 for (const [id, v] of Object.entries(SPEC)) Object.assign(SP[id], v);
 // 암컷 능력치 배율과 몸길이 배율
@@ -3182,7 +3624,7 @@ function startBattle(done, oppKey) {
   B = { done, opp, practice: !!oppKey, turn: 1, over: false, phase: 'intro', hint: {}, used: false, stop: 0, clock: 0, v: [mkV(0), mkV(1)],
     sides: [
       { name: '최강찬', sub: '세온중 1학년', team: playerTeam().map(mkUnit), active: 0, look: CH.kc.look },
-      { name: opp.name, sub: opp.sub, team: opp.team.map((id) => mkUnit({ id, lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: {} })), active: 0, look: opp.look || CH[opp.who].look }
+      { name: opp.name, sub: opp.sub, team: opp.team.map((id, ti) => mkUnit({ id, rare: !!(opp.rare && opp.rare[ti]), lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: {} })), active: 0, look: opp.look || CH[opp.who].look }
     ] };
   B.sides.forEach((sd) => { sd.team[0].ultFrom = 2; });
   if (opp.berserk) B.sides[1].team.forEach((u) => { u.max = u.hp = Math.round(u.hp * 1.25); u.stat.atk = Math.round(u.stat.atk * 1.15); u.stat.spa = Math.round(u.stat.spa * 1.15); });
@@ -3511,7 +3953,36 @@ const MOTION = {
   lady: { basic: 'charge', q: 'peck', w: 'flutter', e: 'thrust', r: 'dive' }, fruitfly: { basic: 'charge', q: 'charge', w: 'flutter', e: 'thrust', r: 'dive' },
   aphid: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'charge', r: 'slam' }, tick: { basic: 'peck', q: 'peck', w: 'flutter', e: 'lift', r: 'thrust' },
   weevil: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'charge', r: 'slam' },
-  hanul: { basic: 'peck', q: 'swing', w: 'flutter', e: 'lift', r: 'slam' }, lunamoth: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' }
+  hanul: { basic: 'peck', q: 'swing', w: 'flutter', e: 'lift', r: 'slam' }, lunamoth: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  dotstag: { basic: 'swing', q: 'swing', w: 'flutter', e: 'lift', r: 'lift' },
+  jejucarab: { basic: 'peck', q: 'swing', w: 'flutter', e: 'charge', r: 'slam' },
+  sblue: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  redleg: { basic: 'swing', q: 'swing', w: 'flutter', e: 'lift', r: 'lift' },
+  dauri: { basic: 'swing', q: 'swing', w: 'flutter', e: 'lift', r: 'lift' },
+  smcicada: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'thrust', r: 'slam' },
+  bigstink: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'thrust', r: 'slam' },
+  cherrylh: { basic: 'swing', q: 'swing', w: 'flutter', e: 'lift', r: 'lift' },
+  blkcicada: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'thrust', r: 'slam' },
+  purpdung: { basic: 'peck', q: 'charge', w: 'brace', e: 'charge', r: 'slam' },
+  damsel: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  montela: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  molecr: { basic: 'peck', q: 'thrust', w: 'brace', e: 'charge', r: 'slam' },
+  locust: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'thrust', r: 'slam' },
+  wspot: { basic: 'peck', q: 'charge', w: 'brace', e: 'charge', r: 'slam' },
+  paperw: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  cabbage: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  jankow: { basic: 'peck', q: 'swing', w: 'flutter', e: 'charge', r: 'slam' },
+  bombard: { basic: 'peck', q: 'swing', w: 'flutter', e: 'charge', r: 'slam' },
+  redcarab: { basic: 'peck', q: 'swing', w: 'flutter', e: 'charge', r: 'slam' },
+  acornw: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'thrust', r: 'slam' },
+  comma: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  darkling: { basic: 'peck', q: 'thrust', w: 'brace', e: 'charge', r: 'slam' },
+  chalcid: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  antlion: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'dive', r: 'dive' },
+  slug: { basic: 'peck', q: 'thrust', w: 'brace', e: 'charge', r: 'slam' },
+  snail: { basic: 'peck', q: 'thrust', w: 'brace', e: 'charge', r: 'slam' },
+  antwaist: { basic: 'peck', q: 'thrust', w: 'flutter', e: 'thrust', r: 'slam' },
+  pungi: { basic: 'peck', q: 'charge', w: 'brace', e: 'charge', r: 'slam' }
 };
 function mkV(i) { const h = homeX(i); return { x: h, y: 405, tx: h, ty: 405, wt: .5 + Math.random(), act: null, q: [], react: null, cx: h, cy: 300, gy: 405, pose: '', walk: false }; }
 function perform(i, name, hits, onHit, ult) {
@@ -4534,7 +5005,7 @@ ${tutTip('rest', '할 일을 다 마쳤다면 집에서 쉬어 보세요. 매일
 }
 
 /* ---------- 곤충 도감 ---------- */
-const DEX = ['kabuto', 'stag', 'mantis', 'hornet', 'cicada', 'roach', 'centipede', 'butterfly', 'grasshopper', 'cricket', 'chafer', 'spider', 'fly', 'mosquito', 'diving', 'waterbug', 'dragonfly', 'ostag', 'sawstag', 'dung', 'emperor', 'ranatra', 'notonecta', 'bee', 'katydid', 'click', 'silk', 'longhorn', 'jewel', 'tiger', 'mayfly', 'cranefly', 'scutigera', 'satmoth', 'swallowtail', 'stick', 'hydro', 'appasus', 'nepa', 'lucanus', 'stink', 'jstink', 'earwig', 'ant', 'fireant', 'lady', 'fruitfly', 'aphid', 'tick', 'weevil', 'hanul', 'lunamoth'];
+const DEX = ['kabuto', 'stag', 'mantis', 'hornet', 'cicada', 'roach', 'centipede', 'butterfly', 'grasshopper', 'cricket', 'chafer', 'spider', 'fly', 'mosquito', 'diving', 'waterbug', 'dragonfly', 'ostag', 'sawstag', 'dung', 'emperor', 'ranatra', 'notonecta', 'bee', 'katydid', 'click', 'silk', 'longhorn', 'jewel', 'tiger', 'mayfly', 'cranefly', 'scutigera', 'satmoth', 'swallowtail', 'stick', 'hydro', 'appasus', 'nepa', 'lucanus', 'stink', 'jstink', 'earwig', 'ant', 'fireant', 'lady', 'fruitfly', 'aphid', 'tick', 'weevil', 'hanul', 'lunamoth', 'dotstag', 'jejucarab', 'sblue', 'redleg', 'dauri', 'smcicada', 'bigstink', 'cherrylh', 'blkcicada', 'purpdung', 'damsel', 'montela', 'molecr', 'locust', 'wspot', 'paperw', 'cabbage', 'jankow', 'bombard', 'redcarab', 'acornw', 'comma', 'darkling', 'chalcid', 'antlion', 'slug', 'snail', 'antwaist', 'pungi'];
 const dexNo = (id) => String(DEX.indexOf(id) + 1).padStart(3, '0');
 function ensureDex() {
   if (!S.dex || typeof S.dex !== 'object') S.dex = {};
@@ -4580,14 +5051,20 @@ function openDex() {
 }
 
 /* ---------- 채집터 고르기 ---------- */
+let fsTab = 'local';
 function openFieldSelect() {
   ensureDex(); AU.play('forest');
   const card = (a) => {
-    const list = SPOTS.filter((s) => s.area === a || AREA_SLOTS[a].some((sl) => sl.pool.includes(s.id))).filter((s, i, arr) => arr.findIndex((x) => x.id === s.id) === i).map((s) => { const e = S.dex[s.id]; return `<span class="fs-bug ${e ? (e.caught ? 'got' : 'seen') : 'none'}" title="${e ? s.name : '???'}">${bugSvg(s.id)}<small>${e ? s.name : '???'}</small></span>`; }).join('');
-    return `<div class="fs"><div class="fs-bg">${bgSvg(a)}</div><b>${AREAS[a].n}</b><small>${AREAS[a].d}</small><div class="fs-list">${list}</div><button type="button" class="btn pri" data-area="${a}">여기로 가기</button></div>`;
+    const all = SPOTS.filter((s) => s.area === a || AREA_SLOTS[a].some((sl) => sl.pool.includes(s.id))).filter((s, i, arr) => arr.findIndex((x) => x.id === s.id) === i);
+    const list = SPOTS.filter((s) => s.area === a || (!AREAS[a].region && AREA_SLOTS[a].some((sl) => sl.pool.includes(s.id)))).filter((s, i, arr) => arr.findIndex((x) => x.id === s.id) === i).map((s) => { const e = S.dex[s.id]; return `<span class="fs-bug ${e ? (e.caught ? 'got' : 'seen') : 'none'}" title="${e ? s.name : '???'}">${bugSvg(s.id)}<small>${e ? s.name : '???'}</small></span>`; }).join('');
+    return `<div class="fs"><div class="fs-bg">${bgSvg(a)}</div><b>${AREAS[a].n}</b><small>${AREAS[a].d}</small><div class="fs-list${(list.match(/fs-bug/g) || []).length > 20 ? ' dense' : ''}">${list}</div>${AREAS[a].region ? `<small class="fs-more">이 지역에만 사는 곤충 · 그 밖에 ${all.length - (list.match(/fs-bug/g) || []).length}종도 살아요</small>` : ''}<button type="button" class="btn pri" data-area="${a}">여기로 가기</button></div>`;
   };
-  const root = openScr('fsel', `${scrHead('채집터 · 어디로 갈까요?')}<div class="scr-body"><div class="opps">${Object.keys(AREAS).map(card).join('')}</div></div>
-<div class="scr-tip"><b>팁</b> · 곳마다 사는 곤충이 달라요. 갈 때마다 나타나는 곤충이 바뀌니까 여러 번 가 보세요. 한 번 가면 곤충마다 한 마리씩 잡을 수 있어요.</div>`, () => openHub());
+  const nat = natOpen(), reg = nat && fsTab === 'nat';
+  const keys = Object.keys(AREAS).filter((a) => !!AREAS[a].region === reg);
+  const tabs = nat ? `<div class="nat-tabs"><button type="button" class="nat-tab${reg ? '' : ' on'}" data-fst="local">우리 동네</button><button type="button" class="nat-tab${reg ? ' on' : ''}" data-fst="nat">전국 각지</button></div>` : '';
+  const root = openScr('fsel', `${scrHead('채집터 · 어디로 갈까요?')}${tabs}<div class="scr-body"><div class="opps${reg ? ' regions' : ''}">${keys.map(card).join('')}</div></div>
+<div class="scr-tip"><b>팁</b> · ${reg ? '전국 리그에 나간 덕분에 전국 각지로 채집을 갈 수 있어요! 지역마다 그곳에서만 만날 수 있는 곤충이 있어요.' : `곳마다 사는 곤충이 달라요. 갈 때마다 나타나는 곤충이 바뀌니까 여러 번 가 보세요.${nat ? ' <b>전국 각지</b> 탭에서 다른 지역으로도 갈 수 있어요.' : ''}`}</div>`, () => openHub());
+  root.querySelectorAll('[data-fst]').forEach((b) => b.addEventListener('click', () => { fsTab = b.dataset.fst; AU.sfx('page'); openFieldSelect(); }));
   root.querySelectorAll('[data-area]').forEach((b) => b.addEventListener('click', () => { S.modal = false; L.ov.innerHTML = ''; hideHub(); startField(true, b.dataset.area); }));
 }
 
@@ -4610,8 +5087,35 @@ const natFind = (name) => { for (const t of NATIONAL) for (const m of t.members)
 const natSub = (t, m) => `${t.school} ${t.team} ${m.grade}학년${m.role ? ' · ' + m.role : ''}`;
 NATIONAL.forEach((t) => { SCHOOL_JK['n_' + t.key] = t.jk; });
 // 이야기 속 주장 캐릭터 모습도 명단과 맞춰요
-[['gw', '박진섭'], ['cc', '이빛나'], ['bs', '장현우']].forEach(([k, n]) => { const r = natFind(n); if (r) CH[k].look = natLook(...r); });
+[['gw', '박진섭'], ['cc', '이빛나'], ['bs', '장현우'], ['jn', '고바다'], ['gb', '석무열'], ['jb', '소율']].forEach(([k, n]) => { const r = natFind(n); if (r) CH[k].look = natLook(...r); });
+const natOpp = (name, extra = {}) => { const [t, m] = natFind(name); return { name: m.name, sub: natSub(t, m), team: m.team.slice(), rare: m.rare || null, look: natLook(t, m), line: m.line, ...extra }; };
+const NL = '전국 중등부 곤충 배틀 리그 · 본선';
 const MATCHES = {
+  nf: { league: NL, round: '결승전', vs: '타이탄즈', col: '#1A2236', prize: 10000, lvAdd: 9, q: 1, bouts: [
+    { pos: '선봉', me: 'kc', opp: natOpp('배수빈', { line: '우리 레드기어 톱사슴벌레, 장현우 것만큼 강하다.' }) },
+    { pos: '중견', me: 'sw', res: 'lose', note: '세웅의 장수풍뎅이가 끝까지 버텼지만, 진해솔의 왕사슴벌레에게 아깝게 졌어요.', opp: natOpp('진해솔') },
+    { pos: '대장', me: 'dh', res: 'win', note: '<b style="color:#FFD23F">도혁이 해냈어요!</b> 레드기어의 붉은 뿔을 끝까지 피한 도혁의 곤충들이 마지막 일격을 꽂았어요! 장현우를 꺾었어요!', opp: natOpp('장현우') }
+  ] },
+  n1: { league: NL, round: '8강 1차 조별 · 1경기', vs: '블루타이드', col: '#14406A', prize: 2500, lvAdd: 5, q: .85, bouts: [
+    { pos: '선봉', me: 'sw', res: 'win', note: '세웅의 장수풍뎅이가 송장헤엄치개의 돌진을 뿔로 막아 냈어요!', opp: natOpp('송마루') },
+    { pos: '중견', me: 'kc', opp: natOpp('임해원') },
+    { pos: '대장', me: 'eh', res: 'lose', note: '은하의 곤충들이 고바다의 물장군에게 붙잡혀 버티지 못했어요.', opp: natOpp('고바다') }
+  ] },
+  n2: { league: NL, round: '8강 1차 조별 · 2경기', vs: '에메랄드', col: '#1E4A4A', prize: 2500, lvAdd: 6, q: .85, bouts: [
+    { pos: '선봉', me: 'dh', res: 'lose', note: '도혁의 곤충들이 탁건우의 끈질긴 방어를 끝내 뚫지 못했어요.', opp: natOpp('탁건우') },
+    { pos: '중견', me: 'sr', res: 'win', note: '새롬이 은서라의 갑옷 곤충들을 독으로 천천히 깎아 냈어요!', opp: natOpp('은서라') },
+    { pos: '대장', me: 'kc', opp: natOpp('석무열') }
+  ] },
+  n3: { league: NL, round: '8강 2차전', vs: '하모니즈', col: '#5A3A1A', prize: 3000, lvAdd: 7, q: .9, bouts: [
+    { pos: '선봉', me: 'eh', res: 'win', note: '은하의 곤충들이 금동이의 메뚜기를 끝까지 따라잡았어요!', opp: natOpp('금동이') },
+    { pos: '중견', me: 'dh', res: 'lose', note: '도혁의 곤충들이 방다온의 왕사마귀에게 아깝게 밀렸어요.', opp: natOpp('방다온') },
+    { pos: '대장', me: 'kc', opp: natOpp('소율') }
+  ] },
+  n4: { league: NL, round: '4강전', vs: '파인트리', col: '#1E4A2A', prize: 4000, lvAdd: 8, q: .95, bouts: [
+    { pos: '선봉', me: 'sr', res: 'lose', note: '새롬의 곤충들이 최산들의 사슴벌레에게 하나씩 쓰러졌어요.', opp: natOpp('최산들') },
+    { pos: '중견', me: 'dh', res: 'win', note: '도혁이 해냈어요! 한층 단단해진 도혁의 곤충들이 엄태백의 곤충들을 모두 쓰러뜨렸어요!', opp: natOpp('엄태백') },
+    { pos: '대장', me: 'kc', opp: natOpp('박진섭') }
+  ] },
   f1: { league: '전국 중등부 곤충 배틀 리그 · 친선전', round: '강원도 대표', vs: '파인트리', col: SCHOOL_JK.gangneung, prize: 1500, lvAdd: 4, q: .8, friendly: true, bouts: [
     { pos: '선봉', me: 'sw', res: 'win', note: '세웅의 장수풍뎅이가 톱사슴벌레를 뿔로 받아 넘겼어요!', opp: rival('김솔', 'gangneung', '1학년', 'bob', 1, 'none', 3, 3, ['longhorn', 'click', 'jewel']) },
     { pos: '중견', me: 'kc', opp: rival('정우람', 'gangneung', '2학년', 'neat', 0, 'none', 1, 0, ['sawstag', 'weevil', 'cicada'], { line: '강원도 숲에서 자란 녀석들이야. 만만치 않을걸?' }) },
@@ -4664,7 +5168,7 @@ function startMatch(key, done) {
 <div class="side">${face(CH[bt.me].look, r === 'win' ? 'happy' : r === 'lose' ? 'shock' : 'grin')}<div><b>${CH[bt.me].name}</b><small>${teamNm()}${bt.me === 'kc' ? ' · 내가 출전!' : ''}</small></div></div>
 <span class="vs">${r ? `<em class="${r}">${r === 'win' ? '승' : '패'}</em>` : 'VS'}</span>
 <div class="side r"><div><b>${bt.opp.name}</b><small>${bt.opp.sub}</small></div>${face(bt.opp.look, r === 'win' ? 'shock' : 'cool')}</div>
-<div class="m-bugs">${bt.opp.team.map((id) => bugSvg(id)).join('')}</div></div>`; }).join('')}</div>
+<div class="m-bugs">${bt.opp.team.map((id, ti) => bugSvg(id, '', bt.opp.rare && bt.opp.rare[ti] ? 'mr' : 'm')).join('')}</div></div>`; }).join('')}</div>
 <p class="m-msg">${msg}</p><div class="m-btns">${btn}</div></div>`;
   };
   const next = () => {
@@ -4677,7 +5181,7 @@ function startMatch(key, done) {
       $('#mGo').addEventListener('click', () => {
         const lv = avgLv + M.lvAdd + (bt.pos === '대장' ? 1 : 0);
         startBattle(() => { st.res[st.i] = S.lastWin ? 'win' : 'lose'; S.lastWin ? st.w++ : st.l++; st.i++; S.mode = 'match'; $('#menuBtn').hidden = true; AU.play('battle'); next(); },
-          { rand: true, name: bt.opp.name, sub: bt.opp.sub, team: bt.opp.team, lv, look: bt.opp.look, line: bt.opp.line, prize: 0, q: M.q });
+          { rand: true, name: bt.opp.name, sub: bt.opp.sub, team: bt.opp.team, rare: bt.opp.rare, lv, look: bt.opp.look, line: bt.opp.line, prize: 0, q: M.q });
       });
       return;
     }
