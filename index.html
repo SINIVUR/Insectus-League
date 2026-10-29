@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.11">
+<meta name="version" content="0.0.12">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -63,6 +63,10 @@ body {
 .ov.end.dark { background: radial-gradient(ellipse at 50% 30%, #3A1A5A, #0A0612 70%) !important; color: #F0E0FF; } .ov.end.dark .chip { background: #3A1A5A !important; color: #E8C8FF !important; }
 .ov.end.dark .team { color: var(--ink); }
 .m-bugs.bz svg { filter: drop-shadow(0 0 6px #B04AFF) drop-shadow(0 0 12px #7A1AE0); }
+.fitl { margin-top: 6px; font-size: 15px; } .fitl summary { cursor: pointer; font-weight: 900; color: #9AE06A; list-style: none; } .fitl summary::-webkit-details-marker { display: none; }
+.fitl summary::after { content: ' ▼'; font-size: 12px; } .fitl[open] summary::after { content: ' ▲'; }
+.fitl div { margin-top: 6px; max-height: 120px; overflow-y: auto; padding: 6px 8px; background: #121722; border: 2px solid #3A4458; font-size: 14px; line-height: 1.5; color: #C9D3E2; word-break: keep-all; }
+.fit-all { margin: 6px 0 0; font-size: 15px; font-weight: 900; color: #9AE06A; }
 .tn { background: rgba(8,10,18,.86); display: flex; align-items: center; justify-content: center; }
 .tn-box { position: relative; width: 680px; align-items: stretch; gap: 14px; }
 .tn-p { margin: 0; font-size: 19px; font-weight: 700; color: #4A4A52; }
@@ -447,7 +451,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .scr-body { position: relative; flex: 1; min-height: 0; display: flex; gap: 20px; padding: 18px 24px; box-sizing: border-box; }
 .scr-tip { position: relative; flex: none; margin: 0 24px 14px; padding: 10px 16px; background: #1E2636; border-left: 6px solid var(--lime); font-size: 18px; font-weight: 700; line-height: 1.5; }
 .scr-tip b { color: var(--lime); }
-.shop-grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-content: start; }
+.shop-grid { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-content: start; overflow-y: auto; min-height: 0; }
 .item { background: #1A2030; border: 3px solid #3A4458; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 .item .ic { display: flex; align-items: flex-start; gap: 12px; } .item .ic svg { width: 56px; height: 56px; flex: none; }
 .item b { font-size: 21px; } .item p { margin: 2px 0 0; font-size: 17px; color: #C9D3E2; line-height: 1.45; }
@@ -792,7 +796,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.11';
+const VERSION = '0.0.12';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -4821,7 +4825,7 @@ const SHOP_TABS = [['food', '먹이'], ['meat', '육식 곤충 먹이'], ['sub',
 let shopTab = 'food';
 function shopRows() {
   if (shopTab === 'food' || shopTab === 'meat') return Object.entries(ITEMS).filter(([, it]) => it.cat === shopTab).map(([k, it]) => ({ k, kind: 'item', n: it.n, d: it.d, price: it.price, icon: it.cat === 'meat' ? ICON[k] : jar(it.c), own: `${S.items[k] || 0}개 있어요` }));
-  if (shopTab === 'sub') return Object.entries(SUBS).map(([k, x]) => ({ k: 'sub_' + k, kind: 'item', n: x.n, d: x.d + ` (잘 맞는 곤충: ${Object.keys(SP).filter((id) => x.fit(SP[id], id)).length === 17 ? '모두' : Object.keys(SP).filter((id) => x.fit(SP[id], id)).map((id) => SP[id].name).join(', ')})`, price: x.price, icon: ICON.sub(x.c), own: `${S.items['sub_' + k] || 0}개 있어요` }));
+  if (shopTab === 'sub') return Object.entries(SUBS).map(([k, x]) => ({ k: 'sub_' + k, kind: 'item', n: x.n, d: x.d, more: (() => { const ids = Object.keys(SP).filter((id) => x.fit(SP[id], id)); return ids.length === Object.keys(SP).length ? '<p class="fit-all">모든 곤충에게 잘 맞아요</p>' : `<details class="fitl"><summary>잘 맞는 곤충 ${ids.length}종 보기</summary><div>${ids.map((id) => SP[id].name).join(', ')}</div></details>`; })(), price: x.price, icon: ICON.sub(x.c), own: `${S.items['sub_' + k] || 0}개 있어요` }));
   if (shopTab === 'gear') return [...Object.entries(GEAR).map(([k, x]) => ({ k: 'gear_' + k, kind: 'item', n: x.n, d: x.d, price: x.price, icon: ICON.gear(k), own: `${S.items['gear_' + k] || 0}개 있어요` })), { k: 'antimold', kind: 'item', n: ANTIMOLD.n, d: ANTIMOLD.d, price: ANTIMOLD.price, icon: ICON.gear('antimold'), own: `${S.items.antimold || 0}개 있어요` }];
   if (shopTab === 'cage') return Object.entries(CAGE).map(([k, c], i) => ({ k, kind: 'cage', n: c.n, d: c.d + (c.cap > 1 ? ' (같은 종 한 쌍을 넣으면 교배해요)' : ''), price: c.price, icon: ICON.cage(i), own: `${S.cages.filter((x) => x.size === k).length}개 있어요` }));
   if (shopTab === 'jar') return Object.entries(JAR).map(([k, j], i) => ({ k, kind: 'jar', n: j.n, d: j.d, price: j.price, icon: ICON.jarb(i), own: `${S.jars.filter((x) => x.size === k).length}개 있어요` }));
@@ -4833,7 +4837,7 @@ function openShop() {
     const rows = shopRows();
     const root = openScr('shop', `${scrHead('곤충마트')}
 <div class="tabs">${SHOP_TABS.map(([k, n]) => `<button type="button" class="tab${k === shopTab ? ' on' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>
-<div class="scr-body"><div class="shop-grid">${rows.map((r) => `<div class="item"><div class="ic">${r.icon}<div><b>${r.n}</b><p>${r.d}</p></div></div>
+<div class="scr-body"><div class="shop-grid">${rows.map((r) => `<div class="item"><div class="ic">${r.icon}<div><b>${r.n}</b><p>${r.d}</p>${r.more || ''}</div></div>
 <div class="row2"><span class="price">${r.price.toLocaleString()}원</span><span class="own">${r.own}</span><button type="button" data-buy="${r.kind}:${r.k}">${r.done ? '구매 완료' : '사기'}</button></div></div>`).join('')}</div>
 <div class="bag"><h3>가방과 시설</h3>${Object.entries(ITEMS).filter(([k]) => S.items[k]).map(([k, it]) => `<div class="li"><span>${it.n}</span><span>${S.items[k] || 0}개</span></div>`).join('')}
 <div class="li"><span>바닥재</span><span>${Object.keys(SUBS).reduce((a, k) => a + (S.items['sub_' + k] || 0), 0)}개</span></div>
