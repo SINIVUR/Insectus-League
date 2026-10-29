@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.30">
+<meta name="version" content="0.0.31">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -195,6 +195,7 @@ b.aw { color: #FFD23F; }
 .chal-prize { margin: 0; font-weight: 900; color: #2E7D4F; }
 .chal-btns { display: flex; gap: 10px; justify-content: center; padding: 0 18px 16px; } .chal-btns .btn { min-width: 180px; min-height: 52px; font-size: 19px; }
 .big-ui .chal-ov .chal { zoom: calc(var(--uiz) * .8); }
+.btn.field-exit { top: 36px; right: 32px; }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -962,7 +963,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.30';
+const VERSION = '0.0.31';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -4077,7 +4078,7 @@ function renderFieldHud() {
     : COARSE ? '가고 싶은 곳을 터치하면 걸어가요 · 누른 채로 끌면 손가락을 따라가요' : '화면을 누른 곳으로 이동해요 · 방향키/WASD도 쓸 수 있어요';
   L.hud.innerHTML = `${F.free ? wxOverlay(F.night) : ''}<div class="place-chip"><small>${F.free ? `${worldLabel()} · ${F.night ? '🌙 밤' : '🌞 낮'}` : AREAS[F.area].chip[0]}</small><b>${AREAS[F.area].chip[1]}</b></div>
 ${F.search ? `<div class="f-count clue-count">🔍 ${F.search.title} · 단서 ${got.length} / ${F.search.need}</div>` : `<div class="f-count">${F.free ? `오늘 채집 ${got.length}` : `채집 ${Math.min(got.length, 3)}/3`} ${slots}</div>
-${F.free ? '<button type="button" class="btn field-exit" id="exitBtn">← 메인 화면</button>' : ''}`}
+${F.free ? '<button type="button" class="btn field-exit" id="exitBtn">← 뒤로가기</button>' : ''}`}
 <div class="f-hint" id="fHint">${hint}</div>
 <div id="bang" hidden>!</div>
 ${joyHtml()}
@@ -5918,7 +5919,7 @@ function finishTut() {
   });
 }
 function scrHead(title) {
-  return `<div class="scr-head"><h2>${title}</h2><span class="sp"></span><span class="money" id="scrMoney">${(S.money || 0).toLocaleString()}원</span><button type="button" class="btn" id="scrBack">← 메인 화면</button></div>`;
+  return `<div class="scr-head"><h2>${title}</h2><span class="sp"></span><span class="money" id="scrMoney">${(S.money || 0).toLocaleString()}원</span><button type="button" class="btn" id="scrBack">← 뒤로가기</button></div>`;
 }
 function openScr(cls, html, onBack) {
   S.modal = true;
@@ -7334,6 +7335,8 @@ for (const [a, o] of Object.entries(ABROAD)) {
 }
 const abroadOpen = () => chapNo() >= 28;
 
+/* 오른쪽 위 메뉴 버튼은 메인 화면(홈)에서만 보여요. 다른 화면은 모두 "뒤로가기"로 나가요. */
+setInterval(() => { const mb = $('#menuBtn'); if (!mb) return; const show = S.mode === 'hub' && !S.modal && !S.talking && !hubL.hidden; if (mb.style.display !== (show ? '' : 'none')) mb.style.display = show ? '' : 'none'; }, 150);
 /* ---------- 메뉴 ---------- */
 function onoffRow(key, label) {
   return `<div class="row"><span>${label}</span><div class="seg" role="group" aria-label="${label}"><button type="button" data-${key}="1" aria-pressed="${prefs[key]}">켜기</button><button type="button" data-${key}="0" aria-pressed="${!prefs[key]}">끄기</button></div></div>`;
