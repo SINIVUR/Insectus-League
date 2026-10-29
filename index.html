@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.39">
+<meta name="version" content="0.0.41">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -255,6 +255,8 @@ b.aw { color: #FFD23F; }
 .battle .b-card.stunned { border-color: #FF3A2A !important; box-shadow: 0 0 10px rgba(255,58,42,.6); }
 .battle .b-card.stunned .bcs { color: #fff; background: #E8201A; padding: 0 6px; font-weight: 900; }
 .b-unit.stun::after { content: '💫 기절'; position: absolute; left: 50%; top: 18%; transform: translateX(-50%); padding: 2px 12px; background: #E8201A; color: #fff; font-weight: 900; font-size: 20px; border: 3px solid #fff; border-radius: 8px; z-index: 5; pointer-events: none; }
+.pop-box .opt.gear-on { background: #E8F8E0; } .gear-out { height: 36px; padding: 0 14px; border: 3px solid #111114; background: #C8232C; color: #fff; font-weight: 900; font-size: 16px; }
+.pop-box .opt.unfit { background: #EEE; opacity: .7; }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -1022,7 +1024,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.39';
+const VERSION = '0.0.41';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -5568,10 +5570,10 @@ const CAGE = {
   m: { n: '사육장 중', price: 800, cap: 1, regen: .4, grit: -4, d: '곤충의 기력이 살짝 느리게 회복돼요. 곤충의 근성이 살짝 낮아져요.' },
   l: { n: '사육장 대', price: 2000, cap: 2, regen: .65, grit: 6, d: '암컷과 같이 키울 수 있어요. 곤충의 기력이 빠르게 회복돼요. 곤충의 근성이 올라가요.' },
   xl: { n: '사육장 특대', price: 4000, cap: 2, regen: .9, grit: 12, d: '암컷과 같이 키울 수 있어요. 곤충의 기력이 매우 빠르게 회복돼요. 곤충의 근성이 많이 올라가요.' },
-  ps: { jp: true, prem: true, n: '고급 방충케이스 소', price: 900, cap: 1, regen: .35, grit: -2, d: '일본제 방충케이스. 초파리와 곰팡이를 막아 줘서 근성이 잘 떨어지지 않아요.' },
-  pm: { jp: true, prem: true, n: '고급 방충케이스 중', price: 1800, cap: 1, regen: .55, grit: 3, d: '일본제 방충케이스. 기력이 빠르게 회복되고, 초파리와 곰팡이를 막아 줘요.' },
-  pl: { jp: true, prem: true, n: '고급 방충케이스 대', price: 3800, cap: 2, regen: .8, grit: 10, d: '일본제 방충케이스. 암컷과 같이 키울 수 있고, 기력과 근성이 크게 좋아져요.' },
-  pxl: { jp: true, prem: true, n: '고급 방충케이스 특대', price: 7000, cap: 2, regen: 1, grit: 16, d: '일본제 최고급 방충케이스. 암컷과 같이 키울 수 있고, 기력이 하루 만에 가득 차요. 근성이 아주 많이 올라가요.' }
+  ps: { jp: true, prem: true, n: '고급 방충케이스 소', price: 900, cap: 1, regen: .35, grit: -2, d: '일본제 방충케이스. 초파리와 곰팡이를 막아 줘서 근성이 잘 떨어지지 않아요. 곰팡이가 아주 덜 슬어요.' },
+  pm: { jp: true, prem: true, n: '고급 방충케이스 중', price: 1800, cap: 1, regen: .55, grit: 3, d: '일본제 방충케이스. 기력이 빠르게 회복되고, 초파리와 곰팡이를 막아 줘요. 곰팡이가 아주 덜 슬어요.' },
+  pl: { jp: true, prem: true, n: '고급 방충케이스 대', price: 3800, cap: 2, regen: .8, grit: 10, d: '일본제 방충케이스. 암컷과 같이 키울 수 있고, 기력과 근성이 크게 좋아져요. 곰팡이가 아주 덜 슬어요.' },
+  pxl: { jp: true, prem: true, n: '고급 방충케이스 특대', price: 7000, cap: 2, regen: 1, grit: 16, d: '일본제 최고급 방충케이스. 암컷과 같이 키울 수 있고, 기력이 하루 만에 가득 차요. 근성이 아주 많이 올라가요. 곰팡이가 아주 덜 슬어요.' }
 };
 const JAR = {
   s: { n: '유충병 소', price: 200, big: false, q: -1.2, d: '"대형" 곤충은 키울 수 없어요. 곤충이 작게 자라요. (기초 능력치가 낮아요)' },
@@ -5604,6 +5606,18 @@ const ITEMS = {
   bio: { cat: 'food', n: '바이오 젤리', price: 700, c: '#7AD0A0', d: '기력을 100 회복해요.', diet: 'jelly', en: 100 },
   worm: { cat: 'meat', n: '밀웜', price: 300, c: '#D8A85A', d: '기력을 50 회복해요.', diet: 'meat', en: 50 },
   crick: { cat: 'meat', n: '귀뚜라미 (먹이용)', price: 450, c: '#5A3A1E', d: '기력을 20 회복하고, 공격·방어·특수공격·특수방어 중 하나가 랜덤으로 1 올라요.', diet: 'meat', en: 20, up: ['atk', 'def', 'spa', 'sdf'] },
+  banana: { cat: 'food', n: '바나나', price: 150, c: '#F4E070', d: '잘 익은 바나나 한 조각. 기력을 25 회복해요. 값이 싸요!', diet: 'jelly', en: 25 },
+  apple: { cat: 'food', n: '사과 조각', price: 200, c: '#E84A3A', d: '아삭한 사과 한 조각. 기력을 20 회복하고, 특수방어가 1 올라요.', diet: 'jelly', en: 20, upAll: ['sdf'] },
+  honey: { cat: 'food', n: '꿀물', price: 250, c: '#F0B840', d: '물에 탄 꿀이에요. 어떤 곤충이든 먹고 기력을 30 회복해요.', any: true, en: 30 },
+  calcium: { cat: 'food', n: '칼슘 젤리', price: 600, c: '#F4F4EC', d: '단단한 껍질을 만들어 주는 젤리. 기력을 20 회복하고, 방어가 2 올라요.', diet: 'jelly', en: 20, upAll: ['def', 'def'] },
+  hipro: { cat: 'food', n: '고단백 젤리', price: 800, c: '#C86A3A', d: '단백질이 듬뿍 든 젤리. 기력을 40 회복하고, 체력과 공격이 1씩 올라요.', diet: 'jelly', en: 40, upAll: ['hp', 'atk'] },
+  nectar: { cat: 'food', n: '꽃꿀 젤리', price: 700, c: '#F8A0C8', d: '꽃꿀로 만든 향긋한 젤리. 기력을 35 회복하고, 특수공격과 스피드가 1씩 올라요.', diet: 'jelly', en: 35, upAll: ['spa', 'spd'] },
+  pinhead: { cat: 'meat', n: '핀헤드 귀뚜라미', price: 250, c: '#8A6A3A', d: '갓 태어난 아주 작은 먹이용 귀뚜라미. 기력을 25 회복해요.', diet: 'meat', en: 25 },
+  dfly: { cat: 'meat', n: '먹이용 초파리', price: 300, c: '#B88A4A', d: '날개 없는 먹이용 초파리 한 통. 기력을 15 회복하고, 스피드가 1 올라요.', diet: 'meat', en: 15, upAll: ['spd'] },
+  superworm: { cat: 'meat', n: '슈퍼웜', price: 600, c: '#C8904A', d: '밀웜보다 훨씬 큰 슈퍼웜. 기력을 70 회복하고, 공격이 1 올라요.', diet: 'meat', en: 70, upAll: ['atk'] },
+  bloodworm: { cat: 'meat', n: '냉동 장구벌레', price: 400, c: '#A82A2A', d: '물에 사는 곤충이 좋아하는 냉동 붉은 장구벌레. 기력을 40 회복하고, 스피드가 1 올라요.', diet: 'meat', en: 40, upAll: ['spd'] },
+  shrimp: { cat: 'meat', n: '냉동 새우', price: 700, c: '#F0A080', d: '물방개·물장군이 좋아하는 작은 냉동 새우. 기력을 45 회복하고, 방어와 체력이 1씩 올라요.', diet: 'meat', en: 45, upAll: ['def', 'hp'] },
+  roachf: { cat: 'meat', n: '먹이용 바퀴(두비아)', price: 900, c: '#4A2A14', d: '영양 만점 먹이용 두비아 바퀴. 기력을 60 회복하고, 공격과 방어가 1씩 올라요.', diet: 'meat', en: 60, upAll: ['atk', 'def'] },
   wlactic: { cat: 'food', jp: true, n: '와이드 유산 젤리', price: 900, c: '#FFF0C0', d: '일본산 대용량 젤리. 기력을 40 회복하고, 암컷이 먹으면 다음 산란이 빨라지고 알이 늘어나요.', lay: true, any: true, en: 40 },
   wsap: { cat: 'food', jp: true, n: '와이드 수액 젤리', price: 1100, c: '#C8843A', d: '일본산 대용량 젤리. 기력을 120 회복하고, 방어나 특수방어가 2 올라요.', diet: 'jelly', en: 120, up: ['def', 'sdf'], upN: 2 },
   wbrown: { cat: 'food', jp: true, n: '와이드 흑당 젤리', price: 800, c: '#6A3A18', d: '일본산 대용량 젤리. 기력을 40 회복하고, 공격이나 특수공격이 2 올라요.', diet: 'jelly', en: 40, up: ['atk', 'spa'], upN: 2 },
@@ -5628,17 +5642,42 @@ const SUBS = {
   coco: { n: '코코넛칩', price: 600, c: '#9A5A2A', d: '열대 곤충들이 좋아하는 바닥재예요. 모든 능력치를 골고루 올려 줘요.', fit: (s, id) => ['roach', 'centipede', 'butterfly', 'fly', 'mantis', 'hornet'].includes(id), mod: { atk: 2, def: 2, spa: 2, sdf: 2, spd: 2 } }
 };
 const GEAR = {
-  sheet: { n: '방충시트', price: 300, d: '초파리가 못 들어오게 막아서 근성 유지를 아주 높여 줘요.' },
+  sheet: { n: '방충시트', price: 300, d: '초파리가 못 들어오게 막아서 근성 유지를 아주 높여 줘요. 곰팡이도 덜 슬어요.' },
   feeder: { n: '먹이목', price: 500, d: '곤충 젤리를 여기에 넣어서 먹여요. 곤충 젤리의 효과가 1.5배가 돼요.' },
   play: { n: '놀이목', price: 700, d: '근성 유지를 높여 주고 기력 회복이 빨라져요. 가끔 능력치 하나가 1 올라가요.' },
   weed: { n: '수초', price: 600, d: '수서 곤충들의 근성 유지를 높여 주고 기력 회복이 빨라져요. 가끔 능력치 하나가 1 올라가요.' },
-  moss: { n: '수태', price: 400, d: '바닥재 위에 깔아 주는 이끼예요. 특훈할 때 기력 소모가 반으로 줄고, 근성 유지에 살짝 도움이 돼요.' },
+  moss: { n: '수태', price: 400, d: '바닥재 위에 깔아 주는 이끼예요. 특훈할 때 기력 소모가 반으로 줄고, 근성 유지에 살짝 도움이 돼요. 습기를 잡아 줘서 곰팡이가 덜 슬어요. (물에 사는 곤충은 못 써요)' },
   wfeeder: { jp: true, n: '와이드 먹이구', price: 1200, d: '일본제 넓은 먹이구예요. 곤충 젤리의 효과가 2배가 돼요.' },
   heat: { jp: true, after: 26, n: '온도 매트', price: 1800, d: '사육통 아래에 까는 따뜻한 매트예요. 외국 곤충은 이게 없으면 근성이 떨어지고 기력 회복이 느려요. 깔아 주면 오히려 쑥쑥 회복해요.' },
   mist: { after: 26, n: '가습 분무기', price: 900, d: '하루 한 번 촉촉하게 물을 뿌려 줘요. 기력 회복이 빨라지고 곰팡이가 덜 생겨요.' },
   branch: { after: 26, n: '등반 나뭇가지', price: 700, d: '오르내리며 운동하는 나뭇가지예요. 가끔 스피드나 체력이 1 올라가요.' },
+  egglog: { n: '산란목', price: 800, e: '🪵', fx: { fit: 'land', lay: 1 }, d: '버섯균이 핀 부드러운 참나무 토막이에요. 암컷이 여기에 알을 낳아서 알이 1개 더 늘어나요.' },
+  bark: { n: '코르크 은신처', price: 450, e: '🟫', fx: { fit: 'land', gl: 1 }, d: '곤충이 숨어서 쉴 수 있는 코르크 나무껍질이에요. 스트레스가 줄어 근성이 잘 떨어지지 않아요.' },
+  antiflip: { n: '뒤집힘 방지 나뭇잎', price: 350, e: '🍂', fx: { fit: 'land', gl: 1 }, d: '바닥에 깔아 두는 마른 나뭇잎이에요. 곤충이 뒤집혀도 금방 일어나서 근성이 덜 떨어져요.' },
+  leafsoil: { n: '부엽토', price: 500, e: '🌱', fx: { fit: 'land', rg: .06, gl: 1 }, d: '낙엽이 썩어 만들어진 폭신한 흙이에요. 숲속처럼 편안해서 기력 회복이 조금 빨라져요.' },
+  sponge: { n: '급수 스펀지', price: 300, e: '💧', fx: { fit: 'land', rg: .06 }, d: '물을 머금은 스펀지예요. 곤충이 목을 축여서 기력 회복이 조금 빨라져요.' },
+  hygro: { n: '온습도계', price: 600, e: '🌡️', fx: { rg: .04, mold: .8 }, d: '사육통 안의 온도와 습도를 보여 줘요. 관리가 쉬워져서 곰팡이가 덜 슬고 기력 회복이 조금 빨라져요.' },
+  charcoal: { n: '숯 탈취제', price: 500, e: '⬛', fx: { mold: .6 }, d: '냄새와 습기를 빨아들이는 숯이에요. 곰팡이가 덜 슬어요.' },
+  fan: { n: '미니 쿨링팬', price: 1200, e: '🌀', fx: { rg: .05, mold: .8, summer: true }, d: '사육통에 바람을 불어 줘요. 곰팡이가 덜 슬고, 여름에는 더위를 막아 근성도 지켜 줘요.' },
+  uvlamp: { n: '곤충 관찰 조명', price: 1500, e: '💡', fx: { fit: 'air', up: [['spd', 'spa'], .2] }, d: '햇빛 같은 빛을 내는 조명이에요. 하늘을 나는 곤충이 활발해져서 가끔 스피드나 특수공격이 1 올라요.' },
+  flowerpot: { n: '꿀풀 화분', price: 900, e: '🌸', fx: { fit: 'air', rg: .08 }, d: '꿀이 나오는 작은 화분이에요. 나비·벌 같은 하늘 곤충이 꿀을 빨며 기력을 채워요.' },
+  airpump: { n: '기포기', price: 1000, e: '🫧', fx: { fit: 'aqua', rg: .15, gl: 1 }, d: '물속에 공기 방울을 넣어 줘요. 수서 곤충이 숨쉬기 편해서 기력 회복이 빨라지고 근성이 지켜져요.' },
+  filter: { n: '수중 여과기', price: 1400, e: '🔄', fx: { fit: 'aqua', mold: .4, gl: 1 }, d: '물을 깨끗하게 걸러 줘요. 물이 썩지 않아서 곰팡이가 거의 안 생기고 근성이 지켜져요.' },
+  aquaheat: { n: '수중 히터', price: 1300, e: '♨️', fx: { fit: 'aqua', rg: .08, up: [['hp', 'def'], .15] }, d: '물 온도를 알맞게 맞춰 줘요. 수서 곤충의 기력 회복이 빨라지고 가끔 체력이나 방어가 1 올라요.' },
+  rock: { n: '수중 바위', price: 400, e: '🪨', fx: { fit: 'aqua', gl: 1 }, d: '물속에 숨을 곳이 되어 주는 바위예요. 수서 곤충의 근성이 덜 떨어져요.' },
   bigplay: { jp: true, n: '대형 놀이목', price: 1600, d: '커다란 놀이목이에요. 근성 유지와 기력 회복이 크게 좋아지고, 능력치가 자주 올라가요.' }
 };
+// 곤충에게 어울리는 사육용품인지: 맞지 않으면 설치할 수 없어요
+function gearFit(k, b) {
+  if (!b) return true;
+  const s = SP[b.id], aq = s.hab === '수상';
+  if (k === 'weed') return aq;
+  if (['play', 'bigplay', 'branch', 'moss', 'mist'].includes(k)) return !aq;
+  if (k === 'feeder' || k === 'wfeeder') return s.diet !== 'meat';
+  const fx = (GEAR[k] || {}).fx; if (fx && fx.fit) return fx.fit === 'aqua' ? aq : fx.fit === 'land' ? !aq : fx.fit === 'air' ? s.hab === '공중' : true;
+  return true;
+}
+const gearWhy = (k, b) => (k === 'weed' || ((GEAR[k] || {}).fx || {}).fit === 'aqua' ? '물에 사는 곤충만 쓸 수 있어요' : ((GEAR[k] || {}).fx || {}).fit === 'air' ? '하늘을 나는 곤충만 쓸 수 있어요' : k === 'weed' ? '물에 사는 곤충만 쓸 수 있어요' : ['feeder', 'wfeeder'].includes(k) ? '젤리를 먹지 않는 육식 곤충이에요' : '물에 사는 곤충은 쓸 수 없어요');
 const ANTIMOLD = { n: '곰팡이퇴치제', price: 400, d: '관리를 소홀히 하면 생기는 곰팡이를 말끔히 퇴치해 줘요.' };
 const subFit = (c, b) => !!(c && c.sub && SUBS[c.sub].fit(SP[b.id], b.id));
 const isAqua = (b) => SP[b.id].hab === '수상';
@@ -5649,6 +5688,7 @@ function careNote(c, b) {
   if (!c) return p;
   p.push(subFit(c, b) ? `바닥재 ${SUBS[c.sub].n}이(가) 잘 맞아요` : `바닥재 ${SUBS[c.sub].n}이(가) 맞지 않아요 (근성이 떨어져요)`);
   if (c.mold) p.push('곰팡이가 있어요!');
+  const mis = Object.keys(c.gear || {}).filter((k) => c.gear[k] && GEAR[k] && !gearFit(k, b)); if (mis.length) p.push(`${mis.map((k) => GEAR[k].n).join('·')}이(가) 맞지 않아요! 사육통 관리에서 빼 주세요`);
   if (SP[b.id].foreign) p.push(c.gear.heat ? '온도 매트가 따뜻해서 외국 곤충이 편안해해요' : '외국 곤충이라 추워해요! 온도 매트가 필요해요 (근성이 떨어져요)');
   return p;
 }
@@ -5794,23 +5834,24 @@ function applyBattleResult(win, practice, prize) {
 }
 /* 하루가 지날 때: 기력 회복, 교배·산란, 유충병 성장 */
 function layEggs(f, ev) {
-  const n = 2 + (Math.random() < .5 ? 1 : 0) + (f.boost ? 1 : 0);
+  const fc = cageOf(f.uid), n = 2 + (Math.random() < .5 ? 1 : 0) + (f.boost ? 1 : 0) + (fc && fc.gear.egglog ? 1 : 0);
   for (let i = 0; i < n; i++) S.eggs.push({ id: rid(), sp: f.id, q: f.mateQ || 0, day: S.day, ...(f.mateP ? { par: f.mateP } : {}) });
   ev.push(`🥚 ${SP[f.id].name}♀이(가) 알을 ${n}개 낳았어요! 사육장의 유충병 탭에서 유충병에 넣어 주세요.`);
   f.boost = false; f.rest = 2; delete f.mateQ; delete f.mateP;
 }
 function dayPass() {
-  const ev = [];
+  const ev = []; let loss0 = 0;
   S.wx = rollWx(); bump('days');
   ev.push(`${SEASONS[seasonIdx()][1]} ${curMonth()}월 ${SEASONS[seasonIdx()][0]} · 오늘 날씨는 ${WX[S.wx][1]} ${WX[S.wx][0]}${S.wx === 'rain' ? ' · 물가 곤충과 달팽이가 많이 나와요' : S.wx === 'snow' ? ' · 추위에 강한 곤충만 돌아다녀요' : ''}`);
   for (const c of S.cages) {
     const bs = c.occ.map(bugBy).filter(Boolean);
     c.age = (c.age || 0) + 1;
     const prem = !!CAGE[c.size].prem;
-    if (!c.mold && bs.length && c.age > 6 && Math.random() < (prem ? .05 : c.gear.sheet ? .15 : .3) * (c.gear.mist ? .6 : 1)) { c.mold = true; ev.push(`🍄 ${bs.map((b) => SP[b.id].name).join('·')}의 사육통에 곰팡이가 생겼어요! 곰팡이퇴치제를 쓰거나 바닥재를 갈아 주세요.`); }
+    if (!c.mold && bs.length && c.age > 6 && Math.random() < .3 * (prem ? .2 : 1) * (c.gear.sheet ? .5 : 1) * (c.gear.moss ? .6 : 1) * (c.gear.mist ? .7 : 1) * Object.keys(c.gear).reduce((a, k) => a * ((c.gear[k] && GEAR[k] && GEAR[k].fx && GEAR[k].fx.mold) || 1), 1)) { c.mold = true; ev.push(`🍄 ${bs.map((b) => SP[b.id].name).join('·')}의 사육통에 곰팡이가 생겼어요! 곰팡이퇴치제를 쓰거나 바닥재를 갈아 주세요.`); }
     for (const b of bs) {
       const fit = subFit(c, b), aq = isAqua(b), big = c.gear.bigplay && !aq, toy = big || (c.gear.play && !aq) || (c.gear.weed && aq);
-      let loss = 1 + (fit ? 0 : 1) + (c.mold ? 2 : 0);
+      if (Object.keys(c.gear).some((k) => c.gear[k] && GEAR[k] && !gearFit(k, b))) loss0 = 1; else loss0 = 0;
+      let loss = 1 + (fit ? 0 : 1) + (c.mold ? 2 : 0) + loss0;
       if (fit && c.sub === 'saw') loss -= 1;
       if (fit && c.sub === 'gravel') loss -= 2;
       if (c.gear.sheet || prem) loss -= 2;
@@ -5819,11 +5860,14 @@ function dayPass() {
       if (big) loss -= 1;
       if (toy) loss -= 1;
       if (c.gear.moss && Math.random() < .5) loss -= 1;
+      const gfx = Object.keys(c.gear).filter((k) => c.gear[k] && GEAR[k] && GEAR[k].fx && gearFit(k, b)).map((k) => [k, GEAR[k].fx]);
+      for (const [, fx] of gfx) { loss -= fx.gl || 0; if (fx.summer && seasonIdx() === 1) loss -= 1; }
       b.gritLoss = Math.max(0, Math.min(30, (b.gritLoss || 0) + (loss > 0 ? loss : -1)));
       const mx = calcStats(b).en;
       let rate = CAGE[c.size].regen + (fit && (c.sub === 'saw' || c.sub === 'g1') ? .1 : 0) + (toy ? .15 : 0) + (big ? .1 : 0);
       if (c.mold) rate *= .5;
       if (fr) rate = c.gear.heat ? rate + .12 : rate * .75; if (c.gear.mist) rate += .08;
+      for (const [gk, fx] of gfx) { rate += fx.rg || 0; if (fx.up && Math.random() < fx.up[1]) { const k6 = fx.up[0][Math.floor(Math.random() * fx.up[0].length)]; if (b.bonus[k6] < BONUS_MAX) { b.bonus[k6] += 1; ev.push(`${GEAR[gk].e} ${SP[b.id].name}이(가) ${GEAR[gk].n} 덕분에 ${statName(k6)}이(가) 1 올랐어요!`); } } }
       if (c.gear.branch && Math.random() < .25) { const k4 = Math.random() < .5 ? 'spd' : 'hp'; if (b.bonus[k4] < BONUS_MAX) { b.bonus[k4] += 1; ev.push(`🌿 ${SP[b.id].name}이(가) 등반 나뭇가지를 오르내리며 ${statName(k4)}이(가) 1 올랐어요!`); } }
       b.en = Math.min(mx, Math.round((b.en ?? mx) + mx * rate));
       if (toy && Math.random() < (big ? .35 : .2)) { const k = TRAIN_STATS[Math.floor(Math.random() * TRAIN_STATS.length)]; if (b.bonus[k] < BONUS_MAX) { b.bonus[k] += 1; ev.push(`🎾 ${SP[b.id].name}이(가) ${big ? '대형 놀이목' : c.gear.play && !aq ? '놀이목' : '수초'}에서 놀다가 ${statName(k)}이(가) 1 올랐어요!`); } }
@@ -6001,7 +6045,7 @@ const ICON = {
   deco: (k) => `<svg viewBox="0 0 56 56" aria-hidden="true">${{ chochin: '<path d="M4 10 Q28 22 52 10" stroke="#3A2A1A" stroke-width="2" fill="none"/><ellipse cx="14" cy="26" rx="8" ry="11" fill="#E8302A" stroke="#111114" stroke-width="2"/><ellipse cx="30" cy="30" rx="8" ry="11" fill="#FFD23F" stroke="#111114" stroke-width="2"/><ellipse cx="46" cy="26" rx="8" ry="11" fill="#E8302A" stroke="#111114" stroke-width="2"/>', daruma: '<ellipse cx="28" cy="32" rx="20" ry="21" fill="#D8301A" stroke="#111114" stroke-width="3"/><ellipse cx="28" cy="26" rx="12" ry="10" fill="#FFF0E0"/><circle cx="23" cy="25" r="3" fill="#111"/><circle cx="33" cy="25" r="3" fill="#fff" stroke="#111"/>', kingyo: '<ellipse cx="28" cy="34" rx="22" ry="16" fill="#BFE8F8" stroke="#111114" stroke-width="3"/><path d="M18 34 q8 -7 16 0 q-8 7 -16 0 Z M34 34 l7 -5 v10 Z" fill="#FF6A2A"/>', log: '<path d="M6 40 L42 30 C50 28 54 40 46 44 L12 52 C4 54 0 42 6 40 Z" fill="#6A4A2A" stroke="#111114" stroke-width="3"/><ellipse cx="46" cy="37" rx="5" ry="8" fill="#B08A5A" stroke="#111114" stroke-width="2"/>', moss: '<ellipse cx="28" cy="40" rx="24" ry="10" fill="#4E8A3A" stroke="#111114" stroke-width="3"/><circle cx="18" cy="36" r="5" fill="#6AB04A"/><circle cx="34" cy="34" r="6" fill="#6AB04A"/>', water: '<ellipse cx="28" cy="38" rx="22" ry="10" fill="#B8A07A" stroke="#111114" stroke-width="3"/><ellipse cx="28" cy="36" rx="16" ry="6" fill="#4AA0D0"/>', flower: '<path d="M28 50 L28 24" stroke="#2E6A2A" stroke-width="3"/>' + [0, 72, 144, 216, 288].map((a) => `<ellipse cx="28" cy="12" rx="5" ry="8" fill="#F07AA8" transform="rotate(${a} 28 20)"/>`).join('') + '<circle cx="28" cy="20" r="4" fill="#F6C83A"/><rect x="18" y="44" width="20" height="10" fill="#B86A3A" stroke="#111114" stroke-width="2"/>', rock: '<path d="M6 48 C8 34 22 30 30 36 C36 28 50 32 50 48 Z" fill="#8A8A80" stroke="#111114" stroke-width="3"/>', torii: '<rect x="14" y="20" width="6" height="32" fill="#D8301A" stroke="#111114" stroke-width="2"/><rect x="36" y="20" width="6" height="32" fill="#D8301A" stroke="#111114" stroke-width="2"/><path d="M6 14 Q28 6 50 14 L48 20 L8 20 Z" fill="#D8301A" stroke="#111114" stroke-width="2.5"/><rect x="10" y="24" width="36" height="5" fill="#D8301A" stroke="#111114" stroke-width="2"/>', lantern: '<rect x="20" y="40" width="16" height="12" fill="#8A8A80" stroke="#111114" stroke-width="2"/><rect x="24" y="30" width="8" height="10" fill="#8A8A80" stroke="#111114" stroke-width="2"/><rect x="18" y="18" width="20" height="12" fill="#FFE08A" stroke="#111114" stroke-width="2.5"/><path d="M12 18 L28 6 L44 18 Z" fill="#8A8A80" stroke="#111114" stroke-width="2.5"/>', bamboo: [14, 28, 42].map((x) => `<rect x="${x - 3}" y="6" width="6" height="46" fill="#6AB04A" stroke="#111114" stroke-width="2"/><path d="M${x - 3} 20 h6 M${x - 3} 34 h6" stroke="#2E6A2A" stroke-width="2"/>`).join(''), bonsai: '<rect x="14" y="42" width="28" height="10" fill="#8A4A2A" stroke="#111114" stroke-width="2.5"/><path d="M28 42 C26 34 32 28 28 20" stroke="#5A3A1A" stroke-width="4" fill="none"/><ellipse cx="22" cy="22" rx="12" ry="7" fill="#3E8A3E" stroke="#111114" stroke-width="2"/><ellipse cx="36" cy="16" rx="10" ry="6" fill="#3E8A3E" stroke="#111114" stroke-width="2"/>', sakura: '<path d="M28 52 L28 26" stroke="#5A3A1A" stroke-width="5"/><circle cx="28" cy="20" r="16" fill="#F8B8D0" stroke="#111114" stroke-width="2.5"/><circle cx="20" cy="18" r="3" fill="#fff"/><circle cx="34" cy="14" r="3" fill="#fff"/><circle cx="32" cy="26" r="3" fill="#fff"/>', zen: '<ellipse cx="28" cy="38" rx="24" ry="12" fill="#F0ECE0" stroke="#111114" stroke-width="2.5"/><path d="M8 36 Q28 30 48 36 M10 42 Q28 36 46 42" stroke="#B8B0A0" stroke-width="2" fill="none"/><circle cx="34" cy="36" r="5" fill="#8A8A80"/>', bridge: '<ellipse cx="28" cy="44" rx="24" ry="8" fill="#4AA0D0"/><path d="M6 44 Q28 18 50 44" stroke="#D8301A" stroke-width="6" fill="none"/><path d="M14 36 v8 M28 30 v14 M42 36 v8" stroke="#D8301A" stroke-width="3"/>', light: '<circle cx="18" cy="20" r="5" fill="#E8FF8A"/><circle cx="36" cy="14" r="4" fill="#E8FF8A"/><circle cx="40" cy="32" r="5" fill="#E8FF8A"/><circle cx="18" cy="20" r="10" fill="#E8FF8A" opacity=".25"/><circle cx="40" cy="32" r="10" fill="#E8FF8A" opacity=".25"/>' }[k]}</svg>`
 };
 ICON.sub = (c) => `<svg viewBox="0 0 56 56" aria-hidden="true"><path d="M8 18 h40 v30 a4 4 0 0 1 -4 4 h-32 a4 4 0 0 1 -4 -4 z" fill="#E8E0C8" stroke="#111114" stroke-width="3"/><rect x="8" y="12" width="40" height="8" fill="#2E7D4F" stroke="#111114" stroke-width="2"/><ellipse cx="28" cy="36" rx="14" ry="9" fill="${c}"/>${[0, 1, 2, 3, 4].map((i) => `<circle cx="${18 + i * 5}" cy="${34 + (i % 2) * 4}" r="2" fill="#fff" opacity=".35"/>`).join('')}</svg>`;
-ICON.gear = (k) => `<svg viewBox="0 0 56 56" aria-hidden="true">${{ heat: '<rect x="6" y="30" width="44" height="16" rx="4" fill="#E8602A" stroke="#111114" stroke-width="3"/><path d="M16 24 q4 -6 0 -12 M28 24 q4 -6 0 -12 M40 24 q4 -6 0 -12" stroke="#E8302A" stroke-width="3" fill="none"/>', mist: '<rect x="18" y="20" width="20" height="30" rx="4" fill="#7AC8F0" stroke="#111114" stroke-width="3"/><rect x="22" y="10" width="12" height="10" fill="#3A4A5A" stroke="#111114" stroke-width="2"/><path d="M36 12 h8 M40 6 l6 -2 M40 18 l6 2" stroke="#4AA0E0" stroke-width="3"/>', branch: '<path d="M8 48 L40 12 M24 30 L44 30 M18 38 L10 26" stroke="#6A4A2A" stroke-width="6" stroke-linecap="round"/><circle cx="44" cy="30" r="4" fill="#5E9A52"/>', sheet: '<rect x="8" y="10" width="40" height="36" fill="#F4F4F4" stroke="#111114" stroke-width="3"/><path d="M8 18 H48 M8 26 H48 M8 34 H48 M16 10 V46 M24 10 V46 M32 10 V46 M40 10 V46" stroke="#B8C0C8" stroke-width="1.5"/>', feeder: '<path d="M6 40 L50 34 L50 46 L6 50 Z" fill="#8A6A44" stroke="#111114" stroke-width="3"/><ellipse cx="20" cy="40" rx="6" ry="3" fill="#E8A33A"/><ellipse cx="36" cy="38" rx="6" ry="3" fill="#E8A33A"/>', play: '<path d="M10 46 C18 30 30 34 34 20 C38 12 46 12 48 18" stroke="#6A4A2A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M10 46 C18 30 30 34 34 20" stroke="#111114" stroke-width="2" fill="none"/>', weed: '<path d="M18 50 C14 36 22 24 16 10 M28 50 C30 36 24 22 30 8 M38 50 C42 38 34 26 40 14" stroke="#3E8A3A" stroke-width="5" fill="none" stroke-linecap="round"/>', moss: '<ellipse cx="28" cy="38" rx="22" ry="10" fill="#6AB04A" stroke="#111114" stroke-width="3"/><circle cx="18" cy="34" r="5" fill="#8AD06A"/><circle cx="34" cy="32" r="6" fill="#8AD06A"/>', antimold: '<rect x="18" y="16" width="20" height="34" rx="4" fill="#4AB0E0" stroke="#111114" stroke-width="3"/><rect x="22" y="8" width="12" height="9" fill="#111114"/><path d="M34 10 L46 6" stroke="#111114" stroke-width="3"/><path d="M22 28 h12 M22 34 h12" stroke="#fff" stroke-width="2"/>' }[k]}</svg>`;
+ICON.gear = (k) => `<svg viewBox="0 0 56 56" aria-hidden="true">${{ heat: '<rect x="6" y="30" width="44" height="16" rx="4" fill="#E8602A" stroke="#111114" stroke-width="3"/><path d="M16 24 q4 -6 0 -12 M28 24 q4 -6 0 -12 M40 24 q4 -6 0 -12" stroke="#E8302A" stroke-width="3" fill="none"/>', mist: '<rect x="18" y="20" width="20" height="30" rx="4" fill="#7AC8F0" stroke="#111114" stroke-width="3"/><rect x="22" y="10" width="12" height="10" fill="#3A4A5A" stroke="#111114" stroke-width="2"/><path d="M36 12 h8 M40 6 l6 -2 M40 18 l6 2" stroke="#4AA0E0" stroke-width="3"/>', branch: '<path d="M8 48 L40 12 M24 30 L44 30 M18 38 L10 26" stroke="#6A4A2A" stroke-width="6" stroke-linecap="round"/><circle cx="44" cy="30" r="4" fill="#5E9A52"/>', sheet: '<rect x="8" y="10" width="40" height="36" fill="#F4F4F4" stroke="#111114" stroke-width="3"/><path d="M8 18 H48 M8 26 H48 M8 34 H48 M16 10 V46 M24 10 V46 M32 10 V46 M40 10 V46" stroke="#B8C0C8" stroke-width="1.5"/>', feeder: '<path d="M6 40 L50 34 L50 46 L6 50 Z" fill="#8A6A44" stroke="#111114" stroke-width="3"/><ellipse cx="20" cy="40" rx="6" ry="3" fill="#E8A33A"/><ellipse cx="36" cy="38" rx="6" ry="3" fill="#E8A33A"/>', play: '<path d="M10 46 C18 30 30 34 34 20 C38 12 46 12 48 18" stroke="#6A4A2A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M10 46 C18 30 30 34 34 20" stroke="#111114" stroke-width="2" fill="none"/>', weed: '<path d="M18 50 C14 36 22 24 16 10 M28 50 C30 36 24 22 30 8 M38 50 C42 38 34 26 40 14" stroke="#3E8A3A" stroke-width="5" fill="none" stroke-linecap="round"/>', moss: '<ellipse cx="28" cy="38" rx="22" ry="10" fill="#6AB04A" stroke="#111114" stroke-width="3"/><circle cx="18" cy="34" r="5" fill="#8AD06A"/><circle cx="34" cy="32" r="6" fill="#8AD06A"/>', antimold: '<rect x="18" y="16" width="20" height="34" rx="4" fill="#4AB0E0" stroke="#111114" stroke-width="3"/><rect x="22" y="8" width="12" height="9" fill="#111114"/><path d="M34 10 L46 6" stroke="#111114" stroke-width="3"/><path d="M22 28 h12 M22 34 h12" stroke="#fff" stroke-width="2"/>' }[k] || (GEAR[k] && GEAR[k].e ? `<rect x="4" y="4" width="48" height="48" rx="8" fill="#F4E8C8" stroke="#111114" stroke-width="3"/><text x="28" y="38" text-anchor="middle" font-size="26">${GEAR[k].e}</text>` : '')}</svg>`;
 const JP_TABS = [['jfood', '와이드 젤리'], ['jmeat', '고급 먹이'], ['jgear', '사육용품·배지'], ['jcage', '고급 방충케이스'], ['jdeco', '일본풍 꾸미기']];
 let shopJP = false;
 const SHOP_TABS = [['food', '먹이'], ['meat', '육식 곤충 먹이'], ['sub', '바닥재'], ['gear', '사육용품'], ['cage', '사육장'], ['jar', '유충병'], ['held', '지닌 도구'], ['deco', '테라리움 꾸미기']];
@@ -6224,7 +6268,10 @@ function openCageView(c, b) {
 }
 function openCare(c, b, draw) {
   const subOpts = Object.entries(SUBS).filter(([k, x]) => unlockedX(x) || S.items['sub_' + k] > 0 || c.sub === k).map(([k, x]) => { const n = S.items['sub_' + k] || 0, fit = x.fit(SP[b.id], b.id); return `<button type="button" class="opt" data-sub="${k}"><span>${x.n}${c.sub === k ? ' <small>(지금 깔린 바닥재)</small>' : ''} <small>${fit ? '잘 맞아요' : '맞지 않아요'}</small></span><span class="${n ? '' : 'no'}">${n}개</span></button>`; }).join('');
-  const gearOpts = Object.entries(GEAR).filter(([k, x]) => unlockedX(x) || S.items['gear_' + k] > 0 || c.gear[k]).map(([k, x]) => { const n = S.items['gear_' + k] || 0, on = !!c.gear[k]; return `<button type="button" class="opt" data-gear="${k}"><span>${x.n} <small>${x.d}</small></span><span class="${on || n ? '' : 'no'}">${on ? '설치됨' : `${n}개`}</span></button>`; }).join('');
+  const occ = c.occ.map(bugBy).filter(Boolean), fitAll = (k) => occ.every((x) => gearFit(k, x)), bad = occ.find((x) => !gearFit('weed', x)) && 0;
+  const gearOpts = Object.entries(GEAR).filter(([k, x]) => unlockedX(x) || S.items['gear_' + k] > 0 || c.gear[k]).map(([k, x]) => { const n = S.items['gear_' + k] || 0, on = !!c.gear[k], ok = fitAll(k), who = occ.find((y) => !gearFit(k, y));
+    return on ? `<div class="opt gear-on"><span>${x.n} <small>${ok ? '설치돼 있어요' : `<b style="color:#C8232C">이 곤충에게 맞지 않아요! 빼 주세요</b>`}</small></span><button type="button" class="gear-out" data-gout="${k}">빼기</button></div>`
+      : `<button type="button" class="opt${ok ? '' : ' unfit'}" data-gear="${k}"${ok ? '' : ' disabled'}><span>${x.n} <small>${ok ? x.d : `${SP[who.id].name}: ${gearWhy(k, who)}`}</small></span><span class="${ok && n ? '' : 'no'}">${ok ? `${n}개` : '못 넣어요'}</span></button>`; }).join('');
   draw(`<div class="pop"><div class="pop-box"><h3>사육통 관리 · ${CAGE[c.size].n}</h3>
 <p class="pop-p">바닥재를 깐 지 ${c.age}일째예요. 오래되면 곰팡이가 생길 수 있어서, 가끔 새 바닥재로 갈아 주는 게 좋아요.${c.mold ? ' <b style="color:#C8232C">지금 곰팡이가 있어요!</b>' : ''}</p>
 <b class="pop-h">바닥재 갈기</b>${subOpts}<b class="pop-h">사육용품 설치</b>${gearOpts}
@@ -6240,9 +6287,15 @@ function openCare(c, b, draw) {
   L.ov.querySelectorAll('[data-gear]').forEach((x) => x.addEventListener('click', () => {
     const k = x.dataset.gear;
     if (c.gear[k]) { note(`이미 ${GEAR[k].n}이(가) 설치돼 있어요.`, 'fail'); return; }
+    const who = c.occ.map(bugBy).filter(Boolean).find((y) => !gearFit(k, y)); if (who) { note(`${SP[who.id].name}에게는 ${GEAR[k].n}이(가) 어울리지 않아요. ${gearWhy(k, who)}.`, 'fail'); return; }
     if (!S.items['gear_' + k]) { note(`${GEAR[k].n}이(가) 없어요. 곤충마트의 사육용품 탭에서 사 올 수 있어요.`, 'fail'); return; }
     S.items['gear_' + k] -= 1; c.gear[k] = true;
     save(); note(`${GEAR[k].n}을(를) 설치했어요!`, 'ding'); openCare(c, b, draw);
+  }));
+  L.ov.querySelectorAll('[data-gout]').forEach((x) => x.addEventListener('click', () => {
+    const k = x.dataset.gout; if (!c.gear[k]) return;
+    delete c.gear[k]; S.items['gear_' + k] = (S.items['gear_' + k] || 0) + 1;
+    save(); note(`${GEAR[k].n}을(를) 빼서 가방에 넣었어요.`, 'page'); openCare(c, b, draw);
   }));
   L.ov.querySelector('[data-mold]').addEventListener('click', () => {
     if (!c.mold) { note('곰팡이가 없어요. 깨끗해요!', 'fail'); return; }
@@ -6260,13 +6313,13 @@ function feed(b, k, draw) {
   if (fd > 1) msg.push(`${cg.wfeeder ? '와이드 먹이구' : '먹이목'} 효과 ${fd}배`);
   if (it.en) { const before = b.en; b.en = Math.min(st.en, b.en + Math.round(it.en * fd * (b.tr === 'glutton' ? 1.5 : 1))); msg.push(b.en > before ? `기력 +${b.en - before}` : '기력은 이미 가득해요'); }
   if (it.up) { const k2 = it.up[Math.floor(Math.random() * it.up.length)], n2 = (it.upN || 1) + (fd > 1 && Math.random() < .5 ? 1 : 0); if (b.bonus[k2] < BONUS_MAX) { const r2 = Math.min(n2, BONUS_MAX - b.bonus[k2]); b.bonus[k2] += r2; msg.push(`${statName(k2)} +${r2}`); } else msg.push(`${statName(k2)}은(는) 이미 최대치예요`); }
-  if (it.upAll) { const got = it.upAll.filter((k3) => b.bonus[k3] < BONUS_MAX); got.forEach((k3) => { b.bonus[k3] += 1; }); msg.push(got.length ? got.map((k3) => `${statName(k3)} +1`).join(' · ') : '올릴 수 있는 능력치가 이미 최대예요'); }
+  if (it.upAll) { const cnt = {}; it.upAll.forEach((k3) => { if (b.bonus[k3] < BONUS_MAX) { b.bonus[k3] += 1; cnt[k3] = (cnt[k3] || 0) + 1; } }); const ks = Object.keys(cnt); msg.push(ks.length ? ks.map((k3) => `${statName(k3)} +${cnt[k3]}`).join(' · ') : '올릴 수 있는 능력치가 이미 최대예요'); }
   if (it.grit) { const before = b.gritLoss || 0; b.gritLoss = Math.max(0, before - it.grit); msg.push(before ? `근성 +${before - b.gritLoss} 회복` : '근성은 이미 충분해요'); }
   if (it.xp) { const up = gainXp(b, it.xp); msg.push(`경험치 +${it.xp}${up ? ` · 레벨 업! Lv.${b.lv}` : ''}`); }
   if (it.lay) { if (b.sex === 'f') { b.boost = true; msg.push('다음 산란이 빨라지고 알이 늘어나요'); } else msg.push('수컷이라 산란과는 상관이 없어요'); }
   if (S.tut) S.tut.feed = true;
   bump('feed');
-  save(); note(`${name}이(가) ${it.n}을(를) 먹었어요! ${msg.join(' · ')}`, 'heal'); draw();
+  save(); note(`${name}${josaIGa(name)} ${it.n}${josaEulReul(it.n)} 먹었어요! ${msg.join(' · ')}`, 'heal'); draw();
 }
 function train(b, k, draw) {
   const name = SP[b.id].name;
