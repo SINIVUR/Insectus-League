@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.37">
+<meta name="version" content="0.0.39">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -248,6 +248,13 @@ b.aw { color: #FFD23F; }
 .big-ui .ov.end { gap: 8px; } .big-ui .end h2 { font-size: 44px; } .big-ui .ov.end .team { zoom: .7; } .big-ui .end p { font-size: 17px; max-width: 92%; text-align: center; }
 .big-ui .awk-art svg { width: 300px; height: 188px; } .big-ui .awk-txt h2 { font-size: 28px; } .big-ui .awk-txt p { font-size: 15px; } .big-ui .awk-st { font-size: 13px; gap: 4px 8px; margin-bottom: 8px; }
 .big-ui .cv-stage { zoom: .66; }
+/* 기절 상태이상(행동 1번 쉼): 빨간색으로 눈에 띄게 */
+.float.stun { color: #FF3A2A; font-size: 36px; font-weight: 900; }
+.plate .sts span:first-child[style*="E8201A"] { animation: stunBlink .6s ease-in-out infinite alternate; }
+@keyframes stunBlink { to { filter: brightness(1.5); } }
+.battle .b-card.stunned { border-color: #FF3A2A !important; box-shadow: 0 0 10px rgba(255,58,42,.6); }
+.battle .b-card.stunned .bcs { color: #fff; background: #E8201A; padding: 0 6px; font-weight: 900; }
+.b-unit.stun::after { content: '💫 기절'; position: absolute; left: 50%; top: 18%; transform: translateX(-50%); padding: 2px 12px; background: #E8201A; color: #fff; font-weight: 900; font-size: 20px; border: 3px solid #fff; border-radius: 8px; z-index: 5; pointer-events: none; }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -1015,7 +1022,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.37';
+const VERSION = '0.0.39';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -5109,7 +5116,7 @@ function deal(i, sk, o = sk) {
   dmg = Math.max(1, Math.round(dmg));
   hurt(1 - i, dmg, { m });
   if (sk.drain && a.alive) { const hp = Math.round(dmg * sk.drain); a.hp = Math.min(a.max, a.hp + hp); float(i, '+' + hp, 'heal', 30); }
-  if (o.stun && d.alive && Math.random() < (o.stunP ?? 1) * (d.inst && d.inst.tr === 'hardy' ? .5 : 1)) { d.st.stun = 1; float(1 - i, '기절!', 'small', 36); }
+  if (o.stun && d.alive && Math.random() < (o.stunP ?? 1) * (d.inst && d.inst.tr === 'hardy' ? .5 : 1)) { d.st.stun = 1; float(1 - i, '기절!', 'stun', 36); }
   if (o.poison && d.alive) { d.st.poison = o.poison[1]; d.st.pd = o.poison[0]; AU.sfx('poison'); float(1 - i, '독에 걸렸어요!', 'small', 60); }
   return true;
 }
@@ -5130,8 +5137,8 @@ function ko(side) {
   const sd = B.sides[side], u = sd.team[sd.active];
   u.alive = false; u.st = { stun: 0, guard: 0, dodge: 0, poison: 0, pd: 0 };
   B.v[side].act = null; B.v[side].q = [];
-  AU.sfx('ko'); $('#u' + side).classList.add('ko'); float(side, '기절!', '', 20);
-  if (side === 1) toast('상대 곤충을 기절시켰어요!');
+  AU.sfx('ko'); $('#u' + side).classList.add('ko'); float(side, '쓰러짐!', '', 20);
+  if (side === 1) toast('상대 곤충을 쓰러뜨렸어요!');
   if (!sd.team.some((x) => x.alive)) finish(1 - side, side === 1 ? '상대 전원 기절' : '내 곤충 전원 기절');
 }
 function useSkill(i, k) {
@@ -5389,14 +5396,14 @@ function bUI() {
   for (let i = 0; i < 2; i++) {
     const sd = B.sides[i], u = sd.team[sd.active];
     $('#pips' + i).querySelectorAll('.pip').forEach((p, j) => p.classList.toggle('out', !sd.team[j].alive));
-    setT($('#pn' + i), `${u.s.rare ? '★' : ''}${u.inst && u.inst.awake ? '✦' : ''}${u.s.name}${u.sex === 'f' ? '♀' : '♂'} Lv.${u.lv}`);
+    setH($('#pn' + i), `${u.s.rare ? '★' : ''}${u.inst && u.inst.awake ? '✦' : ''}${u.s.name}${u.sex === 'f' ? '♀' : '♂'} Lv.${u.lv}`);
     const tc = $('#pt' + i); setT(tc, u.s.type); tc.style.background = TYPE_COL[u.s.type]; tc.style.color = '#fff';
     const kc = $('#pk' + i); setT(kc, u.s.hab); kc.style.background = KIND_COL[u.s.hab]; kc.style.color = '#fff';
     const hb = $('#ph' + i), r = u.hp / u.max;
     hb.style.width = (r * 100) + '%'; hb.style.background = r < .3 ? '#FF5A4A' : i ? '#FF8A2B' : '#B8F24A';
     setT($('#phn' + i), `${Math.ceil(u.hp)} / ${u.max}`);
     const st = [];
-    if (u.st.stun > 0) st.push(['#C8232C', '기절 · 다음 행동 쉼']); if (u.st.poison > 0) st.push(['#8A4FD8', `독 ${u.st.poison}턴`]);
+    if (u.st.stun > 0) st.push(['#E8201A', '💫 기절 · 다음 행동 쉼']); if (u.st.poison > 0) st.push(['#8A4FD8', `독 ${u.st.poison}턴`]);
     if (u.st.guard > 0) st.push(['#4A6FA5', `방어 ${u.st.guard}턴`]); if (u.st.dodge > 0) st.push(['#2E7D4F', '회피 태세']);
     if (i === 1 && u.alive) { st.push(['#3A4458', `기력 ${Math.floor(u.en)}`]); if (canUse(1, 'r')) st.push(['#C8232C', '필살기 가능!']); }
     setH($('#ps' + i), st.map(([c, n]) => `<span style="background:${c}">${n}</span>`).join(''));
@@ -5430,7 +5437,8 @@ function bUI() {
   P.team.forEach((x, j) => {
     const cls = 'b-card' + (j === P.active ? ' on' : '') + (x.alive ? '' : ' out') + (choosing && canSwap(0, j) ? ' can' : '');
     const card = $('#bc' + j); if (card.className !== cls) card.className = cls;
-    setT($('#bcs' + j), !x.alive ? '기절' : j === P.active ? '출전 중' : '대기');
+    setT($('#bcs' + j), !x.alive ? '쓰러짐' : x.st.stun > 0 ? '기절!' : j === P.active ? '출전 중' : '대기');
+    $('#bc' + j).classList.toggle('stunned', x.alive && x.st.stun > 0);
     const mm = mult(x.s.type, o.s.type), mt = $('#bcm' + j);
     setT(mt, `${x.s.type}${mm > 1 ? ' ▲유리' : mm < 1 ? ' ▼불리' : ''}`); mt.style.background = mm > 1 ? '#1E7A3A' : mm < 1 ? '#A3241A' : '#3A4458';
     const bh = $('#bch' + j), rr = x.hp / x.max; bh.style.width = (rr * 100) + '%'; bh.style.background = rr < .3 ? '#FF5A4A' : '#B8F24A';
@@ -5438,7 +5446,7 @@ function bUI() {
     $('#bcen' + j).style.width = (x.en / x.enMax * 100) + '%'; setT($('#bcenn' + j), `기력 ${Math.floor(x.en)}`);
     const btn = $('#bcb' + j);
     btn.disabled = !choosing || !canSwap(0, j);
-    setT(btn, j === P.active ? '출전 중' : !x.alive ? '기절' : `${j + 1} · 교체`);
+    setT(btn, j === P.active ? '출전 중' : !x.alive ? '쓰러짐' : `${j + 1} · 교체`);
   });
 }
 function finish(w, why) {
