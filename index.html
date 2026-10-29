@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.17">
+<meta name="version" content="0.0.21">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -115,6 +115,16 @@ b.aw { color: #FFD23F; }
 @keyframes awkPulseB { to { box-shadow: 0 0 18px #FFD040; } }
 .big-ui .ov.news .news-tv, .big-ui .ov.news .wide, .big-ui .awk-txt { zoom: calc(var(--uiz) * .85); }
 
+/* 배틀 겹침 순서: 곤충(깊이 정렬 z≈수백)보다 글자·팁이 위로 */
+#battle .plate { z-index: 1000; } #battle .b-match { z-index: 1010; } #battle .b-top, #battle .b-panel { z-index: 1020; } #battle .banner, #battle .toast { z-index: 1030; }
+/* 배틀 팁·배너는 위쪽 띠에, 상성 표시는 경기장 아래쪽에: 곤충을 가리지 않게 */
+#battle .toast { top: 78px; padding: 5px 16px; font-size: 17px; line-height: 1.35; max-width: 760px; }
+#battle .banner { top: 78px; padding: 4px 20px; font-size: 22px; }
+#battle .b-match { top: auto; bottom: 246px; }
+/* 배틀 팁 · 기술 이름: 명령 패널 머리줄 */
+#bTip { display: none; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 17px; font-weight: 900; color: #FFD23F; }
+.bp-h.tipping #bAsk { display: none; } .bp-h.tipping #bTip { display: block; animation: fade .25s ease-out; }
+#bTip.ban { color: #7CFC6A; font-size: 19px; } #bTip.ban.foe { color: #FF9A4A; }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -137,9 +147,12 @@ b.aw { color: #FFD23F; }
 .big-ui #actBtn { zoom: calc(var(--uiz) * 1.1); right: 14px; bottom: 14px; }
 .big-ui .enc-top, .big-ui .enc-tip, .big-ui .enc-run, .big-ui .g-btn { zoom: var(--uiz); }
 .big-ui .enc-top { left: 12px; right: 12px; top: 10px; } .big-ui .enc-tip { top: 70px; }
-.big-ui #battle .b-top, .big-ui #battle .b-panel, .big-ui #battle .b-match { zoom: var(--bz, 1.2); }
+.big-ui #battle .b-top, .big-ui #battle .b-panel { zoom: var(--bz, 1.2); }
+.big-ui #battle .b-match { zoom: 1.05; top: auto; bottom: calc((236px * var(--bz, 1.2) + 10px) / 1.05); }
+.big-ui #battle .b-match .mrow { background: rgba(17,17,20,.82); }
 .big-ui #battle .plate { transform: scale(var(--bz, 1.2)); transform-origin: 50% 0; }
-.big-ui #battle .banner, .big-ui #battle .toast { zoom: 1.25; }
+.big-ui #battle .banner, .big-ui #battle .toast { zoom: 1; top: calc(72px * var(--bz, 1.2) + 4px); }
+.big-ui #battle .toast { font-size: 16px; padding: 3px 14px; line-height: 1.3; }
 .big-ui .m-rows { width: auto; max-width: 96%; }
 .big-ui .ov.match { zoom: calc(var(--uiz) * .86); overflow-y: auto; justify-content: flex-start; padding-top: 10px; padding-bottom: 14px; box-sizing: border-box; }
 .big-ui .m-head small { font-size: 18px; }
@@ -879,7 +892,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.17';
+const VERSION = '0.0.21';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -4341,7 +4354,7 @@ function startBattle(done, oppKey) {
   setTimeout(() => {
     if (!B) return;
     B.phase = 'choose';
-    toast(B.opp.line ? `${B.opp.name}: “${B.opp.line}”` : '이번 턴에 할 행동을 골라 주세요. 위쪽 상성 표시도 함께 확인해 보세요.');
+    toast(B.opp.line ? `${B.opp.name}: “${B.opp.line}”` : '이번 턴에 할 행동을 골라 주세요. 상성 표시도 함께 확인해 보세요.');
   }, 1000);
 }
 function skDesc(sk) {
@@ -4369,7 +4382,7 @@ function battleHtml() {
 <div class="b-match" id="bMatch"></div>
 <div id="bFx"></div>
 <div class="b-panel"><div class="bp-team"><div class="bp-h">내 팀 <small>교체도 한 턴의 행동 · 1·2·3</small></div><div class="b-cards" id="bCards"></div></div>
-<div class="bp-cmd"><div class="bp-h"><b id="bAsk"></b></div><div class="en"><span class="en-l">기력</span><div class="en-bar"><i id="bEn"></i><div class="en-mk" id="bEnMk"></div></div><b class="en-n" id="bEnN"></b><small>출전 +20 · 대기 +10 / 턴</small></div>
+<div class="bp-cmd"><div class="bp-h" id="bpH"><b id="bAsk"></b><b id="bTip" class="b-tip"></b></div><div class="en"><span class="en-l">기력</span><div class="en-bar"><i id="bEn"></i><div class="en-mk" id="bEnMk"></div></div><b class="en-n" id="bEnN"></b><small>출전 +20 · 대기 +10 / 턴</small></div>
 <div class="b-btns" id="bBtns"></div></div></div></div>`;
 }
 const WHY = { cd: (n) => `아직 쓸 수 없어요. ${n}턴 뒤에 다시 쓸 수 있어요.`, lock: () => '방금 나온 곤충은 이번 턴에 필살기를 쓸 수 없어요. 다음 턴부터 쓸 수 있어요.', en: (n) => `기력이 ${n} 부족해요. 기력은 매 턴 25씩 차요.`, ko: () => '기절한 곤충은 행동할 수 없어요.' };
@@ -4417,7 +4430,7 @@ function command(cmd) {
   if (cmd.kind === 'skill') B.used = true;
   AU.sfx('click');
   B.phase = 'resolve';
-  $('#bFx').querySelectorAll('.toast').forEach((t) => t.remove());
+  clearTip();
   resolveTurn(cmd);
 }
 const wait = (ms) => new Promise((res) => {
@@ -4774,18 +4787,21 @@ function float(side, text, cls, dy = 0) {
   el.style.top = (v.cy - 110 - dy) + 'px';
   fx.appendChild(el); setTimeout(() => el.remove(), 950);
 }
+/* 팁·기술 이름은 경기장이 아니라 아래 명령 패널 머리줄에 보여 줘요 (곤충과 이름을 가리지 않게) */
+let tipTimer = 0, tipBase = null;
+function showTip(text, cls, ms) {
+  const t = $('#bTip'), hd = $('#bpH'); if (!t || !hd) return;
+  t.textContent = text; t.className = 'b-tip ' + cls; t.title = text; hd.classList.add('tipping');
+  clearTimeout(tipTimer);
+  tipTimer = setTimeout(() => { if (tipBase) { const b = tipBase; tipBase = null; showTip(b[0], b[1], b[2]); return; } clearTip(); }, ms);
+}
+function clearTip() { tipBase = null; clearTimeout(tipTimer); const hd = $('#bpH'); if (hd) hd.classList.remove('tipping'); }
 function banner(side, text) {
-  const fx = $('#bFx'); if (!fx) return;
-  fx.querySelectorAll('.banner').forEach((b) => b.remove());
-  const el = document.createElement('div'); el.className = 'banner' + (side ? ' foe' : ''); el.textContent = text;
-  fx.appendChild(el); setTimeout(() => el.remove(), 1450);
+  const t = $('#bTip'), hd = $('#bpH');
+  if (t && hd && hd.classList.contains('tipping') && t.classList.contains('tip')) tipBase = [t.textContent, 'tip', 3000];
+  showTip(text, side ? 'ban foe' : 'ban', 1450);
 }
-function toast(text) {
-  const fx = $('#bFx'); if (!fx) return;
-  fx.querySelectorAll('.toast').forEach((b) => b.remove());
-  const el = document.createElement('div'); el.className = 'toast'; el.textContent = text;
-  fx.appendChild(el); setTimeout(() => el.remove(), 5200);
-}
+function toast(text) { tipBase = null; showTip(text, 'tip', 5200); }
 const multLabel = (m) => (m > 1 ? ['효과 좋음 ×1.5', '#7CFC6A'] : m < 1 ? ['효과 별로 ×0.7', '#FF6B5A'] : ['보통 ×1.0', '#9AA3B5']);
 const setH = (el, html) => { if (el && el._h !== html) { el.innerHTML = html; el._h = html; } };
 const setT = (el, t) => { if (el && el.textContent !== t) el.textContent = t; };
