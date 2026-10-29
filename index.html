@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.31">
+<meta name="version" content="0.0.32">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -196,6 +196,22 @@ b.aw { color: #FFD23F; }
 .chal-btns { display: flex; gap: 10px; justify-content: center; padding: 0 18px 16px; } .chal-btns .btn { min-width: 180px; min-height: 52px; font-size: 19px; }
 .big-ui .chal-ov .chal { zoom: calc(var(--uiz) * .8); }
 .btn.field-exit { top: 36px; right: 32px; }
+
+/* 사육통 들여다보기 */
+.cv-ov { z-index: 75; display: flex; align-items: center; justify-content: center; background: rgba(6,8,18,.78); }
+.cv { width: 980px; max-width: 96%; background: #161A24; border: 4px solid #E8F4F8; color: #fff; display: flex; flex-direction: column; }
+.cv-head { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; background: #0C0F18; } .cv-head b { font-size: 22px; }
+.cv-stage { position: relative; width: 960px; height: 540px; margin: 0 auto; overflow: hidden; transform-origin: 0 0; }
+.cv-bg svg { display: block; }
+.cv-gl { margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.cv-bug .idl, .cv-bug .idl svg { background: none !important; box-shadow: none !important; border-radius: 0 !important; }
+.cv-stage { zoom: .8; }
+.cv-bug { position: absolute; width: 300px; display: flex; flex-direction: column; align-items: center; }
+.cv-bug span { margin-top: -18px; background: rgba(0,0,0,.6); padding: 2px 10px; border-radius: 999px; font-weight: 800; font-size: 15px; }
+.cv-info { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 10px; padding: 10px 14px 14px; }
+.cv-info > div { display: flex; flex-direction: column; gap: 3px; background: #0C0F18; padding: 8px 10px; } .cv-info small { color: #9AA3B5; font-weight: 700; } .cv-info i { font-style: normal; color: #C9D3E2; font-size: 14px; }
+.cv-g { display: inline-block; margin: 2px 4px 2px 0; padding: 2px 8px; background: #2E7D4F; border-radius: 6px; font-size: 14px; }
+.big-ui .cv-ov .cv { zoom: calc(var(--uiz) * .62); }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -963,7 +979,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.31';
+const VERSION = '0.0.32';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -5946,7 +5962,17 @@ const JP_TABS = [['jfood', '와이드 젤리'], ['jmeat', '고급 먹이'], ['jg
 let shopJP = false;
 const SHOP_TABS = [['food', '먹이'], ['meat', '육식 곤충 먹이'], ['sub', '바닥재'], ['gear', '사육용품'], ['cage', '사육장'], ['jar', '유충병'], ['held', '지닌 도구'], ['deco', '테라리움 꾸미기']];
 let shopTab = 'food';
-function shopRows() {
+const unlockedX = (x) => !!x && (!x.after || chapNo() >= x.after) && (!x.jp || japanOpen()) && (!x.fest || chapNo() >= 25);
+function srcOf(r) {
+  if (r.kind === 'cage') return CAGE[r.k]; if (r.kind === 'deco') return DECO[r.k]; if (r.kind === 'jar') return JAR[r.k];
+  const k = r.k;
+  if (k.startsWith('gear_')) return GEAR[k.slice(5)]; if (k.startsWith('sub_')) return SUBS[k.slice(4)]; if (k.startsWith('held_')) return HELD[k.slice(5)];
+  if (k === 'med_kinshi') return { jp: true }; if (k === 'antimold') return ANTIMOLD;
+  return ITEMS[k];
+}
+const shopRows = () => shopRowsAll().filter((r) => unlockedX(srcOf(r)));
+const tabHasRows = (t) => { const keep = shopTab; shopTab = t; const n = shopRows().length; shopTab = keep; return n > 0; };
+function shopRowsAll() {
   if (shopTab === 'jfood' || shopTab === 'jmeat') return Object.entries(ITEMS).filter(([, it]) => it.jp && (!it.after || chapNo() >= it.after) && it.cat === (shopTab === 'jfood' ? 'food' : 'meat')).map(([k, it]) => ({ k, kind: 'item', n: it.n, d: it.d, price: it.price, icon: it.cat === 'meat' ? ICON[k === 'gworm' ? 'worm' : 'crick'] || jar(it.c) : jar(it.c), own: `${S.items[k] || 0}개 있어요` }));
   if (shopTab === 'jgear') return [...Object.entries(GEAR).filter(([, x]) => x.jp && (!x.after || chapNo() >= x.after)).map(([k, x]) => ({ k: 'gear_' + k, kind: 'item', n: x.n, d: x.d, price: x.price, icon: ICON.gear(k === 'wfeeder' ? 'feeder' : k === 'heat' ? 'heat' : 'play'), own: `${S.items['gear_' + k] || 0}개 있어요` })),
     { k: 'med_kinshi', kind: 'item', n: MEDIA.kinshi.n, d: MEDIA.kinshi.d, price: MEDIA.kinshi.price, icon: ICON.sub('#E8E0C8'), own: `${S.items.med_kinshi || 0}개 있어요` },
@@ -5967,7 +5993,7 @@ function openShop(jp = false) {
   const draw = () => {
     const rows = shopRows();
     const root = openScr('shop', `${scrHead(shopJP ? '도쿄 곤충 용품점' : '곤충마트')}
-<div class="tabs">${(shopJP ? JP_TABS : SHOP_TABS).map(([k, n]) => `<button type="button" class="tab${k === shopTab ? ' on' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>
+<div class="tabs">${(shopJP ? JP_TABS : SHOP_TABS).filter(([k]) => tabHasRows(k)).map(([k, n]) => `<button type="button" class="tab${k === shopTab ? ' on' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>
 <div class="scr-body"><div class="shop-grid">${rows.map((r) => `<div class="item"><div class="ic">${r.icon}<div><b>${r.n}</b><p>${r.d}</p>${r.more || ''}</div></div>
 <div class="row2"><span class="price">${r.price.toLocaleString()}원</span><span class="own">${r.own}</span><button type="button" data-buy="${r.kind}:${r.k}">${r.done ? '구매 완료' : '사기'}</button></div></div>`).join('')}</div>
 <div class="bag"><h3>가방과 시설</h3>${Object.entries(ITEMS).filter(([k]) => S.items[k]).map(([k, it]) => `<div class="li"><span>${it.n}</span><span>${S.items[k] || 0}개</span></div>`).join('')}
@@ -6027,7 +6053,7 @@ ${b.awake ? '<p class="hd-p awk-p">✦ 유대 각성 완료 · 모든 능력치 
 <div class="lbar">경험치<span class="mbar"><i style="width:${b.xp / XP_NEED(b.lv) * 100}%;background:#9AE06A"></i></span>${b.xp}/${XP_NEED(b.lv)}</div>
 <div class="lbar">기력<span class="mbar"><i style="width:${b.en / st.en * 100}%;background:#4FD1FF"></i></span>${b.en}/${st.en}</div></div></div>
 <div class="stats2">${rows}</div>
-<div class="acts"><button type="button" class="btn pri" id="hFeed">먹이 주기</button><button type="button" class="btn pri" id="hTrain">특훈</button><button type="button" class="btn" id="hHeld">지닌 도구</button><button type="button" class="btn" id="hPlay"${b.played === (S.day || 1) ? ' disabled' : ''}>${b.played === (S.day || 1) ? '오늘 놀아 줬어요' : '놀아 주기'}</button>${canAwake(b) ? '<button type="button" class="btn pri awk-btn" id="hAwake">✦ 유대 각성!</button>' : ''}<button type="button" class="btn" id="hParty">${inParty ? '팀에서 빼기' : '팀에 넣기'}</button><button type="button" class="btn" id="hCare">사육통 관리</button><button type="button" class="btn" id="hMove">옮기기</button><button type="button" class="btn warn" id="hFree">풀어주기</button></div>`;
+<div class="acts"><button type="button" class="btn pri" id="hFeed">먹이 주기</button><button type="button" class="btn pri" id="hTrain">특훈</button><button type="button" class="btn" id="hHeld">지닌 도구</button><button type="button" class="btn" id="hPlay"${b.played === (S.day || 1) ? ' disabled' : ''}>${b.played === (S.day || 1) ? '오늘 놀아 줬어요' : '놀아 주기'}</button>${canAwake(b) ? '<button type="button" class="btn pri awk-btn" id="hAwake">✦ 유대 각성!</button>' : ''}<button type="button" class="btn" id="hParty">${inParty ? '팀에서 빼기' : '팀에 넣기'}</button><button type="button" class="btn" id="hCare">사육통 관리</button><button type="button" class="btn" id="hView">🔍 들여다보기</button><button type="button" class="btn" id="hMove">옮기기</button><button type="button" class="btn warn" id="hFree">풀어주기</button></div>`;
 }
 function openHab() {
   ensureBugs(); AU.play('home');
@@ -6085,13 +6111,14 @@ function bindCage(root, draw, armFree) {
   });
   const hA = $('#hAwake'); if (hA) hA.addEventListener('click', () => showAwaken(b, () => draw()));
   $('#hCare').addEventListener('click', () => openCare(cageOf(b.uid), b, draw));
+  $('#hView').addEventListener('click', () => openCageView(cageOf(b.uid), b));
   $('#hFree').addEventListener('click', () => {
     if (S.bugs.length <= 1) { note('마지막 곤충은 풀어줄 수 없어요.', 'fail'); return; }
     if (!armFree()) { playRelease(b, () => { releaseBug(b); habSel = S.party[0]; save(); draw(); }); return; }
     $('#hFree').textContent = '한 번 더 누르면 풀어줘요';
   });
   $('#hFeed').addEventListener('click', () => {
-    const opts = Object.entries(ITEMS).map(([k, it]) => { const ok = canEat(b, it); return `<button type="button" class="opt" data-feed="${k}"><span>${it.n} <small>${it.d}</small></span><span class="${ok ? '' : 'no'}">${ok ? `${S.items[k] || 0}개` : '먹지 않아요'}</span></button>`; }).join('');
+    const opts = Object.entries(ITEMS).filter(([k, it]) => unlockedX(it) || S.items[k] > 0).map(([k, it]) => { const ok = canEat(b, it); return `<button type="button" class="opt" data-feed="${k}"><span>${it.n} <small>${it.d}</small></span><span class="${ok ? '' : 'no'}">${ok ? `${S.items[k] || 0}개` : '먹지 않아요'}</span></button>`; }).join('');
     draw(`<div class="pop"><div class="pop-box"><h3>${s.name}에게 무엇을 먹일까요?</h3><p class="pop-p">${s.name}은(는) ${DIET_NAME[s.diet]}.</p>${opts}<button type="button" class="close" id="popX">닫기</button></div></div>`);
     $('#popX').addEventListener('click', () => draw());
     L.ov.querySelectorAll('[data-feed]').forEach((x) => x.addEventListener('click', () => feed(b, x.dataset.feed, draw)));
@@ -6104,9 +6131,50 @@ function bindCage(root, draw, armFree) {
     L.ov.querySelectorAll('[data-train]').forEach((x) => x.addEventListener('click', () => train(b, x.dataset.train, draw)));
   });
 }
+/* 사육통 들여다보기: 바닥재 · 설치한 용품 · 곤충을 크게 보여 줘요 */
+function cageArt(c) {
+  const sub = SUBS[c.sub] || SUBS.saw, aq = c.occ.map(bugBy).filter(Boolean).some(isAqua), prem = !!CAGE[c.size].prem, big = CAGE[c.size].cap > 1;
+  const g = c.gear || {}, W = 960, H = 540, x0 = big ? 70 : 150, x1 = big ? 890 : 810;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><defs><linearGradient id="cv-gl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8F8FF" stop-opacity=".22"/><stop offset=".5" stop-color="#E8F8FF" stop-opacity=".04"/><stop offset="1" stop-color="#E8F8FF" stop-opacity=".16"/></linearGradient></defs>`;
+  s += `<rect width="${W}" height="${H}" fill="#1E2430"/><rect y="470" width="${W}" height="70" fill="#5A3E28"/><rect y="466" width="${W}" height="8" fill="#3A2818"/>`;
+  if (g.heat) s += `<rect x="${x0 - 10}" y="456" width="${x1 - x0 + 20}" height="16" rx="5" fill="#E8602A" stroke="#7A2A10" stroke-width="3"/><g stroke="#FF8A4A" stroke-width="3" fill="none" opacity=".8">${[0, 1, 2, 3, 4].map((i) => `<path d="M${x0 + 80 + i * (x1 - x0 - 160) / 4} 450 q8 -12 0 -24 q-8 -12 0 -24"/>`).join('')}</g>`;
+  s += `<rect x="${x0}" y="80" width="${x1 - x0}" height="376" fill="#2A3444" opacity=".55"/>`;
+  if (aq) s += `<rect x="${x0}" y="150" width="${x1 - x0}" height="236" fill="#4AA0D8" opacity=".35"/><path d="M${x0} 150 ${Array.from({ length: 12 }, (_, i) => `q${(x1 - x0) / 24} -6 ${(x1 - x0) / 12} 0`).join(' ')}" stroke="#BFE8FF" stroke-width="3" fill="none" opacity=".7"/>`;
+  s += `<rect x="${x0}" y="380" width="${x1 - x0}" height="76" fill="${sub.c}"/>`;
+  s += `<g fill="#000" opacity=".18">${Array.from({ length: 40 }, (_, i) => `<circle cx="${x0 + 12 + ((i * 97) % (x1 - x0 - 24))}" cy="${392 + ((i * 37) % 56)}" r="${2 + (i % 3)}"/>`).join('')}</g>`;
+  if (g.moss) s += `<g fill="#4A8A3A">${[0, 1, 2, 3, 4, 5].map((i) => `<ellipse cx="${x0 + 60 + i * (x1 - x0 - 120) / 5}" cy="384" rx="46" ry="12"/>`).join('')}</g>`;
+  if (g.weed) s += `<g stroke="#3AA05A" stroke-width="7" fill="none" stroke-linecap="round">${[0, 1, 2, 3].map((i) => { const x = x0 + 70 + i * (x1 - x0 - 140) / 3; return `<path d="M${x} 386 q-20 -60 0 -120 q20 -60 0 -110"/><path d="M${x + 16} 386 q24 -50 4 -100"/>`; }).join('')}</g>`;
+  if (g.play && !g.bigplay) s += `<g><path d="M${x0 + 60} 380 L${x0 + 360} 250 L${x0 + 380} 270 L${x0 + 84} 392 Z" fill="#7A5434" stroke="#2A1A0A" stroke-width="4"/><circle cx="${x0 + 372}" cy="260" r="12" fill="#C89A6A" stroke="#2A1A0A" stroke-width="3"/></g>`;
+  if (g.bigplay) s += `<g><path d="M${x0 + 40} 384 L${x0 + 470} 190 L${x0 + 500} 220 L${x0 + 76} 400 Z" fill="#6A4628" stroke="#2A1A0A" stroke-width="5"/><path d="M${x0 + 260} 290 L${x0 + 330} 210 M${x0 + 180} 330 L${x0 + 150} 260" stroke="#6A4628" stroke-width="16" stroke-linecap="round"/><circle cx="${x0 + 485}" cy="205" r="16" fill="#C89A6A" stroke="#2A1A0A" stroke-width="4"/></g>`;
+  if (g.branch) s += `<path d="M${x1 - 120} 386 C${x1 - 140} 300 ${x1 - 100} 220 ${x1 - 130} 110 M${x1 - 126} 260 L${x1 - 70} 230 M${x1 - 132} 180 L${x1 - 180} 150" stroke="#5A3A1E" stroke-width="12" fill="none" stroke-linecap="round"/><g fill="#5E9A52">${[[1 - 70, 226], [1 - 180, 146], [1 - 128, 106]].map(([dx, y]) => `<ellipse cx="${x1 + dx - 1}" cy="${y}" rx="14" ry="8"/>`).join('')}</g>`;
+  const feedX = big ? x1 - 300 : x1 - 230;
+  if (g.feeder && !g.wfeeder) s += `<g><rect x="${feedX}" y="356" width="90" height="34" rx="6" fill="#8A5A34" stroke="#2A1A0A" stroke-width="3"/><ellipse cx="${feedX + 45}" cy="358" rx="18" ry="7" fill="#B8742A" stroke="#2A1A0A" stroke-width="2"/></g>`;
+  if (g.wfeeder) s += `<g><rect x="${feedX - 40}" y="352" width="170" height="38" rx="8" fill="#9A6A40" stroke="#2A1A0A" stroke-width="3"/>${[0, 1, 2].map((i) => `<ellipse cx="${feedX - 6 + i * 50}" cy="354" rx="17" ry="7" fill="${['#B8742A', '#5A3418', '#7AD0A0'][i]}" stroke="#2A1A0A" stroke-width="2"/>`).join('')}</g>`;
+  if (c.mold) s += `<g fill="#F0F0E8" opacity=".85">${[0, 1, 2, 3, 4, 5, 6].map((i) => `<circle cx="${x0 + 50 + i * 97 % (x1 - x0 - 80)}" cy="${388 + (i * 13) % 50}" r="${7 + i % 4 * 3}"/>`).join('')}</g>`;
+  s += `<rect x="${x0}" y="80" width="${x1 - x0}" height="376" fill="url(#cv-gl)" stroke="${prem ? '#DFF0E8' : '#BFD8E8'}" stroke-width="8"/>`;
+  s += `<rect x="${x0 - 12}" y="62" width="${x1 - x0 + 24}" height="26" rx="6" fill="${prem ? '#F4F4F4' : '#2E7D4F'}" stroke="#111114" stroke-width="4"/>`;
+  if (g.sheet || prem) s += `<rect x="${x0}" y="88" width="${x1 - x0}" height="10" fill="#FFFFFF" opacity=".55"/>`;
+  if (g.mist) s += `<g transform="translate(${x1 + 24} 300)"><rect x="0" y="0" width="34" height="70" rx="6" fill="#7AC8F0" stroke="#111114" stroke-width="3"/><rect x="6" y="-20" width="22" height="20" fill="#3A4A5A" stroke="#111114" stroke-width="3"/><path d="M-6 -12 h-14" stroke="#3A4A5A" stroke-width="5"/></g><g fill="#BFE8FF" opacity=".8">${Array.from({ length: 14 }, (_, i) => `<ellipse cx="${x0 + 30 + (i * 61) % (x1 - x0 - 60)}" cy="${110 + (i * 47) % 240}" rx="3" ry="5"/>`).join('')}</g>`;
+  return s + '</svg>';
+}
+function openCageView(c, b) {
+  if (!c) { note('사육통을 찾을 수 없어요.', 'fail'); return; }
+  const bs = c.occ.map(bugBy).filter(Boolean), sub = SUBS[c.sub] || SUBS.saw, big = CAGE[c.size].cap > 1;
+  const gearList = Object.keys(GEAR).filter((k) => c.gear[k]);
+  const pos = bs.length > 1 ? [[big ? 170 : 230, 232], [big ? 500 : 450, 238]] : [[big ? 330 : 330, 232]];
+  const wrap = document.createElement('div'); wrap.className = 'ov dim-ov cv-ov';
+  wrap.innerHTML = `<div class="cv" role="dialog" aria-label="사육통 들여다보기"><div class="cv-head"><b>🔍 ${CAGE[c.size].n} 들여다보기</b><button type="button" class="btn" id="cvX">닫기</button></div>
+<div class="cv-stage"><div class="cv-bg">${cageArt(c)}</div>${bs.map((x, i) => `<div class="cv-bug" style="left:${pos[i][0]}px;top:${pos[i][1]}px">${idleSvg(x.id, vk(x), 'width="300" height="188"')}<span>${sexMark(x)} ${SP[x.id].name}${x.rare && RARE[x.id] ? ' ★' : ''}</span></div>`).join('')}</div>
+<div class="cv-info"><div><small>바닥재</small><b>${sub.n}</b><i style="color:${bs.every((x) => subFit(c, x)) ? '#7CFC6A' : '#FF8A7A'}">${bs.every((x) => subFit(c, x)) ? '잘 맞아요' : '맞지 않는 곤충이 있어요'} · 깐 지 ${c.age || 0}일째${c.mold ? ' · <b style="color:#FF8A7A">곰팡이!</b>' : ''}</i></div>
+<div><small>설치한 사육용품</small>${gearList.length ? `<p class="cv-gl">${gearList.map((k) => `<b class="cv-g">${GEAR[k].n}</b>`).join('')}</p>` : '<i>아직 설치한 용품이 없어요. 사육통 관리에서 설치할 수 있어요.</i>'}</div>
+<div><small>사육통 효과</small><i>기력 회복 ${Math.round(CAGE[c.size].regen * 100)}% · 근성 ${CAGE[c.size].grit > 0 ? '+' : ''}${CAGE[c.size].grit}${CAGE[c.size].prem ? ' · 방충·방곰팡이' : ''}</i></div></div></div>`;
+  L.ov.appendChild(wrap); AU.sfx('page');
+  wrap.addEventListener('pointerdown', (e) => e.stopPropagation());
+  wrap.querySelector('#cvX').addEventListener('click', () => wrap.remove());
+}
 function openCare(c, b, draw) {
-  const subOpts = Object.entries(SUBS).map(([k, x]) => { const n = S.items['sub_' + k] || 0, fit = x.fit(SP[b.id], b.id); return `<button type="button" class="opt" data-sub="${k}"><span>${x.n}${c.sub === k ? ' <small>(지금 깔린 바닥재)</small>' : ''} <small>${fit ? '잘 맞아요' : '맞지 않아요'}</small></span><span class="${n ? '' : 'no'}">${n}개</span></button>`; }).join('');
-  const gearOpts = Object.entries(GEAR).map(([k, x]) => { const n = S.items['gear_' + k] || 0, on = !!c.gear[k]; return `<button type="button" class="opt" data-gear="${k}"><span>${x.n} <small>${x.d}</small></span><span class="${on || n ? '' : 'no'}">${on ? '설치됨' : `${n}개`}</span></button>`; }).join('');
+  const subOpts = Object.entries(SUBS).filter(([k, x]) => unlockedX(x) || S.items['sub_' + k] > 0 || c.sub === k).map(([k, x]) => { const n = S.items['sub_' + k] || 0, fit = x.fit(SP[b.id], b.id); return `<button type="button" class="opt" data-sub="${k}"><span>${x.n}${c.sub === k ? ' <small>(지금 깔린 바닥재)</small>' : ''} <small>${fit ? '잘 맞아요' : '맞지 않아요'}</small></span><span class="${n ? '' : 'no'}">${n}개</span></button>`; }).join('');
+  const gearOpts = Object.entries(GEAR).filter(([k, x]) => unlockedX(x) || S.items['gear_' + k] > 0 || c.gear[k]).map(([k, x]) => { const n = S.items['gear_' + k] || 0, on = !!c.gear[k]; return `<button type="button" class="opt" data-gear="${k}"><span>${x.n} <small>${x.d}</small></span><span class="${on || n ? '' : 'no'}">${on ? '설치됨' : `${n}개`}</span></button>`; }).join('');
   draw(`<div class="pop"><div class="pop-box"><h3>사육통 관리 · ${CAGE[c.size].n}</h3>
 <p class="pop-p">바닥재를 깐 지 ${c.age}일째예요. 오래되면 곰팡이가 생길 수 있어서, 가끔 새 바닥재로 갈아 주는 게 좋아요.${c.mold ? ' <b style="color:#C8232C">지금 곰팡이가 있어요!</b>' : ''}</p>
 <b class="pop-h">바닥재 갈기</b>${subOpts}<b class="pop-h">사육용품 설치</b>${gearOpts}
