@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.36">
+<meta name="version" content="0.0.37">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -196,6 +196,7 @@ b.aw { color: #FFD23F; }
 .chal-btns { display: flex; gap: 10px; justify-content: center; padding: 0 18px 16px; } .chal-btns .btn { min-width: 180px; min-height: 52px; font-size: 19px; }
 .big-ui .chal-ov .chal { zoom: calc(var(--uiz) * .8); }
 .btn.field-exit { top: 36px; right: 32px; }
+.big-ui .btn.field-exit { top: 74px; right: 14px; }
 
 /* 사육통 들여다보기 */
 .cv-ov { z-index: 75; display: flex; align-items: center; justify-content: center; background: rgba(6,8,18,.78); }
@@ -237,6 +238,16 @@ b.aw { color: #FFD23F; }
 .skv-c { font-weight: 900; font-size: 14px; text-align: right; color: #2A5ACA; }
 .skv.skv-ult { background: #FFF0D8; border-color: #C8232C; } .skv.skv-ult .skv-k { background: #C8232C; }
 .skv.rare { background: #FFF6C8; } .skv i.rs { font-style: normal; color: #C8902A; font-size: 13px; }
+/* 작은 화면(갤럭시 S23 가로 780×360 등): 가운데 정렬 오버레이가 넘치면 스크롤되고 위·아래가 잘리지 않게 */
+.dim-ov { overflow-y: auto; align-items: flex-start !important; justify-content: flex-start !important; padding: 8px 0; box-sizing: border-box; }
+.dim-ov > * { margin: auto !important; }
+.ov.end { overflow-y: auto; justify-content: flex-start !important; padding: 10px 0; box-sizing: border-box; }
+.ov.end > :first-child { margin-top: auto; } .ov.end > :last-child { margin-bottom: auto; }
+.awk-ov { overflow-y: auto; justify-content: flex-start !important; padding: 8px 0; box-sizing: border-box; }
+.awk-ov > .awk-art { margin-top: auto; } .awk-ov > .awk-txt { margin-bottom: auto; }
+.big-ui .ov.end { gap: 8px; } .big-ui .end h2 { font-size: 44px; } .big-ui .ov.end .team { zoom: .7; } .big-ui .end p { font-size: 17px; max-width: 92%; text-align: center; }
+.big-ui .awk-art svg { width: 300px; height: 188px; } .big-ui .awk-txt h2 { font-size: 28px; } .big-ui .awk-txt p { font-size: 15px; } .big-ui .awk-st { font-size: 13px; gap: 4px 8px; margin-bottom: 8px; }
+.big-ui .cv-stage { zoom: .66; }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -1004,7 +1015,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.36';
+const VERSION = '0.0.37';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
