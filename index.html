@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.4">
+<meta name="version" content="0.0.6">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -39,6 +39,19 @@ body {
 #bg, #bugs, #actors, #front { touch-action: none; }
 .berserk .b-img svg { filter: drop-shadow(0 0 8px #B04AFF) drop-shadow(0 0 20px #7A1AE0) saturate(1.25); animation: bzk 1.2s ease-in-out infinite alternate; }
 @keyframes bzk { from { filter: drop-shadow(0 0 6px #B04AFF) drop-shadow(0 0 14px #7A1AE0) saturate(1.2) } to { filter: drop-shadow(0 0 14px #D08AFF) drop-shadow(0 0 30px #9A3AFF) saturate(1.5) } }
+.nat-bar { position: relative; flex: none; margin: 10px 24px 0; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #1E2636; border-left: 6px solid var(--gold); font-size: 17px; font-weight: 700; } .nat-bar b { color: var(--gold); }
+.nat-tabs { position: relative; flex: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 24px 0; }
+.nat-tab { height: 40px; padding: 0 14px; border: 3px solid #3A4458; background: #1A2030; color: #C9D3E2; font-size: 17px; font-weight: 900; }
+.nat-tab.on { background: var(--gold); color: var(--ink); border-color: var(--ink); }
+.nat-head { position: relative; flex: none; margin: 10px 24px 0; padding: 8px 16px; background: var(--jk); border: 3px solid #0A0D16; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; } .nat-head b { font-family: var(--display); font-weight: 400; font-size: 24px; } .nat-head span { font-size: 16px; font-weight: 700; color: #E8ECF4; }
+.nat-grid { flex: 1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; align-content: start; }
+.nat-card { background: #1A2030; border: 3px solid #3A4458; padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; min-width: 0; }
+.nat-card.cap { border-color: var(--gold); }
+.nat-card .face { width: 88px; height: 88px; overflow: hidden; border: 3px solid var(--paper); background: var(--paper); box-sizing: border-box; } .nat-card .face svg { width: 170px; height: 221px; margin: -32px 0 0 -44px; }
+.nat-card b { font-family: var(--display); font-weight: 400; font-size: 22px; } .nat-card small { font-size: 15px; font-weight: 700; color: #C9D3E2; }
+.nat-card .mini { display: flex; gap: 2px; } .nat-card .mini svg { width: 58px; height: 36px; }
+.nat-card p { margin: 0; font-size: 13px; font-weight: 700; color: var(--gold); word-break: keep-all; } .nat-card i { font-size: 13px; color: #E8E0D0; word-break: keep-all; }
+.nat-q { font-size: 28px; color: #6A7488; }
 .tn { background: rgba(8,10,18,.86); display: flex; align-items: center; justify-content: center; }
 .tn-box { position: relative; width: 680px; align-items: stretch; gap: 14px; }
 .tn-p { margin: 0; font-size: 19px; font-weight: 700; color: #4A4A52; }
@@ -766,7 +779,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.4';
+const VERSION = '0.0.6';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -986,6 +999,7 @@ const CH = {
   gw: { name: '박진섭', color: '#1E4A2A', fg: '#FFFFFF', look: { hair: 'spiky', outfit: 'boy', acc: 'none', hc: '#2A2430', hl: '#4E4A66', ec: '#4A2A18', tie: '#C8A060', jk: '#1E4A2A' } },
   cc: { name: '이빛나', color: '#3A2A6A', fg: '#FFFFFF', look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#C8C8D0', hl: '#F0F0F4', ec: '#3A4A8A', tie: '#F0D060', jk: '#3A2A6A' } },
   mx: { name: '수상한 사람', color: '#2A1A3A', fg: '#D8B0FF', look: { hair: 'cool', outfit: 'boy', acc: 'none', hc: '#141418', hl: '#3A2A4A', ec: '#7A3AC0', tie: '#9A4AE0', jk: '#1E1428' } },
+  bs: { name: '장현우', color: '#7A1410', fg: '#FFFFFF', look: { hair: 'spiky', outfit: 'boy', acc: 'none', hc: '#1A1418', hl: '#5A2A2A', ec: '#7A3A2A', tie: '#E0302A', jk: '#1A2236' } },
   gy: { name: '하도겸', color: '#2A4A2A', fg: '#FFFFFF', look: { hair: 'cool', outfit: 'boy', acc: 'none', hc: '#8A2A2A', hl: '#C04A4A', ec: '#2E6A4A', tie: '#F08A3A', jk: '#2A4A2A' } }
 };
 
@@ -1018,9 +1032,14 @@ function chibi(o, face) {
     pony: `<path d="M36 100 C30 48 64 24 100 24 C138 24 170 48 164 100 C160 82 152 70 144 62 L138 80 L124 60 L112 78 L100 58 L88 78 L76 60 L64 82 C56 74 44 84 36 100 Z" fill="${hc}"/><path d="M38 96 C34 118 38 138 48 150 L54 116 Z M162 96 C166 118 162 138 152 150 L146 116 Z" fill="${hc}"/><circle cx="146" cy="50" r="7" fill="#F07AA0"/><path d="M76 36 Q100 28 124 36" fill="none" stroke="${hl}" stroke-width="4"/>`,
     cool: `<path d="M34 104 C28 48 64 22 104 24 C146 26 172 56 166 110 L150 118 C148 96 140 84 130 78 L136 126 L118 86 L108 112 L96 78 L84 100 L74 74 L62 96 C52 86 40 92 34 104 Z" fill="${hc}"/><path d="M80 38 Q104 30 130 40 M140 60 L144 84" fill="none" stroke="${hl}" stroke-width="4"/>`,
     neat: `<path d="M34 106 C28 50 62 20 100 20 C140 20 174 50 166 106 C162 90 156 76 148 66 Q150 74 144 80 Q138 68 126 62 Q126 72 118 78 Q110 66 98 62 Q98 72 88 78 Q82 66 70 64 Q70 72 60 78 Q54 70 48 70 Q40 84 34 106 Z" fill="${hc}"/><path d="M37 100 C35 112 37 120 42 126 L47 106 Z M163 100 C165 112 163 120 158 126 L153 106 Z" fill="${hc}"/><path d="M62 44 C84 32 116 30 140 42" fill="none" stroke="${hl}" stroke-width="5"/>`,
+    buzz: `<path d="M38 88 C34 46 66 24 100 24 C134 24 166 46 162 88 C152 66 130 54 100 54 C70 54 48 66 38 88 Z" fill="${hc}"/><path d="M60 46 l4 6 M80 38 l3 6 M100 34 l0 6 M120 38 l-3 6 M140 46 l-4 6" fill="none" stroke="${hl}" stroke-width="3"/>`,
+    long: `<path d="M28 182 C18 62 56 20 100 20 C144 20 182 62 172 182 L150 182 C156 130 154 100 150 82 C132 72 114 68 100 70 C84 70 66 74 50 82 C46 100 44 130 50 182 Z" fill="${hc}"/><path d="M64 36 Q100 26 136 36" fill="none" stroke="${hl}" stroke-width="4"/><path d="M40 120 C38 140 40 160 44 176 M160 120 C162 140 160 160 156 176" fill="none" stroke="${hl}" stroke-width="3"/>`,
+    twin: `<path d="M34 104 C28 50 62 22 100 22 C138 22 172 50 166 104 C160 86 152 74 142 68 L130 84 L118 66 L100 82 L82 66 L70 84 L58 68 C48 74 40 86 34 104 Z" fill="${hc}"/><path d="M70 36 Q100 28 130 36" fill="none" stroke="${hl}" stroke-width="4"/><circle cx="42" cy="62" r="7" fill="#F07AA0"/><circle cx="158" cy="62" r="7" fill="#F07AA0"/>`,
+    wave: `<path d="M30 106 C20 80 28 50 50 40 C56 22 80 14 100 20 C120 12 146 22 152 40 C174 48 182 80 170 106 C164 92 158 84 150 80 C148 90 140 92 134 84 C128 94 116 92 112 82 C104 92 92 92 88 82 C80 92 70 90 66 82 C58 90 50 88 48 80 C40 86 34 94 30 106 Z" fill="${hc}"/><path d="M62 46 C70 40 78 40 84 46 M112 40 C120 34 130 36 136 44" fill="none" stroke="${hl}" stroke-width="4"/>`,
+    side: `<path d="M34 104 C28 50 62 22 102 22 C144 22 172 52 166 104 C160 84 150 70 136 60 C120 68 94 72 66 66 C54 74 42 86 34 104 Z" fill="${hc}"/><path d="M128 28 C130 40 134 50 136 60" fill="none" stroke="${hl}" stroke-width="4"/><path d="M70 50 Q96 44 120 50" fill="none" stroke="${hl}" stroke-width="3"/>`,
     bob: `<path d="M30 142 C24 60 58 22 100 22 C142 22 176 60 170 142 L152 142 C156 114 154 98 150 86 L50 86 C46 98 44 114 48 142 Z" fill="${hc}"/><rect x="132" y="58" width="18" height="8" rx="3" fill="#FFD23F" transform="rotate(-20 141 62)"/><path d="M70 38 Q100 30 130 38" fill="none" stroke="${hl}" stroke-width="4"/>`
   };
-  const back = o.hair === 'pony' ? `<path d="M140 48 C186 44 198 110 178 152 C172 122 160 98 146 80 Z" fill="${hc}"/><path d="M160 70 C176 90 180 116 176 136" fill="none" stroke="${hl}" stroke-width="3"/>` : '';
+  const back = o.hair === 'twin' ? `<path d="M44 60 C10 70 8 130 26 160 C30 130 34 104 52 86 Z" fill="${hc}"/><path d="M156 60 C190 70 192 130 174 160 C170 130 166 104 148 86 Z" fill="${hc}"/>` : o.hair === 'pony' ? `<path d="M140 48 C186 44 198 110 178 152 C172 122 160 98 146 80 Z" fill="${hc}"/><path d="M160 70 C176 90 180 116 176 136" fill="none" stroke="${hl}" stroke-width="3"/>` : '';
   const C = o.cas, top = C ? C.top : jk, shoe = C && C.shoe ? C.shoe : '#1C1C22';
   const legs = C ? (C.leg === 'skirt'
       ? `<rect x="83" y="214" width="13" height="20" rx="5" fill="${sk}"/><rect x="104" y="214" width="13" height="20" rx="5" fill="${sk}"/><rect x="83" y="226" width="13" height="8" fill="${C.sock || '#fff'}"/><rect x="104" y="226" width="13" height="8" fill="${C.sock || '#fff'}"/><path d="M68 196 L132 196 L142 222 L58 222 Z" fill="${C.bottom}"/>`
@@ -1045,7 +1064,8 @@ function chibi(o, face) {
     + `<path d="M70 150 Q100 142 130 150 L137 204 L63 204 Z" fill="${top}"/>` + (C ? casTop(C) : `<path d="M89 148 L100 174 L111 148 Z" fill="#fff"/>` + neck)
     + `<path d="M71 156 Q55 170 57 192 L69 194 Q69 176 77 166 Z" fill="${C && C.sleeve ? C.sleeve : top}"/><path d="M129 156 Q145 170 143 192 L131 194 Q131 176 123 166 Z" fill="${C && C.sleeve ? C.sleeve : top}"/>${C && C.style === 'track' ? `<path d="M66 162 Q58 176 60 190 M134 162 Q142 176 140 190" fill="none" stroke="${C.top2}" stroke-width="3"/>` : ''}<circle cx="62" cy="197" r="8" fill="${sk}"/><circle cx="138" cy="197" r="8" fill="${sk}"/>`
     + `<ellipse cx="100" cy="92" rx="64" ry="60" fill="${sk}"/><ellipse cx="66" cy="122" rx="9" ry="4.5" fill="#FF8A8A" opacity=".45" stroke="none"/><ellipse cx="134" cy="122" rx="9" ry="4.5" fill="#FF8A8A" opacity=".45" stroke="none"/>`
-    + (faces[face] || faces.smile) + acc + hairs[o.hair] + `</g></svg>`;
+    + (faces[face] || faces.smile) + acc + (hairs[o.hair] || hairs.neat)
+    + (o.acc === 'cap' ? `<path d="M36 74 C36 36 66 16 100 16 C134 16 164 36 164 74 Z" fill="${o.capc || tie}"/><path d="M100 68 L178 76 C180 86 160 90 138 84 L100 74 Z" fill="${o.capc || tie}"/><circle cx="100" cy="20" r="5" fill="#fff"/>` : o.acc === 'band' ? `<path d="M38 72 Q100 36 162 72" fill="none" stroke="${o.capc || tie}" stroke-width="9"/>` : '') + `</g></svg>`;
 }
 
 /* ---------- 곤충 ---------- */
@@ -1773,6 +1793,7 @@ ${Array.from({ length: 14 }, (_, i) => { const x = 20 + i * 95, s = .8 + (i % 3)
 ${night ? '<g fill="#B05AFF" opacity=".28">' + Array.from({ length: 18 }, (_, i) => `<circle cx="${(i * 173) % 1280}" cy="${380 + (i * 97) % 300}" r="${40 + (i * 37) % 80}"/>`).join('') + '</g><g fill="#E0B0FF">' + Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 131) % 1280}" cy="${300 + (i * 71) % 400}" r="${1.5 + (i % 3)}" opacity=".8"/>`).join('') + '</g>' : ''}
 </svg>`;
 BG.campnight = () => BG.camp(true);
+BG.club2 = () => BG.club();
 BG.league2 = () => BG.league().replace('서울시 중등부 곤충 배틀 리그', '전국 중등부 곤충 배틀 리그 · 경기 예선').replace('SEOUL MIDDLE SCHOOL LEAGUE', 'NATIONAL LEAGUE QUALIFIER');
 BG.league = () => BG.opening()
   .replace('곤충 배틀 세계 대회', '서울시 중등부 곤충 배틀 리그').replace('font-size="44" fill="#FFD23F"', 'font-size="30" fill="#FFD23F"')
@@ -1789,6 +1810,7 @@ const SCENES = {
     place: ['방과 후', '세온중 곤충 배틀부 동아리실'],
     actors: { kc: { x: 60, y: 300, s: 1.1, face: 'smile' }, eh: { x: 260, y: 306, s: 1.05, face: 'smile' }, sw: { x: 520, y: 238, s: 1.25, face: 'grin' }, sr: { x: 790, y: 252, s: 1.2, face: 'smile' }, dh: { x: 1030, y: 262, s: 1.15, face: 'cool' } }
   },
+  club2: { place: ['방과 후', '동아리실 · 뜻밖의 손님'], actors: { dh: { x: 500, y: 330, s: .8, face: 'cool' }, sr: { x: 380, y: 320, s: .8, face: 'smile' }, sw: { x: 250, y: 310, s: .85, face: 'grin' }, eh: { x: 125, y: 330, s: .82, face: 'smile' }, kc: { x: 0, y: 320, s: .88, face: 'grin' }, bs: { x: 940, y: 270, s: 1.08, face: 'cool', hidden: true } } },
   home: { place: ['그날 밤', '강찬의 방'], actors: { kc: { x: 470, y: 250, s: 1.2, face: 'happy', casual: true } } },
   forest: { place: null, actors: {}, field: true },
   league: { place: ['챕터 5', '서울시 중등부 곤충 배틀 리그'], actors: { dh: { x: 380, y: 330, s: .8, face: 'cool' }, sr: { x: 290, y: 320, s: .8, face: 'smile' }, sw: { x: 190, y: 310, s: .85, face: 'grin' }, eh: { x: 100, y: 330, s: .82, face: 'smile' }, kc: { x: 0, y: 320, s: .88, face: 'grin' }, mt: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true }, gr: { x: 950, y: 280, s: 1.05, face: 'cool', hidden: true } } },
@@ -1798,7 +1820,7 @@ const SCENES = {
   meadow: { place: null, actors: {}, field: true },
   pond: { place: null, actors: {}, field: true }
 };
-const MUSIC = { opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle' };
+const MUSIC = { opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', club2: 'club' };
 const PITCH = { kc: 520, eh: 780, dh: 330, sw: 420, sr: 640, mt: 300, gr: 700 };
 
 /* ---------- 스크립트 ---------- */
@@ -2116,19 +2138,63 @@ const SCRIPT = [
   say('sw', 'cool', '본선 전에 이상한 일에 휘말렸군. 다들 조심해라.'),
   say('kc', 'cool', '보랏빛 가루… 저 사람들, 대체 누구지?'),
   say('kc', 'grin', '누구든 상관없어. 곤충을 괴롭히는 녀석들은 우리가 막는다!'),
-  { t: 'trophy', chip: '챕터 7 완료', title: '광폭화 사태 진압!', text: '{팀}이 파인트리·샤이너즈와 힘을 합쳐 광폭해진 곤충들을 막아 냈어요! 보랏빛 가루를 뿌린 수상한 사람들의 정체는 아직 수수께끼예요. 다음 이야기는 준비 중이에요.' },
+  { t: 'trophy', chip: '챕터 7 완료', title: '광폭화 사태 진압!', text: '{팀}이 파인트리·샤이너즈와 힘을 합쳐 광폭해진 곤충들을 막아 냈어요! 보랏빛 가루를 뿌린 수상한 사람들의 정체는 아직 수수께끼예요. 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 8 · 전국 리그 본선 준비', d: '동아리실에 뜻밖의 손님이 찾아왔대요.' } },
+  { t: 'chapter', no: '챕터 8', title: '전국 리그 본선 준비' },
+  { t: 'scene', id: 'home' },
+  narr('합숙 훈련을 마치고 집으로 돌아온 강찬.'),
+  say('kc', 'cool', '보랏빛 가루를 뿌리던 사람들… 대체 누구였을까.'),
+  say('kc', 'grin', '…아니야, 지금은 본선이 먼저야! 전국 최강이 되려면 더 강해져야 해.'),
+  { t: 'daypass' },
+  { t: 'scene', id: 'club2' },
+  narr('며칠 뒤, 동아리실. 전국 리그 본선이 코앞으로 다가왔다.'),
+  say('sr', 'smile', '본선 대진표가 나왔어. 제일 위험한 상대는… 경상남도 대표 부산중.'),
+  say('sr', 'cool', '작년 전국 리그 우승팀이야.\n주장 장현우는 "레드기어 장수풍뎅이"를 쓴대.'),
+  say('kc', 'shock', '레드기어?! 빨간 장수풍뎅이 레어 개체요?'),
+  say('sw', 'cool', '본선은 이번에 서울에서 열린다. 경남 팀도 벌써 올라와 있다더군.'),
+  narr('그때, 동아리실 문이 벌컥 열렸다.'),
+  { t: 'show', who: 'bs' },
+  say('bs', 'grin', '여기가 서울 대표라는 {팀}이가? 생각보다 좁네.'),
+  say('sw', 'shock', '…넌, 부산중 장현우?!'),
+  say('bs', 'grin', '그래, 내다. 본선 전에 서울 대표 수준이 우떤지 직접 보러 왔다.'),
+  say('bs', 'cool', '여기서 제일 강한 녀석 나와 봐라. 한 판만 붙자.'),
+  say('kc', 'grin', '제일 강한 녀석이요? 그럼 내가…!'),
+  say('dh', 'cool', '…아니, 내가 간다.'),
+  say('eh', 'shock', '도혁아?!'),
+  say('dh', 'cool', '서울 리그부터 경기 예선까지, 한 번도 진 적 없어.\n저 녀석 실력, 내가 확인한다.'),
+  say('bs', 'grin', '호오, 눈빛 좋네. 좋다, 레드기어 한 마리로 상대해 주지.'),
+  { t: 'exhibit', me: 'dh', title: '연습 배틀 · 동아리실', intro: '도혁은 곤충 3마리, 장현우는 레드기어 장수풍뎅이 한 마리로 붙어요!', during: '<b>배틀 진행 중…</b> 레드기어의 붉은 뿔이 번뜩여요!', res: 'lose', note: '<b style="color:#FF8A7A">도혁의 패배…</b> 도혁의 곤충 세 마리가 레드기어 장수풍뎅이 한 마리에게 손도 못 쓰고 모두 쓰러졌어요.', opp: { name: '장현우', sub: '부산중 3학년 · 주장', team_n: '부산중', team: ['kabuto'], rare: [true], look: { hair: 'spiky', outfit: 'boy', acc: 'none', hc: '#1A1418', hl: '#5A2A2A', ec: '#7A3A2A', tie: '#E0302A', jk: '#1A2236' } } },
+  { t: 'scene', id: 'club2' },
+  { t: 'show', who: 'bs' },
+  narr('동아리실에 정적이 흘렀다.'),
+  say('dh', 'shock', '…말도 안 돼. 한 마리한테… 세 마리가 전부…?'),
+  say('bs', 'cool', '서울 리그 우승? 경기 예선 통과? 그딴 건 전국에선 기본이다.'),
+  say('bs', 'grin', '본선에서 보자. 그때까지 쪼매라도 강해져 온나.'),
+  { t: 'hide', who: 'bs' },
+  narr('장현우가 떠난 뒤에도, 아무도 쉽게 입을 열지 못했다.'),
+  say('dh', 'shock', '…내 곤충들, 아무것도 못 했어.'),
+  say('eh', 'smile', '도혁아…'),
+  say('sw', 'cool', '…저게 전국 우승팀 주장의 실력이다.\n솔직히, 나도 지금은 이길 자신이 없다.'),
+  say('sr', 'cool', '레드기어는 기초 능력치부터 달라.\n거기에 장현우의 육성 실력까지 더해진 거야.'),
+  say('kc', 'cool', '…전국 대회는 이런 수준이구나.'),
+  say('kc', 'grin', '그래도 포기 안 해! 본선까지 남은 시간, 전부 특훈에 쓰자!'),
+  say('dh', 'cool', '…최강찬.'),
+  say('dh', 'cool', '…다음엔 안 진다. 본선에서 반드시 갚아 준다.'),
+  say('sw', 'grin', '좋아, 그 기세다! 오늘부터 본선까지 매일 특훈이다!'),
+  say('sr', 'smile', '먹이, 특훈, 사육장 관리. 그리고 같은 종을 여러 번 잡으면 레어 개체가 나올 확률도 올라가.\n우리도 강한 개체를 찾아보자.'),
+  { t: 'trophy', chip: '챕터 8 완료', title: '본선을 향한 특훈 시작!', text: '전국 우승팀 주장 장현우의 레드기어에게 도혁이 완패했어요. {팀}은 전국의 벽을 실감하고 본선을 향해 특훈에 들어가요. 다음 이야기는 준비 중이에요. 그동안 곤충들을 최강으로 키워 보세요.' },
   { t: 'hub' },
   { t: 'end' }
 ];
 
 /* ---------- 상태 ---------- */
-const freshProgress = () => ({ caught: [], lastWin: false, bugs: [], party: [], money: 0, items: {}, day: 1, tut: null, tutDone: false, gifted: false, dex: {}, cages: [], jars: [], eggs: [], deco: {}, goal: null, hubCmd: null, teamName: '' });
+const freshProgress = () => ({ caught: [], lastWin: false, bugs: [], party: [], money: 0, items: {}, day: 1, tut: null, tutDone: false, gifted: false, dex: {}, cages: [], jars: [], eggs: [], deco: {}, goal: null, hubCmd: null, teamName: '', lastDp: -1 });
 let S = { ip: 0, queue: [], mode: 'title', scene: null, onAdvance: null, paused: false, talking: false, modal: false, fieldIp: 0, tw: null, ...freshProgress() };
 const actors = {};
 
 function save() {
   const ip = S.mode === 'field' && !(F && F.free) ? S.fieldIp : S.saveIp;
-  store.set(SAVE_KEY, { ip, caught: S.caught, lastWin: !!S.lastWin, bugs: S.bugs, party: S.party, money: S.money | 0, items: S.items, day: S.day, tut: S.tut, tutDone: !!S.tutDone, gifted: !!S.gifted, dex: S.dex, cages: S.cages, jars: S.jars, eggs: S.eggs, deco: S.deco, goal: S.goal || null, teamName: S.teamName || '' });
+  store.set(SAVE_KEY, { ip, caught: S.caught, lastWin: !!S.lastWin, bugs: S.bugs, party: S.party, money: S.money | 0, items: S.items, day: S.day, tut: S.tut, tutDone: !!S.tutDone, gifted: !!S.gifted, dex: S.dex, cages: S.cages, jars: S.jars, eggs: S.eggs, deco: S.deco, goal: S.goal || null, teamName: S.teamName || '', lastDp: S.lastDp ?? -1 });
 }
 
 /* ---------- 배우 ---------- */
@@ -2246,10 +2312,37 @@ function run() {
       case 'trophy': return showTrophy(run, c);
       case 'teamname': hideDlg(); return showTeamName(run);
       case 'wild': hideDlg(); return startWild(c, run);
-      case 'daypass': hideDlg(); return showDayPass(run);
+      case 'exhibit': hideDlg(); return showExhibit(c, run);
+      case 'daypass': hideDlg(); return showDayPass(run, S.ip - 1);
       case 'end': hideDlg(); return showEnd();
     }
   }
+}
+/* 연출용 한 판 배틀 (결과가 정해진 배틀을 지켜봐요) */
+function showExhibit(c, done) {
+  S.mode = 'match'; $('#menuBtn').hidden = true; AU.play('battle');
+  const face = (look, f) => `<div class="mface">${chibi(look, f)}</div>`;
+  const o = c.opp, me = CH[c.me];
+  const draw = (r, msg, btn) => {
+    L.ov.innerHTML = `<div class="ov match" style="--opp:${o.look.jk}"><div class="m-head"><small>${c.title}</small><div class="m-score"><b>${teamNm()}</b><span>${r ? (r === 'win' ? '1 : 0' : '0 : 1') : 'VS'}</span><b>${o.team_n}</b></div></div>
+<div class="m-rows"><div class="m-row now${r ? '' : ''}"><span class="pos">한 판</span>
+<div class="side">${face(me.look, r === 'lose' ? 'shock' : 'cool')}<div><b>${me.name}</b><small>${teamNm()}</small></div></div>
+<span class="vs">${r ? `<em class="${r}">${r === 'win' ? '승' : '패'}</em>` : 'VS'}</span>
+<div class="side r"><div><b>${o.name}</b><small>${o.sub}</small></div>${face(o.look, r === 'lose' ? 'grin' : 'cool')}</div>
+<div class="m-bugs">${o.team.map((id, i) => bugSvg(id, '', (o.rare || [])[i] ? 'mr' : 'm')).join('')}</div></div></div>
+<p class="m-msg">${msg}</p><div class="m-btns">${btn}</div></div>`;
+  };
+  draw('', `<b>${me.name}</b> vs <b>${o.name}</b> · ${c.intro}`, '<button type="button" class="btn pri" id="mGo">배틀 지켜보기</button>');
+  $('#mGo').addEventListener('click', () => {
+    L.ov.querySelector('.m-row').classList.add('playing');
+    $('#mGo').disabled = true; $('.m-msg').innerHTML = c.during;
+    AU.sfx('skill'); setTimeout(() => AU.sfx('crit'), 500); setTimeout(() => AU.sfx('hit'), 1000); setTimeout(() => AU.sfx('crit'), 1500);
+    setTimeout(() => {
+      AU.sfx(c.res === 'win' ? 'perfect' : 'lose');
+      draw(c.res, c.note, '<button type="button" class="btn pri" id="mGo">계속</button>');
+      $('#mGo').addEventListener('click', () => { L.ov.innerHTML = ''; $('#menuBtn').hidden = false; S.mode = 'story'; done(); });
+    }, 2600);
+  });
 }
 /* 광폭화 곤충과의 배틀: 지면 다시 막아요 */
 function startWild(c, done) {
@@ -2286,9 +2379,9 @@ function showTeamName(done) {
   setTimeout(() => { try { inp.focus(); inp.select(); } catch (_) {} }, 50);
 }
 /* 이야기 속에서 하루가 지날 때 (밤 → 아침) */
-function showDayPass(done) {
+function showDayPass(done, at) {
   let ev = [];
-  if ((S.day || 1) === 1) { S.day = 2; ev = dayPass(); S.money = (S.money || 0) + 300; save(); }
+  if (S.lastDp !== at) { S.lastDp = at; S.day = (S.day || 1) + 1; ev = dayPass(); S.money = (S.money || 0) + 300; save(); }
   AU.sfx('chapter');
   S.modal = true;
   L.ov.innerHTML = `<div class="ov"><div class="dayfade"><b>하루가 흘렀습니다</b><p>${S.day || 2}일째 아침 · 엄마가 용돈 <span style="color:var(--gold)">300원</span>을 주셨어요.</p>${ev.length ? `<ul class="dayev">${ev.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}<small style="color:#9AA3B5">화면을 누르면 계속돼요</small></div></div>`;
@@ -4374,17 +4467,34 @@ function openSchool() {
 <p class="line">“${r.line}”</p><div class="mini">${r.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${r.lv}</small><p>이기면 ${r.prize.toLocaleString()}원 · 경험치 45</p>
 <div style="display:flex;gap:8px"><button type="button" class="btn pri" id="rbGo">배틀 신청</button><button type="button" class="btn" id="rbNew">다른 상대</button></div></div>`;
   const root = openScr('school', `${scrHead('학교 · 곤충 배틀부 동아리실')}
-<div class="scr-body school-body"><div class="opps four">${['dh', 'sr', 'sw'].map(card).join('')}${free}</div></div>
+${S.teamName ? '<div class="nat-bar"><span><b>전국 리그</b> · 8도 대표팀 선수들을 미리 살펴보세요.</span><button type="button" class="btn" id="natBtn">전국 대표팀 명단</button></div>' : ''}<div class="scr-body school-body"><div class="opps four">${['dh', 'sr', 'sw'].map(card).join('')}${free}</div></div>
 ${tired ? '<div class="scr-tip" style="border-color:#FF5A4A"><b style="color:#FF8A7A">주의</b> · 기력이 적은 곤충이 팀에 있어요. 배틀에서 기술을 많이 쓰지 못해요. 먹이를 주거나 집에서 쉬게 해 주세요.</div>' : ''}
 ${tutTip('battle', '부원이나 자유 배틀 상대 누구와 붙어도 괜찮아요. 져도 경험치와 상금 200원을 받아요.') || (tired ? '' : '<div class="scr-tip"><b>자유 배틀</b> · 상대와 곤충이 매번 달라지고, 처음 보는 곤충은 도감에 기록돼요.</div>')}
 ${(() => { const sr = storyReady(); return sr ? `<div class="story-card${sr.ok ? ' ok' : ''}"><div><small>다음 이야기</small><b>${sr.label}</b><span>${sr.d}</span></div>${sr.ok ? '<button type="button" class="btn pri" id="storyGo">이야기 보기</button>' : ''}</div>` : ''; })()}`, () => openHub());
   const sg = $('#storyGo'); if (sg) sg.addEventListener('click', goStory);
+  const nb = $('#natBtn'); if (nb) nb.addEventListener('click', () => { AU.sfx('page'); openNational(); });
   const go = (opp) => { S.modal = false; L.ov.innerHTML = ''; hideHub(); startBattle(() => { if (opp.rand) S.rb = null; openHub(); }, opp); };
   root.querySelectorAll('[data-opp]').forEach((b) => b.addEventListener('click', () => go(b.dataset.opp)));
   $('#rbGo').addEventListener('click', () => go(S.rb));
   $('#rbNew').addEventListener('click', () => { S.rb = randomBattler(); AU.sfx('page'); openSchool(); });
 }
 
+/* 전국 대표팀 명단 */
+let natTab = 'gyeonggi';
+function openNational() {
+  const ours = { key: 'gyeonggi', region: '경기도', school: '세온중', team: teamNm(), theme: '서울에서 올라온 경기도 대표', jk: '#23345A',
+    members: [['kc', 1, '', partyInsects().map((b) => b.id)], ['sw', 3, '주장', OPP.sw.team], ['sr', 2, '부주장', OPP.sr.team], ['dh', 1, '', OPP.dh.team], ['eh', 1, '', ['lady', 'grasshopper', 'cricket']]].map(([k, grade, role, team]) => ({ name: CH[k].name, grade, role, team, rare: k === 'kc' ? partyInsects().map((b) => !!b.rare) : null, look: CH[k].look, ours: true })) };
+  const all = [ours, ...NATIONAL];
+  const t = all.find((x) => x.key === natTab) || ours;
+  const tabs = all.map((x) => `<button type="button" class="nat-tab${x.key === t.key ? ' on' : ''}" data-nt="${x.key}">${x.region}</button>`).join('');
+  const cards = t.members.map((m) => { const look = m.ours ? m.look : natLook(t, m); return `<div class="nat-card${m.role === '주장' ? ' cap' : ''}"><div class="face">${chibi(look, m.role === '주장' ? 'grin' : 'smile')}</div><b>${m.name}</b><small>${m.grade}학년${m.role ? ' · ' + m.role : ''}</small>
+<div class="mini">${m.team ? m.team.map((id, i) => bugSvg(id, '', (m.rare || [])[i] ? 'mr' : 'm')).join('') : '<span class="nat-q">?</span>'}</div>${m.team ? `<p>${m.team.map((id, i) => ((m.rare || [])[i] && RARE[id] ? '★' + RARE[id].n : SP[id].name)).join(' · ')}</p>` : '<p>곤충 비밀!</p>'}${m.line ? `<i>“${m.line}”</i>` : ''}</div>`; }).join('');
+  const root = openScr('school nat', `${scrHead('전국 중등부 곤충 배틀 리그 · 8도 대표팀')}
+<div class="nat-tabs">${tabs}</div>
+<div class="nat-head" style="--jk:${t.jk}"><b>${t.region} 대표 · ${t.school} "${t.team}"</b><span>${t.theme}</span></div>
+<div class="scr-body school-body"><div class="nat-grid">${cards}</div></div>`, () => openSchool());
+  root.querySelectorAll('[data-nt]').forEach((b) => b.addEventListener('click', () => { natTab = b.dataset.nt; AU.sfx('page'); openNational(); }));
+}
 /* 다음 이야기 */
 function storyReady() {
   const c = S.hubCmd; if (!c) return null;
@@ -4493,6 +4603,14 @@ const LEAGUE_RULES = [
 const SCHOOLS = { maetan: ['매탄중', '#4AB0C0'], garam: ['가람중', '#E0A030'], songdo: ['인천 송도중', '#E0E0F0'], hwaseong: ['수원 화성중', '#E0C040'], ilsan: ['고양 일산중', '#F08A3A'], gangneung: ['강릉중 파인트리', '#C8A060'], cheonan: ['천안중 샤이너즈', '#F0D060'] };
 const teamNm = () => S.teamName || '세온중';
 const rival = (name, school, grade, hair, girl, acc, hci, eci, team, extra = {}) => ({ name, sub: `${SCHOOLS[school][0]} ${grade}`, team, look: { hair, outfit: girl ? 'girl' : 'boy', acc, hc: HC[hci][0], hl: HC[hci][1], ec: EC[eci], tie: SCHOOLS[school][1], jk: SCHOOL_JK[school] }, ...extra });
+/* ---------- 전국 리그 8도 대표팀 (경기도 대표는 우리 팀) ---------- */
+const NATIONAL = [{"key": "gangwon", "region": "강원도", "school": "강릉중", "team": "파인트리", "theme": "숲의 딱정벌레", "jk": "#1E4A2A", "tie": "#C8A060", "members": [{"name": "박진섭", "g": "m", "grade": 3, "role": "주장", "look": {"hair": "side", "hc": "#3A2A1A", "hl": "#6A5030", "ec": "#2E6A4A", "acc": "none"}, "team": ["hanul", "ostag", "stick"], "line": "강원도 숲의 하늘소, 큰턱 힘 하나는 전국 최고야."}, {"name": "최산들", "g": "f", "grade": 3, "role": "부주장", "look": {"hair": "long", "hc": "#2A3A2A", "hl": "#4A6A4A", "ec": "#3A7A8A", "acc": "none"}, "team": ["lucanus", "earwig", "scutigera"], "line": "숲은 조용할 때가 제일 무서운 법이야."}, {"name": "정우람", "g": "m", "grade": 2, "role": "", "look": {"hair": "buzz", "hc": "#5A4030", "hl": "#8A6A50", "ec": "#6A4226", "acc": "none"}, "team": ["sawstag", "weevil", "cicada"], "line": "강원도 숲에서 자란 녀석들이야. 만만치 않을걸?"}, {"name": "엄태백", "g": "m", "grade": 2, "role": "", "look": {"hair": "wave", "hc": "#1A1A1A", "hl": "#3A3A3A", "ec": "#5A5A6A", "acc": "cap", "capc": "#2E6A3A"}, "team": ["stag", "roach", "centipede"], "line": "태백산처럼 버텨 주지!"}, {"name": "김솔", "g": "f", "grade": 1, "role": "", "look": {"hair": "twin", "hc": "#8A5A3A", "hl": "#B8885A", "ec": "#2E6A4A", "acc": "none"}, "team": ["longhorn", "click", "jewel"], "line": "소나무처럼 꿋꿋하게 갈게요!"}]}, {"key": "chungcheong", "region": "충청도", "school": "천안중", "team": "샤이너즈", "theme": "빛나는 나방과 나비", "jk": "#3A2A6A", "tie": "#F0D060", "members": [{"name": "이빛나", "g": "f", "grade": 3, "role": "주장", "look": {"hair": "long", "hc": "#D8D8E4", "hl": "#FFFFFF", "ec": "#3A4A8A", "acc": "band", "capc": "#F0D060"}, "team": ["lunamoth", "emperor", "bee"], "line": "달빛 아래 내 긴꼬리산누에나방, 예쁘지만 강해."}, {"name": "노은빛", "g": "f", "grade": 3, "role": "부주장", "look": {"hair": "wave", "hc": "#C8A040", "hl": "#F0D070", "ec": "#7A3A5A", "acc": "glasses"}, "team": ["jstink", "dragonfly", "cicada"], "line": "반짝이는 건 다 이유가 있는 거야."}, {"name": "강하람", "g": "m", "grade": 2, "role": "", "look": {"hair": "side", "hc": "#4A3A6A", "hl": "#7A6AA0", "ec": "#3A4A8A", "acc": "none"}, "team": ["swallowtail", "satmoth", "lady"], "line": "천천히, 하지만 확실하게 간다."}, {"name": "서반디", "g": "m", "grade": 2, "role": "", "look": {"hair": "buzz", "hc": "#E0C060", "hl": "#FFE8A0", "ec": "#8A6A1A", "acc": "none"}, "team": ["fly", "katydid", "chafer"], "line": "반딧불처럼 밤에 더 강해지지!"}, {"name": "윤별", "g": "f", "grade": 1, "role": "", "look": {"hair": "twin", "hc": "#4A3A6A", "hl": "#7A6AA0", "ec": "#7A3A5A", "acc": "none"}, "team": ["butterfly", "silk", "fruitfly"], "line": "별처럼 반짝반짝 이겨 볼게요!"}]}, {"key": "gyeongnam", "region": "경상남도", "school": "부산중", "team": "타이탄즈", "theme": "레드기어와 최강 갑충", "jk": "#1A2236", "tie": "#E0302A", "members": [{"name": "장현우", "g": "m", "grade": 3, "role": "주장", "look": {"hair": "side", "hc": "#1A1A1A", "hl": "#8A1A1A", "ec": "#8A2A2A", "acc": "band", "capc": "#E0302A"}, "team": ["kabuto", "hornet", "lucanus"], "line": "여기서 제일 강한 녀석 나와 봐라.", "rare": [true, false, false]}, {"name": "배수빈", "g": "f", "grade": 3, "role": "부주장", "look": {"hair": "long", "hc": "#6A2A3A", "hl": "#9A4A5A", "ec": "#8A2A2A", "acc": "none"}, "team": ["sawstag", "mantis", "emperor"], "line": "우리 주장만 보고 있다간 큰코다칠걸.", "rare": [true, false, false]}, {"name": "진해솔", "g": "m", "grade": 2, "role": "", "look": {"hair": "cool", "hc": "#9A9AA8", "hl": "#D0D0DC", "ec": "#5A5A6A", "acc": "none"}, "team": ["ostag", "scutigera", "waterbug"], "line": "부산 바다 바람 맞고 자란 녀석들이다."}, {"name": "마준혁", "g": "m", "grade": 2, "role": "", "look": {"hair": "buzz", "hc": "#1A1A1A", "hl": "#4A4A4A", "ec": "#4A2A18", "acc": "bandage"}, "team": ["stag", "satmoth", "fireant"], "line": "작년 우승팀 2학년, 얕보지 마라."}, {"name": "하은결", "g": "f", "grade": 1, "role": "", "look": {"hair": "bob", "hc": "#C86A3A", "hl": "#F09A6A", "ec": "#6A4226", "acc": "none"}, "team": ["chafer", "dragonfly", "stink"], "line": "1학년이라고 봐주면 후회할걸요?"}]}, {"key": "gyeongbuk", "region": "경상북도", "school": "경주중", "team": "에메랄드", "theme": "단단한 갑옷 딱정벌레", "jk": "#1E4A4A", "tie": "#3AD0A0", "members": [{"name": "석무열", "g": "m", "grade": 3, "role": "주장", "look": {"hair": "neat", "hc": "#5A4030", "hl": "#8A6A50", "ec": "#2E6A4A", "acc": "glasses"}, "team": ["jewel", "kabuto", "weevil"], "line": "천 년 전 신라 왕관을 꾸민 게 바로 비단벌레다."}, {"name": "은서라", "g": "f", "grade": 3, "role": "부주장", "look": {"hair": "pony", "hc": "#1A1A1A", "hl": "#4A4A5A", "ec": "#3A7A8A", "acc": "none"}, "team": ["dung", "lady", "diving"], "line": "우리 갑옷은 쉽게 안 깨져."}, {"name": "탁건우", "g": "m", "grade": 2, "role": "", "look": {"hair": "spiky", "hc": "#7A6A5A", "hl": "#A8988A", "ec": "#6A4226", "acc": "none"}, "team": ["roach", "silk", "click"], "line": "끝까지 버티는 게 경주중 스타일이지."}, {"name": "남하윤", "g": "f", "grade": 2, "role": "", "look": {"hair": "twin", "hc": "#1A1A1A", "hl": "#4A4A5A", "ec": "#2E6A4A", "acc": "glasses"}, "team": ["hydro", "chafer", "tick"], "line": "데이터는 거짓말을 안 해."}, {"name": "길준", "g": "m", "grade": 1, "role": "", "look": {"hair": "side", "hc": "#B07840", "hl": "#D8A870", "ec": "#4A2A18", "acc": "cap", "capc": "#3AD0A0"}, "team": ["stink", "notonecta", "cricket"], "line": "선배들한테 배운 대로 간다!"}]}, {"key": "jeonnam", "region": "전라남도", "school": "목포중", "team": "블루타이드", "theme": "바다와 갯벌의 수서 곤충", "jk": "#14406A", "tie": "#7AD0F0", "members": [{"name": "고바다", "g": "f", "grade": 3, "role": "주장", "look": {"hair": "wave", "hc": "#2A3A5A", "hl": "#4A6A9A", "ec": "#3A7A8A", "acc": "none"}, "team": ["waterbug", "nepa", "appasus"], "line": "물에 들어오면 그때부턴 우리 무대야."}, {"name": "임해원", "g": "m", "grade": 3, "role": "부주장", "look": {"hair": "neat", "hc": "#1A1A1A", "hl": "#3A4A6A", "ec": "#3A4A8A", "acc": "none"}, "team": ["diving", "ranatra", "emperor"], "line": "밀물처럼 밀어붙인다."}, {"name": "송마루", "g": "m", "grade": 2, "role": "", "look": {"hair": "buzz", "hc": "#8A5A3A", "hl": "#B8885A", "ec": "#3A7A8A", "acc": "none"}, "team": ["notonecta", "hydro", "mayfly"], "line": "갯벌에서 단련된 다리 힘을 보여 주지."}, {"name": "국지운", "g": "f", "grade": 2, "role": "", "look": {"hair": "bob", "hc": "#3A2A1A", "hl": "#6A5030", "ec": "#7A3A5A", "acc": "band", "capc": "#7AD0F0"}, "team": ["appasus", "mosquito", "dragonfly"], "line": "파도는 한 번에 안 끝나."}, {"name": "천도담", "g": "m", "grade": 1, "role": "", "look": {"hair": "wave", "hc": "#C86A3A", "hl": "#F09A6A", "ec": "#8A6A1A", "acc": "none"}, "team": ["ranatra", "cranefly", "diving"], "line": "목포 앞바다처럼 깊게 간다!"}]}, {"key": "jeonbuk", "region": "전라북도", "school": "전주중", "team": "하모니즈", "theme": "들판의 소리 곤충", "jk": "#5A3A1A", "tie": "#F0B040", "members": [{"name": "소율", "g": "f", "grade": 3, "role": "주장", "look": {"hair": "long", "hc": "#3A2A1A", "hl": "#6A5030", "ec": "#6A4226", "acc": "none"}, "team": ["cicada", "katydid", "cricket"], "line": "우리 곤충들의 노래, 끝까지 들어 줄래?"}, {"name": "방다온", "g": "m", "grade": 3, "role": "부주장", "look": {"hair": "cool", "hc": "#3A2A1A", "hl": "#6A5030", "ec": "#4A2A18", "acc": "none"}, "team": ["grasshopper", "mantis", "cicada"], "line": "김제 들판처럼 넓게 싸운다."}, {"name": "염찬솔", "g": "m", "grade": 2, "role": "", "look": {"hair": "side", "hc": "#D8B060", "hl": "#FFE090", "ec": "#2E6A4A", "acc": "glasses"}, "team": ["katydid", "aphid", "bee"], "line": "박자만 맞으면 못 이길 상대는 없어."}, {"name": "류새봄", "g": "f", "grade": 2, "role": "", "look": {"hair": "pony", "hc": "#8A5A3A", "hl": "#B8885A", "ec": "#2E6A4A", "acc": "none"}, "team": ["cricket", "butterfly", "stick"], "line": "봄 들판의 곤충들을 얕보지 마!"}, {"name": "금동이", "g": "m", "grade": 1, "role": "", "look": {"hair": "spiky", "hc": "#B07840", "hl": "#D8A870", "ec": "#8A6A1A", "acc": "cap", "capc": "#F0B040"}, "team": ["grasshopper", "earwig", "fruitfly"], "line": "형, 누나들! 저도 할 수 있어요!"}]}, {"key": "jeju", "region": "제주도", "school": "서귀포중", "team": "윈드라이더즈", "theme": "섬바람을 타는 공중 곤충", "jk": "#2A5A7A", "tie": "#FF9A3A", "members": [{"name": "부한결", "g": "m", "grade": 3, "role": "주장", "look": {"hair": "wave", "hc": "#5A4030", "hl": "#8A6A50", "ec": "#3A7A8A", "acc": "band", "capc": "#FF9A3A"}, "team": ["swallowtail", "emperor", "hornet"], "line": "제주 바람을 타는 녀석들, 잡을 수 있겠어?"}, {"name": "양다슬", "g": "f", "grade": 3, "role": "부주장", "look": {"hair": "twin", "hc": "#C8A040", "hl": "#F0D070", "ec": "#3A4A8A", "acc": "none"}, "team": ["butterfly", "bee", "lady"], "line": "한라산 꽃밭에서 키운 아이들이야."}, {"name": "문바람", "g": "m", "grade": 2, "role": "", "look": {"hair": "neat", "hc": "#9A9AA8", "hl": "#D0D0DC", "ec": "#3A7A8A", "acc": "none"}, "team": ["dragonfly", "fly", "cranefly"], "line": "바람 부는 날엔 우리가 최강이지."}, {"name": "좌하랑", "g": "f", "grade": 2, "role": "", "look": {"hair": "long", "hc": "#C86A3A", "hl": "#F09A6A", "ec": "#2E6A4A", "acc": "glasses"}, "team": ["mayfly", "satmoth", "mosquito"], "line": "섬에선 하늘이 제일 넓거든."}, {"name": "강한돌", "g": "m", "grade": 1, "role": "", "look": {"hair": "buzz", "hc": "#3A2A1A", "hl": "#6A5030", "ec": "#6A4226", "acc": "bandage"}, "team": ["centipede", "spider", "tiger"], "line": "돌하르방처럼 단단하게 버틸게요!"}]}];
+const natLook = (t, m) => ({ hair: m.look.hair, outfit: m.g === 'f' ? 'girl' : 'boy', acc: m.look.acc, hc: m.look.hc, hl: m.look.hl, ec: m.look.ec, tie: t.tie, jk: t.jk, ...(m.look.capc ? { capc: m.look.capc } : {}) });
+const natFind = (name) => { for (const t of NATIONAL) for (const m of t.members) if (m.name === name) return [t, m]; return null; };
+const natSub = (t, m) => `${t.school} ${t.team} ${m.grade}학년${m.role ? ' · ' + m.role : ''}`;
+NATIONAL.forEach((t) => { SCHOOL_JK['n_' + t.key] = t.jk; });
+// 이야기 속 주장 캐릭터 모습도 명단과 맞춰요
+[['gw', '박진섭'], ['cc', '이빛나'], ['bs', '장현우']].forEach(([k, n]) => { const r = natFind(n); if (r) CH[k].look = natLook(...r); });
 const MATCHES = {
   f1: { league: '전국 중등부 곤충 배틀 리그 · 친선전', round: '강원도 대표', vs: '파인트리', col: SCHOOL_JK.gangneung, prize: 1500, lvAdd: 4, q: .8, friendly: true, bouts: [
     { pos: '선봉', me: 'sw', res: 'win', note: '세웅의 장수풍뎅이가 톱사슴벌레를 뿔로 받아 넘겼어요!', opp: rival('김솔', 'gangneung', '1학년', 'bob', 1, 'none', 3, 3, ['longhorn', 'click', 'jewel']) },
@@ -4530,6 +4648,8 @@ const MATCHES = {
     { pos: '대장', me: 'kc', opp: rival('한상혁', 'garam', '3학년 · 주장', 'cool', 0, 'none', 0, 2, ['emperor', 'hornet', 'satmoth'], { line: '내 산누에나방은 아직 한 번도 떨어진 적이 없어.', look: CH.gr.look }) }
   ] }
 };
+['f1', 'f2'].forEach((k) => MATCHES[k].bouts.forEach((bt) => { const r = natFind(bt.opp.name); if (r) { bt.opp.look = natLook(...r); bt.opp.team = r[1].team.slice(); bt.opp.sub = natSub(...r); } }));
+SCRIPT.forEach((c) => { if (c.t === 'exhibit' && c.opp && c.opp.name === '장현우') c.opp.look = CH.bs.look; });
 function startMatch(key, done) {
   const M = MATCHES[key];
   S.mode = 'match'; $('#menuBtn').hidden = true; hideDlg();
@@ -4746,6 +4866,7 @@ function resume(sv) {
   S.eggs = Array.isArray(sv.eggs) ? sv.eggs.filter((e) => e && SP[e.sp]).map((e) => ({ id: String(e.id || rid()), sp: e.sp, q: +e.q || 0, day: e.day | 0 })) : [];
   S.goal = sv.goal && sv.goal.day ? { name: String(sv.goal.name || '리그'), day: sv.goal.day | 0 } : null;
   S.teamName = typeof sv.teamName === 'string' ? sv.teamName.slice(0, 12) : '';
+  S.lastDp = typeof sv.lastDp === 'number' ? sv.lastDp : (sv.day > 1 ? SCRIPT.findIndex((c) => c.t === 'daypass') : -1);
   S.deco = {}; if (sv.deco) for (const k in DECO) if (sv.deco[k]) S.deco[k] = true;
   if (S.bugs.length) ensureBugs();
   let scene = null; const after = [];
