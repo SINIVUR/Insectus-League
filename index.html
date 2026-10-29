@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.41">
+<meta name="version" content="0.0.42">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -257,6 +257,21 @@ b.aw { color: #FFD23F; }
 .b-unit.stun::after { content: '💫 기절'; position: absolute; left: 50%; top: 18%; transform: translateX(-50%); padding: 2px 12px; background: #E8201A; color: #fff; font-weight: 900; font-size: 20px; border: 3px solid #fff; border-radius: 8px; z-index: 5; pointer-events: none; }
 .pop-box .opt.gear-on { background: #E8F8E0; } .gear-out { height: 36px; padding: 0 14px; border: 3px solid #111114; background: #C8232C; color: #fff; font-weight: 900; font-size: 16px; }
 .pop-box .opt.unfit { background: #EEE; opacity: .7; }
+
+/* 초월 폼: 네온 그린·레드 글리치 + 황금빛 */
+.b-unit.trans .b-img svg { filter: drop-shadow(0 0 10px #FFE070) drop-shadow(0 0 26px #FFB020) brightness(1.15) saturate(1.3); animation: transGlow 1.4s ease-in-out infinite alternate; }
+.b-unit.trans .b-img { position: relative; }
+.b-unit.trans .b-img::before, .b-unit.trans .b-img::after { content: ''; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; }
+.b-unit.trans .b-img::before { background: linear-gradient(transparent 0 30%, rgba(57,255,20,.35) 30% 33%, transparent 33% 60%, rgba(57,255,20,.3) 60% 62%, transparent 62%); animation: glitchA 1.1s steps(2) infinite; }
+.b-unit.trans .b-img::after { background: linear-gradient(transparent 0 45%, rgba(255,30,60,.35) 45% 48%, transparent 48% 78%, rgba(255,30,60,.3) 78% 80%, transparent 80%); animation: glitchB .9s steps(2) infinite; }
+@keyframes transGlow { 0% { filter: drop-shadow(0 0 10px #FFE070) drop-shadow(0 0 26px #FFB020) drop-shadow(4px 0 0 rgba(57,255,20,.55)) drop-shadow(-4px 0 0 rgba(255,30,60,.55)); } 50% { filter: drop-shadow(0 0 16px #FFF0A0) drop-shadow(0 0 40px #FFC040) drop-shadow(-3px 0 0 rgba(57,255,20,.4)) drop-shadow(3px 0 0 rgba(255,30,60,.4)); } 100% { filter: drop-shadow(0 0 12px #FFE070) drop-shadow(0 0 30px #FFB020) drop-shadow(2px 1px 0 rgba(57,255,20,.6)) drop-shadow(-2px -1px 0 rgba(255,30,60,.6)); } }
+@keyframes glitchA { 0% { transform: translateX(-6px); opacity: .9; } 50% { transform: translateX(5px); opacity: .2; } 100% { transform: translateX(-2px); opacity: .8; } }
+@keyframes glitchB { 0% { transform: translateX(6px); opacity: .2; } 50% { transform: translateX(-5px); opacity: .9; } 100% { transform: translateX(3px); opacity: .5; } }
+.trans-flash { position: absolute; inset: 0; z-index: 1500; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; background: radial-gradient(circle, rgba(255,220,90,.55), rgba(0,0,0,0) 60%); animation: transIn 2.2s ease-out forwards; }
+.trans-flash b { font-family: var(--display); font-size: 110px; color: #FFE070; letter-spacing: 16px; text-shadow: 6px 0 0 #39FF14, -6px 0 0 #FF1E3C, 0 0 30px #FFB020; animation: transTxt .12s steps(2) infinite; }
+.trans-flash small { color: #fff; font-weight: 900; letter-spacing: 10px; font-size: 22px; text-shadow: 3px 0 #39FF14, -3px 0 #FF1E3C; }
+@keyframes transIn { 0% { opacity: 0; } 10% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes transTxt { 0% { transform: translate(-3px, 1px); } 100% { transform: translate(3px, -1px); } }
 /* ---------- 폰·큰 글씨 UI ---------- */
 .big-ui .ov.scr, .big-ui .ov.match, .big-ui .ov.catch, .big-ui .ov.end, .big-ui .ov.dim-ov, .big-ui .ov.tn, .big-ui .ov.chapter, .big-ui .ov.result, .big-ui .dayfade { zoom: var(--uiz); }
 .big-ui .ov.scr { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -1024,7 +1039,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.41';
+const VERSION = '0.0.42';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -3621,7 +3636,53 @@ const SCRIPT = [
   { t: 'cards', set: 'asia', title: '한중일 연합 훈련 · 참가 선수', btn: '훈련, 시작이다!' },
   say('kc', 'grin', '일본 대표, 중국 대표! 다 같이 강해지는 거야! 잘 부탁해!'),
   narr('세계 대회를 앞두고 한자리에 모인 세 나라의 대표팀.\n뜨거운 여름, 한중일 연합 훈련이 지금 막 시작되었다!'),
-  { t: 'trophy', chip: '챕터 28 완료', title: '한중일 연합 훈련 시작!', text: '도혁의 넓적사슴벌레가 유대 각성했어요! (태그 배틀에서 도혁의 넓적사슴벌레가 각성한 모습으로 함께 싸워요) 이제 채집터에서 <b>중국</b>(베이징 근교 산림 · 윈난 열대 숲 · 내몽골 초원)과 <b>일본</b>(간사이 산림 · 오키나와 얀바루 숲 · 비와호 물가)으로 갈 수 있어요. 교통비와 하루의 시간이 들어요. 한국·중국·일본에 사는 곤충 28종이 새로 나타나요! 다음 이야기는 준비 중이에요.' },
+  { t: 'trophy', chip: '챕터 28 완료', title: '한중일 연합 훈련 시작!', text: '도혁의 넓적사슴벌레가 유대 각성했어요! (태그 배틀에서 도혁의 넓적사슴벌레가 각성한 모습으로 함께 싸워요) 이제 채집터에서 <b>중국</b>(베이징 근교 산림 · 윈난 열대 숲 · 내몽골 초원)과 <b>일본</b>(간사이 산림 · 오키나와 얀바루 숲 · 비와호 물가)으로 갈 수 있어요. 교통비와 하루의 시간이 들어요. 한국·중국·일본에 사는 곤충 28종이 새로 나타나요! 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 29 · 대잔치', d: '한중일 대표팀이 한자리에! 곤충 자랑 대잔치가 시작돼요!' } },
+  { t: 'chapter', no: '챕터 29', title: '대잔치' },
+  { t: 'scene', id: 'beijing' },
+  { t: 'show', who: 'jp1' }, { t: 'show', who: 'kt' }, { t: 'show', who: 'jp2' }, { t: 'show', who: 'cn1' }, { t: 'show', who: 'cn2' }, { t: 'show', who: 'cn3' },
+  narr('훈련 첫날 아침. 세 나라의 대표팀이 훈련장 한가운데에 모였다.'),
+  say('cn2', 'happy', '자자, 딱딱하게 굴지 말고! 오늘은 서로 곤충 자랑부터 하자!'),
+  say('kt', 'grin', '좋지! 내 히라타사슴벌레 봐 봐! 큰턱 굵기가 장난 아니지?'),
+  say('jp2', 'smile', '이건 루리보시하늘소예요. 오키나와 숲에서 직접 데려왔어요. 하늘색 보석 같죠?'),
+  say('cn3', 'cool', '…중국 남부의 붉은사슴벌레. 몸 전체가 이렇게 주황빛이야.'),
+  say('eh', 'happy', '우와… 다들 처음 보는 곤충뿐이야!'),
+  say('kc', 'grin', '우리도 질 수 없지! 이 녀석이 내 붉은 기데온! 그리고 도혁이의 각성한 넓적사슴벌레!'),
+  say('dh', 'smile', '…자랑할 만하지.'),
+  say('ch', 'happy', '제 장수풍뎅이도 봐 주세요! 근성은 제일이에요!'),
+  narr('훈련장은 순식간에 곤충 자랑 대잔치가 되었다.\n서로의 곤충을 들여다보고, 사육 비법을 나누고, 웃음이 끊이지 않았다.'),
+  say('cn1', 'cool', '…좋아. 구경은 이쯤 하고.'),
+  say('cn1', 'grin', '곤충은 배틀로 보여 주는 거다. 다 같이 배틀을 해 보는 건 어때? 나라별 대항전으로.'),
+  say('kt', 'grin', '오! 좋은데? 찬성!'),
+  say('kc', 'grin', '좋아요! 한국 대표, 받아들일게요!'),
+  say('cn1', 'cool', '그럼 첫 판은 한국 대 중국이다. 선봉은 천위.'),
+  say('kc', 'grin', '우리 선봉은 나! 가자!'),
+  { t: 'match', key: 'cn1' },
+  { t: 'scene', id: 'beijing' },
+  { t: 'show', who: 'cn1' }, { t: 'show', who: 'cn2' }, { t: 'show', who: 'cn3' },
+  narr('결과는… 한국 대표팀의 패배였다.'),
+  say('kc', 'shock', '…졌다. 세 판 다…'),
+  say('cn1', 'cool', '나쁘지 않았다. 하지만 세계는 이 정도가 아니다.'),
+  say('cn3', 'cool', '…다음은 우리랑 일본이다. 잘 봐 둬.'),
+  { t: 'show', who: 'jp1' },
+  { t: 'exhibit', me: 'cn1', meTeam: '중국 대표', meSub: '중국 대표 주장', title: '한중일 연합 훈련 · 중국 vs 일본 대장전', intro: '중국 주장 왕하오란과 일본 주장 사카모토 류세이의 대장전!', during: '<b>배틀 진행 중…</b> 큰턱과 큰턱이 부딪칠 때마다 훈련장 바닥이 울려요!', res: 'win', note: '<b style="color:#FFD23F">왕하오란의 승리!</b> 마지막까지 한 치도 물러서지 않은 두 주장의 배틀… 중국왕사슴벌레가 아슬아슬하게 미야마사슴벌레를 뒤집었어요!', opp: { name: '사카모토 류세이', sub: '일본 대표 주장', team_n: '일본 대표', team: ['miyama', 'hirata', 'oniyanma'], look: CH.jp1.look } },
+  { t: 'scene', id: 'beijing' },
+  { t: 'show', who: 'jp1' }, { t: 'show', who: 'cn1' }, { t: 'show', who: 'kt' },
+  say('ch', 'shock', '…말도 안 돼. 배틀의 세기가 완전히 달라요…!'),
+  say('sr', 'shock', '기술 하나하나가 우리 필살기만큼 강해… 이게 세계급이야.'),
+  say('jp1', 'cool', '…졌군. 왕하오란, 다음엔 내가 이긴다.'),
+  say('kt', 'grin', '헤헤, 우리 주장도 저렇게 지는구나. 강찬, 세계 대회는 저런 배틀의 연속이야!'),
+  say('kc', 'cool', '……'),
+  say('kc', 'grin', '…좋아. 그럼 우리도 저기까지 올라가면 되잖아! 한국 대표팀도 질 수는 없어!'),
+  say('eh', 'happy', '맞아! 베이징에 온 김에 새 사육용품이랑 곤충도 잔뜩 데려가자!'),
+  narr('그날 오후, {팀}은 베이징 곤충 시장을 샅샅이 누볐다.\n대나무 은신처, 귀뚜라미 항아리, 연꽃 수반, 비단 해먹, 리치 젤리, 대추 젤리, 누에 번데기…'),
+  narr('그리고 시장 가장 안쪽, 낡은 골동품 가게.\n주인 할아버지가 강찬의 기데온을 한참 바라보더니, 작은 보석 하나를 건넸다.'),
+  narr('"마음이 하나 된 곤충에게만 빛나는 돌이란다. 언젠가 꼭 필요할 거다."'),
+  { t: 'giveitem', k: 'held_trans', n: 1 },
+  say('sr', 'shock', '이건… 전설로만 듣던 "초월의 보석"?! 유대 각성한 곤충이 지니면, 배틀 중에 한 번 초월한대!'),
+  say('kc', 'grin', '초월…! 기데온이 각성하면, 이걸로 더 강해질 수 있는 거야!'),
+  { t: 'cards', set: 'trans', title: '새로운 힘 · 초월', btn: '세계급을 향해!' },
+  { t: 'trophy', chip: '챕터 29 완료', title: '세계급의 벽, 그리고 새로운 힘', text: '중국 대표팀에게 졌지만, 세계급 배틀을 눈앞에서 봤어요. 베이징 시장에서 <b>초월의 보석</b>을 얻었어요! 유대 각성한 곤충에게 지니게 하면 배틀 중 한 번 황금빛 초월 폼이 돼요. 곤충마트에 베이징 사육용품(대나무 은신처 · 귀뚜라미 항아리 · 연꽃 수반 · 비단 해먹)과 먹이(리치 젤리 · 대추 젤리 · 누에 번데기)가 들어왔어요. 다음 이야기는 준비 중이에요.' },
   { t: 'hub' },
   { t: 'end' }
 ];
@@ -3752,6 +3813,7 @@ function run() {
       case 'teamname': hideDlg(); return showTeamName(run);
       case 'wild': hideDlg(); return startWild(c, run);
       case 'giftbug': hideDlg(); return giveGift(c, run);
+      case 'giveitem': S.items[c.k] = (S.items[c.k] || 0) + (c.n || 1); save(); continue;
       case 'awakenfx': hideDlg(); return showAwakenFx(c, run);
       case 'lead': { ensureBugs(); const lb = S.bugs.find((x) => x.id === c.id); if (lb) { S.party = [lb.uid, ...S.party.filter((u) => u !== lb.uid)].slice(0, 3); save(); } continue; }
       case 'news': hideDlg(); return showNews(c, run);
@@ -4973,7 +5035,7 @@ function drawUnit(i) {
   const sd = B.sides[i], u = sd.team[sd.active], el = $('#u' + i);
   const flip = i === 0 ? u.s.face === 'left' : u.s.face === 'right';
   el.querySelector('.b-img').innerHTML = bugSvg(u.id, `width="480" height="300" style="transform:${flip ? 'scaleX(-1)' : 'none'}"`, vk(u.inst));
-  el.classList.remove('ko'); el.classList.toggle('berserk', i === 1 && !!B.opp.berserk); el.classList.toggle('awk', !!(u.inst && u.inst.awake));
+  el.classList.remove('ko'); el.classList.toggle('berserk', i === 1 && !!B.opp.berserk); el.classList.toggle('awk', !!(u.inst && u.inst.awake)); el.classList.toggle('trans', !!u.trans);
   const v = B.v[i]; v.act = null; v.q = []; v.react = { ...REACT.drop, t: 0 };
   setTimeout(() => { if (B && B.v[i] === v) { dust(v.cx, v.gy); AU.sfx('step'); } }, 420);
 }
@@ -5048,7 +5110,24 @@ async function doAction(a) {
   } else useSkill(i, a.k);
   await settle(i); await settle(1 - i);
 }
+function transform(i) {
+  const sd = B.sides[i], u = sd.team[sd.active];
+  if (!u || !u.alive || u.trans || !u.inst || !u.inst.awake || u.inst.held !== 'trans') return false;
+  u.trans = true;
+  const s = { ...u.s, name: u.s.name };
+  for (const k of ['a', 'q', 'w', 'e', 'r']) { const sk = { ...u.s[k], n: '초월 ' + u.s[k].n }; if (sk.pow) sk.pow = Math.round(sk.pow * 1.3); if (sk.guard) sk.guard += 1; if (sk.heal) sk.heal = Math.round(sk.heal * 1.5); if (sk.stunP) sk.stunP = Math.min(1, sk.stunP + .2); if (sk.cost) sk.cost = Math.max(10, Math.round(sk.cost * .85)); s[k] = sk; }
+  u.s = s;
+  for (const k of ['atk', 'def', 'spa', 'sdf', 'spd']) u.stat[k] = Math.round(u.stat[k] * 1.5);
+  const add = Math.round(u.max * .5); u.max += add; u.hp += add; u.enMax = Math.round(u.enMax * 1.5); u.en = Math.min(u.enMax, u.en + 40);
+  const el = $('#u' + i); el.classList.add('trans');
+  const fl = document.createElement('div'); fl.className = 'trans-flash'; fl.innerHTML = '<b>초 월</b><small>TRANSCEND</small>'; $('#battle').appendChild(fl); setTimeout(() => fl.remove(), 2200);
+  AU.sfx('ult'); setTimeout(() => AU.sfx('win'), 500); B.stop = .6;
+  toast(`💎 ${u.s.name}${josaIGa(u.s.name)} 초월 폼으로 변했어요! 모든 능력치 ×1.5 · 모든 기술 강화!`);
+  return true;
+}
 async function endOfTurn() {
+  if (B && !B.over && transform(0)) await wait(1800);
+  if (!B || B.over) return;
   for (let i = 0; i < 2; i++) {
     const sd = B.sides[i], u = sd.team[sd.active];
     if (u.alive && u.st.poison > 0) {
@@ -5606,6 +5685,9 @@ const ITEMS = {
   bio: { cat: 'food', n: '바이오 젤리', price: 700, c: '#7AD0A0', d: '기력을 100 회복해요.', diet: 'jelly', en: 100 },
   worm: { cat: 'meat', n: '밀웜', price: 300, c: '#D8A85A', d: '기력을 50 회복해요.', diet: 'meat', en: 50 },
   crick: { cat: 'meat', n: '귀뚜라미 (먹이용)', price: 450, c: '#5A3A1E', d: '기력을 20 회복하고, 공격·방어·특수공격·특수방어 중 하나가 랜덤으로 1 올라요.', diet: 'meat', en: 20, up: ['atk', 'def', 'spa', 'sdf'] },
+  lychee: { cat: 'food', after: 29, n: '리치 젤리', price: 650, c: '#F8D8E0', d: '베이징 시장에서 산 달콤한 리치 젤리. 기력을 45 회복하고, 스피드와 특수방어가 1씩 올라요.', diet: 'jelly', en: 45, upAll: ['spd', 'sdf'] },
+  jujube: { cat: 'food', after: 29, n: '대추 젤리', price: 600, c: '#A83A2A', d: '대추로 만든 쫀득한 젤리. 기력을 35 회복하고, 떨어진 근성을 3 되찾아 줘요.', diet: 'jelly', en: 35, grit: 3 },
+  silkworm: { cat: 'meat', after: 29, n: '누에 번데기', price: 700, c: '#C8A060', d: '중국 시장에서 흔한 영양 만점 누에 번데기. 기력을 50 회복하고, 체력과 방어가 1씩 올라요.', diet: 'meat', en: 50, upAll: ['hp', 'def'] },
   banana: { cat: 'food', n: '바나나', price: 150, c: '#F4E070', d: '잘 익은 바나나 한 조각. 기력을 25 회복해요. 값이 싸요!', diet: 'jelly', en: 25 },
   apple: { cat: 'food', n: '사과 조각', price: 200, c: '#E84A3A', d: '아삭한 사과 한 조각. 기력을 20 회복하고, 특수방어가 1 올라요.', diet: 'jelly', en: 20, upAll: ['sdf'] },
   honey: { cat: 'food', n: '꿀물', price: 250, c: '#F0B840', d: '물에 탄 꿀이에요. 어떤 곤충이든 먹고 기력을 30 회복해요.', any: true, en: 30 },
@@ -5651,6 +5733,10 @@ const GEAR = {
   heat: { jp: true, after: 26, n: '온도 매트', price: 1800, d: '사육통 아래에 까는 따뜻한 매트예요. 외국 곤충은 이게 없으면 근성이 떨어지고 기력 회복이 느려요. 깔아 주면 오히려 쑥쑥 회복해요.' },
   mist: { after: 26, n: '가습 분무기', price: 900, d: '하루 한 번 촉촉하게 물을 뿌려 줘요. 기력 회복이 빨라지고 곰팡이가 덜 생겨요.' },
   branch: { after: 26, n: '등반 나뭇가지', price: 700, d: '오르내리며 운동하는 나뭇가지예요. 가끔 스피드나 체력이 1 올라가요.' },
+  bamboo: { after: 29, n: '대나무 은신처', price: 700, e: '🎋', fx: { fit: 'land', gl: 1, rg: .04 }, d: '베이징에서 사 온 대나무 통 은신처예요. 서늘하고 아늑해서 근성이 덜 떨어지고 기력 회복이 조금 빨라져요.' },
+  crickpot: { after: 29, n: '귀뚜라미 항아리', price: 1200, e: '🏺', fx: { fit: 'land', up: [['spa', 'sdf'], .25] }, d: '중국에서 옛날부터 귀뚜라미를 기르던 작은 흙 항아리예요. 소리가 울려 퍼져서 가끔 특수공격이나 특수방어가 1 올라요.' },
+  lotus: { after: 29, n: '연꽃 수반', price: 1100, e: '🪷', fx: { fit: 'aqua', rg: .1, mold: .7 }, d: '연꽃이 떠 있는 넓은 물그릇이에요. 수서 곤충의 기력 회복이 빨라지고 물이 덜 썩어요.' },
+  silkhammock: { after: 29, n: '비단 해먹', price: 1500, e: '🧵', fx: { fit: 'air', gl: 1, rg: .06 }, d: '날개를 쉬게 해 주는 부드러운 비단 해먹이에요. 하늘 곤충의 근성이 덜 떨어지고 기력 회복이 빨라져요.' },
   egglog: { n: '산란목', price: 800, e: '🪵', fx: { fit: 'land', lay: 1 }, d: '버섯균이 핀 부드러운 참나무 토막이에요. 암컷이 여기에 알을 낳아서 알이 1개 더 늘어나요.' },
   bark: { n: '코르크 은신처', price: 450, e: '🟫', fx: { fit: 'land', gl: 1 }, d: '곤충이 숨어서 쉴 수 있는 코르크 나무껍질이에요. 스트레스가 줄어 근성이 잘 떨어지지 않아요.' },
   antiflip: { n: '뒤집힘 방지 나뭇잎', price: 350, e: '🍂', fx: { fit: 'land', gl: 1 }, d: '바닥에 깔아 두는 마른 나뭇잎이에요. 곤충이 뒤집혀도 금방 일어나서 근성이 덜 떨어져요.' },
@@ -6071,7 +6157,7 @@ function shopRowsAll() {
   if (shopTab === 'sub') return Object.entries(SUBS).filter(([, x]) => !x.jp).map(([k, x]) => ({ k: 'sub_' + k, kind: 'item', n: x.n, d: x.d, more: (() => { const ids = Object.keys(SP).filter((id) => x.fit(SP[id], id)); return ids.length === Object.keys(SP).length ? '<p class="fit-all">모든 곤충에게 잘 맞아요</p>' : `<details class="fitl"><summary>잘 맞는 곤충 ${ids.length}종 보기</summary><div>${ids.map((id) => SP[id].name).join(', ')}</div></details>`; })(), price: x.price, icon: ICON.sub(x.c), own: `${S.items['sub_' + k] || 0}개 있어요` }));
   if (shopTab === 'gear') return [...Object.entries(GEAR).filter(([, x]) => !x.jp && (!x.after || chapNo() >= x.after)).map(([k, x]) => ({ k: 'gear_' + k, kind: 'item', n: x.n, d: x.d, price: x.price, icon: ICON.gear(k), own: `${S.items['gear_' + k] || 0}개 있어요` })), { k: 'antimold', kind: 'item', n: ANTIMOLD.n, d: ANTIMOLD.d, price: ANTIMOLD.price, icon: ICON.gear('antimold'), own: `${S.items.antimold || 0}개 있어요` }];
   if (shopTab === 'cage') return Object.entries(CAGE).filter(([, c]) => !c.jp).map(([k, c], i) => ({ k, kind: 'cage', n: c.n, d: c.d + (c.cap > 1 ? ' (같은 종 한 쌍을 넣으면 교배해요)' : ''), price: c.price, icon: ICON.cage(i), own: `${S.cages.filter((x) => x.size === k).length}개 있어요` }));
-  if (shopTab === 'held') return Object.entries(HELD).map(([k, x]) => ({ k: 'held_' + k, kind: 'item', n: x.n, d: x.d + ' (사육장에서 곤충에게 지니게 해요)', price: x.price, icon: heldIcon(k), own: `${S.items['held_' + k] || 0}개 있어요` }));
+  if (shopTab === 'held') return Object.entries(HELD).filter(([, x]) => !x.noShop).map(([k, x]) => ({ k: 'held_' + k, kind: 'item', n: x.n, d: x.d + ' (사육장에서 곤충에게 지니게 해요)', price: x.price, icon: heldIcon(k), own: `${S.items['held_' + k] || 0}개 있어요` }));
   if (shopTab === 'jar') return Object.entries(JAR).map(([k, j], i) => ({ k, kind: 'jar', n: j.n, d: j.d, price: j.price, icon: ICON.jarb(i), own: `${S.jars.filter((x) => x.size === k).length}개 있어요` }));
   return Object.entries(DECO).filter(([, d]) => !d.jp).map(([k, d]) => ({ k, kind: 'deco', n: d.n, d: d.d, price: d.price, icon: ICON.deco(k), own: S.deco[k] ? '이미 꾸몄어요' : '', done: !!S.deco[k] }));
 }
@@ -6659,6 +6745,11 @@ function openFieldSelect() {
 const SCHOOL_JK = { maetan: '#1E5A5A', garam: '#5A1E2A', songdo: '#2A3A6A', hwaseong: '#4A2A5A', ilsan: '#2A4A2A', gangneung: '#1E4A2A', cheonan: '#3A2A6A' };
 const kface = (k, f = 'grin', look) => `<div class="b-face" style="width:70px;height:70px">${chibi(look || CH[k].look, f)}</div>`;
 const CARDSETS = {
+  trans: [
+    { t: '초월', d: '유대 각성한 곤충에게 <b>초월의 보석</b>을 지니게 하면, 배틀 중 한 번 네온 그린·레드 글리치가 지직거리며 황금빛 <b>초월 폼</b>으로 변해요!', art: () => `<div class="b-face" style="width:96px;height:96px;background:#1A1408;display:grid;place-items:center;font-size:52px;border-radius:50%;box-shadow:0 0 20px #FFD040">💎</div>` },
+    { t: '초월 폼의 힘', d: '모든 능력치(공격·방어·특수공격·특수방어·스피드)가 1.5배, 체력과 기력통도 1.5배로 커져요. 모든 기술은 "초월 기술"이 되어 위력이 1.3배, 기력 소모는 줄고, 기절 확률은 올라가요.', art: () => ['×1.5', '기술 강화'].map((x) => `<span class="schip" style="border-color:#FFD23F">${x}</span>`).join('') },
+    { t: '언제 변하나요?', d: '초월의 보석을 지닌 유대 각성 곤충이 출전해 있으면, 그 턴이 끝날 때 자동으로 초월해요. 한 배틀에 한 번뿐이니 어느 곤충에게 지니게 할지 잘 골라 보세요. 사육장의 "지닌 도구" 버튼으로 지니게 할 수 있어요.', art: () => kface('kc', 'grin') }
+  ],
   asia: [
     { t: '일본 대표 · 사카모토 류세이', d: '일본 대표팀 주장. 일본의 산에만 사는 미야마사슴벌레를 쓰는 냉정한 전략가예요.', art: () => kface('jp1', 'cool') + idleSvg('miyama', 'm') },
     { t: '일본 대표 · 하야시 켄타', d: '도쿄 곤충 거리에서 만났던 그 켄타! 일본 대표팀에 뽑혀서 다시 만났어요. 히라타사슴벌레가 새 주력이에요.', art: () => kface('kt', 'grin') + idleSvg('hirata', 'm') },
@@ -6728,6 +6819,11 @@ const MATCHES = {
     { pos: '선봉', me: 'eh', res: 'lose', note: '은하의 곤충들이 윤눈솔의 초파리 떼에 정신없이 흔들리다 졌어요.', opp: { name: '윤눈솔', sub: '스노우화이트 · 초등학교 4학년', team: ['fruitfly', 'cabbage', 'lady'], look: { hair: 'buzz', outfit: 'boy', acc: 'none', hc: '#E0D8C8', hl: '#FFFFFF', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } },
     { pos: '중견', me: 'kc', opp: { name: '백설아', sub: '스노우화이트 · 초등학교 5학년', team: ['silk', 'comma', 'snail'], line: '초등학생이라고 봐주면 큰일 나요!', look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#2A2A3A', hl: '#5A5A7A', ec: '#7A3A5A', tie: '#E85A8A', jk: '#E8EEF8' } } },
     { pos: '대장', me: 'dh', res: 'win', note: '도혁의 곤충들이 한지희의 배추흰나비와 누에나방을 끝까지 몰아붙여 이겼어요!', opp: { name: '한지희', sub: '스노우화이트 · 초등학교 6학년 · 주장', team: ['cabbage', 'silk', 'bee'], look: { hair: 'bob', outfit: 'girl', acc: 'band', capc: '#E85A8A', hc: '#1A1A2A', hl: '#4A4A6A', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } }
+  ] },
+  cn1: { league: '한중일 연합 훈련 · 친선 대항전', round: '한국 대표 vs 중국 대표', vs: '중국 대표', col: '#B01A1A', prize: 0, lvAdd: 12, q: 1, lossOk: true, lossMsg: '세계급 중국 대표팀의 벽은 높았어요…', bouts: [
+    { pos: '선봉', me: 'kc', opp: { name: '천위', sub: '중국 대표 · 분석가', team: ['neolucanus', 'kdung', 'curvidens'], line: '…네 패턴, 이미 다 계산해 뒀어.', look: CH.cn3.look } },
+    { pos: '중견', me: 'dh', res: 'lose', note: '도혁의 각성 넓적사슴벌레가 끝까지 버텼지만, 리메이의 꽃매미 날갯짓에 흔들리다 졌어요…', opp: { name: '리메이', sub: '중국 대표', team: ['lantern', 'omurasaki', 'bumble'], look: CH.cn2.look } },
+    { pos: '대장', me: 'sr', res: 'lose', note: '새롬의 곤충들이 왕하오란의 중국왕사슴벌레 큰턱에 하나씩 들어 올려졌어요…', opp: { name: '왕하오란', sub: '중국 대표 주장', team: ['curvidens', 'neolucanus', 'hornet'], look: CH.cn1.look } }
   ] },
   usa: { league: '국제 친선 경기 · 한국 대표 vs 미국 대표', round: '친선 대항전 (5전 3선승)', vs: '팀 USA 리버티', col: '#1F3A8A', prize: 8000, lvAdd: 9, q: 1, retry: true, need: 3, bouts: [
     { pos: '선봉', me: 'sr', res: 'win', note: '<b style="color:#FFD23F">새롬의 승리!</b> 데이터 분석으로 에밀리의 제왕나비 비행 패턴을 완벽하게 읽어 냈어요!', opp: { name: '에밀리 카터', sub: '미국 대표 · 고등학교 2학년', team: ['monarch', 'carolina', 'dragonfly'], look: CH.us2.look } },
@@ -6899,7 +6995,7 @@ function showEnd() {
 /* ---------- 계절 · 날씨 · 시간대 ---------- */
 const SEASONS = [['봄', '🌸'], ['여름', '☀️'], ['가을', '🍁'], ['겨울', '❄️']];
 // 스토리 진행 중에는 챕터에 맞춰 달(월)이 정해지고, 이야기를 다 본 뒤에는 5일마다 한 달씩 흘러요.
-const CH_MONTH = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 4, 6: 6, 7: 6, 8: 6, 9: 7, 10: 7, 11: 8, 12: 8, 13: 9, 14: 9, 15: 9, 16: 9, 17: 9, 18: 9, 19: 10, 20: 10, 21: 10, 22: 2, 23: 3, 24: 4, 25: 4, 26: 4, 27: 6, 28: 7 };
+const CH_MONTH = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 4, 6: 6, 7: 6, 8: 6, 9: 7, 10: 7, 11: 8, 12: 8, 13: 9, 14: 9, 15: 9, 16: 9, 17: 9, 18: 9, 19: 10, 20: 10, 21: 10, 22: 2, 23: 3, 24: 4, 25: 4, 26: 4, 27: 6, 28: 7, 29: 7 };
 let chapMemo = { ip: -1, n: 1 };
 function chapNo() { const ip = S.ip || 0; if (chapMemo.ip === ip) return chapMemo.n; let n = 1; for (let i = 0; i < ip && i < SCRIPT.length; i++) { const c = SCRIPT[i]; if (c.t === 'chapter') n = parseInt(String(c.no).replace(/\D/g, ''), 10) || n; } chapMemo = { ip, n }; return n; }
 const kcGrade = () => (chapNo() >= 23 ? 2 : 1);
@@ -6974,6 +7070,7 @@ const HELD = {
   shell: { n: '강화 껍질 코팅', price: 2400, e: '🛡️', d: '받는 피해가 12% 줄어요.' },
   wing: { n: '가벼운 날개 필름', price: 2000, e: '🪶', d: '스피드가 15% 올라가요.' },
   cap: { n: '기력 캡슐', price: 1600, e: '💊', d: '출전 중이면 턴마다 기력이 8 더 회복돼요.' },
+  trans: { n: '초월의 보석', price: 0, noShop: true, e: '💎', d: '유대 각성한 곤충만 지닐 수 있는 초레어 보석. 배틀 중 한 번, 곤충이 황금빛 초월 폼으로 변해요! 모든 능력치 ×1.5, 모든 기술이 강해져요.' },
   charm: { n: '행운의 부적', price: 1500, e: '🍀', d: '급소를 더 자주 찔러요.' }
 };
 const heldIcon = (k) => `<svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="24" fill="#F4E8C8" stroke="#111114" stroke-width="3"/><text x="28" y="37" text-anchor="middle" font-size="26">${HELD[k].e}</text></svg>`;
@@ -6986,6 +7083,7 @@ function openHeld(b, draw) {
   $('#popX').addEventListener('click', () => draw());
   L.ov.querySelectorAll('[data-hd]').forEach((x) => x.addEventListener('click', () => {
     const k = x.dataset.hd;
+    if (k === 'trans' && !b.awake) { note('초월의 보석은 유대 각성한 곤충만 지닐 수 있어요.', 'fail'); return; }
     if (b.held) S.items['held_' + b.held] = (S.items['held_' + b.held] || 0) + 1;
     if (k === '-') { note(`${HELD[b.held].n}${josaEulReul(HELD[b.held].n)} 가방에 넣었어요.`, 'page'); b.held = null; }
     else { S.items['held_' + k] -= 1; b.held = k; note(`${SP[b.id].name}${josaIGa(SP[b.id].name)} ${HELD[k].n}${josaEulReul(HELD[k].n)} 지녔어요!`, 'ding'); }
