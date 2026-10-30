@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.0.3">
+<meta name="version" content="1.0.4">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -601,6 +601,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .pose-raise .arm { transform: rotate(-58deg); }
 .pose-strike .arm { transform: rotate(42deg); }
 .pose-lift .arm { transform: rotate(-30deg); }
+.b-img[data-k="mantis"].pose-raise .arm { transform: rotate(-38deg); } .b-img[data-k="mantis"].pose-strike .arm { transform: rotate(30deg); } .b-img[data-k="mantis"].pose-lift .arm { transform: rotate(-20deg); }
 .pose-open .jawU, .pose-lift .jawU { transform: rotate(-18deg); } .pose-open .jawL, .pose-lift .jawL { transform: rotate(18deg); }
 .pose-bite .jawU { transform: rotate(8deg); } .pose-bite .jawL { transform: rotate(-8deg); }
 .pose-sting .tail { transform: rotate(34deg); }
@@ -861,8 +862,15 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .idl-stag .jawU { animation: jawUp 1.3s ease-in-out infinite; } .idl-stag .jawL { animation: jawDn 1.3s ease-in-out infinite; }
 @keyframes jawUp { 0%, 100% { transform: none } 30%, 45% { transform: rotate(-22deg) } 58% { transform: rotate(6deg) } }
 @keyframes jawDn { 0%, 100% { transform: none } 30%, 45% { transform: rotate(22deg) } 58% { transform: rotate(-6deg) } }
+/* 사슴벌레: 큰턱이 하늘로 치솟지 않게 — 위턱은 살짝만 들고, 아래턱이 더 벌어져요 */
+.idl-stag .jawU { animation-name: jawUpS; } .idl-stag .jawL { animation-name: jawDnS; }
+@keyframes jawUpS { 0%, 100% { transform: none } 30%, 45% { transform: rotate(-6deg) } 58% { transform: rotate(3deg) } }
+@keyframes jawDnS { 0%, 100% { transform: none } 30%, 45% { transform: rotate(11deg) } 58% { transform: rotate(-3deg) } }
+.b-img[data-k="stag"].pose-open .jawU, .b-img[data-k="stag"].pose-lift .jawU { transform: rotate(-6deg); }
+.b-img[data-k="stag"].pose-open .jawL, .b-img[data-k="stag"].pose-lift .jawL { transform: rotate(12deg); }
+.b-img[data-k="stag"].pose-bite .jawU { transform: rotate(5deg); } .b-img[data-k="stag"].pose-bite .jawL { transform: rotate(-5deg); }
 .idl-mantis .arm { animation: kungfu 3.4s ease-in-out infinite; }
-@keyframes kungfu { 0%, 62%, 100% { transform: rotate(-8deg) } 70% { transform: rotate(-50deg) } 78% { transform: rotate(30deg) } 86% { transform: rotate(-40deg) } 94% { transform: rotate(14deg) } }
+@keyframes kungfu { 0%, 62%, 100% { transform: rotate(-4deg) } 70% { transform: rotate(-30deg) } 78% { transform: rotate(22deg) } 86% { transform: rotate(-24deg) } 94% { transform: rotate(10deg) } }
 .idl-mantis .hd { animation: tilt 2.2s ease-in-out infinite; } @keyframes tilt { 50% { transform: rotate(14deg) } }
 .idl-mantis > svg { animation: sway 1.7s ease-in-out infinite; } @keyframes sway { 50% { transform: translateX(6px) } }
 .idl-hornet .tail { animation: pump .5s ease-in-out infinite; } @keyframes pump { 50% { transform: rotate(8deg) } }
@@ -1159,7 +1167,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 
   function flapW(o, line = '#5A4A2A') {
     const [x, y] = o;
-    return `<g class="flap" style="transform-origin:${P(x, y)}px"><path d="M${P(x, y)} C${P(x - 40, y - 64)} ${P(x - 120, y - 104)} ${P(x - 200, y - 92)} C${P(x - 170, y - 70)} ${P(x - 100, y - 30)} ${P(x - 8, y + 10)} Z" fill="#EDE2C8" fill-opacity=".72" stroke="${line}" stroke-width="1.6"/><path d="M${P(x - 6, y + 4)} C${P(x - 60, y - 26)} ${P(x - 140, y - 44)} ${P(x - 214, y - 38)} C${P(x - 180, y - 18)} ${P(x - 100, y + 4)} ${P(x - 12, y + 16)} Z" fill="#EDE2C8" fill-opacity=".6" stroke="${line}" stroke-width="1.4"/><path d="M${P(x - 4, y)} C${P(x - 50, y - 50)} ${P(x - 110, y - 82)} ${P(x - 180, y - 86)} M${P(x - 8, y + 4)} C${P(x - 70, y - 30)} ${P(x - 130, y - 54)} ${P(x - 190, y - 66)} M${P(x - 10, y + 10)} C${P(x - 80, y - 12)} ${P(x - 150, y - 26)} ${P(x - 200, y - 34)}" stroke="#8A7A5A" stroke-width="1" fill="none"/></g>`;
+    return `<g class="flap" style="transform-origin:${R(x)}px ${R(y)}px"><path d="M${P(x, y)} C${P(x - 40, y - 64)} ${P(x - 120, y - 104)} ${P(x - 200, y - 92)} C${P(x - 170, y - 70)} ${P(x - 100, y - 30)} ${P(x - 8, y + 10)} Z" fill="#EDE2C8" fill-opacity=".72" stroke="${line}" stroke-width="1.6"/><path d="M${P(x - 6, y + 4)} C${P(x - 60, y - 26)} ${P(x - 140, y - 44)} ${P(x - 214, y - 38)} C${P(x - 180, y - 18)} ${P(x - 100, y + 4)} ${P(x - 12, y + 16)} Z" fill="#EDE2C8" fill-opacity=".6" stroke="${line}" stroke-width="1.4"/><path d="M${P(x - 4, y)} C${P(x - 50, y - 50)} ${P(x - 110, y - 82)} ${P(x - 180, y - 86)} M${P(x - 8, y + 4)} C${P(x - 70, y - 30)} ${P(x - 130, y - 54)} ${P(x - 190, y - 66)} M${P(x - 10, y + 10)} C${P(x - 80, y - 12)} ${P(x - 150, y - 26)} ${P(x - 200, y - 34)}" stroke="#8A7A5A" stroke-width="1" fill="none"/></g>`;
   }
 
   // ───────── 사슴벌레 ─────────
@@ -1234,8 +1242,8 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
     const jl0 = sj(F ? S.fjawL : S.jawL);
     const jl = jl0 || { c: ju.c.map((p) => [p[0] * (ju.lx || 0.94), -p[1] * (ju.ly || 0.62)]), w0: ju.w0 * 0.94, w1: ju.w1, teeth: (ju.teeth || []).map((t) => Object.assign({}, t, { l: t.l * 0.9 })), bulge: ju.bulge, tp: ju.tp };
     const jfl = S.jfill || JF, jhl = S.jhl || '#C8C8D8';
-    s += `<g class="jawL" style="transform-origin:${P(rl[0], rl[1])}px">${mand(rl, jl, false, jfl, line, jhl)}</g>`;
-    s += `<g class="jawU" style="transform-origin:${P(ru[0], ru[1])}px">${mand(ru, ju, true, jfl, line, jhl)}</g>`;
+    s += `<g class="jawL" style="transform-origin:${R(rl[0])}px ${R(rl[1])}px">${mand(rl, jl, false, jfl, line, jhl)}</g>`;
+    s += `<g class="jawU" style="transform-origin:${R(ru[0])}px ${R(ru[1])}px">${mand(ru, ju, true, jfl, line, jhl)}</g>`;
     const rot = (r, c, deg) => { const a = deg * Math.PI / 180, out = []; for (let i = 0; i <= 10; i++) { const p = cub([r, ...c.map((q) => [r[0] + q[0], r[1] + q[1]])], i / 10), dx = p[0] - r[0], dy = p[1] - r[1]; out.push([r[0] + dx * Math.cos(a) - dy * Math.sin(a), r[1] + dx * Math.sin(a) + dy * Math.cos(a)]); } return out; };
     const hint = [...rot(ru, ju.c, -24), ...rot(ru, ju.c, 8), ...rot(rl, jl.c, 10)].map((p) => [p[0] + 8, p[1] - 8]);
     s += `<path d="M${hint.map(PP).join(' L')}" fill="none" stroke="none"/>`;
@@ -1303,7 +1311,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
     if (S.ppatch) s += `<g fill="${S.patch}" opacity=".7"><ellipse cx="${px0 + 16}" cy="${pt + 18}" rx="7" ry="5"/><ellipse cx="${px0 + 30}" cy="${pb - 14}" rx="9" ry="5"/></g>`;
     s += `<path d="M${P(px0 + 8, pt + 10)} C${P(px0 + 18, pt + 2)} ${P(px1 - 18, pt + 2)} ${P(px1 - 10, pt + 9)}" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="${S.pgloss || 0.35}"/>`;
     // 머리 그룹 (더듬이·큰턱 포함, 목 관절에서 끄덕)
-    let h = `<g class="hd" style="transform-origin:${P(hx0 + 4, (ht + hb) / 2)}px">`;
+    let h = `<g class="hd" style="transform-origin:${R(hx0 + 4)}px ${R((ht + hb) / 2)}px">`;
     const ab = [hx0 + 22, ht + 8];
     const al = F ? S.fant : S.ant; // [P1,P2,P3] 상대좌표
     const ac = (k, dy = 0, dx = 0) => [ab, ...al.map((p) => [ab[0] + p[0] * k + dx, ab[1] + p[1] * k + dy])];
@@ -3680,7 +3688,7 @@ ${fem ? `<path d="M326 180L382 238" stroke="#18181C" stroke-width="3.4" stroke-l
   const mantis = (id, o0, fem) => {
     const o = fem ? Object.assign({}, o0, o0.F) : o0, c = o.c, st = c.d, P = fem ? id + '-f' : id;
     const defs = `<defs>${lg(P + '-b', c.l, c.b, shade(c.b, 0.55))}${lg(P + '-w', shade(c.w, 1.35), c.w, shade(c.w, 0.75), 0.2, 1)}${rg(P + '-e', shade(c.eye || c.b, 1.6), c.eye || c.b, shade(c.eye || c.b, 0.55), 0.4, 0.3, 0.8)}</defs>`;
-    let s = defs + shadow(240, 205, 0.2) + '<g transform="translate(-101 -77) scale(1.28)">';
+    let s = defs + shadow(232, 205, 0.2) + '<g transform="translate(-113 -77) scale(1.28)">';
     const legW = [7, 5.8, 3.9, 2.7, 2].map((v) => v * (o.lw || 1)), legF = shade(c.leg, 0.68);
     // 꽃잎 같은 다리 돌기
     const lobe = (A, B, size, col) => {
@@ -3704,7 +3712,7 @@ ${fem ? `<path d="M326 180L382 238" stroke="#18181C" stroke-width="3.4" stroke-l
     const CB = pt(Q0[0], Q0[1], pa, PL * 0.8, 5), NK = pt(Q0[0], Q0[1], pa, PL + 3, 0), fl = o.fl || 1;
     const arm = (far) => {
       const dx = far ? -7 : 0, dy = far ? -5 : 0, cb = [CB[0] + dx, CB[1] + dy];
-      const C1 = [cb[0] + 12 * fl, cb[1] + 50 * fl], F1 = [C1[0] + 56 * fl, C1[1] - 40 * fl], T1 = [F1[0] - 42 * fl, F1[1] + 32 * fl];
+      const C1 = [cb[0] + 14 * fl, cb[1] + 46 * fl], F1 = [C1[0] + 58 * fl, C1[1] - 30 * fl], T1 = [F1[0] + 22 * fl, F1[1] + 40 * fl];
       const col = far ? legF : c.leg, fcol = far ? shade(c.leg, 0.75) : `url(#${P}-b)`;
       let r = limb([cb, C1], [14 * fl, 11.5 * fl], fcol, st, { claw: 0, sw: 1.8, hl: far ? 0 : '#fff', hw: 2 });
       if (!far && o.coxaSpot) { const m = [(cb[0] + C1[0]) / 2 + 1, (cb[1] + C1[1]) / 2 + 4]; r += `<circle cx="${n(m[0])}" cy="${n(m[1])}" r="6" fill="#F4F0D8" stroke="${st}" stroke-width=".8"/><circle cx="${n(m[0])}" cy="${n(m[1])}" r="4.2" fill="#111"/><circle cx="${n(m[0] - 1)}" cy="${n(m[1] - 1)}" r=".9" fill="#FFE070"/>`; }
@@ -3712,15 +3720,15 @@ ${fem ? `<path d="M326 180L382 238" stroke="#18181C" stroke-width="3.4" stroke-l
       const ta = Math.atan2(T1[1] - F1[1], T1[0] - F1[0]) / D, Lt = Math.hypot(T1[0] - F1[0], T1[1] - F1[1]);
       let sp = '', tsp = '';
       for (let i = 0; i < 6; i++) { const x = Lf * (0.2 + i * 0.12); sp += `M${n(x)},6 L${n(x + 2.5)},${i % 2 ? 11 : 14} L${n(x + 5)},6 `; }
-      for (let i = 0; i < 6; i++) { const x = Lt * (0.12 + i * 0.13); tsp += `M${n(x)},3 L${n(x + 2)},${i % 2 ? 7 : 9} L${n(x + 4)},3 `; }
+      for (let i = 0; i < 7; i++) { const x = Lt * (0.1 + i * 0.12); tsp += `M${n(x)},4 L${n(x + 2)},${i % 2 ? 9 : 12} L${n(x + 4)},4 `; }
       const fw = 10 * fl * (o.fw || 1);
       if (o.lobe && !far) r += lobe(C1, F1, o.lobe * 0.45, o.lobeC);
       r += `<path d="${tp(sp, C1[0], C1[1], fa)}" fill="${far ? legF : '#E8E0B0'}" stroke="${st}" stroke-width="1" stroke-linejoin="round"/>`;
       r += `<path d="${tp(`M-3,${n(-fw * 0.5)} C${n(Lf * 0.3)},${n(-fw * 1.1)} ${n(Lf * 0.75)},${n(-fw)} ${n(Lf + 2)},-3 L${n(Lf + 2)},4 C${n(Lf * 0.7)},${n(fw * 0.85)} ${n(Lf * 0.3)},${n(fw * 0.9)} -3,${n(fw * 0.5)} Z`, C1[0], C1[1], fa)}" fill="${fcol}" stroke="${st}" stroke-width="1.8"/>`;
       if (!far) r += `<path d="${tp(`M2,${n(-fw * 0.45)} C${n(Lf * 0.35)},${n(-fw * 0.85)} ${n(Lf * 0.7)},${n(-fw * 0.75)} ${n(Lf - 2)},-3`, C1[0], C1[1], fa)}" stroke="#fff" stroke-width="2" opacity=".45" fill="none" stroke-linecap="round"/><path d="${tp(`M${n(Lf * 0.15)},${n(fw * 0.25)} L${n(Lf * 0.85)},1`, C1[0], C1[1], fa)}" stroke="${st}" stroke-width="1" opacity=".5"/>`;
       r += `<path d="${tp(tsp, F1[0], F1[1], ta)}" fill="${far ? legF : '#E8E0B0'}" stroke="${st}" stroke-width=".9"/>`;
-      r += `<path d="${tp(`M-2,-4 C${n(Lt * 0.4)},-5 ${n(Lt * 0.8)},-3.5 ${n(Lt)},-2 C${n(Lt + 5)},0 ${n(Lt + 6)},5 ${n(Lt + 3)},10 C${n(Lt + 2)},6 ${n(Lt)},3.5 ${n(Lt * 0.8)},3.5 C${n(Lt * 0.4)},4 -2,4 -2,4 Z`, F1[0], F1[1], ta)}" fill="${col}" stroke="${st}" stroke-width="1.5"/>`;
-      r += limb([pt(F1[0], F1[1], ta, Lt - 4, -2), [T1[0] + 4, T1[1] + 14], [T1[0] + 6, T1[1] + 26]], [3, 2.4, 1.8], col, st, { hl: 0, claw: 2.5, sw: 1 });
+      r += `<path d="${tp(`M-3,-5 C${n(Lt * 0.35)},-8 ${n(Lt * 0.75)},-8 ${n(Lt + 2)},-3 C${n(Lt + 9)},1 ${n(Lt + 9)},9 ${n(Lt + 3)},14 C${n(Lt + 3)},8 ${n(Lt)},5 ${n(Lt * 0.8)},4.5 C${n(Lt * 0.45)},5 ${n(Lt * 0.15)},5 -3,5 Z`, F1[0], F1[1], ta)}" fill="${col}" stroke="${st}" stroke-width="1.6"/>` + (far ? '' : `<path d="${tp(`M2,-3 C${n(Lt * 0.4)},-6 ${n(Lt * 0.7)},-6 ${n(Lt)},-2`, F1[0], F1[1], ta)}" stroke="#fff" stroke-width="1.6" opacity=".45" fill="none" stroke-linecap="round"/>`);
+      r += limb([pt(F1[0], F1[1], ta, Lt * 0.92, 3), [T1[0] - 4, T1[1] + 12], [T1[0] - 10, T1[1] + 22]], [3, 2.4, 1.8], col, st, { hl: 0, claw: 2.5, sw: 1 });
       return `<g class="arm" style="transform-origin:${n(cb[0])}px ${n(cb[1])}px">${r}</g>`;
     };
     s += arm(true);
@@ -5547,7 +5555,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.0.3';
+const VERSION = '1.0.4';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -10126,7 +10134,7 @@ function bindBattle() {
 function drawUnit(i) {
   const sd = B.sides[i], u = sd.team[sd.active], el = $('#u' + i);
   const flip = i === 0 ? u.s.face === 'left' : u.s.face === 'right';
-  el.querySelector('.b-img').innerHTML = bugSvg(u.id, `width="480" height="300" style="transform:${flip ? 'scaleX(-1)' : 'none'}"`, vk(u.inst));
+  el.querySelector('.b-img').dataset.k = IDLE_AS[u.id] || u.id; el.querySelector('.b-img').innerHTML = bugSvg(u.id, `width="480" height="300" style="transform:${flip ? 'scaleX(-1)' : 'none'}"`, vk(u.inst));
   el.classList.remove('ko'); el.classList.toggle('berserk', i === 1 && !!B.opp.berserk); el.classList.toggle('awk', !!(u.inst && u.inst.awake)); el.classList.toggle('trans', !!u.trans);
   const v = B.v[i]; v.act = null; v.q = []; v.react = { ...REACT.drop, t: 0 };
   setTimeout(() => { if (B && B.v[i] === v) { dust(v.cx, v.gy); AU.sfx('step'); } }, 420);
