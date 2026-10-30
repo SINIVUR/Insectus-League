@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="0.0.46">
+<meta name="version" content="0.0.48">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -139,7 +139,7 @@ b.aw { color: #FFD23F; }
 .fs-time small { color: #C9BFA8; font-weight: 700; }
 .trtag, .hdtag { display: inline-block; margin-left: 6px; padding: 1px 9px; border-radius: 999px; font-size: .72em; font-weight: 900; vertical-align: middle; }
 .trtag { background: #3A5A8A; color: #E8F0FF; } .hdtag { background: #6A4A2A; color: #FFF0D0; }
-.mode-bar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 10px 24px 0; }
+.mode-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; padding: 10px 24px 0; }
 .mode-btn { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 10px; align-items: center; text-align: left; padding: 8px 14px; min-height: 60px; border: 3px solid #111114; background: #FFF6DE; box-shadow: 4px 4px 0 #111114; cursor: pointer; }
 .mode-btn i { grid-row: 1 / 3; font-style: normal; font-size: 30px; } .mode-btn b { font-size: 18px; } .mode-btn small { font-size: 13px; color: #6A5A40; font-weight: 700; }
 .rank-box { display: flex; gap: 18px; align-items: center; padding: 14px 18px; margin-bottom: 12px; background: #161A24; border: 4px solid var(--rc); color: #fff; }
@@ -1039,7 +1039,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 </div>
 
 <script>
-const VERSION = '0.0.46';
+const VERSION = '0.0.48';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -1290,6 +1290,9 @@ const CH = {
   my1: { name: '아이샤 라만', color: '#1A3A8A', fg: '#FFD23F', look: { hair: 'long', outfit: 'girl', acc: 'band', capc: '#FFD23F', hc: '#1A1418', hl: '#3A3438', ec: '#3A2A1A', tie: '#1A3A8A', jk: '#2A2A30' } },
   th1: { name: '나롱 차이', color: '#1A3A8A', fg: '#FFFFFF', look: { hair: 'spiky', outfit: 'boy', acc: 'none', hc: '#141418', hl: '#3A3A44', ec: '#3A2A1A', tie: '#C8232C', jk: '#F4F4F4' } },
   auc: { name: '경매인', color: '#5A3A1A', fg: '#FFD23F', look: { hair: 'neat', outfit: 'boy', acc: 'elder', hc: '#C8C8D0', hl: '#F0F0F4', ec: '#3A2A1A', tie: '#C8A040', jk: '#5A3A1A' } },
+  br1: { name: '하파엘 산투스', color: '#1A8A3A', fg: '#FFD23F', look: { hair: 'wave', outfit: 'boy', acc: 'band', capc: '#FFD23F', hc: '#2A1A14', hl: '#5A3A2A', ec: '#3A2A1A', tie: '#1A8A3A', jk: '#1A3A8A' } },
+  uk1: { name: '올리버 해리스', color: '#1A2A6A', fg: '#FFFFFF', look: { hair: 'neat', outfit: 'boy', acc: 'none', hc: '#C8A060', hl: '#F0D090', ec: '#3A6AC8', tie: '#C8232C', jk: '#1A2A6A' } },
+  fr1: { name: '클로에 마르탱', color: '#1A3A8A', fg: '#FFFFFF', look: { hair: 'bob', outfit: 'girl', acc: 'none', hc: '#3A2418', hl: '#6A4630', ec: '#2E6A4A', tie: '#C8232C', jk: '#1A3A8A' } },
   hsj: { name: '허성진', color: '#0A0A14', fg: '#7AE8FF', look: { hair: 'side', outfit: 'boy', acc: 'glasses', hc: '#0E0E16', hl: '#3A3A5A', ec: '#C83AE8', tie: '#1AE8FF', jk: '#0A0A12', emblem: true } },
   de1: { name: '루카스 베버', color: '#1A1A1A', fg: '#FFCE00', look: { hair: 'cool', outfit: 'boy', acc: 'none', hc: '#E8D8A0', hl: '#FFF8D0', ec: '#3A6AC8', tie: '#DD0000', jk: '#1A1A1A' } },
   de2: { name: '미아 피셔', color: '#DD0000', fg: '#FFFFFF', look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#C8A060', hl: '#F0D090', ec: '#3A8A6A', tie: '#FFCE00', jk: '#1A1A1A' } },
@@ -2247,6 +2250,7 @@ BG.jeju = regionBg('forest', '#FF8A3A', .12, '제주도'); BG.gangwon = regionBg
 BG.chungcheong = regionBg('meadow', '#3AA0C0', .1, '충청도'); BG.jeolla = regionBg('meadow', '#FFC040', .12, '전라도'); BG.gyeongsang = regionBg('meadow', '#C86A3A', .1, '경상도');
 BG.club2 = () => BG.club();
 BG.gymus = () => BG.gym();
+BG.worldarena = () => BG.league().replace('서울시 중등부 곤충 배틀 리그', '세계 대표 친선 교류전').replace('SEOUL MIDDLE SCHOOL LEAGUE', 'WORLD INSECT BATTLE FRIENDLY').replace(/<\/svg>$/, `<g>${['#C8232C', '#1A3A8A', '#FFD23F', '#1A8A3A', '#FFFFFF', '#000000', '#E8602A', '#4AC8F0'].concat(['#C8232C', '#1A3A8A', '#FFD23F', '#1A8A3A', '#FFFFFF', '#000000', '#E8602A', '#4AC8F0']).map((c, i) => `<line x1="${40 + i * 78}" y1="20" x2="${40 + i * 78}" y2="90" stroke="#5A5A60" stroke-width="3"/><rect x="${40 + i * 78}" y="22" width="44" height="28" fill="${c}" stroke="#111" stroke-width="2"/>`).join('')}</g></svg>`);
 BG.seanight = () => BG.seamarket().replace(/<\/svg>$/, '<rect width="1280" height="720" fill="#0A0820" opacity=".55"/><g>' + Array.from({ length: 16 }, (_, i) => `<circle cx="${40 + i * 80}" cy="${200 + (i % 3) * 12}" r="9" fill="${['#FFD23F', '#FF6A4A', '#7AE8FF'][i % 3]}" opacity=".9"/>`).join('') + '</g></svg>');
 BG.seaarena = () => BG.seamarket().replace('PASAR SERANGGA', 'ARENA SERANGGA').replace('인도네시아 곤충 대시장', '동남아 곤충 배틀 아레나');
 BG.seamarket = () => `<svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true"><defs><linearGradient id="sm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB070"/><stop offset="1" stop-color="#FFE4B0"/></linearGradient></defs>
@@ -2340,6 +2344,7 @@ const SCENES = {
   club4: { get place() { return [`${curMonth()}월`, '세온중 곤충 배틀부 동아리실']; }, actors: { dh: { x: 500, y: 330, s: .82, face: 'cool' }, sr: { x: 360, y: 320, s: .82, face: 'smile' }, eh: { x: 160, y: 330, s: .84, face: 'smile' }, kc: { x: 0, y: 310, s: .92, face: 'grin' }, ch: { x: 920, y: 300, s: .9, face: 'grin' } } },
   kansai: { place: ['4월 · 일본 오사카', '간사이 곤충 배틀 페스티벌'], actors: { kc: { x: 0, y: 330, s: .82, face: 'happy', casual: true }, eh: { x: 120, y: 340, s: .78, face: 'happy', casual: true }, sr: { x: 240, y: 335, s: .78, face: 'happy', casual: true }, dh: { x: 360, y: 335, s: .78, face: 'smile', casual: true }, ch: { x: 480, y: 330, s: .8, face: 'happy' }, dk: { x: 950, y: 290, s: 1, face: 'grin', hidden: true } } },
   gymus: { place: ['6월', '분당 · 제로원 트레이닝룸'], actors: { kc: { x: 0, y: 350, s: .72, face: 'grin' }, eh: { x: 92, y: 360, s: .68, face: 'smile' }, sr: { x: 182, y: 355, s: .68, face: 'smile' }, dh: { x: 272, y: 355, s: .68, face: 'cool' }, ch: { x: 362, y: 352, s: .7, face: 'grin' }, us5: { x: 640, y: 330, s: .78, face: 'grin', hidden: true }, us4: { x: 745, y: 335, s: .76, face: 'smile', hidden: true }, us3: { x: 850, y: 325, s: .78, face: 'smile', hidden: true }, us2: { x: 955, y: 335, s: .76, face: 'cool', hidden: true }, us1: { x: 1065, y: 290, s: .9, face: 'cool', hidden: true } } },
+  worldarena: { place: ['11월 · 세계 대회 한 달 전', '세계 대표 친선 교류전'], actors: { kc: { x: 0, y: 350, s: .72, face: 'grin' }, eh: { x: 92, y: 360, s: .68, face: 'happy' }, sr: { x: 182, y: 355, s: .68, face: 'happy' }, dh: { x: 272, y: 355, s: .68, face: 'cool' }, ch: { x: 362, y: 352, s: .7, face: 'happy' }, ry: { x: 560, y: 250, s: 1, face: 'smile', hidden: true }, us1: { x: 640, y: 320, s: .78, face: 'grin', hidden: true }, cn1: { x: 760, y: 320, s: .78, face: 'cool', hidden: true }, kt: { x: 880, y: 330, s: .76, face: 'grin', hidden: true }, br1: { x: 980, y: 310, s: .84, face: 'grin', hidden: true }, uk1: { x: 980, y: 310, s: .84, face: 'cool', hidden: true }, fr1: { x: 980, y: 320, s: .82, face: 'smile', hidden: true }, de1: { x: 1080, y: 290, s: .9, face: 'cool', hidden: true }, de3: { x: 960, y: 320, s: .76, face: 'cool', hidden: true } } },
   seaarena: { place: ['10월 · 인도네시아', '동남아 곤충 배틀 아레나'], actors: { kc: { x: 0, y: 350, s: .72, face: 'grin', casual: true }, eh: { x: 92, y: 360, s: .68, face: 'happy', casual: true }, sr: { x: 182, y: 355, s: .68, face: 'happy', casual: true }, dh: { x: 272, y: 355, s: .68, face: 'smile', casual: true }, ch: { x: 362, y: 352, s: .7, face: 'happy' }, hj: { x: 560, y: 300, s: .86, face: 'cool' }, oy: { x: 680, y: 320, s: .8, face: 'smile' }, id1: { x: 960, y: 300, s: .9, face: 'grin', hidden: true }, my1: { x: 960, y: 310, s: .88, face: 'grin', hidden: true }, th1: { x: 960, y: 300, s: .9, face: 'grin', hidden: true }, tj: { x: 1100, y: 290, s: .88, face: 'grin', hidden: true }, ks: { x: 960, y: 300, s: .86, face: 'cool', hidden: true } } },
   seanight: { place: ['그날 밤', '열대 야시장'], actors: { kc: { x: 0, y: 350, s: .72, face: 'grin', casual: true }, eh: { x: 92, y: 360, s: .68, face: 'happy', casual: true }, sr: { x: 182, y: 355, s: .68, face: 'happy', casual: true }, dh: { x: 272, y: 355, s: .68, face: 'smile', casual: true }, ch: { x: 362, y: 352, s: .7, face: 'happy' }, auc: { x: 900, y: 260, s: 1.05, face: 'grin' } } },
   seamarket: { place: ['10월 · 인도네시아', '파사르 스랑가 · 곤충 대시장'], actors: { kc: { x: 0, y: 350, s: .72, face: 'grin', casual: true }, eh: { x: 92, y: 360, s: .68, face: 'happy', casual: true }, sr: { x: 182, y: 355, s: .68, face: 'happy', casual: true }, dh: { x: 272, y: 355, s: .68, face: 'smile', casual: true }, ch: { x: 362, y: 352, s: .7, face: 'happy' }, ks: { x: 640, y: 320, s: .8, face: 'cool' }, oy: { x: 760, y: 330, s: .78, face: 'smile' }, tj: { x: 875, y: 290, s: .88, face: 'grin' }, hj: { x: 1040, y: 300, s: .86, face: 'cool' } } },
@@ -2365,7 +2370,7 @@ const SCENES = {
   jeju: { place: null, actors: {}, field: true }, gangwon: { place: null, actors: {}, field: true }, gyeonggi: { place: null, actors: {}, field: true },
   chungcheong: { place: null, actors: {}, field: true }, jeolla: { place: null, actors: {}, field: true }, gyeongsang: { place: null, actors: {}, field: true }
 };
-const MUSIC = { seanight: 'home', seaarena: 'battle', seamarket: 'opening', jungle: 'forest', gym2: 'club', neohq: 'battle', airport: 'opening', beijing: 'opening', gymus: 'club', kansaidusk: 'battle', club4: 'club', kansai: 'opening', club3: 'club', tower: 'battle', grad: 'home', sel: 'opening', selfinal: 'opening', dawn: 'home', clubnight: 'home', gym: 'club', jeju: 'forest', gangwon: 'forest', gyeonggi: 'forest', chungcheong: 'forest', jeolla: 'forest', gyeongsang: 'forest', opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', jejuroad: 'opening', tokyo: 'opening', seogwipo: 'home', club2: 'club', nat: 'opening', lodge: 'home' };
+const MUSIC = { worldarena: 'opening', seanight: 'home', seaarena: 'battle', seamarket: 'opening', jungle: 'forest', gym2: 'club', neohq: 'battle', airport: 'opening', beijing: 'opening', gymus: 'club', kansaidusk: 'battle', club4: 'club', kansai: 'opening', club3: 'club', tower: 'battle', grad: 'home', sel: 'opening', selfinal: 'opening', dawn: 'home', clubnight: 'home', gym: 'club', jeju: 'forest', gangwon: 'forest', gyeonggi: 'forest', chungcheong: 'forest', jeolla: 'forest', gyeongsang: 'forest', opening: 'opening', classroom: 'classroom', club: 'club', forest: 'forest', meadow: 'forest', pond: 'forest', home: 'home', league: 'opening', league2: 'opening', camp: 'forest', campnight: 'battle', jejuroad: 'opening', tokyo: 'opening', seogwipo: 'home', club2: 'club', nat: 'opening', lodge: 'home' };
 const PITCH = { kc: 520, eh: 780, dh: 330, sw: 420, sr: 640, mt: 300, gr: 700 };
 
 /* ---------- 스크립트 ---------- */
@@ -3896,7 +3901,80 @@ const SCRIPT = [
   narr('그렇게 동남아 전지훈련은 막을 내렸다.\n{팀}은 한층 더 강해진 곤충들과 함께, 한국으로 돌아가는 비행기에 올랐다.'),
   say('dh', 'smile', '…돌아가면 바로 다음 훈련이다.'),
   say('kc', 'grin', '당연하지! 세계 대회, 기다려라!'),
-  { t: 'trophy', chip: '챕터 33 완료', title: '세계급으로의 도약!', text: '동남아 배틀러 셋을 꺾고, 야시장 경매에서 <b>초월의 보석</b>을 하나 더 얻고, 마침내 제로원을 상대로 3연승을 해냈어요! {팀}은 이제 세계급이에요. 다음 이야기는 준비 중이에요.' },
+  { t: 'trophy', chip: '챕터 33 완료', title: '세계급으로의 도약!', text: '동남아 배틀러 셋을 꺾고, 야시장 경매에서 <b>초월의 보석</b>을 하나 더 얻고, 마침내 제로원을 상대로 3연승을 해냈어요! {팀}은 이제 세계급이에요. 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 34 · 연습 또 연습', d: '한국에 돌아왔어요. 세계 리그까지 얼마 남지 않았어요!' } },
+  { t: 'chapter', no: '챕터 34', title: '연습 또 연습' },
+  { t: 'scene', id: 'club4' },
+  narr('동남아 전지훈련을 마치고 한국에 돌아온 {팀}.\n어느덧 10월 중순. 12월에 열리는 세계 곤충 배틀 리그가 코앞으로 다가왔다.'),
+  say('sr', 'cool', '세계 리그까지 두 달도 안 남았어. 이제부터는 하루하루가 실전이야.'),
+  say('kc', 'grin', '연습 또 연습이다! 동남아에서 배운 걸 몸에 완전히 익히자!'),
+  say('dh', 'cool', '…실전 감각을 유지하려면 강한 상대랑 많이 붙어야 해.'),
+  say('eh', 'happy', '그럼 전국 리그 때 만났던 지역 대표팀들한테 연락해 보는 건 어때? 다들 한 번씩 다시 붙어 보자고!'),
+  say('ch', 'happy', '좋아요! 저는 전국 리그 때 없었으니까, 다 처음 보는 사람들이에요!'),
+  narr('은하의 제안에 지역 대표팀들은 하나같이 반갑게 답했다.\n"세계 대회 나가는 한국 대표랑 붙을 수 있다니, 무조건이지!"'),
+  say('sr', 'smile', '답장 왔어. 부산중 타이탄즈, 강릉중 파인트리… 전부 오겠대!'),
+  say('sr', 'cool', '그런데… 3학년 선배들은 졸업해서 빠진 팀이 많대. 새 주장이랑 새 얼굴들이 나온다나 봐.'),
+  say('kc', 'grin', '그럼 더 좋지! 새로운 상대랑 붙는 거잖아!'),
+  say('dh', 'smile', '…다들 예전보다 강해졌을 거야. 방심하지 마.'),
+  say('kc', 'grin', '좋아! 지역 대표팀 재대결, 그리고 남은 기간은 배틀 또 배틀이다!\n동남아든 일본이든 중국이든, 채집 투어도 다녀오자!'),
+  { t: 'trophy', chip: '챕터 34 완료', title: '연습 또 연습!', text: '세계 곤충 배틀 리그는 12월! 학교에 <b>🗺️ 지역 대표 재대결</b>이 생겼어요. 전국 리그 때 만났던 7개 지역 대표팀과 한 번씩 다시 붙어 보세요. 졸업한 선배 대신 새 주장과 새 얼굴이 나와요. 처음 이기면 보너스 3,000원, 7팀 모두 이기면 업적도 있어요. 남은 기간 동안 랭크 아레나, 태그 배틀, 동남아·일본·중국 채집 투어로 실력을 쌓으세요! 준비가 되면 학교에서 다음 이야기를 이어 가세요.' },
+  { t: 'hub', next: { label: '챕터 35 · 세계급 대결', d: '11월, 류성룡 회장에게서 엄청난 소식이 왔어요!' } },
+  { t: 'chapter', no: '챕터 35', title: '세계급 대결' },
+  { t: 'scene', id: 'club4' },
+  narr('연습 또 연습에 매진하던 11월. 세계 대회까지 딱 한 달.\n류성룡 회장에게서 연락이 왔다.'),
+  say('sr', 'shock', '…다들! 회장님이 친선 경기를 하재! 그런데 상대가…'),
+  say('sr', 'shock', '세계 대회에 나가는 각국 대표팀 전부래! 다 같이 모여서 한 번씩 배틀을 주고받는 거야!'),
+  say('ch', 'shock', '저, 전부요?! 몇 나라예요?!'),
+  say('sr', 'cool', '한국, 일본, 중국, 필리핀, 인도네시아, 독일, 영국, 프랑스, 이탈리아, 호주, 남아공, 가나, 미국, 캐나다, 멕시코, 브라질… 열여섯 나라!'),
+  say('kc', 'happy', '세계급 정상들이 다 모인다니…! 두근거려서 죽겠어!'),
+  { t: 'scene', id: 'worldarena' },
+  narr('친선 경기장. 열여섯 나라의 국기가 하늘 높이 펄럭였다.\n관중석까지 꽉 찬 경기장에, 세계 각국의 대표팀들이 하나둘 모여들었다.'),
+  { t: 'show', who: 'ry' },
+  say('ry', 'grin', '허허! 세계 대회 전의 축제일세! 마음껏 배우고, 마음껏 겨루게나!'),
+  { t: 'hide', who: 'ry' },
+  { t: 'show', who: 'us1' }, { t: 'show', who: 'cn1' }, { t: 'show', who: 'kt' },
+  say('us1', 'grin', 'Hey, 최강찬! 오랜만이다! 그 붉은 기데온, 더 강해졌겠지?'),
+  say('kt', 'grin', '강찬! 우리 일본도 동남아 갔다 왔다는 소식 들었어. 이따 한 판!'),
+  say('cn1', 'cool', '…베이징 때랑 눈빛이 다르군.'),
+  { t: 'cards', set: 'world', title: '세계급 대결 · 세계가 열렸다!', btn: '세계로!' },
+  { t: 'hide', who: 'us1' }, { t: 'hide', who: 'cn1' }, { t: 'hide', who: 'kt' },
+  { t: 'show', who: 'uk1' },
+  say('uk1', 'cool', '영국 대표 올리버다. 한국 대표, 첫 교차 경기 상대는 우리야.'),
+  { t: 'exhibit', me: 'sr', meSub: '세온중 3학년', title: '친선 교류전 · 한국 vs 영국', intro: '새롬과 영국 대표 올리버의 대결!', during: '<b>배틀 진행 중…</b> 영국 왕풍뎅이의 묵직한 박치기!', res: 'lose', note: '<b style="color:#FF8A7A">새롬의 패배…</b> 하지만 올리버가 쓰는 "수비 후 반격" 전략을 똑똑히 배웠어요. 한 수 배웠어요!', opp: { name: '올리버 해리스', sub: '🇬🇧 영국 대표 주장', team_n: '영국 대표', team: ['cervus', 'cockchafer', 'peacock'], look: CH.uk1.look } },
+  { t: 'hide', who: 'uk1' }, { t: 'show', who: 'fr1' },
+  say('fr1', 'smile', 'Bonjour! 프랑스 대표 클로에야. 로잘리아하늘소의 우아함, 보여 줄게!'),
+  { t: 'exhibit', me: 'eh', meSub: '세온중 2학년', title: '친선 교류전 · 한국 vs 프랑스', intro: '은하와 프랑스 대표 클로에의 대결!', during: '<b>배틀 진행 중…</b> 하늘색 로잘리아하늘소가 우아하게 날아올라요!', res: 'win', note: '<b style="color:#FFD23F">은하의 승리!</b> 동남아에서 단련한 곤충들이 끝까지 버텨 냈어요!', opp: { name: '클로에 마르탱', sub: '🇫🇷 프랑스 대표', team_n: '프랑스 대표', team: ['rosalia', 'auratus', 'frswallow'], look: CH.fr1.look } },
+  { t: 'hide', who: 'fr1' }, { t: 'show', who: 'br1' },
+  say('br1', 'grin', 'Olá! 브라질 대표 하파엘! 아마존의 왕, 타이탄하늘소랑 붙어 볼래?'),
+  say('kc', 'grin', '좋아! 가자, 기데온!'),
+  { t: 'wild', normal: true, q: 1.2, who: 'br1', name: '하파엘 산투스', sub: '🇧🇷 브라질 대표 주장', team: ['titanus', 'actaeon', 'morpho'], lvAdd: 6, line: '아마존의 힘을 느껴 봐!', prize: 6000 },
+  { t: 'scene', id: 'worldarena' },
+  { t: 'show', who: 'br1' },
+  say('br1', 'shock', '…이겼어?! 우와, 한국 대표 대단하다! 세계 대회에서 또 붙자!'),
+  say('kc', 'grin', '헤헤, 타이탄하늘소 큰턱 진짜 무서웠어!'),
+  { t: 'hide', who: 'br1' },
+  narr('그렇게 {팀}은 여러 나라와 교차 경기를 주고받았다.\n한 수 배우기도 하고, 승리하기도 하면서… 세계와 겨루는 시간은 정말 즐거웠다.'),
+  narr('그리고… 마지막 교차 경기 상대가 발표되었다.'),
+  { t: 'show', who: 'de1' }, { t: 'show', who: 'de3' },
+  say('de1', 'cool', '…한국 대표. 네오 트레이닝룸 이후로 처음이군.'),
+  say('kc', 'cool', '…루카스 베버.'),
+  say('de3', 'cool', '저번 데이터로는 우리 승률 97%다. 시간 낭비 아닌가?'),
+  say('dh', 'cool', '…그 데이터, 오늘 다 갈아엎어 주지.'),
+  narr('두 팀 사이에 팽팽한 신경전이 흘렀다. 관중석이 술렁였다.'),
+  say('kc', 'grin', '저번엔 완패였지만… 우린 그때의 우리가 아니야! 리벤지 매치다!'),
+  { t: 'lead', id: 'gideon' },
+  { t: 'match', key: 'de2' },
+  { t: 'scene', id: 'worldarena' },
+  { t: 'show', who: 'de1' }, { t: 'show', who: 'de3' },
+  narr('루카스의 유럽사슴벌레가 천천히 쓰러졌다.\n3 : 2. 경기장이 함성으로 뒤덮였다.'),
+  say('kc', 'shock', '헉… 헉… 이겼…다…!'),
+  say('de3', 'shock', '…승률 97%였는데.'),
+  say('de1', 'cool', '…………'),
+  say('de1', 'smile', '…강해졌군, 다들. 데이터로는 설명이 안 되는 성장이다.'),
+  say('de1', 'cool', '세계 대회에서는 이번처럼 되지 않을 거다. 거기서 다시 붙자, 최강찬.'),
+  say('kc', 'grin', '네! 몇 번이든 붙어 줄게요!'),
+  narr('세계 대회까지 남은 시간은 한 달.\n{팀}의 이름은 이제, 세계가 기억하기 시작했다.'),
+  { t: 'trophy', chip: '챕터 35 완료', title: '세계가 열렸다!', text: '세계 대표 친선 교류전에서 저번에 완패했던 독일 대표팀을 가까스로 이겼어요! 이제 <b>세계 곤충 29종</b>이 추가되고, 모든 외국 곤충을 잡아 기를 수 있어요. 채집터의 <b>🌍 해외 원정</b>(11개국)과 학교의 <b>🌍 프로 초청전</b>, 개인 <b>세계 랭킹</b>이 열렸어요. 다음 이야기는 준비 중이에요.' },
   { t: 'hub' },
   { t: 'end' }
 ];
@@ -3908,7 +3986,7 @@ const actors = {};
 
 function save() {
   const ip = S.mode === 'field' && !(F && F.free) ? S.fieldIp : S.saveIp;
-  store.set(SAVE_KEY, { ip, caught: S.caught, lastWin: !!S.lastWin, bugs: S.bugs, party: S.party, money: S.money | 0, items: S.items, day: S.day, tut: S.tut, tutDone: !!S.tutDone, gifted: !!S.gifted, dex: S.dex, cages: S.cages, jars: S.jars, eggs: S.eggs, deco: S.deco, goal: S.goal || null, teamName: S.teamName || '', lastDp: S.lastDp ?? -1, wx: S.wx || 'sun', st: S.st || {}, dm: S.dm || null, ach: S.ach || [], dexRw: S.dexRw || [], rank: S.rank || null, cw: S.cw ?? -1, cbest: S.cbest || null, trades: S.trades || null, freeDay: typeof S.freeDay === 'number' ? S.freeDay : null });
+  store.set(SAVE_KEY, { ip, caught: S.caught, lastWin: !!S.lastWin, bugs: S.bugs, party: S.party, money: S.money | 0, items: S.items, day: S.day, tut: S.tut, tutDone: !!S.tutDone, gifted: !!S.gifted, dex: S.dex, cages: S.cages, jars: S.jars, eggs: S.eggs, deco: S.deco, goal: S.goal || null, teamName: S.teamName || '', lastDp: S.lastDp ?? -1, wx: S.wx || 'sun', st: S.st || {}, dm: S.dm || null, ach: S.ach || [], dexRw: S.dexRw || [], rank: S.rank || null, cw: S.cw ?? -1, cbest: S.cbest || null, trades: S.trades || null, rem: S.rem || {}, wr: S.wr || 0, freeDay: typeof S.freeDay === 'number' ? S.freeDay : null });
 }
 
 /* ---------- 배우 ---------- */
@@ -4387,7 +4465,7 @@ let F = null, keys = {}, lastT = 0;
 
 function startField(free, area = 'forest') {
   const st = AREAS[area].start;
-  F = { area, night: !!(free && fsNight), spots: free ? makeSpots(area) : null, x: st[0], y: st[1], tx: null, ty: null, dir: 1, ex: 560, ey: 615, near: null, moved: false, jx: 0, jy: 0, free: !!free, got: [] };
+  F = { diff: AREAS[area].diff || 1, area, night: !!(free && fsNight), spots: free ? makeSpots(area) : null, x: st[0], y: st[1], tx: null, ty: null, dir: 1, ex: 560, ey: 615, near: null, moved: false, jx: 0, jy: 0, free: !!free, got: [] };
   S.mode = 'field'; S.modal = false; save();
   L.ov.innerHTML = '';
   setScene(area);
@@ -4588,7 +4666,7 @@ function endEncounter(caught) {
 }
 const GAMES = {
   ring(nets, sp) {
-    const T = 1.7 - (3 - nets) * 0.25; let t = 0, r = 230;
+    const T = (1.7 - (3 - nets) * 0.25) / ((F && F.diff) || 1); let t = 0, r = 230;
     return {
       tip: '하얀 원이 금색 고리에 딱 겹칠 때 채집망을 던지세요!',
       html: `<svg class="ring-svg" viewBox="0 0 1280 720" aria-hidden="true"><circle cx="640" cy="300" r="74" fill="none" stroke="#FFD23F" stroke-width="10"/><circle id="gRing" cx="640" cy="300" r="230" fill="none" stroke="#fff" stroke-width="6"/></svg><button type="button" class="g-btn" id="gBtn">채집망 던지기</button>`,
@@ -6304,7 +6382,7 @@ function renderHub() {
   const todo = S.tut && !S.tutDone ? `<div class="side-box"><h3>오늘의 할 일 · 새롬 선배</h3>${TODO.map(([k, n]) => `<div class="todo${S.tut[k] ? ' done' : ''}"><i>${S.tut[k] ? '✓' : ''}</i>${n}</div>`).join('')}</div>` : '';
   const party = `<div class="side-box"><h3>내 팀</h3>${partyInsects().map((b) => { const st = calcStats(b); return `<div class="pm">${idleSvg(b.id, vk(b))}<div><span><b style="color:${sexCol(b)}">${sexMark(b)}</b> ${SP[b.id].name}${b.rare ? ' <b class="rs">★</b>' : ''}${b.awake ? ' <b class="aw">✦</b>' : ''} Lv.${b.lv}</span><span style="color:#9AA3B5;font-weight:700">체력 ${st.hp} · 기력 ${b.en}/${st.en}</span><span class="mbar"><i style="width:${b.en / st.en * 100}%;background:#4FD1FF"></i></span></div></div>`; }).join('')}</div>`;
   hubL.innerHTML = `<div class="hub-bg">${hubBg()}</div>${tiles}
-<div class="hub-top"><div class="chipbox"><small>세온중 ${kcGrade()}학년 · 곤충 배틀부${chapNo() >= 23 ? ' 동아리장' : ''}</small><b>${S.day || 1}일째 · ${curMonth()}월 ${SEASONS[seasonIdx()][0]} · ${WX[wxNow()][1]}${WX[wxNow()][0]}</b></div>${S.goal ? `<div class="chipbox goal"><small>${S.goal.name}</small><b>${S.goal.day - (S.day || 1) > 0 ? 'D-' + (S.goal.day - (S.day || 1)) : '오늘이에요!'}</b></div>` : ''}<div class="chipbox"><small>가진 돈</small><b style="color:#FFD23F">${(S.money || 0).toLocaleString()}원</b></div><button type="button" class="chipbox dexbtn" id="dexBtn"><small>곤충 도감</small><b>${dexCount().caught} / ${DEX.length}</b></button></div>
+<div class="hub-top"><div class="chipbox"><small>세온중 ${kcGrade()}학년 · 곤충 배틀부${chapNo() >= 23 ? ' 동아리장' : ''}</small><b>${S.day || 1}일째 · ${curMonth()}월 ${SEASONS[seasonIdx()][0]} · ${WX[wxNow()][1]}${WX[wxNow()][0]}</b></div>${S.goal ? `<div class="chipbox goal"><small>${S.goal.name}</small><b>${S.goal.day - (S.day || 1) > 0 ? 'D-' + (S.goal.day - (S.day || 1)) : '오늘이에요!'}</b></div>` : ''}${worldOpen() ? `<div class="chipbox"><small>세계 랭킹</small><b style="color:#7AE8FF">${wrRank().toLocaleString()}위</b></div>` : ''}<div class="chipbox"><small>가진 돈</small><b style="color:#FFD23F">${(S.money || 0).toLocaleString()}원</b></div><button type="button" class="chipbox dexbtn" id="dexBtn"><small>곤충 도감</small><b>${dexCount().caught} / ${DEX.length}</b></button></div>
 <div class="hub-side">${todo}${party}</div>
 <div class="hub-tip">${S.tut && !S.tutDone ? '빨간 <b>할 일</b> 표시가 있는 곳부터 차례로 가 보세요' : '가고 싶은 곳을 눌러 주세요'}</div>`;
   $('#dexBtn').addEventListener('click', (e) => { e.stopPropagation(); if (S.talking || S.paused || S.mode !== 'hub') return; openDex(); });
@@ -6947,23 +7025,23 @@ function openFieldSelect() {
   const card = (a) => {
     const all = SPOTS.filter((s) => !s.protect).filter((s) => s.area === a || AREA_SLOTS[a].some((sl) => sl.pool.includes(s.id))).filter((s, i, arr) => arr.findIndex((x) => x.id === s.id) === i);
     const list = SPOTS.filter((s) => !s.protect && (s.area === a || (!AREAS[a].region && AREA_SLOTS[a].some((sl) => sl.pool.includes(s.id))))).filter((s, i, arr) => arr.findIndex((x) => x.id === s.id) === i).map((s) => { const e = S.dex[s.id]; return `<span class="fs-bug ${e ? (e.caught ? 'got' : 'seen') : 'none'}" title="${e ? s.name : '???'}">${bugSvg(s.id)}<small>${e ? s.name : '???'}</small></span>`; }).join('');
-    return `<div class="fs"><div class="fs-bg">${bgSvg(a)}</div><b>${AREAS[a].n}</b><small>${AREAS[a].d}</small><div class="fs-list${(list.match(/fs-bug/g) || []).length > 20 ? ' dense' : ''}">${list}</div>${AREAS[a].region ? `<small class="fs-more">이 지역에만 사는 곤충 · 그 밖에 ${all.length - (list.match(/fs-bug/g) || []).length}종도 살아요</small>` : ''}<button type="button" class="btn pri" data-area="${a}">${AREAS[a].country ? `✈️ 가기 · ${AREAS[a].cost.toLocaleString()}원 · 하루 걸려요` : '여기로 가기'}</button></div>`;
+    return `<div class="fs"><div class="fs-bg">${bgSvg(a)}</div><b>${AREAS[a].n}</b><small>${AREAS[a].d}</small><div class="fs-list${(list.match(/fs-bug/g) || []).length > 20 ? ' dense' : ''}">${list}</div>${AREAS[a].region ? `<small class="fs-more">이 지역에만 사는 곤충 · 그 밖에 ${all.length - (list.match(/fs-bug/g) || []).length}종도 살아요</small>` : ''}<button type="button" class="btn pri" data-area="${a}">${AREAS[a].country ? `✈️ 가기 · ${AREAS[a].cost.toLocaleString()}원 · ${AREAS[a].days || 1}일 걸려요` : '여기로 가기'}</button></div>`;
   };
-  const nat = natOpen(), ab = abroadOpen(), ctry = ab && (fsTab === 'cn' || fsTab === 'jp' || (fsTab === 'sea' && seaOpen())) ? fsTab : null, reg = !ctry && nat && fsTab === 'nat';
+  const nat = natOpen(), ab = abroadOpen(), ctry = ab && (fsTab === 'cn' || fsTab === 'jp' || (fsTab === 'sea' && seaOpen()) || (fsTab === 'world' && worldOpen())) ? fsTab : null, reg = !ctry && nat && fsTab === 'nat';
   const keys = Object.keys(AREAS).filter((a) => (ctry ? AREAS[a].country === ctry : !AREAS[a].country && !!AREAS[a].region === reg));
-  const tl = [['local', '우리 동네'], ...(nat ? [['nat', '전국 각지']] : []), ...(ab ? [['cn', '🇨🇳 중국'], ['jp', '🇯🇵 일본']] : []), ...(seaOpen() ? [['sea', '🌴 동남아']] : [])], cur = ctry || (reg ? 'nat' : 'local');
+  const tl = [['local', '우리 동네'], ...(nat ? [['nat', '전국 각지']] : []), ...(ab ? [['cn', '🇨🇳 중국'], ['jp', '🇯🇵 일본']] : []), ...(seaOpen() ? [['sea', '🌴 동남아']] : []), ...(worldOpen() ? [['world', '🌍 해외 원정']] : [])], cur = ctry || (reg ? 'nat' : 'local');
   const tabs = tl.length > 1 ? `<div class="nat-tabs">${tl.map(([k, n]) => `<button type="button" class="nat-tab${k === cur ? ' on' : ''}" data-fst="${k}">${n}</button>`).join('')}</div>` : '';
   const tsel = `<div class="fs-time"><span>${worldLabel()}</span><span class="seg2"><button type="button" class="${fsNight ? '' : 'on'}" data-night="0">🌞 낮 채집</button><button type="button" class="${fsNight ? 'on' : ''}" data-night="1">🌙 밤 채집</button></span><small>${fsNight ? '밤에는 사슴벌레·장수풍뎅이·나방·귀뚜라미가 많고, 레어 개체가 조금 더 잘 나와요' : '낮에는 나비·잠자리·벌·매미가 많아요'} · 계절과 날씨에 따라서도 달라져요</small></div>`;
   const root = openScr('fsel', `${scrHead('채집터 · 어디로 갈까요?')}${tabs}${tsel}<div class="scr-body"><div class="opps${reg || ctry ? ' regions' : ''}">${keys.map(card).join('')}</div></div>
-<div class="scr-tip"><b>팁</b> · ${ctry ? `${ctry === 'cn' ? '중국' : ctry === 'jp' ? '일본' : '동남아시아'}까지는 비행기 표와 숙박비가 들고, 다녀오는 데 하루가 지나요. 그 나라에만 사는 곤충을 만날 수 있어요!` : reg ? '전국 리그에 나간 덕분에 전국 각지로 채집을 갈 수 있어요! 지역마다 그곳에서만 만날 수 있는 곤충이 있어요.' : `곳마다 사는 곤충이 달라요. 갈 때마다 나타나는 곤충이 바뀌니까 여러 번 가 보세요.${nat ? ' <b>전국 각지</b> 탭에서 다른 지역으로도 갈 수 있어요.' : ''}`}</div>`, () => openHub());
+<div class="scr-tip"><b>팁</b> · ${ctry ? `${ctry === 'world' ? '해외 원정은 멀수록 비행기 값과 숙박비가 크게 들고, 며칠이 지나요. 채집 미니게임도 빨라져서 어려워요(★ 난이도). 대신 세계의 거대 곤충을 만날 수 있어요!' : `${ctry === 'cn' ? '중국' : ctry === 'jp' ? '일본' : '동남아시아'}까지는 비행기 표와 숙박비가 들고, 다녀오는 데 하루가 지나요.`} 그 나라에만 사는 곤충을 만날 수 있어요!` : reg ? '전국 리그에 나간 덕분에 전국 각지로 채집을 갈 수 있어요! 지역마다 그곳에서만 만날 수 있는 곤충이 있어요.' : `곳마다 사는 곤충이 달라요. 갈 때마다 나타나는 곤충이 바뀌니까 여러 번 가 보세요.${nat ? ' <b>전국 각지</b> 탭에서 다른 지역으로도 갈 수 있어요.' : ''}`}</div>`, () => openHub());
   root.querySelectorAll('[data-fst]').forEach((b) => b.addEventListener('click', () => { fsTab = b.dataset.fst; AU.sfx('page'); openFieldSelect(); }));
   root.querySelectorAll('[data-night]').forEach((b) => b.addEventListener('click', () => { fsNight = b.dataset.night === '1'; AU.sfx('page'); openFieldSelect(); }));
   root.querySelectorAll('[data-area]').forEach((b) => b.addEventListener('click', () => {
     const a = b.dataset.area, A = AREAS[a];
     if (A.country) {
       if ((S.money || 0) < A.cost) { note(`교통비와 숙박비 ${A.cost.toLocaleString()}원이 필요해요.`, 'fail'); return; }
-      S.money -= A.cost; S.day = (S.day || 1) + 1; const ev = dayPass(); save();
-      note(`✈️ ${A.country === 'cn' ? '중국' : A.country === 'jp' ? '일본' : '동남아시아'}로 이동하느라 하루가 지났어요. (${A.cost.toLocaleString()}원)${ev.length > 1 ? ` · 사육장 소식 ${ev.length - 1}건은 사육장에서 확인하세요` : ''}`, 'page');
+      S.money -= A.cost; let ev = []; for (let dd = 0; dd < (A.days || 1); dd++) { S.day = (S.day || 1) + 1; ev = ev.concat(dayPass()); } save();
+      note(`✈️ ${A.country === 'world' ? A.n.split(' · ')[0] : A.country === 'cn' ? '중국' : A.country === 'jp' ? '일본' : '동남아시아'}로 이동하느라 ${A.days || 1}일이 지났어요. (${A.cost.toLocaleString()}원)${ev.length > 1 ? ` · 사육장 소식 ${ev.length - 1}건은 사육장에서 확인하세요` : ''}`, 'page');
     }
     S.modal = false; L.ov.innerHTML = ''; hideHub(); startField(true, a);
   }));
@@ -6973,6 +7051,12 @@ function openFieldSelect() {
 const SCHOOL_JK = { maetan: '#1E5A5A', garam: '#5A1E2A', songdo: '#2A3A6A', hwaseong: '#4A2A5A', ilsan: '#2A4A2A', gangneung: '#1E4A2A', cheonan: '#3A2A6A' };
 const kface = (k, f = 'grin', look) => `<div class="b-face" style="width:70px;height:70px">${chibi(look || CH[k].look, f)}</div>`;
 const CARDSETS = {
+  world: [
+    { t: '16개국 대표가 한자리에!', d: '한국 · 일본 · 중국 · 필리핀 · 인도네시아 · 독일 · 영국 · 프랑스 · 이탈리아 · 호주 · 남아공 · 가나 · 미국 · 캐나다 · 멕시코 · 브라질! 세계 대회 한 달 전, 모든 대표팀이 서로 한 번씩 배틀을 주고받는 친선 교류전이에요.', art: () => ['br1', 'uk1', 'fr1', 'de1'].map((k) => kface(k, 'cool')).join('') },
+    { t: '🌍 세계 곤충 대거 해금!', d: '세계 곤충 29종이 새로 추가됐어요. 타이탄하늘소, 악테온코끼리장수풍뎅이, 모르포나비, 만티코라딱정벌레… 그리고 지금까지 상대만 쓰던 헤라클레스·그란티·뮤엘러리·골리앗 등 모든 외국 곤충을 직접 잡아 기를 수 있어요!', art: () => ['titanus', 'morpho', 'manticora'].map((id) => idleSvg(id, 'm')).join('') },
+    { t: '✈️ 해외 원정 채집', d: '채집터에 <b>🌍 해외 원정</b> 탭이 생겼어요. 영국 · 프랑스 · 이탈리아 · 독일 · 미국 · 캐나다 · 멕시코 · 브라질 · 호주 · 남아공 · 가나! 멀수록 비용(3만~6만 원)과 이동 일수가 늘고, 채집 미니게임도 빨라져서 어려워요.', art: () => ['hercules', 'goliath', 'lamprima'].map((id) => idleSvg(id, 'm')).join('') },
+    { t: '🌍 프로 초청전 · 세계 랭킹', d: '학교에 <b>프로 초청전</b>이 생겼어요. 런던, 파리, 리우 같은 실제 프로 필드에서 세계 각국의 프로 배틀러와 붙어요. 이기면 개인 <b>세계 랭킹</b>이 올라가요. 랭크 아레나와 학교 밖 배틀에서도 조금씩 올라요. 목표는 세계 1위!', art: () => `<div class="b-face" style="width:96px;height:96px;background:#0A1A3A;display:grid;place-items:center;font-size:52px;border-radius:50%">🌍</div>` }
+  ],
   sea: [
     { t: '동남아시아 곤충 해금!', d: '이제 동남아시아의 곤충들을 직접 채집해서 기를 수 있어요! 아틀라스·코카서스·기라파·난초사마귀·기데온에 새 곤충 14종이 더해졌어요.', art: () => ['atlas', 'sumatitan', 'birdwing'].map((id) => idleSvg(id, 'm')).join('') },
     { t: '🌴 동남아 채집지', d: '채집터에 <b>🌴 동남아</b> 탭이 생겼어요. 수마트라 정글 · 카메론 하이랜드 · 팔라완 숲 · 태국 꽃 농원 · 메콩 늪지! 비행기 값(8,000~10,000원)과 하루가 들어요. 열대 곤충은 밤에 많이 나와요.', art: () => ['caucasus', 'palawan', 'atlasmoth'].map((id) => idleSvg(id, 'm')).join('') },
@@ -7063,6 +7147,13 @@ const MATCHES = {
     { pos: '선봉', me: 'eh', res: 'lose', note: '은하의 곤충들이 윤눈솔의 초파리 떼에 정신없이 흔들리다 졌어요.', opp: { name: '윤눈솔', sub: '스노우화이트 · 초등학교 4학년', team: ['fruitfly', 'cabbage', 'lady'], look: { hair: 'buzz', outfit: 'boy', acc: 'none', hc: '#E0D8C8', hl: '#FFFFFF', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } },
     { pos: '중견', me: 'kc', opp: { name: '백설아', sub: '스노우화이트 · 초등학교 5학년', team: ['silk', 'comma', 'snail'], line: '초등학생이라고 봐주면 큰일 나요!', look: { hair: 'pony', outfit: 'girl', acc: 'none', hc: '#2A2A3A', hl: '#5A5A7A', ec: '#7A3A5A', tie: '#E85A8A', jk: '#E8EEF8' } } },
     { pos: '대장', me: 'dh', res: 'win', note: '도혁의 곤충들이 한지희의 배추흰나비와 누에나방을 끝까지 몰아붙여 이겼어요!', opp: { name: '한지희', sub: '스노우화이트 · 초등학교 6학년 · 주장', team: ['cabbage', 'silk', 'bee'], look: { hair: 'bob', outfit: 'girl', acc: 'band', capc: '#E85A8A', hc: '#1A1A2A', hl: '#4A4A6A', ec: '#3A4A8A', tie: '#E85A8A', jk: '#E8EEF8' } } }
+  ] },
+  de2: { league: '세계 대표 친선 교류전', round: '한국 대표 vs 독일 대표 · 리벤지 매치', vs: '독일 대표', col: '#1A1A1A', prize: 15000, lvAdd: 10, q: 1.2, retry: true, need: 3, bouts: [
+    { pos: '선봉', me: 'dh', res: 'win', note: '<b style="color:#FFD23F">도혁의 승리!</b> 수마트라왕넓적사슴벌레의 톱날 큰턱이 레온의 유럽사슴벌레를 들어 올렸어요!', opp: { name: '레온 슈미트', sub: '독일 대표', team: ['cervus', 'religiosa', 'aurata'], look: CH.de5.look } },
+    { pos: '차봉', me: 'sr', res: 'lose', note: '새롬이 끝까지 분석했지만, 요나스가 한 수 앞을 읽었어요…', opp: { name: '요나스 뮐러', sub: '독일 대표 · 전략 담당', team: ['aurata', 'nasicornis', 'religiosa'], look: CH.de3.look } },
+    { pos: '중견', me: 'eh', res: 'win', note: '<b style="color:#FFD23F">은하의 승리!</b> 동남아에서 단련한 곤충들이 미아의 유럽말벌 독침을 피해 냈어요!', opp: { name: '미아 피셔', sub: '독일 대표', team: ['crabro', 'religiosa', 'aurata'], look: CH.de2.look } },
+    { pos: '부장', me: 'ch', res: 'lose', note: '찬혁이 끝까지 버텼지만 한나의 유럽코뿔소풍뎅이를 아깝게 넘지 못했어요. 2 : 2!', opp: { name: '한나 바그너', sub: '독일 대표', team: ['nasicornis', 'cervus', 'crabro'], look: CH.de4.look } },
+    { pos: '대장', me: 'kc', opp: { name: '루카스 베버', sub: '독일 대표 주장 · 세계 챔피언', team: ['cervus', 'nasicornis', 'crabro'], line: '…데이터가 바뀌었군. 증명해 봐라, 최강찬.', look: CH.de1.look } }
   ] },
   de: { league: '네오 트레이닝룸 · 검증 배틀', round: '한국 대표 vs 독일 대표 (전년도 세계 챔피언)', vs: '독일 대표', col: '#1A1A1A', prize: 0, lvAdd: 16, q: 1.2, lossOk: true, need: 3, lossMsg: '전년도 세계 챔피언, 독일 대표팀… 손도 쓰지 못했어요.', bouts: [
     { pos: '선봉', me: 'kc', opp: { name: '루카스 베버', sub: '독일 대표 주장 · 세계 챔피언', team: ['cervus', 'nasicornis', 'crabro'], line: '감정은 변수일 뿐이다. 데이터가 승패를 정한다.', look: CH.de1.look } },
@@ -7246,7 +7337,7 @@ function showEnd() {
 /* ---------- 계절 · 날씨 · 시간대 ---------- */
 const SEASONS = [['봄', '🌸'], ['여름', '☀️'], ['가을', '🍁'], ['겨울', '❄️']];
 // 스토리 진행 중에는 챕터에 맞춰 달(월)이 정해지고, 이야기를 다 본 뒤에는 5일마다 한 달씩 흘러요.
-const CH_MONTH = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 4, 6: 6, 7: 6, 8: 6, 9: 7, 10: 7, 11: 8, 12: 8, 13: 9, 14: 9, 15: 9, 16: 9, 17: 9, 18: 9, 19: 10, 20: 10, 21: 10, 22: 2, 23: 3, 24: 4, 25: 4, 26: 4, 27: 6, 28: 7, 29: 7, 30: 9, 31: 9, 32: 10, 33: 10 };
+const CH_MONTH = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 4, 6: 6, 7: 6, 8: 6, 9: 7, 10: 7, 11: 8, 12: 8, 13: 9, 14: 9, 15: 9, 16: 9, 17: 9, 18: 9, 19: 10, 20: 10, 21: 10, 22: 2, 23: 3, 24: 4, 25: 4, 26: 4, 27: 6, 28: 7, 29: 7, 30: 9, 31: 9, 32: 10, 33: 10, 34: 10, 35: 11 };
 let chapMemo = { ip: -1, n: 1 };
 function chapNo() { const ip = S.ip || 0; if (chapMemo.ip === ip) return chapMemo.n; let n = 1; for (let i = 0; i < ip && i < SCRIPT.length; i++) { const c = SCRIPT[i]; if (c.t === 'chapter') n = parseInt(String(c.no).replace(/\D/g, ''), 10) || n; } chapMemo = { ip, n }; return n; }
 const kcGrade = () => (chapNo() >= 23 ? 2 : 1);
@@ -7351,7 +7442,7 @@ const cleanPar = (p) => {
 const mateParent = (f, m) => ({ g: Object.fromEntries(STAT_NAMES.map(([k]) => [k, [f.g[k] | 0, m.g[k] | 0]])), sz: ((f.sz || 1) + (m.sz || 1)) / 2, tr: [f.tr, m.tr].filter((t) => TRAITS[t]) });
 
 /* ---------- 미션 · 업적 통계 ---------- */
-const STAT_KEYS = ['catch', 'night', 'win', 'tag', 'arena', 'train', 'feed', 'breed', 'contest', 'cwin', 'trade', 'awake', 'rare', 'days', 'street'];
+const STAT_KEYS = ['pro', 'catch', 'night', 'win', 'tag', 'arena', 'train', 'feed', 'breed', 'contest', 'cwin', 'trade', 'awake', 'rare', 'days', 'street'];
 function ensureSt() { if (!S.st || typeof S.st !== 'object') S.st = {}; for (const k of STAT_KEYS) S.st[k] = Math.max(0, S.st[k] | 0); }
 function bump(k, n = 1) { ensureSt(); S.st[k] += n; ensureDm(); const done = dmList().filter((m) => m.k === k && dmProg(m) >= m.n && dmProg(m) - n < m.n); done.forEach((m) => setTimeout(() => note(`✅ 일일 미션 완료! "${m.t}" · 미션 화면에서 보상을 받으세요`, 'perfect'), 600)); }
 const DM_POOL = [
@@ -7394,6 +7485,11 @@ const ACH = [
   { id: 'tr5', n: '교환의 달인', d: '곤충 교환을 5번 해요', ok: () => S.st.trade >= 5, r: 2000 },
   { id: 'st10', n: '길거리의 강자', d: '학교 밖에서 걸어온 배틀에서 10번 이겨요', ok: () => S.st.street >= 10, r: 3000 },
   { id: 'st50', n: '거리의 전설', d: '학교 밖에서 걸어온 배틀에서 50번 이겨요', ok: () => S.st.street >= 50, r: 10000 },
+  { id: 'rem8', n: '전국 재정복', d: '지역 대표팀 7팀과의 재대결에서 모두 이겨요', ok: () => Object.keys(S.rem || {}).length >= NATIONAL.length, r: 8000 },
+  { id: 'wr1000', n: '세계 1000위', d: '개인 세계 랭킹 1000위 안에 들어요', ok: () => wrRank() <= 1000, r: 10000 },
+  { id: 'wr100', n: '세계 100위', d: '개인 세계 랭킹 100위 안에 들어요', ok: () => wrRank() <= 100, r: 30000 },
+  { id: 'wr1', n: '세계 1위', d: '개인 세계 랭킹 1위에 올라요!', ok: () => wrRank() <= 1, r: 100000 },
+  { id: 'pro10', n: '프로 무대의 신예', d: '프로 초청 배틀에서 10번 이겨요', ok: () => (S.st.pro || 0) >= 10, r: 8000 },
   { id: 'dy30', n: '꾸준한 사육사', d: '30일 동안 곤충을 돌봐요', ok: () => (S.day || 1) >= 30, r: 2000 }
 ];
 const DEX_GROUPS = [
@@ -7444,9 +7540,9 @@ function openMissions() {
 
 /* ---------- 학교 메뉴: 아레나 · 태그 · 대회 · 교환 ---------- */
 const avgPartyLv = () => Math.round(partyInsects().reduce((a, x) => a + x.lv, 0) / Math.max(1, partyInsects().length)) || 3;
-const modeBar = () => (S.tutDone ? `<div class="mode-bar">${[['arena', '🏆', '랭크 아레나', RANKS[(S.rank || {}).t | 0][0]], ['tag', '🤝', '태그 배틀', '동료와 2:2'], ['contest', '📏', '크기 대회', contestDone() ? '이번 주 출전 완료' : '이번 주 출전 가능!'], ['trade', '🔄', '곤충 교환', '오늘의 교환 3건']].map(([k, e, n, s]) => `<button type="button" class="mode-btn" data-mode="${k}"><i>${e}</i><b>${n}</b><small>${s}</small></button>`).join('')}</div>` : '');
+const modeBar = () => (S.tutDone ? `<div class="mode-bar">${[['arena', '🏆', '랭크 아레나', RANKS[(S.rank || {}).t | 0][0]], ['tag', '🤝', '태그 배틀', '동료와 2:2'], ['contest', '📏', '크기 대회', contestDone() ? '이번 주 출전 완료' : '이번 주 출전 가능!'], ['trade', '🔄', '곤충 교환', '오늘의 교환 3건'], ...(rematchOpen() ? [['rem', '🗺️', '지역 대표 재대결', `${Object.keys(S.rem || {}).length} / ${NATIONAL.length} 승리`]] : []), ...(worldOpen() ? [['pro', '🌍', '프로 초청전', `세계 ${wrRank().toLocaleString()}위`]] : [])].map(([k, e, n, s]) => `<button type="button" class="mode-btn" data-mode="${k}"><i>${e}</i><b>${n}</b><small>${s}</small></button>`).join('')}</div>` : '');
 function bindModeBar(root) {
-  root.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => { AU.sfx('page'); ({ arena: openArena, tag: openTag, contest: openContest, trade: openTrade })[b.dataset.mode](); }));
+  root.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => { AU.sfx('page'); ({ arena: openArena, tag: openTag, contest: openContest, trade: openTrade, rem: openRematch, pro: openPro })[b.dataset.mode](); }));
 }
 const goBattle = (opp, after) => { S.modal = false; L.ov.innerHTML = ''; hideHub(); startBattle(after, opp); };
 const randSpecies = (n, bigBias) => {
@@ -7481,7 +7577,7 @@ function openArena() {
     r.opp = null;
     const msgs = [];
     if (S.lastWin) {
-      bump('arena'); r.w += 1;
+      bump('arena'); r.w += 1; wrGain(8 + r.t * 2, '랭크 아레나 승리');
       if (r.t >= 5) { r.streak += 1; r.top = Math.max(r.top, r.streak); msgs.push(`챔피언 ${r.streak}연승!`); }
       else { r.s += 1; r.streak += 1; if (r.s >= 3) { r.t += 1; r.s = 0; const rw = RANK_RW[r.t]; if (r.t > r.best) { r.best = r.t; S.money += rw[0]; giveRw(rw[1]); msgs.push(`🎉 ${RANKS[r.t][0]} 승급! 첫 승급 보상 ${rw[0].toLocaleString()}원 + ${rwName(rw[1])}`); } else msgs.push(`🎉 ${RANKS[r.t][0]} 승급!`); } else msgs.push(`별 +1 (${r.s}/3)`); }
     } else { r.streak = 0; if (r.t < 5) { r.s = Math.max(0, r.s - 1); msgs.push('별 -1'); } }
@@ -7760,7 +7856,7 @@ function showChallenge(where, after) {
   wrap.querySelector('#chGo').addEventListener('click', () => {
     if (r.fee) { if (S.money < r.fee) { note('참가비가 부족해요.', 'fail'); return; } S.money -= r.fee; }
     wrap.remove(); S.modal = false;
-    const fin = (win) => { if (win) { bump('street'); } save(); after(true, win); };
+    const fin = (win) => { if (win) { bump('street'); wrGain(5, '초청받은 길거리 배틀 승리'); } save(); after(true, win); };
     goBattle(chalOpp(c), () => {
       if (S.lastWin && r.relay) { goBattle(chalOpp(c, true), () => fin(S.lastWin)); return; }
       fin(S.lastWin);
@@ -7927,6 +8023,133 @@ for (const [id, name, base, col, mul, type, fact] of [
 
 /* 오른쪽 위 메뉴 버튼은 메인 화면(홈)에서만 보여요. 다른 화면은 모두 "뒤로가기"로 나가요. */
 setInterval(() => { const mb = $('#menuBtn'); if (!mb) return; const show = S.mode === 'hub' && !S.modal && !S.talking && !hubL.hidden; if (mb.style.display !== (show ? '' : 'none')) mb.style.display = show ? '' : 'none'; }, 150);
+
+/* ---------- 지역 대표 재대결 (챕터 34부터) ---------- */
+const rematchOpen = () => chapNo() >= 34;
+const NEWFACE = { gangwon: ['정하율', 'f', 'pony', ['deerch', 'redleg', 'katydid']], gyeongnam: ['김태오', 'm', 'spiky', ['ostag', 'kabuto', 'hornet']], jeonbuk: ['이서진', 'f', 'bob', ['damsel', 'diving', 'wspot']], jeonnam: ['최우람', 'm', 'buzz', ['molecr', 'jstink', 'locust']], gyeongbuk: ['박나래', 'f', 'twin', ['cabbage', 'paperw', 'jankow']], chungcheong: ['윤소이', 'f', 'wave', ['lunamoth', 'butterfly', 'bee']], jeju: ['고한별', 'm', 'side', ['dotstag', 'jejucarab', 'sblue']] };
+function rematchTeam(t) {
+  // 졸업한 3학년은 빠지고, 남은 선수 중 학년이 가장 높은 사람이 새 주장이 돼요. 새 1학년도 한 명 들어와요.
+  const stay = t.members.filter((m) => m.grade < 3).map((m) => ({ ...m, grade: m.grade + 1, role: '' }));
+  stay.sort((a, b) => b.grade - a.grade); if (stay[0]) stay[0].role = '주장';
+  const nf = NEWFACE[t.key] || ['신입생', 'm', 'spiky', ['kabuto', 'stag', 'mantis']];
+  const fresh = { name: nf[0], g: nf[1], grade: 1, role: '새 얼굴', look: { hair: nf[2], hc: '#2A1A14', hl: '#5A3A2A', ec: '#3A2A1A', acc: 'none' }, team: nf[3], line: '선배들이 졸업했어도, 우리 학교는 여전히 강해요!', fresh: true };
+  return { cap: stay[0] || t.members[0], fresh, gone: t.members.filter((m) => m.grade >= 3) };
+}
+function openRematch() {
+  AU.play('classroom'); if (!S.rem || typeof S.rem !== 'object') S.rem = {};
+  const done = Object.keys(S.rem).length;
+  const cards = NATIONAL.map((t) => { const r = rematchTeam(t), c = r.cap, ok = S.rem[t.key];
+    return `<div class="opp${ok ? ' done' : ''}"><span class="opp-tag" style="background:${t.jk}">${t.region} · ${t.team}</span><div class="face">${chibi(natLook(t, c), ok ? 'smile' : 'grin')}</div><b>${c.name}</b><small>${t.school} ${c.grade}학년 · ${c.role || '대표'}</small>
+<div class="mini">${c.team.map((id) => bugSvg(id)).join('')}</div><small style="color:#9AA3B5">${r.gone.length ? `졸업: ${r.gone.map((m) => m.name).join(', ')} · ` : ''}새 얼굴: ${r.fresh.name}</small>
+<button type="button" class="btn${ok ? '' : ' pri'}" data-rem="${t.key}">${ok ? '다시 연습하기' : '재대결 신청!'}</button></div>`; }).join('');
+  const root = openScr('school rem', `${scrHead(`지역 대표 재대결 · ${done} / ${NATIONAL.length}`)}<div class="scr-body school-body feat"><p class="tag-p">세계 대회 전, 전국 리그에서 만났던 지역 대표팀과 한 번씩 다시 붙어 봐요! 다들 예전보다 강해졌고, 졸업한 선배 대신 새 얼굴도 보여요. 처음 이기면 보너스 상금 3,000원!</p><div class="opps four">${cards}</div></div>`, () => openSchool());
+  root.querySelectorAll('[data-rem]').forEach((b) => b.addEventListener('click', () => {
+    const t = NATIONAL.find((x) => x.key === b.dataset.rem), r = rematchTeam(t), c = r.cap;
+    const team = [...new Set([...c.team.slice(0, 2), r.fresh.team[0], ...c.team])].slice(0, 3);
+    const lv = Math.min(MAX_LV + 6, avgPartyLv() + 5);
+    goBattle({ rand: true, name: c.name, sub: `${t.school} ${t.team} · 새 주장`, line: c.line || '전국 리그 때랑은 다를 거야!', team, rare: c.rare || null, lv, look: natLook(t, c), q: 1, prize: 1500 }, () => {
+      if (S.lastWin && !S.rem[t.key]) { S.rem[t.key] = true; S.money += 3000; note(`${t.region} 대표 ${t.team}에게 이겼어요! 보너스 3,000원!`, 'win'); if (Object.keys(S.rem).length === NATIONAL.length) setTimeout(() => note('🏆 모든 지역 대표팀과의 재대결에서 이겼어요!', 'win'), 1500); }
+      save(); openHub(); openRematch();
+    });
+  }));
+}
+
+
+/* ---------- 세계 (챕터 35부터): 세계 곤충 · 해외 채집지 · 프로 초청전 · 세계 랭킹 ---------- */
+const worldOpen = () => chapNo() >= 35;
+// 지금까지 상대만 쓰던 외국 곤충도 해외 채집지에서 잡아 기를 수 있어요
+for (const s of SPOTS) if (s.foreign && s.id !== 'callipogon' && s.protect) { s.protect = false; s.place = s.place.replace(/\(.*\)/, '(해외 채집지)'); }
+const WORLD_SP = [
+  // [id, 이름, 바탕, 색, 배수, 계통, 나라 키, 설명]
+  ['titanus', '타이탄하늘소', 'longhorn', { hue: 15, sat: 1.2, br: .65, sc: 1.5 }, 1.36, '참격', 'br', '세계에서 가장 큰 딱정벌레. 큰턱으로 연필도 부러뜨린대요.'],
+  ['actaeon', '악테온코끼리장수풍뎅이', 'kabuto', { hue: 0, sat: .2, br: .45, sc: 1.4 }, 1.36, '장갑', 'br', '세계에서 가장 무거운 곤충 중 하나. 새까만 몸이 코끼리처럼 육중해요.'],
+  ['morpho', '모르포나비', 'butterfly', { sl: [.15, .55, 1], ic: [.05, .25, .6], sc: 1.15 }, 1.24, '타격', 'br', '날개가 푸른 금속빛으로 번쩍이는 아마존의 보석 나비예요.'],
+  ['neptunus', '넵튠장수풍뎅이', 'kabuto', { hue: 0, sat: .3, br: .55, sc: 1.3 }, 1.32, '장갑', 'br', '머리뿔 양옆에 작은 뿔이 더 달린 남미 고산의 장수풍뎅이예요.'],
+  ['chiasog', '칠레사슴벌레', 'sawstag', { hue: 40, sat: 1.4, br: 1.1, sc: 1.25 }, 1.28, '참격', 'br', '아래로 휘어진 긴 큰턱을 가진 남미의 무지갯빛 사슴벌레예요.'],
+  ['hyllus', '멕시코장수풍뎅이', 'kabuto', { sl: [.45, .45, .4], ic: [.32, .3, .24], sc: 1.15 }, 1.26, '장갑', 'mx', '회색빛 딱지날개에 검은 점이 있는 멕시코의 장수풍뎅이예요.'],
+  ['mexmantis', '멕시코꽃사마귀', 'orchid', { hue: 120, sat: 1.3, br: 1, sc: 1 }, 1.22, '참격', 'mx', '초록 꽃잎처럼 생긴 멕시코의 사마귀예요.'],
+  ['luna', '루나나방', 'lunamoth', { hue: 30, sat: 1.4, br: 1.1, sc: 1.15 }, 1.2, '독침', 'ca', '연두색 날개에 긴 꼬리를 가진 북미의 달나방이에요.'],
+  ['darner', '아메리카왕잠자리', 'emperor', { hue: 40, sat: 1.4, br: 1.05, sc: 1.1 }, 1.2, '독침', 'ca', '초록 가슴에 파란 배를 가진 북미에서 가장 빠른 잠자리예요.'],
+  ['canstag', '캐나다사슴벌레', 'lucanus', { hue: -10, sat: 1.1, br: .7, sc: 1.05 }, 1.2, '참격', 'ca', '추위에 강한 북쪽 숲의 사슴벌레예요.'],
+  ['cockchafer', '왕풍뎅이', 'chafer', { hue: -60, sat: 1.1, br: .9, sc: 1.2 }, 1.18, '장갑', 'uk', '봄밤에 붕붕 날아다니는 유럽의 커다란 풍뎅이예요.'],
+  ['peacock', '공작나비', 'butterfly', { hue: -40, sat: 1.6, br: .95, sc: 1 }, 1.18, '타격', 'uk', '날개에 공작새 눈알 무늬가 있는 영국의 나비예요.'],
+  ['dorcusuk', '작은사슴벌레', 'lucanus', { hue: 0, sat: .3, br: .5, sc: .85 }, 1.15, '참격', 'uk', '영국 숲의 작고 단단한 사슴벌레예요.'],
+  ['rosalia', '로잘리아하늘소', 'longhorn', { sl: [.35, .5, .65], ic: [.25, .45, .6], sc: 1.05 }, 1.22, '참격', 'fr', '하늘색 몸에 검은 무늬가 있는 알프스의 아름다운 하늘소예요.'],
+  ['frswallow', '산호랑나비', 'swallowtail', { hue: 50, sat: 1.4, br: 1.25, sc: 1.05 }, 1.2, '타격', 'fr', '노란 날개에 검은 줄이 있는 프랑스 들판의 호랑나비예요.'],
+  ['auratus', '금빛딱정벌레', 'redcarab', { hue: 100, sat: 1.6, br: 1.2, sc: 1.05 }, 1.22, '참격', 'fr', '금빛 초록으로 번쩍이는 유럽의 땅딱정벌레예요.'],
+  ['itcicada', '남유럽매미', 'cicada', { hue: 20, sat: .8, br: 1.05, sc: 1.1 }, 1.2, '소리', 'it', '이탈리아의 여름을 가득 채우는 매미 소리의 주인공이에요.'],
+  ['itmantis', '이탈리아사마귀', 'mantis', { hue: 30, sat: 1.1, br: 1.1, sc: 1.05 }, 1.22, '참격', 'it', '지중해 햇볕 아래 사는 노르스름한 사마귀예요.'],
+  ['oryctes', '지중해코뿔소풍뎅이', 'kabuto', { hue: 10, sat: 1.3, br: .85, sc: 1.1 }, 1.24, '장갑', 'it', '이탈리아 남부의 반질반질한 코뿔소풍뎅이예요.'],
+  ['lamprima', '람프리마사슴벌레', 'sawstag', { hue: 90, sat: 1.8, br: 1.2, sc: 1 }, 1.24, '참격', 'au', '초록·금빛으로 빛나는 호주의 보석 사슴벌레예요.'],
+  ['ulysses', '율리시스나비', 'swallowtail', { sl: [.2, .6, 1], ic: [0, .2, .6], sc: 1.1 }, 1.22, '타격', 'au', '선명한 파란 날개를 가진 호주 열대우림의 나비예요.'],
+  ['spinystick', '가시대벌레', 'stick', { hue: 20, sat: 1, br: .9, sc: 1.3 }, 1.24, '타격', 'au', '온몸이 가시로 덮인 호주의 거대한 대벌레예요.'],
+  ['bulldog', '불독개미', 'fireant', { hue: -10, sat: 1.2, br: .9, sc: 1.5 }, 1.26, '독침', 'au', '세계에서 가장 공격적인 개미. 강한 독침과 큰 턱을 가졌어요.'],
+  ['manticora', '만티코라딱정벌레', 'bombard', { hue: 0, sat: .2, br: .5, sc: 1.4 }, 1.32, '참격', 'za', '거대한 큰턱을 가진 남아프리카 사막의 땅딱정벌레. 세계에서 가장 무서운 딱정벌레래요.'],
+  ['mecyno', '자이언트초록꽃무지', 'pungi', { hue: 30, sat: 1.6, br: 1.15, sc: 1.3 }, 1.28, '장갑', 'za', '아프리카의 커다란 초록 꽃무지. 머리에 작은 뿔이 있어요.'],
+  ['afstag', '아프리카톱사슴벌레', 'sawstag', { hue: 20, sat: 1.2, br: .8, sc: 1.15 }, 1.26, '참격', 'za', '사바나 숲에 사는 아프리카의 톱사슴벌레예요.'],
+  ['antimachus', '아프리카큰호랑나비', 'swallowtail', { hue: 30, sat: 1.8, br: 1.2, sc: 1.4 }, 1.28, '타격', 'gh', '아프리카에서 가장 큰 나비. 주황빛 날개에 강한 독을 품고 있어요.'],
+  ['afmantis', '아프리카꽃사마귀', 'orchid', { hue: 180, sat: 1, br: 1, sc: 1 }, 1.22, '참격', 'gh', '날개에 눈알 무늬가 있는 가나의 꽃사마귀예요.'],
+  ['termite', '왕흰개미', 'ant', { hue: 30, sat: .6, br: 1.3, sc: 1.4 }, 1.18, '독침', 'gh', '거대한 흙탑을 쌓는 아프리카의 흰개미 병정이에요.']
+];
+{
+  const j = (w, a, b) => ((w.charCodeAt(w.length - 1) - 0xAC00) % 28 ? a : b);
+  for (const [id, name, base, col, mul, type, ctr, fact] of WORLD_SP) {
+    INSECT[id] = tintSvg(INSECT[base], id, col);
+    const s = { ...SP[base], name, foreign: true, type };
+    for (const k of ['hp', 'atk', 'spa', 'def', 'sdf', 'spd']) s[k] = Math.round(SP[base][k] * mul);
+    s.mm = Math.round(SP[base].mm * (col.sc || 1) * 1.2 * 10) / 10;
+    SP[id] = s; MOTION[id] = MOTION[base]; IDLE_AS[id] = IDLE_AS[base] || base; if (SING.has(base) || SING.has(IDLE_AS[base])) SING.add(id);
+    SPOTS.push({ area: 'w_' + ctr, id, foreign: true, name, obj: name + j(name, '을', '를'), subj: name + j(name, '이', '가'), type, game: 'ring', place: '해외 채집지', fact });
+    DEX.push(id);
+  }
+}
+// 해외 채집지: 멀수록 비싸고, 오래 걸리고, 채집 미니게임이 빨라져요
+const WORLD_AREAS = {
+  w_uk: { n: '🇬🇧 영국 · 셔우드 숲', d: '왕풍뎅이·공작나비·작은사슴벌레', base: 'forest', tint: ['#3A5A3A', .16], cost: 30000, days: 2, diff: 1.25, pools: [['cervus', 'dorcusuk', 'cockchafer'], ['peacock', 'crabro', 'aurata'], ['cockchafer', 'peacock', 'nasicornis'], ['religiosa', 'peacock', 'stick'], ['cervus', 'dorcusuk', 'lucanus'], ['darkling', 'slug', 'earwig'], ['centipede', 'redcarab', 'auratus']] },
+  w_fr: { n: '🇫🇷 프랑스 · 알프스 숲', d: '로잘리아하늘소·금빛딱정벌레', base: 'forest', tint: ['#4A6A8A', .14], cost: 30000, days: 2, diff: 1.25, pools: [['nasicornis', 'cervus', 'rosalia'], ['frswallow', 'crabro', 'aurata'], ['rosalia', 'itcicada', 'lunamoth'], ['religiosa', 'katydid', 'stick'], ['cervus', 'dorcusuk', 'rosalia'], ['auratus', 'darkling', 'slug'], ['auratus', 'centipede', 'scutigera']] },
+  w_it: { n: '🇮🇹 이탈리아 · 지중해 언덕', d: '남유럽매미·이탈리아사마귀', base: 'meadow', tint: ['#E8B060', .14], cost: 32000, days: 2, diff: 1.25, pools: [['frswallow', 'peacock', 'itcicada'], ['spider'], ['oryctes', 'auratus', 'tiger'], ['itmantis', 'religiosa', 'locust'], ['itcicada', 'aurata', 'bee'], ['oryctes', 'cricket', 'snail']] },
+  w_de: { n: '🇩🇪 독일 · 검은 숲', d: '유럽사슴벌레·유럽코뿔소풍뎅이', base: 'forest', tint: ['#1A3A2A', .2], cost: 30000, days: 2, diff: 1.3, pools: [['cervus', 'nasicornis', 'dorcusuk'], ['crabro', 'aurata', 'peacock'], ['cockchafer', 'rosalia', 'lunamoth'], ['religiosa', 'katydid', 'stick'], ['cervus', 'nasicornis', 'lucanus'], ['auratus', 'darkling', 'earwig'], ['centipede', 'auratus', 'redcarab']] },
+  w_us: { n: '🇺🇸 미국 · 애리조나 협곡', d: '그란티·티티우스·타란툴라호크', base: 'meadow', tint: ['#E8904A', .16], cost: 40000, days: 2, diff: 1.35, pools: [['monarch', 'thawk', 'darner'], ['spider'], ['granti', 'tityus', 'carolina'], ['carolina', 'locust', 'katydid'], ['monarch', 'thawk', 'bee'], ['granti', 'elaphus', 'cricket']] },
+  w_ca: { n: '🇨🇦 캐나다 · 단풍 숲', d: '루나나방·아메리카왕잠자리', base: 'forest', tint: ['#C84A2A', .14], cost: 42000, days: 2, diff: 1.35, pools: [['canstag', 'elaphus', 'tityus'], ['darner', 'monarch', 'hornet'], ['luna', 'lunamoth', 'satmoth'], ['carolina', 'katydid', 'stick'], ['canstag', 'elaphus', 'lucanus'], ['darkling', 'slug', 'redcarab'], ['centipede', 'scutigera', 'earwig']] },
+  w_mx: { n: '🇲🇽 멕시코 · 고원 숲', d: '멕시코장수풍뎅이·멕시코꽃사마귀', base: 'forest', tint: ['#C8A040', .16], cost: 45000, days: 2, diff: 1.4, pools: [['hyllus', 'granti', 'tityus'], ['monarch', 'thawk', 'chrysochroa'], ['luna', 'megapomponia', 'monarch'], ['mexmantis', 'carolina', 'phyllium'], ['hyllus', 'elaphus', 'chiasog'], ['roach', 'darkling', 'bombard'], ['centipede', 'scutigera', 'thawk']] },
+  w_br: { n: '🇧🇷 브라질 · 아마존 정글', d: '타이탄하늘소·악테온·헤라클레스', base: 'forest', tint: ['#0A5A2A', .24], cost: 60000, days: 3, diff: 1.55, pools: [['hercules', 'actaeon', 'neptunus'], ['morpho', 'chrysochroa', 'thawk'], ['titanus', 'morpho', 'megapomponia'], ['mexmantis', 'phyllium', 'phobaeticus'], ['chiasog', 'titanus', 'hercules'], ['roach', 'darkling', 'slug'], ['centipede', 'scutigera', 'bombard']] },
+  w_au: { n: '🇦🇺 호주 · 퀸즐랜드 우림', d: '뮤엘러리·람프리마·불독개미', base: 'forest', tint: ['#3A7A4A', .18], cost: 45000, days: 2, diff: 1.4, pools: [['muelleri', 'lamprima', 'kabuto'], ['ulysses', 'bulldog', 'chrysochroa'], ['ulysses', 'megapomponia', 'atlasmoth'], ['spinystick', 'phyllium', 'orchid'], ['muelleri', 'lamprima', 'metallifer'], ['bulldog', 'roach', 'darkling'], ['centipede', 'bulldog', 'scutigera']] },
+  w_za: { n: '🇿🇦 남아공 · 칼라하리 사바나', d: '만티코라·자이언트초록꽃무지', base: 'meadow', tint: ['#D89040', .2], cost: 55000, days: 3, diff: 1.5, pools: [['antimachus', 'mecyno', 'goliath'], ['spider'], ['manticora', 'afstag', 'kdung'], ['afmantis', 'locust', 'katydid'], ['mecyno', 'goliath', 'bee'], ['manticora', 'termite', 'cricket']] },
+  w_gh: { n: '🇬🇭 가나 · 열대 우림', d: '골리앗꽃무지·아프리카큰호랑나비', base: 'forest', tint: ['#2A6A2A', .22], cost: 55000, days: 3, diff: 1.5, pools: [['goliath', 'mecyno', 'afstag'], ['antimachus', 'termite', 'chrysochroa'], ['antimachus', 'atlasmoth', 'megapomponia'], ['afmantis', 'phyllium', 'phobaeticus'], ['afstag', 'goliath', 'giraffa'], ['termite', 'roach', 'darkling'], ['centipede', 'termite', 'bombard']] }
+};
+for (const [a, o] of Object.entries(WORLD_AREAS)) {
+  AREAS[a] = { n: o.n, chip: [o.n.replace(/^\S+ /, '').split(' · ')[0] + ' · 원정 채집', o.n.split(' · ')[1]], start: o.base === 'meadow' ? [440, 600] : [640, 600], d: `${o.d} · 이동 ${o.days}일 · 난이도 ${'★'.repeat(Math.round((o.diff - 1) * 10 / 1.5) + 1)}`, base: o.base, country: 'world', cost: o.cost, days: o.days, diff: o.diff };
+  AREA_SLOTS[a] = AREA_SLOTS[o.base].map((sl, i) => ({ ...sl, pool: o.pools[i] || sl.pool }));
+  BG[a] = regionBg(o.base, o.tint[0], o.tint[1], '해외'); MUSIC[a] = 'forest'; SCENES[a] = { place: null, actors: {}, field: true };
+}
+
+/* 개인 세계 랭킹 */
+const wrPts = () => Math.max(0, (S.wr || 0) | 0);
+const wrRank = () => Math.max(1, Math.round(9999 / (1 + wrPts() / 60)));
+function wrGain(n, why) { if (!worldOpen()) return; const b = wrRank(); S.wr = Math.max(0, wrPts() + n); const a = wrRank(); if (a < b) setTimeout(() => note(`🌍 세계 랭킹 ${b.toLocaleString()}위 → ${a.toLocaleString()}위! (${why})`, 'win'), 900); }
+
+/* 프로 필드 초청 배틀 */
+const PRO_C = [['🇬🇧', '영국', ['cervus', 'cockchafer', 'peacock']], ['🇫🇷', '프랑스', ['rosalia', 'auratus', 'frswallow']], ['🇮🇹', '이탈리아', ['oryctes', 'itmantis', 'itcicada']], ['🇩🇪', '독일', ['cervus', 'nasicornis', 'crabro']], ['🇺🇸', '미국', ['granti', 'thawk', 'elaphus']], ['🇨🇦', '캐나다', ['canstag', 'luna', 'darner']], ['🇲🇽', '멕시코', ['hyllus', 'mexmantis', 'thawk']], ['🇧🇷', '브라질', ['titanus', 'actaeon', 'hercules']], ['🇦🇺', '호주', ['muelleri', 'lamprima', 'bulldog']], ['🇿🇦', '남아공', ['manticora', 'mecyno', 'afstag']], ['🇬🇭', '가나', ['goliath', 'antimachus', 'afmantis']], ['🇯🇵', '일본', ['miyama', 'hirata', 'oniyanma']], ['🇨🇳', '중국', ['curvidens', 'neolucanus', 'lantern']], ['🇵🇭', '필리핀', ['palawan', 'gideon', 'birdwing']], ['🇮🇩', '인도네시아', ['atlas', 'sumatitan', 'chrysochroa']]];
+const PRO_FIELDS = ['런던 로열 곤충 아레나', '파리 그랑 팔레 특설 무대', '로마 콜로세움 곤충 필드', '뉴욕 인섹트 가든', '도쿄 돔 곤충 페스타', '시드니 하버 아레나', '리우 정글 돔', '케이프타운 사바나 필드'];
+const PRO_NAMES = { 영국: ['올리버 해리스', '에밀리 존스'], 프랑스: ['클로에 마르탱', '위고 베르나르'], 이탈리아: ['마르코 로시', '줄리아 리치'], 독일: ['펠릭스 코흐', '레나 슐츠'], 미국: ['잭슨 리', '애바 밀러'], 캐나다: ['노아 트랑블레', '리암 고티에'], 멕시코: ['디에고 에르난데스', '발레리아 로페스'], 브라질: ['하파엘 산투스', '베아트리스 실바'], 호주: ['쿠퍼 윌슨', '루비 테일러'], 남아공: ['시포 은코시', '나디아 판데르메르버'], 가나: ['코피 멘사', '아마 오세이'], 일본: ['니시무라 쇼', '고바야시 렌'], 중국: ['자오레이', '쑨팅'], 필리핀: ['미구엘 레예스', '안젤리카 크루즈'], 인도네시아: ['리스키 프라타마', '데위 라하유'] };
+function proOpp() {
+  const [flag, ctr, team] = rpick(PRO_C), name = rpick(PRO_NAMES[ctr]), girl = /에밀리|클로에|줄리아|레나|애바|발레리아|베아트리스|루비|나디아|아마|쑨팅|안젤리카|데위/.test(name);
+  const tier = Math.min(5, Math.floor(wrPts() / 250)), lv = Math.min(MAX_LV + 8, avgPartyLv() + 3 + tier);
+  const hc = rpick(HC), look = { hair: rpick(girl ? ['pony', 'bob', 'long', 'wave'] : ['spiky', 'cool', 'neat', 'buzz']), outfit: girl ? 'girl' : 'boy', acc: 'none', hc: hc[0], hl: hc[1], ec: rpick(EC), tie: rcol(), jk: '#1A1A2A' };
+  return { rand: true, pro: true, flag, ctr, field: rpick(PRO_FIELDS), name, sub: `${flag} ${ctr} 프로 배틀러 · 세계 랭킹 ${Math.max(1, Math.round(wrRank() * (.4 + Math.random() * .5))).toLocaleString()}위`, line: rpick(['프로 무대에 온 걸 환영해!', '세계는 넓다는 걸 보여 주지.', '관중이 지켜보고 있어. 멋지게 붙자!', '한국 대표라고? 기대된다!']), team: team.slice(), lv, look, q: 1 + tier * .1, prize: 3000 + tier * 1500 };
+}
+function openPro() {
+  AU.play('opening'); if (!S.proOpp) S.proOpp = proOpp();
+  const o = S.proOpp;
+  const root = openScr('school pro', `${scrHead('🌍 프로 필드 초청 배틀')}<div class="scr-body school-body feat">
+<div class="rank-box" style="--rc:#4AE0FF"><div class="rank-emb">🌍</div><div><small>나의 세계 랭킹</small><b>${wrRank().toLocaleString()}위</b><p>랭킹 포인트 ${wrPts().toLocaleString()} · 프로 초청 배틀에서 이기면 +40, 지면 -15. 랭크 아레나·학교 밖 배틀에서도 조금씩 올라요. 랭킹이 오를수록 더 강한 프로가 초청해요.</p></div></div>
+<div class="opps" style="grid-template-columns:minmax(0,1fr)"><div class="opp free"><span class="opp-tag free" style="background:#1A4A8A">${o.field}</span><div class="face">${chibi(o.look, 'grin')}</div><b>${o.name}</b><small>${o.sub}</small><p class="line">“${o.line}”</p>
+<div class="mini">${o.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${o.lv}</small><p>이기면 ${o.prize.toLocaleString()}원 · 랭킹 포인트 +40</p>
+<div style="display:flex;gap:8px"><button type="button" class="btn pri" id="proGo">초청 배틀 시작!</button><button type="button" class="btn" id="proNew">다른 초청 (300원)</button></div></div></div></div>`, () => openSchool());
+  $('#proNew').addEventListener('click', () => { if (S.money < 300) { note('돈이 부족해요.', 'fail'); return; } S.money -= 300; S.proOpp = proOpp(); save(); openPro(); });
+  $('#proGo').addEventListener('click', () => goBattle(o, () => { S.proOpp = null; if (S.lastWin) { bump('pro'); wrGain(40, '프로 초청 배틀 승리'); } else S.wr = Math.max(0, wrPts() - 15); save(); openHub(); openPro(); }));
+}
+
 /* ---------- 메뉴 ---------- */
 function onoffRow(key, label) {
   return `<div class="row"><span>${label}</span><div class="seg" role="group" aria-label="${label}"><button type="button" data-${key}="1" aria-pressed="${prefs[key]}">켜기</button><button type="button" data-${key}="0" aria-pressed="${!prefs[key]}">끄기</button></div></div>`;
@@ -8083,6 +8306,7 @@ function resume(sv) {
   S.ach = Array.isArray(sv.ach) ? sv.ach.filter((x) => ACH.some((a) => a.id === x)) : []; S.dexRw = Array.isArray(sv.dexRw) ? sv.dexRw.map(String) : [];
   S.rank = sv.rank && typeof sv.rank === 'object' ? { t: sv.rank.t | 0, s: sv.rank.s | 0, w: sv.rank.w | 0, best: sv.rank.best | 0, streak: sv.rank.streak | 0, top: sv.rank.top | 0, opp: null } : null; ensureRank();
   S.freeDay = typeof sv.freeDay === 'number' ? sv.freeDay : undefined; monthMemo = { ip: -1, m: 3 };
+  S.rem = sv.rem && typeof sv.rem === 'object' ? sv.rem : {}; S.wr = Math.max(0, sv.wr | 0);
   S.cw = typeof sv.cw === 'number' ? sv.cw : -1; S.cbest = sv.cbest && SP[sv.cbest.id] ? { score: +sv.cbest.score || 0, id: sv.cbest.id, mm: +sv.cbest.mm || 0 } : null;
   S.trades = sv.trades && Array.isArray(sv.trades.list) && sv.trades.list.every((t) => SP[t.want] && SP[t.give]) ? sv.trades : null;
   if (S.bugs.length) ensureBugs();
