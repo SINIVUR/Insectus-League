@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.0.4">
+<meta name="version" content="1.0.5">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -5555,7 +5555,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.0.4';
+const VERSION = '1.0.5';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -12409,8 +12409,12 @@ function bindModeBar(root) {
   root.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => { AU.sfx('page'); ({ arena: openArena, tag: openTag, contest: openContest, trade: openTrade, rem: openRematch, pro: openPro, tower: openTower, legend: openLegend })[b.dataset.mode](); }));
 }
 const goBattle = (opp, after) => { S.modal = false; L.ov.innerHTML = ''; hideHub(); startBattle(after, opp); };
+/* 국산 곤충: 외국 표시가 없고, 채집터가 모두 우리나라(일본·중국·해외 지역 제외)인 곤충 */
+const KR_AREAS = new Set(['forest', 'meadow', 'pond', 'jeju', 'gangwon', 'gyeonggi', 'chungcheong', 'jeolla', 'gyeongsang']);
+let KR_SET = null;
+const isKr = (id) => { if (!KR_SET) { const ar = {}; SPOTS.forEach((sp) => { (ar[sp.id] = ar[sp.id] || []).push(sp.area); }); KR_SET = new Set(DEX.filter((x) => SP[x] && !SP[x].foreign && (ar[x] || []).every((a) => KR_AREAS.has(a)))); } return KR_SET.has(id); };
 const randSpecies = (n, bigBias) => {
-  const ids = DEX.filter((id) => SP[id] && id !== 'callipogon' && (!SP[id].foreign || (foreignUse() && Math.random() < .5))), out = [];
+  const ids = DEX.filter((id) => SP[id] && id !== 'callipogon' && (isKr(id) || (foreignUse() && SP[id].foreign && Math.random() < .5))), out = [];
   while (out.length < n) { const id = ids[Math.floor(Math.random() * ids.length)]; if (out.includes(id)) continue; if (bigBias && !SP[id].big && Math.random() < bigBias) continue; out.push(id); }
   return out;
 };
@@ -12427,7 +12431,7 @@ function arenaOpp() {
 }
 function openArena() {
   ensureRank(); AU.play('classroom');
-  const r = S.rank; if (!r.opp) r.opp = arenaOpp();
+  const r = S.rank; if (!r.opp || !r.opp.team || r.opp.team.some((id) => !isKr(id))) { r.opp = arenaOpp(); save(); }
   const o = r.opp, [rn, rc] = RANKS[r.t];
   const stars = r.t >= 5 ? `연승 ${r.streak} · 최고 ${r.top}연승` : [0, 1, 2].map((i) => `<i class="star${i < r.s ? ' on' : ''}">★</i>`).join('');
   const root = openScr('school arena', `${scrHead('랭크 아레나')}<div class="scr-body school-body feat">
@@ -12588,8 +12592,8 @@ const TH_IDS = {
   sing: ['cicada', 'smcicada', 'blkcicada', 'cricket', 'katydid', 'molecr'],
   dragon: ['dragonfly', 'emperor', 'damsel', 'mayfly', 'antlion', 'cranefly']
 };
-const thPool = (th) => {
-  const ok = (id) => SP[id] && !SP[id].foreign && id !== 'callipogon';
+const thPool = (th, kr = true) => {
+  const ok = (id) => SP[id] && !SP[id].foreign && id !== 'callipogon' && (!kr || isKr(id));
   if (TH_IDS[th]) return TH_IDS[th].filter(ok);
   const all = DEX.filter(ok);
   if (th === 'water') return all.filter((id) => SP[id].hab === '수상');
@@ -12685,9 +12689,9 @@ function makeChallenger(where) {
   let th = rpick(a.th); if (th === 'foreign' && !foreignUse()) th = 'big'; if (th === 'rare') th = 'beetle';
   if (jp && foreignUse() && Math.random() < .5) th = 'foreign';
   const ruleK = rpick(a.ru), rule = BRULES[ruleK];
-  const size = rule.size || 3, pool2 = thPool(th).length >= size ? thPool(th) : thPool('mix');
+  const size = rule.size || 3, pool2 = thPool(th, !jp).length >= size ? thPool(th, !jp) : thPool('mix', !jp);
   const team = []; while (team.length < size) { const id = rpick(pool2); if (!team.includes(id)) team.push(id); }
-  if (rule.rare) { const rid2 = rpick(Object.keys(RARE).filter((x) => !team.includes(x))); if (rid2) team[0] = rid2; }
+  if (rule.rare) { const rid2 = rpick(Object.keys(RARE).filter((x) => !team.includes(x) && (jp || isKr(x)))); if (rid2) team[0] = rid2; }
   const hair = rpick(girl ? ['pony', 'bob', 'long', 'twin', 'wave', 'side'] : ['spiky', 'neat', 'cool', 'buzz', 'side', 'wave']);
   const hc = a.age === 'old' ? rpick([['#C8C8D0', '#F0F0F4'], ['#A8A8B0', '#D8D8E0']]) : rpick(HC);
   const look = { hair, outfit: girl ? 'girl' : 'boy', acc: a.emblem ? 'none' : a.acc, capc: rcol(), hc: hc[0], hl: hc[1], ec: rpick(EC), tie: rcol(), ...(a.emblem ? { jk: '#1E1428', emblem: true, tie: '#9A4AE0' } : { cas: { style: rpick(['tee', 'shirt', 'hoodie', 'track', 'cardigan']), top: rcol(), top2: rcol(), bottom: rcol(), leg: rpick(girl ? ['skirt', 'shorts', 'pants', 'track'] : ['shorts', 'pants', 'track']), shoe: rpick(['#F4F4F4', '#1C1C22', '#C86A4A', '#E8E8E8']), sock: '#FFFFFF' } }) };
