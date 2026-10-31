@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.0.10">
+<meta name="version" content="1.0.13">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -5558,7 +5558,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.0.10';
+const VERSION = '1.0.13';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -8928,7 +8928,7 @@ function showExhibit(c, done) {
   S.mode = 'match'; $('#menuBtn').hidden = true; AU.play('big');
   const face = (look, f) => `<div class="mface">${chibi(look, f)}</div>`;
   const o = c.opp, me = CH[c.me];
-  const draw = (r, msg, btn) => {
+  const draw = (r, msg, btn) => { ovKeepScroll('match');
     L.ov.innerHTML = `<div class="ov match" style="--opp:${o.look.jk}"><div class="m-head"><small>${c.title}</small><div class="m-score"><b>${c.meTeam || teamNm()}</b><span>${r ? (r === 'win' ? '1 : 0' : '0 : 1') : 'VS'}</span><b>${o.team_n}</b></div></div>
 <div class="m-rows"><div class="m-row now${r ? '' : ''}"><span class="pos">한 판</span>
 <div class="side">${face(me.look, r === 'lose' ? 'shock' : 'cool')}<div><b>${me.name}</b><small>${c.meSub || teamNm()}</small></div></div>
@@ -10054,15 +10054,17 @@ function startBattle(done, oppKey) {
   const story = S.mode === 'story' || S.mode === 'match';
   /* 이야기 배틀에서 같은 상대에게 계속 지면 상대가 조금씩 약해져요 (상대 레벨이 내 레벨을 따라오니 특훈만으로는 못 넘기 때문) */
   const ease = story && S.retry && S.retry.name === opp.name ? Math.min(4, S.retry.n) : 0;
-  const oppLv = Math.max(1, Math.min(opp.lvCap || MAX_LV + 6, opp.rand ? opp.lv : oppKey && oppKey !== 'dh' ? Math.max(opp.lv, avgLv) : opp.lv) - ease);
+  const hard = hardMode() && !opp.easy;
+  const oppLv0 = Math.max(1, Math.min(opp.lvCap || MAX_LV + 6, opp.rand ? opp.lv : oppKey && oppKey !== 'dh' ? Math.max(opp.lv, avgLv) : opp.lv) - ease);
+  const oppLv = hard ? Math.min(Math.max(opp.lvCap || 0, MAX_LV + 12), oppLv0 + 6) : oppLv0;
   const bgmKey = opp.berserk || opp.boss || S.mode === 'match' ? 'boss' : opp.pro || opp.tag || opp.legend || !opp.rand ? 'big' : 'battle';
   S.mode = 'battle'; $('#menuBtn').hidden = true; keys = {};
   opp.team.forEach(markSeen);
   AU.play(bgmKey);
-  B = { done, opp, story, ease, rules: opp.rules || null, practice: !!oppKey, turn: 1, over: false, phase: 'intro', hint: {}, used: false, stop: 0, clock: 0, v: [mkV(0), mkV(1)],
+  B = { done, opp, story, ease, hard, rules: opp.rules || null, practice: !!oppKey, turn: 1, over: false, phase: 'intro', hint: {}, used: false, stop: 0, clock: 0, v: [mkV(0), mkV(1)],
     sides: [
       { name: opp.tag ? `최강찬 & ${CH[opp.tag.who].name}` : '최강찬', sub: opp.tag ? '태그 팀' : `세온중 ${kcGrade()}학년${chapNo() >= 23 ? ' · 동아리장' : ''}`, team: opp.tag ? (() => { const mine = playerTeam().slice(0, 2).map(mkUnit), al = opp.tag.team.map((id) => { const u = mkUnit({ id, lv: Math.max(1, avgLv), g: {}, bonus: {}, awake: opp.tag.who === 'dh' && id === 'stag' && chapNo() >= 28 }); u.en = u.enMax; u.ally = opp.tag.who; return u; }); return [mine[0], al[0], mine[1], al[1]].filter(Boolean); })() : playerTeam().map(mkUnit), active: 0, look: CH.kc.look },
-      { name: opp.name, sub: opp.sub, team: opp.team.map((id, ti) => mkUnit({ id, rare: !!(opp.rare && opp.rare[ti]), awake: !!(opp.awake && (opp.awake === true || opp.awake[ti])), lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: opp.bonus ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, opp.bonus])) : {} })), active: 0, look: opp.look || CH[opp.who].look }
+      { name: opp.name, sub: opp.sub, team: opp.team.map((id, ti) => mkUnit({ id, rare: !!(opp.rare && opp.rare[ti]), awake: hard || !!(opp.awake && (opp.awake === true || opp.awake[ti])), lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: hard ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(3)])) : opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: hard ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, BONUS_MAX])) : opp.bonus ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, opp.bonus])) : {} })), active: 0, look: opp.look || CH[opp.who].look }
     ] };
   if (opp.rules) { const R = opp.rules;
     if (R.size) { B.sides[0].team = B.sides[0].team.slice(0, R.size); B.sides[1].team = B.sides[1].team.slice(0, R.size); }
@@ -10215,7 +10217,7 @@ async function doAction(a) {
 }
 function transform(i) {
   const sd = B.sides[i], u = sd.team[sd.active];
-  if (!u || !u.alive || u.trans || !u.inst || !u.inst.awake || u.inst.held !== 'trans') return false;
+  if (!u || !u.alive || u.trans || !u.inst || !u.inst.awake || u.inst.held !== 'trans') return false; /* 보석을 지닌 곤충마다 한 배틀에 한 번씩 초월해요 */
   u.trans = true;
   const s = { ...u.s, name: u.s.name };
   for (const k of ['a', 'q', 'w', 'e', 'r']) { const sk = { ...u.s[k], n: '초월 ' + u.s[k].n }; if (sk.pow) sk.pow = Math.round(sk.pow * 1.3); if (sk.guard) sk.guard += 1; if (sk.heal) sk.heal = Math.round(sk.heal * 1.5); if (sk.stunP) sk.stunP = Math.min(1, sk.stunP + .2); if (sk.cost) sk.cost = Math.max(10, Math.round(sk.cost * .85)); s[k] = sk; }
@@ -10738,6 +10740,10 @@ const AWAKE_MUL = 1.2, MAX_LV = 20;
 /* 유대 각성은 챕터 18 '유대 각성' 이야기를 본 뒤부터 열려요 */
 let AWAKE_IP = -1;
 const awakeOpen = () => { if (AWAKE_IP < 0) AWAKE_IP = SCRIPT.findIndex((c) => c.t === 'awaken'); return !!S.cleared || AWAKE_IP < 0 || (S.ip | 0) > AWAKE_IP; };
+/* 초월의 보석을 처음 얻은 뒤부터: 상대 곤충의 레벨과 개체 성능이 크게 올라가요 */
+let TRANS_IP = -1;
+const hardMode = () => { if (TRANS_IP < 0) TRANS_IP = SCRIPT.findIndex((c) => c.t === 'giveitem' && c.k === 'held_trans'); if (S.gotTrans) return true;
+  const got = (S.items && S.items.held_trans > 0) || (S.bugs || []).some((b) => b.held === 'trans') || (TRANS_IP >= 0 && (S.ip | 0) > TRANS_IP); if (got) S.gotTrans = true; return got; };
 const canAwake = (b) => !!b && !b.awake && awakeOpen() && b.lv >= MAX_LV && calcStats(b).grit >= 100;
 const awkTag = (b) => (b && b.awake ? '<span class="awtag">✦ 유대 각성</span>' : '');
 const STAT_MAX = { hp: 900, en: 220, atk: 80, def: 80, spa: 80, sdf: 80, spd: 150, grit: 100 };
@@ -11032,8 +11038,11 @@ function moveBug(b, c) {
   S.cages.forEach((x) => { x.occ = x.occ.filter((u) => u !== b.uid); });
   c.occ.push(b.uid);
 }
+/* 중반부터는 배틀 상금이 줄어들어요 (돈이 너무 많이 쌓이지 않게) */
+const incomeMul = () => { const n = S.cleared ? 41 : chapNo(); return n <= 8 ? 1 : n <= 15 ? .7 : n <= 25 ? .5 : .4; };
+const inc = (v) => Math.max(10, Math.round((v || 0) * incomeMul() / 10) * 10);
 function applyBattleResult(win, practice, prize) {
-  const xp = win ? 45 : 20, money = win ? (prize || (practice ? 600 : 500)) : 200;
+  const xp = win ? 45 : 20, money = inc(win ? (prize || (practice ? 600 : 500)) : 200);
   const out = [`경험치 +${xp} · 상금 ${money.toLocaleString()}원`];
   partyInsects().forEach((b) => { if (gainXp(b, xp)) out.push(`레벨 업! ${SP[b.id].name}${sexMark(b)} Lv.${b.lv}`); });
   S.money = (S.money || 0) + money;
@@ -11240,15 +11249,23 @@ function scrScrolls(root) {
   [root, ...root.querySelectorAll('*')].forEach((el, n) => { const k = n ? el.tagName + '.' + el.className : 'ROOT'; const i = seen[k] = (seen[k] || 0) + 1; if (el.scrollTop > 0 || el.scrollLeft > 0) out.push([k, i, el.scrollTop, el.scrollLeft]); });
   return out;
 }
+function scrRestore(root, saved) {
+  const seen = {}, want = new Map(saved.map(([k, i, t, l]) => [k + '#' + i, [t, l]]));
+  [root, ...root.querySelectorAll('*')].forEach((el, n) => { const k = n ? el.tagName + '.' + el.className : 'ROOT'; const i = seen[k] = (seen[k] || 0) + 1; const w = want.get(k + '#' + i); if (w) { el.scrollTop = w[0]; el.scrollLeft = w[1]; } });
+}
+/* 경기 관전 화면처럼 L.ov를 통째로 다시 그리는 곳: 바로 다음에 스크롤을 되돌려요 */
+function ovKeepScroll(cls) {
+  const old = L.ov.firstElementChild;
+  if (!old || !old.classList.contains(cls)) { queueMicrotask(() => { const nw = L.ov.firstElementChild, r = nw && nw.classList.contains(cls) && nw.querySelector('.m-btns'); if (r && nw.scrollHeight > nw.clientHeight + 4) r.scrollIntoView({ block: 'end' }); }); return; }
+  const saved = scrScrolls(old); if (!saved.length) return;
+  queueMicrotask(() => { const nw = L.ov.firstElementChild; if (nw && nw !== old && nw.classList.contains(cls)) scrRestore(nw, saved); });
+}
 function openScr(cls, html, onBack) {
   S.modal = true;
   const old = L.ov.firstElementChild, oldKey = old && old.classList.contains('scr') ? scrKey(old, old.dataset.cls || '') : null, saved = oldKey ? scrScrolls(old) : [];
   L.ov.innerHTML = `<div class="ov scr ${cls}" data-cls="${cls}">${html}</div>`;
   const root = L.ov.firstElementChild;
-  if (saved.length && scrKey(root, cls) === oldKey) {
-    const seen = {}, want = new Map(saved.map(([k, i, t, l]) => [k + '#' + i, [t, l]]));
-    [root, ...root.querySelectorAll('*')].forEach((el, n) => { const k = n ? el.tagName + '.' + el.className : 'ROOT'; const i = seen[k] = (seen[k] || 0) + 1; const w = want.get(k + '#' + i); if (w) { el.scrollTop = w[0]; el.scrollLeft = w[1]; } });
-  }
+  if (saved.length && scrKey(root, cls) === oldKey) scrRestore(root, saved);
   root.addEventListener('pointerdown', (e) => e.stopPropagation());
   $('#scrBack').addEventListener('click', () => { L.ov.innerHTML = ''; S.modal = false; (onBack || renderHub)(); });
   return root;
@@ -11456,19 +11473,21 @@ function bindCage(root, draw, armFree) {
     if (!armFree()) { playRelease(b, () => { releaseBug(b); habSel = S.party[0]; save(); draw(); }); return; }
     $('#hFree').textContent = '한 번 더 누르면 풀어줘요';
   });
-  $('#hFeed').addEventListener('click', () => {
+  const showFeed = () => {
     const opts = Object.entries(ITEMS).filter(([k, it]) => unlockedX(it) || S.items[k] > 0).map(([k, it]) => { const ok = canEat(b, it); return `<button type="button" class="opt" data-feed="${k}"><span>${it.n} <small>${it.d}</small></span><span class="${ok ? '' : 'no'}">${ok ? `${S.items[k] || 0}개` : '먹지 않아요'}</span></button>`; }).join('');
     draw(`<div class="pop"><div class="pop-box"><h3>${s.name}에게 무엇을 먹일까요?</h3><p class="pop-p">${s.name}은(는) ${DIET_NAME[s.diet]}.</p>${opts}<button type="button" class="close" id="popX">닫기</button></div></div>`);
     $('#popX').addEventListener('click', () => draw());
-    L.ov.querySelectorAll('[data-feed]').forEach((x) => x.addEventListener('click', () => feed(b, x.dataset.feed, draw)));
-  });
-  $('#hTrain').addEventListener('click', () => {
+    L.ov.querySelectorAll('[data-feed]').forEach((x) => x.addEventListener('click', () => feed(b, x.dataset.feed, showFeed)));
+  };
+  $('#hFeed').addEventListener('click', showFeed);
+  const showTrain = () => {
     const st = calcStats(b);
     const opts = TRAIN_STATS.map((k) => `<button type="button" class="opt" data-train="${k}"><span>${TRAIN[k][0]} <small>${TRAIN[k][1]} · ${statName(k)} +1~3 · 지금 +${b.bonus[k]}/${BONUS_MAX}</small></span><span>기력 -${trainCost(b)}</span></button>`).join('');
     draw(`<div class="pop"><div class="pop-box"><h3>어떤 특훈을 할까요?</h3><p class="pop-p">지금 기력 ${b.en}/${st.en} · 특훈이 아주 잘되면 4가 오를 때도 있어요.</p>${opts}<button type="button" class="close" id="popX">닫기</button></div></div>`);
     $('#popX').addEventListener('click', () => draw());
-    L.ov.querySelectorAll('[data-train]').forEach((x) => x.addEventListener('click', () => train(b, x.dataset.train, draw)));
-  });
+    L.ov.querySelectorAll('[data-train]').forEach((x) => x.addEventListener('click', () => train(b, x.dataset.train, showTrain)));
+  };
+  $('#hTrain').addEventListener('click', showTrain);
 }
 /* 사육통 들여다보기: 바닥재 · 설치한 용품 · 곤충을 크게 보여 줘요 */
 function cageArt(c) {
@@ -11725,7 +11744,7 @@ function openSchool() {
   };
   const r = S.rb;
   const free = `<div class="opp free"><span class="opp-tag free">자유 배틀</span><div class="face">${chibi(r.look, 'grin')}</div><b>${r.name}</b><small>${r.sub}</small>
-<p class="line">“${r.line}”</p><div class="mini">${r.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${r.lv}</small><p>이기면 ${r.prize.toLocaleString()}원 · 경험치 45</p>
+<p class="line">“${r.line}”</p><div class="mini">${r.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${r.lv}</small><p>이기면 ${inc(r.prize).toLocaleString()}원 · 경험치 45</p>
 <div style="display:flex;gap:8px"><button type="button" class="btn pri" id="rbGo">배틀 신청</button><button type="button" class="btn" id="rbNew">다른 상대</button></div></div>`;
   const root = openScr('school', `${scrHead('학교 · 곤충 배틀부 동아리실')}
 ${S.teamName ? '<div class="nat-bar"><span><b>전국 리그</b> · 8도 대표팀 선수들을 미리 살펴보세요.</span><button type="button" class="btn" id="natBtn">전국 대표팀 명단</button></div>' : ''}${modeBar()}<div class="scr-body school-body"><div class="opps four">${(chapNo() >= 23 ? ['dh', 'sr', 'ch'] : ['dh', 'sr', 'sw']).map(card).join('')}${free}</div></div>
@@ -11781,7 +11800,7 @@ function openJapan() {
   const root = openScr('school japan', `${scrHead('일본 · 도쿄 곤충 거리')}
 <div class="scr-body school-body"><div class="opps four" style="grid-template-columns:repeat(3,minmax(0,1fr))">
 <div class="opp"><span class="opp-tag" style="background:#D8301A">용품점</span><div class="face" style="background:#FBE4EC">${PLACE_ICON.japan}</div><b>도쿄 곤충 용품점</b><small>일본에서만 파는 고급 용품</small><p class="line">와이드 젤리 · 고급 먹이 · 와이드 먹이구 · 대형 놀이목 · 균사 배지 · G1 · 고급 방충케이스 · 일본풍 꾸미기</p><button type="button" class="btn pri" id="jpShop">구경하러 가기</button></div>
-<div class="opp free"><span class="opp-tag free">곤충 배틀 아레나</span><div class="face">${chibi(r.look, 'grin')}</div><b>${r.name}</b><small>${r.sub}</small><p class="line">“${r.line}”</p><div class="mini">${r.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${r.lv}</small><p>이기면 ${r.prize.toLocaleString()}원 · 경험치 45</p>
+<div class="opp free"><span class="opp-tag free">곤충 배틀 아레나</span><div class="face">${chibi(r.look, 'grin')}</div><b>${r.name}</b><small>${r.sub}</small><p class="line">“${r.line}”</p><div class="mini">${r.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${r.lv}</small><p>이기면 ${inc(r.prize).toLocaleString()}원 · 경험치 45</p>
 <div style="display:flex;gap:8px"><button type="button" class="btn pri" id="jpGo">배틀 신청</button><button type="button" class="btn" id="jpNew">다른 상대</button></div></div>
 <div class="opp"><span class="opp-tag">안내</span><div class="face" style="background:#E8F0F8;display:flex;align-items:center;justify-content:center;font-size:48px">🗼</div><b>도쿄 곤충 거리</b><small>일본 연수에서 알게 된 곳</small><p class="line">일본은 곤충 배틀과 사육이 아주 활발해요. 용품점의 고급 용품으로 곤충을 더 크고 강하게 키울 수 있어요.</p></div>
 </div></div>`, () => openHub());
@@ -11940,7 +11959,7 @@ const CARDSETS = {
   trans: [
     { t: '초월', d: '유대 각성한 곤충에게 <b>초월의 보석</b>을 지니게 하면, 배틀 중 한 번 네온 그린·레드 글리치가 지직거리며 황금빛 <b>초월 폼</b>으로 변해요!', art: () => `<div class="b-face" style="width:96px;height:96px;background:#1A1408;display:grid;place-items:center;font-size:52px;border-radius:50%;box-shadow:0 0 20px #FFD040">💎</div>` },
     { t: '초월 폼의 힘', d: '모든 능력치(공격·방어·특수공격·특수방어·스피드)가 1.5배, 체력과 기력통도 1.5배로 커져요. 모든 기술은 "초월 기술"이 되어 위력이 1.3배, 기력 소모는 줄고, 기절 확률은 올라가요.', art: () => ['×1.5', '기술 강화'].map((x) => `<span class="schip" style="border-color:#FFD23F">${x}</span>`).join('') },
-    { t: '언제 변하나요?', d: '초월의 보석을 지닌 유대 각성 곤충이 출전해 있으면, 그 턴이 끝날 때 자동으로 초월해요. 한 배틀에 한 번뿐이니 어느 곤충에게 지니게 할지 잘 골라 보세요. 사육장의 "지닌 도구" 버튼으로 지니게 할 수 있어요.', art: () => kface('kc', 'grin') }
+    { t: '언제 변하나요?', d: '초월의 보석을 지닌 유대 각성 곤충이 출전해 있으면, 그 턴이 끝날 때 자동으로 초월해요. 보석 하나에 곤충 한 마리, 한 배틀에 한 번씩 초월해요. 보석 3개를 출전하는 3마리에게 하나씩 지니게 하면 3마리 모두 초월할 수 있어요! 대신 보석을 처음 얻은 뒤부터 상대들도 훨씬 강해져요. 사육장의 "지닌 도구" 버튼으로 지니게 할 수 있어요.', art: () => kface('kc', 'grin') }
   ],
   asia: [
     { t: '일본 대표 · 사카모토 류세이', d: '일본 대표팀 주장. 일본의 산에만 사는 미야마사슴벌레를 쓰는 냉정한 전략가예요.', art: () => kface('jp1', 'cool') + idleSvg('miyama', 'm') },
@@ -12163,7 +12182,7 @@ function startMatch(key, done) {
   AU.play('boss');
   const avgLv = Math.round(partyInsects().reduce((a, x) => a + x.lv, 0) / Math.max(1, partyInsects().length)) || 3;
   const face = (look, f) => `<div class="mface">${chibi(look, f)}</div>`;
-  const draw = (msg, btn) => {
+  const draw = (msg, btn) => { ovKeepScroll('match');
     L.ov.innerHTML = `<div class="ov match" style="--opp:${M.col}"><div class="m-head"><small>${M.league || '서울시 중등부 곤충 배틀 리그'} · ${M.round}</small><div class="m-score"><b>${teamNm()}</b><span>${st.w} : ${st.l}</span><b>${M.vs}</b></div></div>
 <div class="m-rows">${M.bouts.map((bt, i) => { const r = st.res[i]; return `<div class="m-row${i === st.i && !r && st.w < need && st.l < need ? ' now' : ''}"><span class="pos">${bt.pos}</span>
 <div class="side">${face(CH[bt.me].look, r === 'win' ? 'happy' : r === 'lose' ? 'shock' : 'grin')}<div><b>${CH[bt.me].name}</b><small>${teamNm()}${bt.me === 'kc' ? ' · 내가 출전!' : ''}</small></div></div>
@@ -12173,7 +12192,7 @@ function startMatch(key, done) {
 <p class="m-msg">${msg}</p><div class="m-btns">${btn}</div></div>`;
   };
   const next = () => {
-    if (st.w >= need) { AU.sfx('win'); AU.play('victory'); draw(`<b style="color:#7CFC6A">${teamNm()} ${st.w} : ${st.l} 승리!</b> 상금 ${M.prize.toLocaleString()}원을 받았어요.`, '<button type="button" class="btn pri" id="mGo">계속하기</button>'); S.money = (S.money || 0) + M.prize; save(); $('#mGo').addEventListener('click', () => { L.ov.innerHTML = ''; $('#menuBtn').hidden = false; S.mode = 'story'; done(); }); return; }
+    if (st.w >= need) { AU.sfx('win'); AU.play('victory'); draw(`<b style="color:#7CFC6A">${teamNm()} ${st.w} : ${st.l} 승리!</b> 상금 ${inc(M.prize).toLocaleString()}원을 받았어요.`, '<button type="button" class="btn pri" id="mGo">계속하기</button>'); S.money = (S.money || 0) + inc(M.prize); save(); $('#mGo').addEventListener('click', () => { L.ov.innerHTML = ''; $('#menuBtn').hidden = false; S.mode = 'story'; done(); }); return; }
     if (st.l >= need && M.lossOk) { AU.sfx('lose'); draw(`<b style="color:#FF8A7A">${teamNm()} ${st.w} : ${st.l} 패배…</b> ${M.lossMsg || ''}`, '<button type="button" class="btn pri" id="mGo">계속하기</button>'); save(); $('#mGo').addEventListener('click', () => { L.ov.innerHTML = ''; S.mode = 'story'; done(); }); return; }
     if (st.l >= need && M.friendly) { AU.sfx('lose'); draw(`<b style="color:#FF8A7A">${teamNm()} ${st.w} : ${st.l} 패배…</b> 친선전이니까 괜찮아요. 좋은 경험이 됐어요!`, '<button type="button" class="btn pri" id="mGo">계속하기</button>'); save(); $('#mGo').addEventListener('click', () => { L.ov.innerHTML = ''; $('#menuBtn').hidden = false; S.mode = 'story'; done(); }); return; }
     if (st.l >= need) { AU.sfx('lose'); draw(`<b style="color:#FF8A7A">${teamNm()} ${st.w} : ${st.l} 패배…</b> 곤충들을 쉬게 하고 다시 도전할 수 있어요.`, '<button type="button" class="btn pri" id="mRe">다시 도전하기</button>'); $('#mRe').addEventListener('click', () => startMatch(key, done)); return; }
@@ -12310,7 +12329,7 @@ const HELD = {
   shell: { n: '강화 껍질 코팅', price: 2400, e: '🛡️', d: '받는 피해가 12% 줄어요.' },
   wing: { n: '가벼운 날개 필름', price: 2000, e: '🪶', d: '스피드가 15% 올라가요.' },
   cap: { n: '기력 캡슐', price: 1600, e: '💊', d: '출전 중이면 턴마다 기력이 8 더 회복돼요.' },
-  trans: { n: '초월의 보석', price: 0, noShop: true, e: '💎', d: '유대 각성한 곤충만 지닐 수 있는 초레어 보석. 배틀 중 한 번, 곤충이 황금빛 초월 폼으로 변해요! 모든 능력치 ×1.5, 모든 기술이 강해져요.' },
+  trans: { n: '초월의 보석', price: 0, noShop: true, e: '💎', d: '유대 각성한 곤충만 지닐 수 있는 초레어 보석. 지닌 곤충은 배틀마다 한 번, 황금빛 초월 폼으로 변해요! 보석 하나에 곤충 한 마리예요. 모든 능력치 ×1.5, 모든 기술이 강해져요.' },
   charm: { n: '행운의 부적', price: 1500, e: '🍀', d: '급소를 더 자주 찔러요.' }
 };
 const heldIcon = (k) => `<svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="24" fill="#F4E8C8" stroke="#111114" stroke-width="3"/><text x="28" y="37" text-anchor="middle" font-size="26">${HELD[k].e}</text></svg>`;
@@ -12481,7 +12500,7 @@ function openArena() {
 <div class="rank-box" style="--rc:${rc}"><div class="rank-emb">${['🥉', '🥈', '🥇', '💠', '💎', '👑'][r.t]}</div><div><small>지금 랭크</small><b>${rn}</b><div class="stars">${stars}</div><p>${r.t >= 5 ? '챔피언! 연승을 이어 가 보세요. 이길수록 상대가 강해져요.' : `별 3개를 모으면 <b>${RANKS[r.t + 1][0]}</b>(으)로 승급해요. 지면 별이 1개 줄어요.`}</p>
 <p class="rk-rw">${RANKS.slice(1).map(([n, c], i) => `<span style="border-color:${c}${r.best >= i + 1 ? `;background:${c};color:#111` : ''}">${n} 보상 ${RANK_RW[i + 1][0].toLocaleString()}원 + ${rwName(RANK_RW[i + 1][1])}</span>`).join('')}</p></div></div>
 <div class="opps" style="grid-template-columns:minmax(0,1fr)"><div class="opp free"><span class="opp-tag free" style="background:${rc}">${rn} 상대</span><div class="face">${chibi(o.look, 'grin')}</div><b>${o.name}</b><small>${o.sub}</small><p class="line">“${o.line}”</p>
-<div class="mini">${o.team.map((id, i) => bugSvg(id, '', o.rare[i] ? 'mr' : 'm')).join('')}</div><small>상대 곤충 Lv.${o.lv}</small><p>이기면 ${o.prize.toLocaleString()}원 · 경험치 45</p>
+<div class="mini">${o.team.map((id, i) => bugSvg(id, '', o.rare[i] ? 'mr' : 'm')).join('')}</div><small>상대 곤충 Lv.${o.lv}</small><p>이기면 ${inc(o.prize).toLocaleString()}원 · 경험치 45</p>
 <div style="display:flex;gap:8px"><button type="button" class="btn pri" id="arGo">랭크전 시작!</button><button type="button" class="btn" id="arNew">다른 상대 (100원)</button></div></div></div></div>`, () => openSchool());
   $('#arNew').addEventListener('click', () => { if (S.money < 100) { note('돈이 부족해요.', 'fail'); return; } S.money -= 100; r.opp = arenaOpp(); save(); openArena(); });
   $('#arGo').addEventListener('click', () => goBattle(o, () => {
@@ -12514,7 +12533,7 @@ function openTag() {
 <div class="pt-row">${(chapNo() >= 23 ? ['eh', 'dh', 'sr', 'ch'] : ['eh', 'dh', 'sw', 'sr']).map(pcard).join('')}</div>
 <div class="tag-vs"><div><small>우리 팀</small><div class="mini">${mine.map((b) => bugSvg(b.id, '', vk(b))).join('')}${PARTNERS[tagPartner].map((id) => bugSvg(id)).join('')}</div><b>강찬 & ${CH[tagPartner].name}</b></div><span>VS</span>
 <div><small>상대 팀 · Lv.${o.lv}</small><div class="mini">${o.team.map((id) => bugSvg(id)).join('')}</div><b>${o.name}</b></div></div>
-<div style="display:flex;gap:10px;justify-content:center"><button type="button" class="btn pri" id="tgGo">태그 배틀 시작! (이기면 ${o.prize.toLocaleString()}원)</button><button type="button" class="btn" id="tgNew">다른 상대</button></div></div>`, () => openSchool());
+<div style="display:flex;gap:10px;justify-content:center"><button type="button" class="btn pri" id="tgGo">태그 배틀 시작! (이기면 ${inc(o.prize).toLocaleString()}원)</button><button type="button" class="btn" id="tgNew">다른 상대</button></div></div>`, () => openSchool());
   root.querySelectorAll('[data-pt]').forEach((b) => b.addEventListener('click', () => { tagPartner = b.dataset.pt; AU.sfx('page'); openTag(); }));
   $('#tgNew').addEventListener('click', () => { S.tagOpp = tagOpp(); AU.sfx('page'); openTag(); });
   $('#tgGo').addEventListener('click', () => {
@@ -12564,7 +12583,7 @@ function runContest(b) {
   const names = BATTLERS.slice().sort(() => Math.random() - .5).slice(0, 7);
   const rivals = names.map((p) => { const id = randSpecies(1)[0]; return { name: p.name, look: p.look, id, score: Math.round((97 + Math.random() * 9 + Math.min(10, wk * .8) + (Math.random() < .25 ? 4 : 0)) * 10) / 10 }; });
   const all = [...rivals, { me: true, name: '최강찬', look: CH.kc.look, id: b.id, score: mine }].sort((x, y) => y.score - x.score);
-  const place = all.findIndex((x) => x.me) + 1, prize = [0, 5000, 2500, 1200][place] || 300;
+  const place = all.findIndex((x) => x.me) + 1, prize = inc([0, 5000, 2500, 1200][place] || 300);
   S.cw = wk; S.money += prize; bump('contest'); if (place === 1) bump('cwin');
   if (!S.cbest || mine > S.cbest.score) S.cbest = { score: mine, id: b.id, mm: b.mm };
   save();
@@ -12758,7 +12777,7 @@ function showChallenge(where, after) {
 <div class="chal-body"><div class="face">${chibi(c.look, c.berserk ? 'cool' : 'grin')}</div><div class="chal-info"><b>${c.name}</b><small>${c.sub}</small><p class="line">“${c.line}”</p>
 <div class="chal-rule"><span>${r.n}</span><small>${r.d}</small></div>
 <div class="chal-team"><small>${TH_NAME[c.th] || ''} · Lv.${c.lv}${c.berserk ? ' · <b style="color:#C08AFF">광폭</b>' : ''}</small><div class="mini">${c.team.map((id, i) => bugSvg(id, '', c.rare[i] ? 'mr' : 'm')).join('')}</div></div>
-<p class="chal-prize">이기면 ${c.prize.toLocaleString()}원${r.fee ? ` (+ 참가비 ${r.fee}원 × 3)` : ''} · 경험치 45${r.fee ? ` · 참가비 ${r.fee}원` : ''}</p></div></div>
+<p class="chal-prize">이기면 ${inc(c.prize).toLocaleString()}원${r.fee ? ` (+ 참가비 ${r.fee}원 × 3)` : ''} · 경험치 45${r.fee ? ` · 참가비 ${r.fee}원` : ''}</p></div></div>
 <div class="chal-btns"><button type="button" class="btn pri" id="chGo">배틀 받기!</button>${c.berserk ? '<button type="button" class="btn" disabled>도망칠 수 없어요!</button>' : '<button type="button" class="btn" id="chNo">거절하기</button>'}</div></div>`;
   L.ov.appendChild(wrap);
   wrap.addEventListener('pointerdown', (e) => e.stopPropagation());
@@ -13183,7 +13202,7 @@ function openPro() {
   const root = openScr('school pro', `${scrHead('🌍 프로 필드 초청 배틀')}<div class="scr-body school-body feat">
 <div class="rank-box" style="--rc:#4AE0FF"><div class="rank-emb">🌍</div><div><small>나의 세계 랭킹</small><b>${wrRank().toLocaleString()}위</b><p>랭킹 포인트 ${wrPts().toLocaleString()} · 프로 초청 배틀에서 이기면 +40, 지면 -15. 랭크 아레나·학교 밖 배틀에서도 조금씩 올라요. 랭킹이 오를수록 더 강한 프로가 초청해요.</p></div></div>
 <div class="opps" style="grid-template-columns:minmax(0,1fr)"><div class="opp free"><span class="opp-tag free" style="background:#1A4A8A">${o.field}</span><div class="face">${chibi(o.look, 'grin')}</div><b>${o.name}</b><small>${o.sub}</small><p class="line">“${o.line}”</p>
-<div class="mini">${o.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${o.lv}</small><p>이기면 ${o.prize.toLocaleString()}원 · 랭킹 포인트 +40</p>
+<div class="mini">${o.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${o.lv}</small><p>이기면 ${inc(o.prize).toLocaleString()}원 · 랭킹 포인트 +40</p>
 <div style="display:flex;gap:8px"><button type="button" class="btn pri" id="proGo">초청 배틀 시작!</button><button type="button" class="btn" id="proNew">다른 초청 (300원)</button></div></div></div></div>`, () => openSchool());
   $('#proNew').addEventListener('click', () => { if (S.money < 300) { note('돈이 부족해요.', 'fail'); return; } S.money -= 300; S.proOpp = proOpp(); save(); openPro(); });
   $('#proGo').addEventListener('click', () => goBattle(o, () => { S.proOpp = null; if (S.lastWin) { bump('pro'); wrGain(40, '프로 초청 배틀 승리'); } else S.wr = Math.max(0, wrPts() - 15); save(); openHub(); openPro(); }));
@@ -13278,7 +13297,7 @@ function openTower() {
   const root = openScr('school pro', `${scrHead('🗼 배틀 타워')}<div class="scr-body school-body feat">
 <div class="rank-box" style="--rc:#FFB830"><div class="rank-emb">🗼</div><div><small>지금 도전할 층</small><b>${T.f}층</b><p>최고 기록 <b>${T.best}층</b> · 지면 그 10층 구간의 처음(${T.f - ((T.f - 1) % 10)}층)으로 돌아가요. 10층마다 <b>보스</b>(지닌 도구 보상), 5층마다 광폭 층이 있고, 25층마다 처음 도달하면 <b>💠 초월의 보석</b>을 받아요. 다음 보스: ${next10}층 · 다음 보석: ${next25}층${T.got[next25] ? ' (이미 받음)' : ''}</p></div></div>
 <div class="opps" style="grid-template-columns:minmax(0,1fr)"><div class="opp free"><span class="opp-tag free" style="background:${o.boss ? '#C8232C' : o.berserk ? '#6A2A9A' : '#8A5A1A'}">${o.sub}</span><div class="face">${chibi(o.look, 'grin')}</div><b>${o.name}</b><p class="line">“${o.line}”</p>
-<div class="mini">${o.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${Math.min(MAX_LV + 6, o.lv)}</small><p>이기면 ${o.prize.toLocaleString()}원</p>
+<div class="mini">${o.team.map((id) => bugSvg(id)).join('')}</div><small>상대 곤충 Lv.${Math.min(MAX_LV + 6, o.lv)}</small><p>이기면 ${inc(o.prize).toLocaleString()}원</p>
 <div style="display:flex;gap:8px"><button type="button" class="btn pri" id="twGo">${T.f}층 도전!</button></div></div></div></div>`, () => openSchool());
   $('#twGo').addEventListener('click', () => goBattle(o, () => {
     ensureTower(); const f = T.f; S.towerOpp = null;
