@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.0.6">
+<meta name="version" content="1.0.7">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -5558,7 +5558,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.0.6';
+const VERSION = '1.0.7';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -10735,7 +10735,10 @@ const XP_NEED = (lv) => 20 + lv * 20;
 const BONUS_MAX = 30;
 const TRAIN_STATS = ['hp', 'en', 'atk', 'def', 'spa', 'sdf', 'spd', 'grit'];
 const AWAKE_MUL = 1.2, MAX_LV = 20;
-const canAwake = (b) => !!b && !b.awake && b.lv >= MAX_LV && calcStats(b).grit >= 100;
+/* 유대 각성은 챕터 18 '유대 각성' 이야기를 본 뒤부터 열려요 */
+let AWAKE_IP = -1;
+const awakeOpen = () => { if (AWAKE_IP < 0) AWAKE_IP = SCRIPT.findIndex((c) => c.t === 'awaken'); return !!S.cleared || AWAKE_IP < 0 || (S.ip | 0) > AWAKE_IP; };
+const canAwake = (b) => !!b && !b.awake && awakeOpen() && b.lv >= MAX_LV && calcStats(b).grit >= 100;
 const awkTag = (b) => (b && b.awake ? '<span class="awtag">✦ 유대 각성</span>' : '');
 const STAT_MAX = { hp: 900, en: 220, atk: 80, def: 80, spa: 80, sdf: 80, spd: 150, grit: 100 };
 const STAT_COL = { hp: '#7CFC6A', en: '#4FD1FF', atk: '#FF8A2B', def: '#5A9AE8', spa: '#C08CFF', sdf: '#F07AC8', spd: '#FFD23F', grit: '#FF5A4A' };
@@ -11342,7 +11345,7 @@ function bugDetail(b) {
 <div class="hd-name"><b>${s.name}</b>${rareTag(b)}${awkTag(b)}${trTag(b)}${heldTag(b)}<span class="sx" style="background:${sexCol(b)}">${b.sex === 'f' ? '♀ 암컷' : '♂ 수컷'}</span><span style="font-weight:900">Lv.${b.lv}</span></div>
 <div class="dx-chips">${typeChip(s.type)} ${kindChip(s.hab)}${s.big ? ' <span class="tchip" style="background:#6A4A2A;color:#fff">대형</span>' : ''}</div>
 <p class="hd-p">몸길이 <b>${b.mm}mm</b> (크기 점수 ${sizeScore(b)}점) · <b style="color:${gw[1]}">${gw[0]}</b> · 특성 <b title="${(TRAITS[b.tr] || {}).d || ''}">${(TRAITS[b.tr] || {}).n || '-'}</b> <small style="color:#9AA3B5">${(TRAITS[b.tr] || {}).d || ''}</small></p>${b.rare && RARE[b.id] ? `<p class="hd-p" style="color:#FFD23F">★ 레어 개체 · 특별한 기술 <b>${RARE[b.id].e.n}</b></p>` : ''}
-${b.awake ? '<p class="hd-p awk-p">✦ 유대 각성 완료 · 모든 능력치 ×1.2</p>' : `<p class="hd-p" style="color:${canAwake(b) ? '#FFE070' : '#9AA3B5'}">유대 각성 조건 · Lv.20 (지금 ${b.lv}) · 근성 100 (지금 ${st.grit})${canAwake(b) ? ' → <b>각성할 수 있어요!</b>' : ''}</p>`}<p class="hd-p">${b.born === 'bred' ? '브리딩' : '야생'} · ${DIET_NAME[s.diet]}</p>${careNote(c, b).map((t) => `<p class="hd-p" style="color:${/맞지|곰팡이|추워/.test(t) ? '#FF8A7A' : '#9AE06A'}">${t}</p>`).join('')}
+${b.awake ? '<p class="hd-p awk-p">✦ 유대 각성 완료 · 모든 능력치 ×1.2</p>' : !awakeOpen() ? '' : `<p class="hd-p" style="color:${canAwake(b) ? '#FFE070' : '#9AA3B5'}">유대 각성 조건 · Lv.20 (지금 ${b.lv}) · 근성 100 (지금 ${st.grit})${canAwake(b) ? ' → <b>각성할 수 있어요!</b>' : ''}</p>`}<p class="hd-p">${b.born === 'bred' ? '브리딩' : '야생'} · ${DIET_NAME[s.diet]}</p>${careNote(c, b).map((t) => `<p class="hd-p" style="color:${/맞지|곰팡이|추워/.test(t) ? '#FF8A7A' : '#9AE06A'}">${t}</p>`).join('')}
 <div class="lbar">경험치<span class="mbar"><i style="width:${b.xp / XP_NEED(b.lv) * 100}%;background:#9AE06A"></i></span>${b.xp}/${XP_NEED(b.lv)}</div>
 <div class="lbar">기력<span class="mbar"><i style="width:${b.en / st.en * 100}%;background:#4FD1FF"></i></span>${b.en}/${st.en}</div></div></div>
 <div class="stats2">${rows}</div>
