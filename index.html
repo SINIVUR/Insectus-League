@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.0.13">
+<meta name="version" content="1.0.14">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -5558,7 +5558,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.0.13';
+const VERSION = '1.0.14';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -7045,12 +7045,12 @@ const SCRIPT = [
   say('kc', 'grin', '그럼 그만큼 특훈하면 되지!'),
   say('sr', 'happy', '좋아. 리그 규칙이랑 준비할 것부터 알려 줄게.'),
   { t: 'leaguerules' },
-  say('sw', 'grin', '리그는 일주일 뒤다! 그동안 각자 곤충을 제대로 키워 와라!'),
+  say('sw', 'grin', '리그는 5일 뒤다! 그동안 각자 곤충을 제대로 키워 와라!'),
   say('sr', 'smile', '사육장 관리도 잊지 마.\n근성이 떨어진 곤충은 큰 무대에서 버티지 못하니까.'),
-  say('kc', 'grin', '좋아! 일주일 동안 최강으로 만들어 줄게!'),
-  { t: 'hub', goal: { name: '서울시 중등 리그', days: 7 } },
+  say('kc', 'grin', '좋아! 5일 동안 최강으로 만들어 줄게!'),
+  { t: 'hub', goal: { name: '서울시 중등 리그', days: 5 } },
   { t: 'scene', id: 'league' },
-  narr('그리고 일주일 뒤, 서울시 중등부 곤충 배틀 리그 당일!'),
+  narr('그리고 5일 뒤, 서울시 중등부 곤충 배틀 리그 당일!'),
   narr('경기장은 각 학교 응원단과 관중으로 가득 찼다.'),
   say('eh', 'shock', '와… 사람 진짜 많다!'),
   say('sw', 'grin', '긴장하지 마라. 우리가 해 온 대로만 하면 된다.'),
@@ -7117,11 +7117,11 @@ const SCRIPT = [
   { t: 'teamname' },
   say('kc', 'grin', '우리 팀 이름은… {팀}!'),
   say('eh', 'happy', '{팀}! 좋다, 마음에 들어!'),
-  say('sw', 'grin', '좋아, 오늘부터 우리는 {팀}이다!\n예선은 일주일 뒤. 각자 곤충을 끝까지 키워 와라!'),
+  say('sw', 'grin', '좋아, 오늘부터 우리는 {팀}이다!\n예선은 5일 뒤. 각자 곤충을 끝까지 키워 와라!'),
   say('sr', 'smile', '한 경기는 서울 리그처럼 선봉·중견·대장 세 판이야.\n이번엔 세 팀과 차례로 붙으니까 기력 관리가 더 중요해.'),
-  { t: 'hub', goal: { name: '전국 리그 경기 예선', days: 7 } },
+  { t: 'hub', goal: { name: '전국 리그 경기 예선', days: 5 } },
   { t: 'scene', id: 'league2' },
-  narr('일주일 뒤, 전국 중등부 곤충 배틀 리그 경기 예선 당일!'),
+  narr('5일 뒤, 전국 중등부 곤충 배틀 리그 경기 예선 당일!'),
   narr('경기장에는 각 지역 대표팀의 깃발이 펄럭인다.'),
   say('eh', 'shock', '서울 리그 때보다 훨씬 커…!'),
   { t: 'show', who: 'ic' },
@@ -7281,7 +7281,7 @@ const SCRIPT = [
   say('sw', 'grin', '좋아, 그 기세다! 오늘부터 본선까지 매일 특훈이다!'),
   say('sr', 'smile', '먹이, 특훈, 사육장 관리. 그리고 같은 종을 여러 번 잡으면 레어 개체가 나올 확률도 올라가.\n우리도 강한 개체를 찾아보자.'),
   { t: 'trophy', chip: '챕터 8 완료', title: '본선을 향한 특훈 시작!', text: '전국 우승팀 주장 장현우의 레드기어에게 도혁이 완패했어요. {팀}은 전국의 벽을 실감하고 본선을 향해 특훈에 들어가요. 본선까지 남은 날 동안 곤충들을 최강으로 키워 보세요!' },
-  { t: 'hub', goal: { name: '전국 중등 곤충 배틀 리그', days: 10 } },
+  { t: 'hub', goal: { name: '전국 중등 곤충 배틀 리그', days: 5 } },
   { t: 'chapter', no: '챕터 9', title: '전국 중등 곤충 리그' },
   { t: 'scene', id: 'nat' },
   narr('매일같이 이어진 특훈. 그리고 드디어 7월!'),
@@ -8975,6 +8975,12 @@ function showClue(sp) {
 }
 /* 광폭화 곤충과의 배틀: 지면 다시 막아요 */
 function startWild(c, done) {
+  if (c.lossOk) { /* 무조건 지는 이벤트: 배틀 없이 압도적으로 져요 */
+    S.mode = 'story'; S.modal = true; S.lastWin = false; AU.play('boss'); AU.sfx('lose');
+    L.ov.innerHTML = `<div class="ov tn"><div class="panel tn-box"><h2>압도적인 패배…</h2><div class="mini" style="justify-content:center;margin:6px 0">${c.team.map((id) => bugSvg(id)).join('')}</div><p class="tn-p"><b>${c.name}</b>의 곤충들 앞에서 손도 쓰지 못했어요. 지시를 내릴 틈조차 없을 만큼… 수준이 달랐어요.</p><button type="button" class="wide primary" id="wRe">계속</button></div></div>`;
+    $('#wRe').addEventListener('click', () => { L.ov.innerHTML = ''; S.modal = false; done(); });
+    return;
+  }
   const party = partyInsects();
   party.forEach((b) => { b.en = Math.max(b.en || 0, Math.round(calcStats(b).en * .8)); });
   const avg = Math.round(party.reduce((a, x) => a + x.lv, 0) / Math.max(1, party.length)) || 3;
@@ -10054,9 +10060,9 @@ function startBattle(done, oppKey) {
   const story = S.mode === 'story' || S.mode === 'match';
   /* 이야기 배틀에서 같은 상대에게 계속 지면 상대가 조금씩 약해져요 (상대 레벨이 내 레벨을 따라오니 특훈만으로는 못 넘기 때문) */
   const ease = story && S.retry && S.retry.name === opp.name ? Math.min(4, S.retry.n) : 0;
-  const hard = hardMode() && !opp.easy;
+  const hard = hardMode() && !opp.easy, mid = !hard && awakeOpen() && !S.cleared && !opp.easy;
   const oppLv0 = Math.max(1, Math.min(opp.lvCap || MAX_LV + 6, opp.rand ? opp.lv : oppKey && oppKey !== 'dh' ? Math.max(opp.lv, avgLv) : opp.lv) - ease);
-  const oppLv = hard ? Math.min(Math.max(opp.lvCap || 0, MAX_LV + 12), oppLv0 + 6) : oppLv0;
+  const oppLv = hard ? Math.min(Math.max(opp.lvCap || 0, MAX_LV + 12), oppLv0 + 6) : mid ? Math.min(Math.max(opp.lvCap || 0, MAX_LV + 9), oppLv0 + 4) : oppLv0;
   const bgmKey = opp.berserk || opp.boss || S.mode === 'match' ? 'boss' : opp.pro || opp.tag || opp.legend || !opp.rand ? 'big' : 'battle';
   S.mode = 'battle'; $('#menuBtn').hidden = true; keys = {};
   opp.team.forEach(markSeen);
@@ -10064,7 +10070,7 @@ function startBattle(done, oppKey) {
   B = { done, opp, story, ease, hard, rules: opp.rules || null, practice: !!oppKey, turn: 1, over: false, phase: 'intro', hint: {}, used: false, stop: 0, clock: 0, v: [mkV(0), mkV(1)],
     sides: [
       { name: opp.tag ? `최강찬 & ${CH[opp.tag.who].name}` : '최강찬', sub: opp.tag ? '태그 팀' : `세온중 ${kcGrade()}학년${chapNo() >= 23 ? ' · 동아리장' : ''}`, team: opp.tag ? (() => { const mine = playerTeam().slice(0, 2).map(mkUnit), al = opp.tag.team.map((id) => { const u = mkUnit({ id, lv: Math.max(1, avgLv), g: {}, bonus: {}, awake: opp.tag.who === 'dh' && id === 'stag' && chapNo() >= 28 }); u.en = u.enMax; u.ally = opp.tag.who; return u; }); return [mine[0], al[0], mine[1], al[1]].filter(Boolean); })() : playerTeam().map(mkUnit), active: 0, look: CH.kc.look },
-      { name: opp.name, sub: opp.sub, team: opp.team.map((id, ti) => mkUnit({ id, rare: !!(opp.rare && opp.rare[ti]), awake: hard || !!(opp.awake && (opp.awake === true || opp.awake[ti])), lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: hard ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(3)])) : opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: hard ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, BONUS_MAX])) : opp.bonus ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, opp.bonus])) : {} })), active: 0, look: opp.look || CH[opp.who].look }
+      { name: opp.name, sub: opp.sub, team: opp.team.map((id, ti) => mkUnit({ id, rare: !!(opp.rare && opp.rare[ti]), awake: hard || (mid && ti === 0) || !!(opp.awake && (opp.awake === true || opp.awake[ti])), lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: hard ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(3)])) : mid ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(Math.max(1.6, opp.q || 0))])) : opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: hard ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, BONUS_MAX])) : mid ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, Math.max(18, opp.bonus || 0)])) : opp.bonus ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, opp.bonus])) : {} })), active: 0, look: opp.look || CH[opp.who].look }
     ] };
   if (opp.rules) { const R = opp.rules;
     if (R.size) { B.sides[0].team = B.sides[0].team.slice(0, R.size); B.sides[1].team = B.sides[1].team.slice(0, R.size); }
@@ -12200,6 +12206,15 @@ function startMatch(key, done) {
     if (bt.me === 'kc' && !bt.res) {
       draw(`<b>${bt.pos}전</b> · 이번엔 강찬이 나갈 차례예요! ${st.l ? '여기서 지면 탈락이에요.' : st.w ? '이기면 이 경기를 따내요.' : ''}`, '<button type="button" class="btn pri" id="mGo">출전하기!</button>');
       $('#mGo').addEventListener('click', () => {
+        if (M.lossOk) { /* 무조건 지는 경기: 배틀 없이 압도당해요 */
+          const row = L.ov.querySelectorAll('.m-row')[st.i]; if (row) row.classList.add('playing');
+          $('#mGo').disabled = true; $('.m-msg').innerHTML = `<b>${bt.pos}전 진행 중…</b> 강찬의 곤충들이 필사적으로 버텨요!`;
+          AU.sfx('hit'); setTimeout(() => AU.sfx('crit'), 700);
+          setTimeout(() => { st.res[st.i] = 'lose'; st.l++; st.i++; AU.sfx('fail');
+            draw(`<b style="color:#FF8A7A">${bt.pos}전 패배…</b> ${bt.opp.name}의 곤충들에게 손도 쓰지 못했어요. 수준이 너무 달랐어요…`, '<button type="button" class="btn pri" id="mGo">다음</button>');
+            $('#mGo').addEventListener('click', next); }, 2000);
+          return;
+        }
         const lv = avgLv + M.lvAdd + (bt.pos === '대장' ? 1 : 0);
         startBattle(() => {
           if (!S.lastWin && M.retry) { S.mode = 'match'; $('#menuBtn').hidden = true; AU.play('boss'); draw(`<b style="color:#FF8A7A">${bt.pos}전 패배…</b> 여기서 물러설 수 없어요! 곤충들을 추스르고 이 배틀을 다시 해요.`, '<button type="button" class="btn pri" id="mRe">다시 도전하기</button>'); $('#mRe').addEventListener('click', () => { partyInsects().forEach((b) => { b.en = calcStats(b).en; }); next(); }); return; }
