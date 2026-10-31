@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.0.5">
+<meta name="version" content="1.0.6">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -919,6 +919,9 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .cage .ctop small { font-size: 15px; color: #FFD23F; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cage .cin { flex: 1; display: flex; } .cage .cin.two .cb { width: 50%; }
 .cage .empty { margin: auto; font-size: 18px; font-weight: 900; color: rgba(255,255,255,.55); }
+.pop-box .opt > span:last-child { white-space: nowrap; flex: none; }
+.cb.ecb { justify-content: center; cursor: pointer; } .cb.ecb .empty { margin: 0; } .cb.ecb small { font-size: 14px; font-weight: 800; color: var(--gold); } .cb.ecb:hover .empty, .cb.ecb.on .empty { color: #fff; }
+.hd-top .art.ecage-art svg { width: 100%; height: auto; display: block; border-radius: 6px; }
 .cage.target { border-color: var(--lime); box-shadow: 0 0 0 3px var(--lime); cursor: pointer; }
 .cage .here { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); padding: 2px 10px; background: var(--lime); color: var(--ink); font-size: 16px; font-weight: 900; white-space: nowrap; }
 .cb { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; padding: 4px 6px 6px; background: transparent; border: 3px solid transparent; color: #fff; min-width: 0; }
@@ -5555,7 +5558,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.0.5';
+const VERSION = '1.0.6';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -11315,7 +11318,7 @@ ${tutTip('buy', '처음이라면 <b>수액 젤리</b>나 <b>흑당 젤리</b>를
 const TRAIN = { hp: ['지구력 특훈', '나뭇가지에 오래 매달리기'], en: ['호흡 특훈', '오래 날갯짓 버티기'], atk: ['힘 특훈', '통나무 밀어내기'], def: ['껍질 단련', '작은 돌 버티기'], spa: ['집중 특훈', '움직이는 표적 맞히기'], sdf: ['정신 단련', '천적 냄새 참기'], spd: ['달리기 특훈', '장애물 코스 달리기'], grit: ['근성 특훈', '빗속에서 끝까지 버티기'] };
 const TRAIN_COST = 30;
 const idleSvg = (id, sex, attrs = '') => `<span class="idl idl-${IDLE_AS[id] || id}${SING.has(id) ? ' sing' : ''}">${bugSvg(id, attrs, sex)}</span>`;
-let habTab = 'cage', habSel = null, habMove = null;
+let habTab = 'cage', habSel = null, habMove = null, habCage = null;
 function cageStatus(c) {
   const bs = c.occ.map(bugBy).filter(Boolean), f = bs.find((b) => b.sex === 'f'), m = bs.find((b) => b.sex === 'm');
   if (f && f.lay > 0) return `🥚 산란까지 ${f.lay}일`;
@@ -11327,7 +11330,7 @@ function cageStatus(c) {
 function cageTile(c) {
   const bs = c.occ.map(bugBy).filter(Boolean);
   const valid = habMove && canJoin(c, bugBy(habMove));
-  const inner = bs.length ? bs.map((b) => `<button type="button" class="cb${b.uid === habSel ? ' on' : ''}" data-sel="${b.uid}">${idleSvg(b.id, vk(b))}<span class="cn"><b style="color:${sexCol(b)}">${sexMark(b)}</b> ${SP[b.id].name}${b.rare ? ' <b class="rs">★</b>' : ''}${b.awake ? ' <b class="aw">✦</b>' : ''} Lv.${b.lv}${S.party.includes(b.uid) ? ' <i>팀</i>' : ''}</span><span class="mbar"><i style="width:${b.en / calcStats(b).en * 100}%;background:#4FD1FF"></i></span></button>`).join('') : '<span class="empty">빈 사육통</span>';
+  const inner = bs.length ? bs.map((b) => `<button type="button" class="cb${b.uid === habSel ? ' on' : ''}" data-sel="${b.uid}">${idleSvg(b.id, vk(b))}<span class="cn"><b style="color:${sexCol(b)}">${sexMark(b)}</b> ${SP[b.id].name}${b.rare ? ' <b class="rs">★</b>' : ''}${b.awake ? ' <b class="aw">✦</b>' : ''} Lv.${b.lv}${S.party.includes(b.uid) ? ' <i>팀</i>' : ''}</span><span class="mbar"><i style="width:${b.en / calcStats(b).en * 100}%;background:#4FD1FF"></i></span></button>`).join('') : `<button type="button" class="cb ecb${habCage === c.id && !habMove ? ' on' : ''}" data-ecage="${c.id}" aria-label="빈 사육통 관리하기"><span class="empty">빈 사육통</span><small>${habMove ? '' : '눌러서 관리하기'}</small></button>`;
   const gear = Object.keys(c.gear).filter((k) => c.gear[k]).map((k) => GEAR[k].n).join('·');
   return `<div class="cage sz-${c.size}${valid ? ' target' : ''}${c.mold ? ' mold' : ''}" data-cage="${c.id}" style="--sub:${SUBS[c.sub].c}"><div class="ctop"><span>${CAGE[c.size].n}</span><small>${c.mold ? '🍄 곰팡이!' : cageStatus(c)}</small></div><div class="cin${bs.length > 1 ? ' two' : ''}">${inner}</div><div class="cfoot">${SUBS[c.sub].n}${gear ? ' · ' + gear : ''}</div>${valid ? '<span class="here">여기로 옮기기</span>' : ''}</div>`;
 }
@@ -11345,6 +11348,16 @@ ${b.awake ? '<p class="hd-p awk-p">✦ 유대 각성 완료 · 모든 능력치 
 <div class="stats2">${rows}</div>
 <div class="acts"><button type="button" class="btn pri" id="hFeed">먹이 주기</button><button type="button" class="btn pri" id="hTrain">특훈</button><button type="button" class="btn" id="hSkill">📜 기술 보기</button><button type="button" class="btn" id="hHeld">지닌 도구</button><button type="button" class="btn" id="hPlay"${b.played === (S.day || 1) ? ' disabled' : ''}>${b.played === (S.day || 1) ? '오늘 놀아 줬어요' : '놀아 주기'}</button>${canAwake(b) ? '<button type="button" class="btn pri awk-btn" id="hAwake">✦ 유대 각성!</button>' : ''}<button type="button" class="btn" id="hParty">${inParty ? '팀에서 빼기' : '팀에 넣기'}</button><button type="button" class="btn" id="hCare">사육통 관리</button><button type="button" class="btn" id="hView">🔍 들여다보기</button><button type="button" class="btn" id="hMove">옮기기</button><button type="button" class="btn warn" id="hFree">풀어주기</button></div>`;
 }
+function emptyCageDetail(c) {
+  const sub = SUBS[c.sub] || SUBS.saw, gear = Object.keys(c.gear || {}).filter((k) => c.gear[k]).map((k) => GEAR[k].n);
+  return `<div class="hd-top"><div class="art ecage-art">${cageArt(c)}</div><div class="hd-info">
+<div class="hd-name"><b>빈 ${CAGE[c.size].n}</b></div>
+<p class="hd-p">바닥재 <b>${sub.n}</b> · 깐 지 ${c.age || 0}일째${c.mold ? ' · <b style="color:#FF8A7A">곰팡이!</b>' : ''}</p>
+<p class="hd-p">사육용품 ${gear.length ? `<b>${gear.join(' · ')}</b>` : '없음'}</p>
+<p class="hd-p">기력 회복 ${Math.round(CAGE[c.size].regen * 100)}% · 근성 ${CAGE[c.size].grit > 0 ? '+' : ''}${CAGE[c.size].grit} · 최대 ${CAGE[c.size].cap}마리</p>
+<p class="hd-p" style="color:#9AA3B5">곤충을 넣으려면 곤충을 고르고 <b>사육통 옮기기</b>를 눌러 이 사육통을 골라 주세요.</p></div></div>
+<div class="acts"><button type="button" class="btn pri" id="eCare">🧹 사육통 관리</button><button type="button" class="btn" id="eView">🔍 들여다보기</button></div>`;
+}
 function openHab() {
   ensureBugs(); AU.play('home');
   if (!bugBy(habSel)) habSel = S.party[0];
@@ -11353,8 +11366,9 @@ function openHab() {
     const tabs = `<div class="tabs">${[['cage', `사육통 ${S.cages.length}`], ['jar', `유충병 ${S.jars.length} · 알 ${S.eggs.length}`], ['terra', '테라리움']].map(([k, n]) => `<button type="button" class="tab${k === habTab ? ' on' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>`;
     let body = '', tip = '';
     if (habTab === 'cage') {
-      const b = bugBy(habSel);
-      body = `<div class="cages">${S.cages.map(cageTile).join('')}</div><div class="hab-detail">${b ? bugDetail(b) : '<p class="dx-msg">곤충을 골라 주세요.</p>'}</div>`;
+      const b = bugBy(habSel), ec = habCage && S.cages.find((x) => x.id === habCage && !x.occ.some(bugBy));
+      if (!ec) habCage = null;
+      body = `<div class="cages">${S.cages.map(cageTile).join('')}</div><div class="hab-detail">${ec ? emptyCageDetail(ec) : b ? bugDetail(b) : '<p class="dx-msg">곤충을 골라 주세요.</p>'}</div>`;
       tip = habMove ? `<div class="scr-tip"><b>옮기기</b> · 초록색으로 빛나는 사육통을 눌러 주세요. 대·특대 사육통에는 같은 종의 수컷과 암컷 한 쌍을 함께 넣을 수 있어요. <button type="button" class="btn" id="mvCancel" style="height:34px;margin-left:8px">취소</button></div>`
         : tutTip('feed', '곤충을 고르고 <b>먹이 주기</b>를 눌러 보세요. 젤리를 먹는 곤충과 육식 곤충은 먹이가 달라요.') || tutTip('train', '<b>특훈</b>을 누르고 올리고 싶은 능력치를 골라 보세요. 기력 30을 써서 능력치가 1~3 올라요.')
         || '<div class="scr-tip"><b>브리딩</b> · 같은 종의 ♂와 ♀를 사육장 대·특대에 함께 넣어 두면, 하루가 지날 때 교배하고 며칠 뒤 알을 낳아요.</div>';
@@ -11381,7 +11395,10 @@ function bindCage(root, draw, armFree) {
     if (!canJoin(c, b)) { note(c.occ.includes(b.uid) ? '지금 있는 사육통이에요.' : '이 사육통에는 넣을 수 없어요.', 'fail'); return; }
     moveBug(b, c); habMove = null; save(); note(`${SP[b.id].name}을(를) ${CAGE[c.size].n}(으)로 옮겼어요.`, 'ding'); draw();
   }));
-  root.querySelectorAll('[data-sel]').forEach((x) => x.addEventListener('click', (e) => { if (habMove) return; e.stopPropagation(); habSel = x.dataset.sel; AU.sfx('page'); draw(); }));
+  root.querySelectorAll('[data-sel]').forEach((x) => x.addEventListener('click', (e) => { if (habMove) return; e.stopPropagation(); habSel = x.dataset.sel; habCage = null; AU.sfx('page'); draw(); }));
+  root.querySelectorAll('[data-ecage]').forEach((x) => x.addEventListener('click', (e) => { if (habMove) return; e.stopPropagation(); habCage = x.dataset.ecage; AU.sfx('page'); draw(); }));
+  { const ec = habCage && S.cages.find((x) => x.id === habCage);
+    if (ec && $('#eCare')) { $('#eCare').addEventListener('click', () => openCare(ec, null, draw)); $('#eView').addEventListener('click', () => openCageView(ec, null)); return; } }
   const b = bugBy(habSel); if (!b || !$('#hFeed')) return;
   const s = SP[b.id];
   $('#hParty').addEventListener('click', () => {
@@ -11470,7 +11487,7 @@ function openCageView(c, b) {
   wrap.querySelector('#cvX').addEventListener('click', () => wrap.remove());
 }
 function openCare(c, b, draw) {
-  const subOpts = Object.entries(SUBS).filter(([k, x]) => unlockedX(x) || S.items['sub_' + k] > 0 || c.sub === k).map(([k, x]) => { const n = S.items['sub_' + k] || 0, fit = x.fit(SP[b.id], b.id); return `<button type="button" class="opt" data-sub="${k}"><span>${x.n}${c.sub === k ? ' <small>(지금 깔린 바닥재)</small>' : ''} <small>${fit ? '잘 맞아요' : '맞지 않아요'}</small></span><span class="${n ? '' : 'no'}">${n}개</span></button>`; }).join('');
+  const subOpts = Object.entries(SUBS).filter(([k, x]) => unlockedX(x) || S.items['sub_' + k] > 0 || c.sub === k).map(([k, x]) => { const n = S.items['sub_' + k] || 0, fit = b ? x.fit(SP[b.id], b.id) : null; return `<button type="button" class="opt" data-sub="${k}"><span>${x.n}${c.sub === k ? ' <small>(지금 깔린 바닥재)</small>' : ''} <small>${fit === null ? (x.d || '') : fit ? '잘 맞아요' : '맞지 않아요'}</small></span><span class="${n ? '' : 'no'}">${n}개</span></button>`; }).join('');
   const occ = c.occ.map(bugBy).filter(Boolean), fitAll = (k) => occ.every((x) => gearFit(k, x)), bad = occ.find((x) => !gearFit('weed', x)) && 0;
   const gearOpts = Object.entries(GEAR).filter(([k, x]) => unlockedX(x) || S.items['gear_' + k] > 0 || c.gear[k]).map(([k, x]) => { const n = S.items['gear_' + k] || 0, on = !!c.gear[k], ok = fitAll(k), who = occ.find((y) => !gearFit(k, y));
     return on ? `<div class="opt gear-on"><span>${x.n} <small>${ok ? '설치돼 있어요' : `<b style="color:#C8232C">이 곤충에게 맞지 않아요! 빼 주세요</b>`}</small></span><button type="button" class="gear-out" data-gout="${k}">빼기</button></div>`
@@ -11485,7 +11502,7 @@ function openCare(c, b, draw) {
     const k = x.dataset.sub;
     if (!S.items['sub_' + k]) { note(`${SUBS[k].n}이(가) 없어요. 곤충마트의 바닥재 탭에서 사 올 수 있어요.`, 'fail'); return; }
     S.items['sub_' + k] -= 1; c.sub = k; c.age = 0; c.mold = false;
-    save(); note(`새 ${SUBS[k].n}(으)로 갈아 줬어요!${subFit(c, b) ? '' : ' 그런데 이 곤충에겐 잘 맞지 않아요.'}`, 'heal'); openCare(c, b, draw);
+    save(); note(`새 ${SUBS[k].n}(으)로 갈아 줬어요!${!b || subFit(c, b) ? '' : ' 그런데 이 곤충에겐 잘 맞지 않아요.'}`, 'heal'); openCare(c, b, draw);
   }));
   L.ov.querySelectorAll('[data-gear]').forEach((x) => x.addEventListener('click', () => {
     const k = x.dataset.gear;
