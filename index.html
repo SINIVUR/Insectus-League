@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.1.1">
+<meta name="version" content="1.1.3">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -437,6 +437,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .f-count { position: absolute; right: 150px; top: 24px; display: flex; align-items: center; gap: 10px; padding: 8px 14px; background: var(--ink); border: 3px solid var(--paper); color: #fff; font-weight: 900; font-size: 19px; }
 .f-slot { width: 60px; height: 40px; background: #2A2A32; border: 2px solid #5A5A66; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .f-slot svg { width: 58px; height: 36px; }
+.f-hint { pointer-events: none; transition: opacity .5s; } .f-hint.gone { opacity: 0; }
 .f-hint { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); padding: 10px 18px; background: rgba(17,17,20,.86); border: 3px solid var(--paper); color: #fff; font-size: 20px; font-weight: 700; white-space: nowrap; }
 #actBtn { position: absolute; right: 36px; bottom: 36px; width: 128px; height: 128px; border-radius: 50%; border: 5px solid var(--ink); background: #5A5A66; color: #D8D8DE; font-family: var(--display); font-size: 30px; box-shadow: 6px 6px 0 var(--ink); }
 #actBtn.ready { background: var(--gold); color: var(--ink); animation: pulse 1s ease-in-out infinite; }
@@ -5570,7 +5571,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.1.1';
+const VERSION = '1.1.3';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -9120,17 +9121,17 @@ const SPOTS = [
   { area: 'forest', story: true, id: 'hornet', name: '장수말벌', obj: '장수말벌을', subj: '장수말벌이', type: '독침', game: 'sneak', place: '참나무 줄기 수액', sx: 486, sy: 286, ix: 500, iy: 470,
     sprite: 'left:246px;top:170px;transform:rotate(-82deg) scale(.2)',
     fact: '세계에서 가장 큰 말벌 중 하나예요. 수액 자리를 두고 다른 곤충과 자주 다퉈요. 맨손으로 잡으면 절대 안 돼요!' },
-  { area: 'forest', story: true, id: 'mantis', name: '왕사마귀', obj: '왕사마귀를', subj: '왕사마귀가', type: '참격', game: 'bar', place: '수풀', sx: 1180, sy: 500, ix: 1110, iy: 560,
-    sprite: 'left:940px;top:370px;transform:scale(.3)',
+  { area: 'forest', story: true, id: 'mantis', name: '왕사마귀', obj: '왕사마귀를', subj: '왕사마귀가', type: '참격', game: 'bar', place: '수풀', sx: 1090, sy: 430, ix: 1030, iy: 520,
+    sprite: 'left:850px;top:300px;transform:scale(.3)',
     fact: '풀숲에 숨어 있다가 가시 돋친 앞다리로 먹이를 순식간에 낚아채요.' },
-  { area: 'forest', story: true, id: 'stag', name: '넓적사슴벌레', obj: '넓적사슴벌레를', subj: '넓적사슴벌레가', type: '참격', game: 'mash', place: '쓰러진 고목', sx: 950, sy: 570, ix: 930, iy: 620,
-    sprite: 'left:710px;top:450px;transform:rotate(-4deg) scale(.28)',
+  { area: 'forest', story: true, id: 'stag', name: '넓적사슴벌레', obj: '넓적사슴벌레를', subj: '넓적사슴벌레가', type: '참격', game: 'mash', place: '쓰러진 고목', sx: 950, sy: 505, ix: 930, iy: 560,
+    sprite: 'left:710px;top:385px;transform:rotate(-4deg) scale(.28)',
     fact: '썩은 나무 속에서 자라요. 길고 넓적한 큰턱으로 상대를 집어 눌러요.' },
   { area: 'forest', id: 'cicada', name: '참매미', obj: '참매미를', subj: '참매미가', type: '소리', game: 'sneak', place: '참나무 줄기 위쪽', sx: 1040, sy: 250, ix: 1000, iy: 430,
     sprite: 'left:800px;top:100px;transform:rotate(-80deg) scale(.2)',
     fact: '여름 내내 "맴맴" 하고 우는 매미예요. 수컷은 배에 있는 발음기관을 떨어서 큰 소리를 내요. 땅속에서 몇 년을 지내다 나와요.' },
-  { area: 'forest', id: 'roach', name: '바퀴벌레', obj: '바퀴벌레를', subj: '바퀴벌레가', type: '장갑', game: 'bar', place: '낙엽 더미 밑', sx: 180, sy: 650, ix: 200, iy: 620,
-    sprite: 'left:-60px;top:526px;transform:rotate(6deg) scale(.15)',
+  { area: 'forest', id: 'roach', name: '바퀴벌레', obj: '바퀴벌레를', subj: '바퀴벌레가', type: '장갑', game: 'bar', place: '낙엽 더미 밑', sx: 200, sy: 500, ix: 220, iy: 560,
+    sprite: 'left:-40px;top:376px;transform:rotate(6deg) scale(.15)',
     fact: '숲속 낙엽 밑에 사는 산바퀴예요. 납작한 몸으로 좁은 틈에 쏙 숨고, 엄청나게 빨리 달려요.' },
   { area: 'forest', id: 'centipede', name: '지네', obj: '지네를', subj: '지네가', type: '독침', game: 'mash', place: '젖은 낙엽 밑', sx: 760, sy: 420, ix: 740, iy: 470,
     sprite: 'left:520px;top:296px;transform:rotate(-6deg) scale(.18)', mash: ['낙엽 걷어내기', '시간 안에 버튼을 빠르게 연타해서 젖은 낙엽을 걷어내세요!'],
@@ -9144,14 +9145,14 @@ const SPOTS = [
   { area: 'meadow', id: 'fly', name: '파리', obj: '파리를', subj: '파리가', type: '독침', game: 'bar', place: '햇볕 드는 바위', sx: 580, sy: 460, ix: 580, iy: 530,
     sprite: 'left:340px;top:330px;transform:scale(.16)',
     fact: '초록빛이 도는 금파리예요. 커다란 겹눈 덕분에 뒤에서 다가가도 금방 눈치채요.' },
-  { area: 'meadow', id: 'grasshopper', name: '메뚜기', obj: '메뚜기를', subj: '메뚜기가', type: '타격', game: 'bar', place: '긴 풀숲', sx: 300, sy: 590, ix: 300, iy: 610,
-    sprite: 'left:60px;top:450px;transform:scale(.22)',
+  { area: 'meadow', id: 'grasshopper', name: '메뚜기', obj: '메뚜기를', subj: '메뚜기가', type: '타격', game: 'bar', place: '긴 풀숲', sx: 300, sy: 530, ix: 300, iy: 570,
+    sprite: 'left:60px;top:390px;transform:scale(.22)',
     fact: '튼튼한 뒷다리로 자기 몸길이의 몇십 배를 뛰어요. 풀숲에서 풀잎을 갉아 먹어요.' },
   { area: 'meadow', id: 'chafer', name: '꽃무지', obj: '꽃무지를', subj: '꽃무지가', type: '타격', game: 'ring', place: '찔레꽃 덤불', sx: 990, sy: 410, ix: 980, iy: 470,
     sprite: 'left:750px;top:270px;transform:scale(.18)',
     fact: '흰 점무늬가 있는 꽃무지예요. 딱지날개를 닫은 채로 그 밑의 속날개만 꺼내서 날 수 있어요.' },
-  { area: 'meadow', id: 'cricket', name: '귀뚜라미', obj: '귀뚜라미를', subj: '귀뚜라미가', type: '소리', game: 'mash', place: '납작한 돌 밑', sx: 865, sy: 570, ix: 860, iy: 610,
-    sprite: 'left:625px;top:440px;transform:scale(.18)', mash: ['돌 들추기', '시간 안에 버튼을 빠르게 연타해서 무거운 돌을 들추세요!'],
+  { area: 'meadow', id: 'cricket', name: '귀뚜라미', obj: '귀뚜라미를', subj: '귀뚜라미가', type: '소리', game: 'mash', place: '납작한 돌 밑', sx: 865, sy: 525, ix: 860, iy: 570,
+    sprite: 'left:625px;top:395px;transform:scale(.18)', mash: ['돌 들추기', '시간 안에 버튼을 빠르게 연타해서 무거운 돌을 들추세요!'],
     fact: '가을밤에 "귀뚤귀뚤" 우는 곤충이에요. 수컷이 앞날개를 서로 비벼서 소리를 내요.' },
   { area: 'pond', id: 'diving', name: '물방개', obj: '물방개를', subj: '물방개가', type: '장갑', game: 'ring', place: '연못 가장자리 물속', sx: 420, sy: 350, ix: 420, iy: 430,
     sprite: 'left:180px;top:210px;transform:scale(.2)',
@@ -9270,18 +9271,18 @@ const AREA_SLOTS = {
     { sx: 238, sy: 300, ix: 320, iy: 470, s: 'left:0;top:160px;transform:rotate(-78deg) scale(.26)', pool: ['kabuto', 'ostag', 'sawstag', 'longhorn', 'satmoth', 'lucanus', 'hanul'] },
     { sx: 486, sy: 286, ix: 500, iy: 470, s: 'left:246px;top:170px;transform:rotate(-82deg) scale(.2)', pool: ['hornet', 'jewel', 'click', 'sawstag', 'ant', 'pungi'] },
     { sx: 1040, sy: 250, ix: 1000, iy: 430, s: 'left:800px;top:100px;transform:rotate(-80deg) scale(.2)', pool: ['cicada', 'longhorn', 'satmoth', 'click', 'jewel', 'lunamoth', 'hanul'] },
-    { sx: 1180, sy: 500, ix: 1110, iy: 560, s: 'left:940px;top:370px;transform:scale(.3)', pool: ['mantis', 'katydid', 'stick', 'stink'] },
-    { sx: 950, sy: 570, ix: 930, iy: 620, s: 'left:710px;top:450px;transform:rotate(-4deg) scale(.28)', pool: ['stag', 'ostag', 'sawstag', 'lucanus', 'acornw'] },
-    { sx: 180, sy: 650, ix: 200, iy: 620, s: 'left:-60px;top:526px;transform:rotate(6deg) scale(.15)', pool: ['roach', 'scutigera', 'earwig', 'slug', 'darkling'] },
+    { sx: 1090, sy: 430, ix: 1030, iy: 520, s: 'left:850px;top:300px;transform:scale(.3)', pool: ['mantis', 'katydid', 'stick', 'stink'] },
+    { sx: 950, sy: 505, ix: 930, iy: 560, s: 'left:710px;top:385px;transform:rotate(-4deg) scale(.28)', pool: ['stag', 'ostag', 'sawstag', 'lucanus', 'acornw'] },
+    { sx: 200, sy: 500, ix: 220, iy: 560, s: 'left:-40px;top:376px;transform:rotate(6deg) scale(.15)', pool: ['roach', 'scutigera', 'earwig', 'slug', 'darkling'] },
     { sx: 760, sy: 420, ix: 740, iy: 470, s: 'left:520px;top:296px;transform:rotate(-6deg) scale(.18)', pool: ['centipede', 'scutigera', 'earwig', 'weevil', 'bombard', 'redcarab'] }
   ],
   meadow: [
     { sx: 350, sy: 300, ix: 360, iy: 450, s: 'left:110px;top:180px;transform:scale(.26)', pool: ['butterfly', 'swallowtail', 'bee', 'lady', 'comma'] },
     { sx: 170, sy: 290, ix: 170, iy: 450, s: 'left:-70px;top:140px;transform:rotate(90deg) scale(.2)', pool: ['spider'] },
     { sx: 580, sy: 460, ix: 580, iy: 530, s: 'left:340px;top:330px;transform:scale(.16)', pool: ['fly', 'tiger', 'cranefly', 'dung', 'fruitfly'] },
-    { sx: 300, sy: 590, ix: 300, iy: 610, s: 'left:60px;top:450px;transform:scale(.22)', pool: ['grasshopper', 'katydid', 'aphid', 'tick', 'antwaist', 'antlion'] },
+    { sx: 300, sy: 530, ix: 300, iy: 570, s: 'left:60px;top:390px;transform:scale(.22)', pool: ['grasshopper', 'katydid', 'aphid', 'tick', 'antwaist', 'antlion'] },
     { sx: 990, sy: 410, ix: 980, iy: 470, s: 'left:750px;top:270px;transform:scale(.18)', pool: ['chafer', 'bee', 'silk', 'jstink', 'lady', 'aphid', 'chalcid'] },
-    { sx: 865, sy: 570, ix: 860, iy: 610, s: 'left:625px;top:440px;transform:scale(.18)', pool: ['cricket', 'dung', 'tiger', 'fireant', 'ant', 'snail'] }
+    { sx: 865, sy: 525, ix: 860, iy: 570, s: 'left:625px;top:395px;transform:scale(.18)', pool: ['cricket', 'dung', 'tiger', 'fireant', 'ant', 'snail'] }
   ],
   pond: [
     { sx: 420, sy: 350, ix: 420, iy: 430, s: 'left:180px;top:210px;transform:scale(.2)', pool: ['diving', 'notonecta', 'hydro'] },
@@ -9343,11 +9344,13 @@ function renderFieldHud() {
   L.hud.innerHTML = `${F.free ? wxOverlay(F.night) : ''}<div class="place-chip"><small>${F.free ? `${worldLabel()} · ${F.night ? '🌙 밤' : '🌞 낮'}` : AREAS[F.area].chip[0]}</small><b>${AREAS[F.area].chip[1]}</b></div>
 ${F.search ? `<div class="f-count clue-count">🔍 ${F.search.title} · 단서 ${got.length} / ${F.search.need}</div>` : `<div class="f-count">${F.free ? `오늘 채집 ${got.length}` : `채집 ${Math.min(got.length, 3)}/3`} ${slots}</div>
 ${F.free ? '<button type="button" class="btn field-exit" id="exitBtn">← 뒤로가기</button>' : ''}`}
-<div class="f-hint" id="fHint">${hint}</div>
+${F.hintGone ? '' : `<div class="f-hint" id="fHint">${hint}</div>`}
 <div id="bang" hidden>!</div>
 ${joyHtml()}
 <button id="actBtn" type="button" aria-label="조사하기">조사</button>`;
   $('#actBtn').addEventListener('click', (e) => { e.stopPropagation(); tryInteract(); });
+  /* 안내 글씨는 잠깐만 보여 주고 사라져요 (아래쪽 곤충을 가리지 않게) */
+  if (!F.hintGone && !F.hintT) { const ff = F; F.hintT = setTimeout(() => { if (F !== ff) return; F.hintGone = true; const h = $('#fHint'); if (h) { h.classList.add('gone'); setTimeout(() => h.remove(), 500); } }, 4500); }
   const ex = $('#exitBtn'); if (ex) ex.addEventListener('click', (e) => { e.stopPropagation(); leaveField(); });
   bindJoy();
 }
@@ -9390,7 +9393,7 @@ function loop(t) {
       F.y = Math.max(400, Math.min(630, F.y + vy * 210 * dt));
       if (Math.abs(vx) > 0.2) F.dir = vx < 0 ? -1 : 1;
       moving = true;
-      if (!F.moved) { F.moved = true; const h = $('#fHint'); if (h) h.innerHTML = '반짝이는 곳 가까이에서 <b>조사</b>를 눌러요 · 멀리 있으면 <b>조사</b>를 눌러 다가가요'; }
+      if (!F.moved) { F.moved = true; const h = $('#fHint'); if (h && !F.hintGone) h.innerHTML = '반짝이는 곳 가까이에서 <b>조사</b>를 눌러요 · 멀리 있으면 <b>조사</b>를 눌러 다가가요'; }
       F.stepT = (F.stepT || 0) - dt;
       if (F.stepT <= 0) { F.stepT = .3; AU.sfx('step'); }
     }
