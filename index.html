@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.1.4">
+<meta name="version" content="1.1.5">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -932,6 +932,7 @@ button:focus-visible { outline: 4px solid var(--sky); outline-offset: 3px; }
 .hd-team { margin: 0 0 4px; font-size: 16px; font-weight: 800; color: #9AA3B5; } .hd-team.on { color: #FFD23F; }
 .cage-col { display: flex; flex-direction: column; gap: 6px; min-width: 0; min-height: 0; flex: none; } .cage-col .cages { flex: 1; min-height: 0; } .cg-tools .btn { height: 44px; font-size: 16px; } .cg-tools .btn.on { background: var(--gold); color: var(--ink); }
 .cage.swap-to { outline: 3px dashed #7AE8FF; outline-offset: -3px; cursor: pointer; } .cage.swap-from { outline: 4px solid var(--gold); outline-offset: -4px; }
+.lose-bugs { display: flex; justify-content: center; gap: 8px; margin: 4px 0; } .lose-bugs svg { width: 150px !important; height: 94px !important; flex: none; }
 .cb.ecb { justify-content: center; cursor: pointer; } .cb.ecb .empty { margin: 0; } .cb.ecb small { font-size: 14px; font-weight: 800; color: var(--gold); } .cb.ecb:hover .empty, .cb.ecb.on .empty { color: #fff; }
 .hd-top .art.ecage-art svg { width: 100%; height: auto; display: block; border-radius: 6px; }
 .cage.target { border-color: var(--lime); box-shadow: 0 0 0 3px var(--lime); cursor: pointer; }
@@ -5571,7 +5572,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.1.4';
+const VERSION = '1.1.5';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -9016,7 +9017,7 @@ function showClue(sp) {
 function startWild(c, done) {
   if (c.lossOk) { /* 무조건 지는 이벤트: 배틀 없이 압도적으로 져요 */
     S.mode = 'story'; S.modal = true; S.lastWin = false; AU.play('boss'); AU.sfx('lose');
-    L.ov.innerHTML = `<div class="ov tn"><div class="panel tn-box"><h2>압도적인 패배…</h2><div class="mini" style="justify-content:center;margin:6px 0">${c.team.map((id) => bugSvg(id)).join('')}</div><p class="tn-p"><b>${c.name}</b>의 곤충들 앞에서 손도 쓰지 못했어요. 지시를 내릴 틈조차 없을 만큼… 수준이 달랐어요.</p><button type="button" class="wide primary" id="wRe">계속</button></div></div>`;
+    L.ov.innerHTML = `<div class="ov tn"><div class="panel tn-box"><h2>압도적인 패배…</h2><div class="lose-bugs">${c.team.map((id) => bugSvg(id, 'width="150" height="94"')).join('')}</div><p class="tn-p"><b>${c.name}</b>의 곤충들 앞에서 손도 쓰지 못했어요. 지시를 내릴 틈조차 없을 만큼… 수준이 달랐어요.</p><button type="button" class="wide primary" id="wRe">계속</button></div></div>`;
     $('#wRe').addEventListener('click', () => { L.ov.innerHTML = ''; S.modal = false; done(); });
     return;
   }
