@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인섹터스 리그">
-<meta name="version" content="1.1.5">
+<meta name="version" content="1.1.6">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -5572,7 +5572,7 @@ window.SIG = window.SIG || {};
 </div>
 
 <script>
-const VERSION = '1.1.5';
+const VERSION = '1.1.6';
 (() => {
 const $ = (s) => document.querySelector(s);
 const app = $('#app'), stage = $('#stage');
@@ -10102,19 +10102,25 @@ function startBattle(done, oppKey) {
   const story = S.mode === 'story' || S.mode === 'match';
   /* 이야기 배틀에서 같은 상대에게 계속 지면 상대가 조금씩 약해져요 (상대 레벨이 내 레벨을 따라오니 특훈만으로는 못 넘기 때문) */
   const ease = story && S.retry && S.retry.name === opp.name ? Math.min(4, S.retry.n) : 0;
-  const hard = (hardMode() || (S.ngHard && awakeOpen())) && !opp.easy, mid = !hard && (awakeOpen() || S.ngHard) && !S.cleared && !opp.easy;
-  /* 네임드(이야기 속 인물)는 유대 각성 시기부터 곤충 3마리가 모두 각성하고, 초월의 보석 이후엔 에이스가 초월해요 */
-  const named = !opp.tagO && isNamed(opp), namedAwk = named && (mid || hard), namedTrans = named && hard;
+  /* 난이도 곡선: 챕터 18(유대 각성)부터 서서히 올라가 챕터 40에서 최고가 돼요. t = 0 → 1 */
+  const tCh = S.cleared ? 1 : (awakeOpen() ? Math.min(1, Math.max(.05, (chapNo() - 17) / 23)) : 0);
+  const t = opp.easy ? 0 : Math.min(1, S.ngHard ? Math.max(.25, tCh + .35) : tCh);
+  const hard = t >= .6, mid = t > 0;
+  /* 네임드(이야기 속 인물): 에이스부터 차례로 각성하고, 초월의 보석을 얻은 뒤 후반엔 에이스가 초월해요 */
+  const named = !opp.tagO && isNamed(opp);
+  const awkN = t <= 0 ? 0 : named ? (t >= .85 ? 3 : t >= .6 ? 2 : t >= .3 ? 1 : 0) : (t >= .95 ? 3 : t >= .8 ? 2 : t >= .55 ? 1 : 0);
+  const namedTrans = named && hardMode() && t >= .7;
+  const gq = t > 0 ? Math.max(opp.q || 0, .3 + t * 1.7) : null, gBonus = Math.round(t * t * 24);
   const oppLv0 = Math.max(1, Math.min(opp.lvCap || MAX_LV + 6, opp.rand ? opp.lv : oppKey && oppKey !== 'dh' ? Math.max(opp.lv, avgLv) : opp.lv) - ease);
-  const oppLv = hard ? Math.min(Math.max(opp.lvCap || 0, MAX_LV + 12), oppLv0 + 6) : mid ? Math.min(Math.max(opp.lvCap || 0, MAX_LV + 9), oppLv0 + 4) : oppLv0;
+  const oppLv = t > 0 ? Math.min(Math.max(opp.lvCap || 0, MAX_LV + Math.round(t * 7)), oppLv0 + Math.round(t * 5)) : oppLv0;
   const bgmKey = opp.berserk || opp.boss || S.mode === 'match' ? 'boss' : opp.pro || opp.tag || opp.legend || !opp.rand ? 'big' : 'battle';
   S.mode = 'battle'; $('#menuBtn').hidden = true; keys = {};
   opp.team.forEach(markSeen);
   AU.play(bgmKey);
-  B = { done, opp, story, ease, hard, smart: hard || mid || (named && chapNo() >= 10), named, rules: opp.rules || null, practice: !!oppKey, turn: 1, over: false, phase: 'intro', hint: {}, used: false, stop: 0, clock: 0, v: [mkV(0), mkV(1)],
+  B = { done, opp, story, ease, hard, smart: t >= .2 || (named && chapNo() >= 10), named, rules: opp.rules || null, practice: !!oppKey, turn: 1, over: false, phase: 'intro', hint: {}, used: false, stop: 0, clock: 0, v: [mkV(0), mkV(1)],
     sides: [
       { name: opp.tag ? `최강찬 & ${CH[opp.tag.who].name}` : '최강찬', sub: opp.tag ? '태그 팀' : `세온중 ${kcGrade()}학년${chapNo() >= 23 ? ' · 동아리장' : ''}`, team: opp.tag ? (() => { const mine = playerTeam().slice(0, 2).map(mkUnit), al = opp.tag.team.map((id) => { const u = mkUnit({ id, lv: Math.max(1, avgLv), g: {}, bonus: {}, awake: opp.tag.who === 'dh' && id === 'stag' && chapNo() >= 28 }); u.en = u.enMax; u.ally = opp.tag.who; return u; }); return [mine[0], al[0], mine[1], al[1]].filter(Boolean); })() : playerTeam().map(mkUnit), active: 0, look: CH.kc.look },
-      { name: opp.name, sub: opp.sub, team: opp.team.map((id, ti) => mkUnit({ id, rare: !!(opp.rare && opp.rare[ti]), held: namedTrans && ti === 0 ? 'trans' : undefined, awake: hard || namedAwk || (mid && ti === 0) || !!(opp.awake && (opp.awake === true || opp.awake[ti])), lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: hard ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(3)])) : mid ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(Math.max(1.6, opp.q || 0))])) : opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: hard ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, BONUS_MAX])) : mid ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, Math.max(18, opp.bonus || 0)])) : opp.bonus ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, opp.bonus])) : {} })), active: 0, look: opp.look || CH[opp.who].look }
+      { name: opp.name, sub: opp.sub, team: opp.team.map((id, ti) => mkUnit({ id, rare: !!(opp.rare && opp.rare[ti]), held: namedTrans && ti === 0 ? 'trans' : undefined, awake: ti < awkN || !!(opp.awake && (opp.awake === true || opp.awake[ti])), lv: oppLv, sex: Math.random() < .6 ? 'm' : 'f', g: gq != null ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(gq)])) : opp.q ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, rollGrade(opp.q)])) : {}, bonus: (gBonus || opp.bonus) ? Object.fromEntries(STAT_NAMES.map(([k]) => [k, Math.max(gBonus, opp.bonus || 0)])) : {} })), active: 0, look: opp.look || CH[opp.who].look }
     ] };
   if (opp.rules) { const R = opp.rules;
     if (R.size) { B.sides[0].team = B.sides[0].team.slice(0, R.size); B.sides[1].team = B.sides[1].team.slice(0, R.size); }
